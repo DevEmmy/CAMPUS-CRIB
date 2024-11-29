@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router"
 import AccountType from "./components/Onboarding/AccountType"
 import StudentOnboarding from "./pages/StudentOnboarding"
-import SchoolID from "./components/Auth/SchoolID"
+import VerifyAgent from "./components/Auth/VerifyAgent"
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <Routes>
           <Route path='/' element={<AccountType/>} />
           <Route path='/onboarding' element={<StudentOnboarding/>} />
-          <Route path='/signup' element={<SchoolID/>} />
+          <Route path='/signup' element={<VerifyAgent/>} />
       </Routes>
     </BrowserRouter>
     </>
