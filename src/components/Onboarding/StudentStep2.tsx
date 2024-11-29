@@ -1,8 +1,13 @@
 import React from 'react'
 import indicator from '/onboarding/indicator-2.svg'
 import illustration from '/onboarding/onboard.svg'
+import { Link } from 'react-router'
 
-const StudentStep2: React.FC = () => {
+interface Props {
+    handleNextStep: () => void
+}
+
+const StudentStep2: React.FC<Props> = ({handleNextStep}) => {
   return (
     <section className='h-[100vh] w-full flex items-center justify-end flex-col p-4 gap-5'>
         <div>
@@ -16,8 +21,8 @@ const StudentStep2: React.FC = () => {
             and proximity to campus. Never miss the perfect option for your stay!</p>
         </div>
         <div className='flex flex-col items-center justify-center gap-5'>
-            <button className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
-            <button className='text-white font-normal text-[14px] leading-5 text-center'>skip</button>
+            <button onClick={handleNextStep} className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
+            <Link to={'/student/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
         </div>
     </div>
 </section>

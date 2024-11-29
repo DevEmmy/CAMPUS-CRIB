@@ -79,7 +79,7 @@ const AgentSignup: React.FC = () => {
 
     <div className='flex items-center justify-center my-10'>
         <small className='text-dark text-[14px] leading-5 text-center'>Already have account?{" "}
-            <Link className='text-primary' to={'/'}>Log In</Link>
+            <Link className='text-primary' to={'/agent/login'}>Log In</Link>
         </small>
     </div>
   </section>

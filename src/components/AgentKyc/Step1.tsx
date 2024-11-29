@@ -4,7 +4,11 @@ import indicator from "/onboarding/step1.svg";
 import document from "/onboarding/document-attachment.svg";
 // import attachment from '/onboarding/document-attachment-light.svg'
 
-const Step1: React.FC = () => {
+interface Props {
+  handleNextStep: () => void;
+}
+
+const Step1: React.FC<Props> = ({handleNextStep}) => {
   return (
     <section className="p-5 h-full w-full">
       <div className="flex items-center gap-2">
@@ -39,7 +43,7 @@ const Step1: React.FC = () => {
             <button className="bg-[#DFBFAD] py-4 px-6 my-5 text-primary font-bold rounded-lg leading-5 text-[14px] w-full">
               Back
             </button>
-            <button className="bg-primary p-4 capitalize text-white rounded-lg text-[14px] font-bold w-full">
+            <button onClick={handleNextStep} className="bg-primary p-4 capitalize text-white rounded-lg text-[14px] font-bold w-full">
               next
             </button>
           </div>

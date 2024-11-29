@@ -1,6 +1,7 @@
 import React from "react";
 import indicator from "/onboarding/indicator-3.svg";
 import illustration from "/onboarding/onboard-2.svg";
+import { Link } from "react-router";
 
 const StudentStep3: React.FC = () => {
   return (
@@ -21,9 +22,9 @@ const StudentStep3: React.FC = () => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-5">
-          <button className="bg-white text-primary py-2 px-14 rounded-lg font-bold">
+          <Link to={'/student/signup'} className="bg-white text-primary py-2 px-14 rounded-lg font-bold">
             Get Started
-          </button>
+          </Link>
         </div>
       </div>
     </section>
