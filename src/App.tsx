@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router"
 import AccountType from "./components/Onboarding/AccountType"
 import StudentOnboarding from "./pages/StudentOnboarding"
-import Signup from "./components/Auth/Signup"
+import SchoolID from "./components/Auth/SchoolID"
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <Routes>
           <Route path='/' element={<AccountType/>} />
           <Route path='/onboarding' element={<StudentOnboarding/>} />
-          <Route path='/signup' element={<Signup/>} />
+          <Route path='/signup' element={<SchoolID/>} />
       </Routes>
     </BrowserRouter>
     </>

@@ -15,7 +15,7 @@ const userSchema = z.object({
     password: z.string().min(6, 'Password must at least be 6 characters'),
   })
 
-const Signup: React.FC = () => {
+const StudentSignup: React.FC = () => {
     const {
         register,
         handleSubmit,
@@ -90,4 +90,4 @@ const Signup: React.FC = () => {
   )
 }
 
-export default Signup
+export default StudentSignup
