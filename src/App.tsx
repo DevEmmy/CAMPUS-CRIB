@@ -9,6 +9,11 @@ import VerifyEmail from "./components/Auth/VerifyEmail";
 import EmailConfirmed from "./components/Auth/EmailConfirmed";
 import SchoolID from "./components/Auth/SchoolID";
 import StudentLogin from "./components/Auth/StudentLogin";
+import Payment from "./pages/Payment";
+import AddNewCard from "./pages/AddNewCard";
+import BankTransfer from "./components/Payment/BankTransfer";
+import SuccessfulPayment from "./components/Payment/SuccessfulPayment";
+import Checkout from "./components/Payment/Checkout";
 
 function App() {
   return (
@@ -33,6 +38,17 @@ function App() {
           {/* Implement protected routes logic */}
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/email-confirmed" element={<EmailConfirmed />} />
+
+          {/* checkout */}
+          <Route path="/checkout" element={<Checkout />} />
+
+          {/* Payment route */}
+
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/add-new-card" element={<AddNewCard />} />
+          <Route path="/payment/bank-transfer" element={<BankTransfer />} />
+          <Route path="/payment/successful" element={<SuccessfulPayment />} />
+
         </Routes>
       </BrowserRouter>
     </>
