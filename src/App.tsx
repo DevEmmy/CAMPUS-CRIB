@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import AccountType from "./components/Onboarding/AccountType";
-import StudentOnboarding from "./pages/StudentOnboarding";
+import StudentOnboarding from "./pages/studentOnboarding";
 import AgentSignup from "./components/Auth/AgentSignup";
 import AgentLogin from "./components/Auth/AgentLogin";
-import AgentOnboarding from "./pages/AgentOnboarding";
+import AgentOnboarding from "./pages/agentOnboarding";
 import StudentSignup from "./components/Auth/StudentSignup";
 import VerifyEmail from "./components/Auth/VerifyEmail";
 import EmailConfirmed from "./components/Auth/EmailConfirmed";
 import SchoolID from "./components/Auth/SchoolID";
 import StudentLogin from "./components/Auth/StudentLogin";
+import WishlistOrBookmark from "./pages/Wishlist";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           {/* Implement protected routes logic */}
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/email-confirmed" element={<EmailConfirmed />} />
+          <Route path="/wishlist" element={<WishlistOrBookmark />} />
         </Routes>
       </BrowserRouter>
     </>
