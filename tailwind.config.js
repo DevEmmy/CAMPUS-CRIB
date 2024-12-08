@@ -8,7 +8,11 @@ export default {
     colors: {
       'primary': '#A64E1B',
       'dark': '#0E0F1D',
-      'white': '#ffffff'
+      'white': '#ffffff',
+      variant: {
+        400: '#7D8A9E',
+        500: '#64748B'
+      },
     },
     extend: {},
   },
