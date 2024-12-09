@@ -10,6 +10,8 @@ import EmailConfirmed from "./components/Auth/EmailConfirmed";
 import SchoolID from "./components/Auth/SchoolID";
 import StudentLogin from "./components/Auth/StudentLogin";
 import WishlistOrBookmark from "./pages/Wishlist";
+import AllNotifications from "./components/Notifications/AllNotifications";
+import NotificationsAlert from "./pages/Notifications";
 
 function App() {
   return (
@@ -24,16 +26,25 @@ function App() {
             <Route path="/student/login" element={<StudentLogin />} />
             <Route path="/student/schoolID" element={<SchoolID />} />
           </Route>
+
           {/* Agents Routes */}
           <Route path="agent">
             <Route path="/agent/onboarding" element={<AgentOnboarding />} />
             <Route path="/agent/signup" element={<AgentSignup />} />
             <Route path="/agent/login" element={<AgentLogin />} />
           </Route>
+
+          {/* Notification Alerts */}
+          <Route path="notifications" element={<NotificationsAlert />}>
+            <Route path="/notifications" element={<AllNotifications />} />
+          </Route>
+
           {/* Email Verification */}
           {/* Implement protected routes logic */}
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/email-confirmed" element={<EmailConfirmed />} />
+
+          {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
         </Routes>
       </BrowserRouter>
