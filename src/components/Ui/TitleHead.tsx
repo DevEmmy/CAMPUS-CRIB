@@ -1,24 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import back from '/icons/back.svg'
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
-interface title {
-    href: any,
-    title: string
-}
+const TitleHead = ({title} : any) => {
+  const navigate = useNavigate();
+  const [hasShadow, setHasShadow] = useState<boolean>(false);
 
-const TitleHead = ({
-    href,title
-} : title) => {
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasShadow(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <div className="flex items-center justify-between mb-4 pt-5 pb-3">
-      <Link
-        to={href}
+    <div className={`flex items-center justify-between mb-4 pt-5 px-5 pb-3  top-0 fixed z-[9999999] bg-white w-full transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
+      <button
+        onClick={() => navigate(-1)}
         className="rounded-full bg-primary size-7 flex items-center justify-center"
       >
         <img src={back} alt="back" className="size-3.5" />
-      </Link>
+      </button>
       <h1 className="text-xl font-bold">
         {title}
       </h1>

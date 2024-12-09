@@ -17,7 +17,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({type, placeholder, err
   const handleShowPassword = () => {
     setShowPassword(prev =>!prev)
 
-  }
+}
 
   const inputType = type === 'password' && showPassword ? 'text' : 
   type === 'fullName' ? 'text' : type;

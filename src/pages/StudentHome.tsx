@@ -4,14 +4,20 @@ import Head from "../components/Home/Head";
 import Search from "../components/Home/Search";
 import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
+import Tabs from "../components/Reuseables/Tabs";
 
 const StudentHome = () => {
   return (
-    <main className="p-5 pb-20">
-      <Head name={"Clinton"} profilePic={profile} />
-      <Search />
-      <PremiumPicks />
-      <MyCarousel />
+    <main>
+      <Head name={"Clinton"} profilePic={profile} isAgent={false} />
+
+      <section className="p-5 py-16">
+        <Search />
+        <PremiumPicks />
+        <MyCarousel />
+      </section>
+
+      <Tabs />
     </main>
   );
 };

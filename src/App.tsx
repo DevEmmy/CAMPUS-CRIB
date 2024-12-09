@@ -15,6 +15,10 @@ import BankTransfer from "./components/Payment/BankTransfer";
 import SuccessfulPayment from "./components/Payment/SuccessfulPayment";
 import Checkout from "./components/Payment/Checkout";
 import StudentHome from "./pages/StudentHome";
+import HostelDetails from "./components/Hostel/HostelDetails";
+import Chat from "./pages/Chat";
+import AgentHome from "./pages/AgentHome";
+import CreateHostel from "./components/Hostel/CreateHostel";
 
 function App() {
   return (
@@ -32,6 +36,7 @@ function App() {
           </Route>
           {/* Agents Routes */}
           <Route path="agent">
+            <Route path='/agent' element={<AgentHome />} />
             <Route path="/agent/onboarding" element={<AgentOnboarding />} />
             <Route path="/agent/signup" element={<AgentSignup />} />
             <Route path="/agent/login" element={<AgentLogin />} />
@@ -50,9 +55,18 @@ function App() {
           <Route path="/payment/add-new-card" element={<AddNewCard />} />
           <Route path="/payment/bank-transfer" element={<BankTransfer />} />
           <Route path="/payment/successful" element={<SuccessfulPayment />} />
-
-
           
+          { /* Hostel details */}
+          {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
+          <Route path="hostel">
+            <Route path="/hostel/:hostelId" element={<HostelDetails />} />
+            <Route path="/hostel/create" element={<CreateHostel />} />
+          </Route>
+          {/* Chat */}
+
+          <Route path="chat">
+            <Route path="/chat/:userId" element={<Chat />} />
+          </Route> 
 
         </Routes>
       </BrowserRouter>
