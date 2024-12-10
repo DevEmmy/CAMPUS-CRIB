@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Step3 from '../AgentKyc/Step3'
+// import Step3 from '../AgentKyc/Step3'
 import Step1 from '../AgentKyc/Step1'
 import Step2 from '../AgentKyc/Step2'
 
@@ -22,8 +22,8 @@ const VerifyAgent: React.FC = () => {
       case 1:
         return <Step2 handleNextStep={handleNextStep} handlePrevStep={handlePrevStep} />
         break;
-      case 2:
-        return <Step3 handlePrevStep={handlePrevStep} />
+      // case 2:
+      //   return <Step3 handlePrevStep={handlePrevStep} />
       default:
         return <Step1 handleNextStep={handleNextStep} />
         break;

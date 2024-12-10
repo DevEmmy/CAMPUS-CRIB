@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useId, useState } from "react";
 
 interface ButtonFileUploaderProps {
-  onUploadComplete: (uploadUrls: string[]) => void;
+  onUploadComplete?: (uploadUrls?: string[]) => void;
   multiple?: boolean;
 }
 
@@ -41,7 +41,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
 
         const uploadedData = await Promise.all(uploadPromises);
         const uploadedUrls = uploadedData.map((data) => data.secure_url);
-        onUploadComplete(uploadedUrls);
+        // onUploadComplete(uploadedUrls);
       } catch (error) {
         console.log("Error uploading files", error);
       } finally {
@@ -52,8 +52,12 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
   return (
     <div className="flex flex-col items-center gap-2">
       {/* Button to trigger file input */}
-      <button type="button" disabled={uploading}>
-        {uploading ? "Uploading..." : "Upload File"}
+      <button
+        className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]"
+        type="button"
+        disabled={uploading}
+      >
+        {uploading ? "Uploading..." : "Choose File"}
       </button>
       {/* Hidden file input */}
       <input

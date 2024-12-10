@@ -4,7 +4,7 @@ import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { PiEyeThin, PiEyeSlashThin } from "react-icons/pi";
 
 interface ControlledInputProps {
-  type: 'fullName' | 'email' | 'password';
+  type: 'firstName' | 'lastName' | 'email' | 'password';
   placeholder: string;
   errors: FieldErrors<User>;
   register: UseFormRegister<User>
@@ -20,7 +20,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({type, placeholder, err
   }
 
   const inputType = type === 'password' && showPassword ? 'text' : 
-  type === 'fullName' ? 'text' : type;
+  type === 'firstName' || 'lastName' ? 'text' : type;
 
   const errorMessage = errors[type]?.message;
 
