@@ -10,6 +10,10 @@ interface Props {
 }
 
 const Step1: React.FC<Props> = ({handleNextStep}) => {
+  const handleUploadComplete = (uploadUrls?: string[]) => {
+    // Handle the uploaded file URLs if needed
+    console.log("Files uploaded:", uploadUrls);
+  };
   return (
     <section className="p-5 h-full w-full">
       <div className="flex items-center gap-2">
@@ -32,7 +36,7 @@ const Step1: React.FC<Props> = ({handleNextStep}) => {
             {/* <button className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]">
               Choose File
             </button> */}
-            <ButtonFileUploader/>
+            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>

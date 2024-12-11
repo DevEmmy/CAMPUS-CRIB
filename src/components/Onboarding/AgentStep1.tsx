@@ -17,7 +17,7 @@ const AgentStep1: React.FC<Props> = ({handleNextStep}) => {
         </div>
         <div className='flex flex-col items-center justify-center gap-5'>
             <button onClick={handleNextStep} className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
-            <Link to={'/agent/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
+            <Link to={'/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
         </div>
     </div>
 </section>

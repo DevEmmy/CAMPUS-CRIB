@@ -1,6 +1,6 @@
 import React from "react";
 import ControlledInput from "../Reuseables/ControlledInputs";
-import { User } from "../../types/User";
+import { User } from "../../types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
