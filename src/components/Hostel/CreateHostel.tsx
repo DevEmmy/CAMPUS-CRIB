@@ -106,9 +106,9 @@ const Step3 = () => {
         {({
           imageList,
           onImageUpload,
-          onImageRemoveAll,
-          onImageUpdate,
-          onImageRemove,
+          // onImageRemoveAll,
+          // onImageUpdate,
+          // onImageRemove,
           isDragging,
           dragProps,
         }: any) => (
