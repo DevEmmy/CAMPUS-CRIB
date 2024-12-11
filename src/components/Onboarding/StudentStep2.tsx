@@ -9,7 +9,7 @@ interface Props {
 
 const StudentStep2: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='h-[100vh] w-full flex items-center justify-end flex-col p-4 gap-5'>
+    <section className='h-dvh w-full flex items-center justify-end flex-col p-4 gap-5'>
         <div>
             <img src={illustration} alt="" />
         </div>
