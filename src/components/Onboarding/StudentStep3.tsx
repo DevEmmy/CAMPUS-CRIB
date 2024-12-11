@@ -22,7 +22,7 @@ const StudentStep3: React.FC = () => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-5">
-          <Link to={'/student/signup'} className="bg-white text-primary py-2 px-14 rounded-lg font-bold">
+          <Link to={'/signup'} className="bg-white text-primary py-2 px-14 rounded-lg font-bold">
             Get Started
           </Link>
         </div>
