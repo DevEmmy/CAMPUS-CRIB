@@ -9,7 +9,7 @@ interface Props {
 
 const StudentStep2: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='h-[100vh] w-full flex items-center justify-end flex-col p-4 gap-5'>
+    <section className='h-dvh w-full flex items-center justify-end flex-col p-4 gap-5'>
         <div>
             <img src={illustration} alt="" />
         </div>
@@ -22,7 +22,7 @@ const StudentStep2: React.FC<Props> = ({handleNextStep}) => {
         </div>
         <div className='flex flex-col items-center justify-center gap-5'>
             <button onClick={handleNextStep} className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
-            <Link to={'/student/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
+            <Link to={'/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
         </div>
     </div>
 </section>

@@ -2,6 +2,7 @@ import React from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import indicator from "/onboarding/step1.svg";
 import document from "/onboarding/document-attachment.svg";
+import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
 // import attachment from '/onboarding/document-attachment-light.svg'
 
 interface Props {
@@ -9,6 +10,10 @@ interface Props {
 }
 
 const Step1: React.FC<Props> = ({handleNextStep}) => {
+  const handleUploadComplete = (uploadUrls?: string[]) => {
+    // Handle the uploaded file URLs if needed
+    console.log("Files uploaded:", uploadUrls);
+  };
   return (
     <section className="p-5 h-full w-full">
       <div className="flex items-center gap-2">
@@ -28,9 +33,10 @@ const Step1: React.FC<Props> = ({handleNextStep}) => {
 
           <div className="border border-primary rounded-lg mt-5 flex flex-col items-center justify-between gap-5 p-5 h-[168px]">
             <img src={document} alt="attachment" />
-            <button className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]">
+            {/* <button className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]">
               Choose File
-            </button>
+            </button> */}
+            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>
