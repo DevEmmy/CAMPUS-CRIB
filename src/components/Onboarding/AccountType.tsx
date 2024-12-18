@@ -3,7 +3,10 @@ import { Link } from "react-router";
 import cap from "/onboarding/cap.svg";
 import mentoring from "/onboarding/mentoring.svg";
 
+
 const AccountType: React.FC = () => {
+
+
   const handleChoice = (choice: string) => {
     // Store the user's choice in localStorage
     localStorage.setItem("accountType", choice);
@@ -17,7 +20,7 @@ const AccountType: React.FC = () => {
       </div>
       <div className="flex items-center justify-around gap-5">
         <Link
-          onClick={() => handleChoice("student")}
+          onClick={() => handleChoice("BASIC")}
           className="border border-dark rounded-lg py-8 px-2 flex items-center justify-center flex-col gap-2"
           to={"/student/onboarding"}
         >
@@ -27,7 +30,7 @@ const AccountType: React.FC = () => {
           </p>
         </Link>
         <Link
-          onClick={() => handleChoice("agent")}
+          onClick={() => handleChoice("AGENT")}
           className=" rounded-lg py-8 px-2 flex items-center justify-center flex-col bg-primary gap-2"
           to={"/agent/onboarding"}
         >

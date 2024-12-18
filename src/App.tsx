@@ -4,8 +4,6 @@ import StudentOnboarding from "./pages/studentOnboarding";
 import AgentOnboarding from "./pages/agentOnboarding";
 import VerifyEmail from "./components/Auth/VerifyEmail";
 import EmailConfirmed from "./components/Auth/EmailConfirmed";
-import SchoolID from "./components/Auth/SchoolID";
-import StudentLogin from "./components/Auth/StudentLogin";
 import Payment from "./pages/Payment";
 import AddNewCard from "./pages/AddNewCard";
 import BankTransfer from "./components/Payment/BankTransfer";
@@ -22,13 +20,15 @@ import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AccountType />} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/account-type" element={<AccountType />} />
           {/* Student Onboarding */}
           <Route path="student">
             <Route path="/student" element={<StudentHome />} />
