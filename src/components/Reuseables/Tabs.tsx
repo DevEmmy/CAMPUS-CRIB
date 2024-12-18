@@ -6,6 +6,7 @@ import search from "/icons/search-02.svg";
 import user from "/icons/user.svg";
 import comment from "/icons/comment-01.svg";
 import store from "/icons/store-01.svg";
+import { NavLink } from "react-router";
 
 interface tabsProps {
   isAgent?: boolean;
@@ -14,18 +15,18 @@ interface tabsProps {
 const Tabs = ({ isAgent }: tabsProps) => {
   const [activeTab, setActiveTab] = useState<number>();
   const tabList = [
-    { title: "Home", icon: home },
-    { title: "search", icon: search },
-    { title: "appointment", icon: appointment },
-    { title: "favourite", icon: favourite },
-    { title: "user", icon: user },
+    { title: "Home", icon: home, route: 'student' },
+    { title: "search", icon: search, route: 'search' },
+    { title: "appointment", icon: appointment, route: 'appointment' },
+    { title: "favourite", icon: favourite, route: 'wishlist' },
+    { title: "user", icon: user, route: 'profile' },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: home },
-    { title: "Comments", icon: comment },
-    { title: "store", icon: store },
-    { title: "user", icon: user },
+    { title: "Home", icon: home, route: 'agent' },
+    { title: "Comments", icon: comment, route: 'comments' },
+    { title: "store", icon: store, route: 'store' },
+    { title: "user", icon: user, route: 'profile' },
   ];
   return (
     <div className="bg-white px-5 py-2.5 shadow z-[999999]  bottom-0 fixed w-full flex items-center justify-between">
@@ -44,7 +45,8 @@ const Tabs = ({ isAgent }: tabsProps) => {
             </div>
           ))
         : tabList?.map((item, i: number) => (
-            <div
+            <NavLink
+            to={`/${item.route}`}
               key={i}
               onClick={() => setActiveTab(i)}
               className={`p-3 ${
@@ -54,7 +56,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
             >
               {activeTab == i && <p>{item?.title}</p>}
               <img src={item?.icon} className="size-5" />
-            </div>
+            </NavLink>
           ))}
     </div>
   );

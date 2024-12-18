@@ -20,27 +20,33 @@ import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
-import Home from "./pages/Home";
+import ScreenLayout from "./Layout/ScreenLayout";
+import Search from "./pages/Search";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<AccountType />} />
+          <Route element={<ScreenLayout />}>
+            <Route path="/agent" element={<AgentHome />} />
+            <Route path="/student" element={<StudentHome />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/wishlist" element={<WishlistOrBookmark />} />
+          </Route>
           <Route path="/account-type" element={<AccountType />} />
+
           {/* Student Onboarding */}
           <Route path="student">
-            <Route path="/student" element={<StudentHome />} />
             <Route path="/student/onboarding" element={<StudentOnboarding />} />
             {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
           </Route>
 
           {/* Agent Onboarding */}
           <Route path="agent">
-            <Route path='/agent' element={<AgentHome />} />
             <Route path="/agent/onboarding" element={<AgentOnboarding />} />
-            <Route path="/agent/verification" element={<VerifyAgent/>} />
+            <Route path="/agent/verification" element={<VerifyAgent />} />
           </Route>
 
           {/* Authentication */}
@@ -66,8 +72,8 @@ function App() {
           <Route path="/payment/add-new-card" element={<AddNewCard />} />
           <Route path="/payment/bank-transfer" element={<BankTransfer />} />
           <Route path="/payment/successful" element={<SuccessfulPayment />} />
-          
-          { /* Hostel details */}
+
+          {/* Hostel details */}
           {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
           <Route path="hostel">
             <Route path="/hostel/:hostelId" element={<HostelDetails />} />
@@ -77,11 +83,7 @@ function App() {
 
           <Route path="chat">
             <Route path="/chat/:userId" element={<Chat />} />
-          </Route> 
-
-
-          {/* Wishlist & Bookmark */}
-          <Route path="/wishlist" element={<WishlistOrBookmark />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

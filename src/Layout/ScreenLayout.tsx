@@ -1,19 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Tabs from '../components/Reuseables/Tabs';
+import { Outlet } from 'react-router';
 
-const ScreenLayout = ({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) => {
+const ScreenLayout: React.FC = () => {
+    const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
   return (
    <section className='h-dvh'>
         <div>
-            {children}
+            <Outlet/>
         </div>
-        <div>
-            <Tabs/>
-        </div>
+        {
+            accountType === 'AGENT' ? <Tabs isAgent/> : <Tabs />
+        }
    </section>
   )
 }
