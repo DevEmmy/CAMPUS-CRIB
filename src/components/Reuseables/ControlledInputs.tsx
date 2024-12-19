@@ -6,6 +6,7 @@ import { PiEyeThin, PiEyeSlashThin } from "react-icons/pi";
 interface ControlledInputProps {
   type: "firstName" | "lastName" | "email" | "password";
   placeholder: string;
+  name: string;
   errors: FieldErrors<User>;
   register: UseFormRegister<User>;
 }
@@ -13,6 +14,7 @@ interface ControlledInputProps {
 const ControlledInput: React.FC<ControlledInputProps> = ({
   type,
   placeholder,
+  name,
   errors,
   register,
 }) => {
@@ -40,6 +42,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
           autoComplete="off"
           className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
           type={inputType}
+          name={name}
           placeholder={placeholder}
         />
         {type === "password" &&
