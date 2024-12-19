@@ -2,12 +2,21 @@ import React from 'react'
 
 interface ControlledButtonProps {
     title: string;
+    uploading?: boolean;
+    handleButtonClick?: () => void
 }
 
-const ControlledButton: React.FC<ControlledButtonProps> = ({title}) => {
+const ControlledButton: React.FC<ControlledButtonProps> = ({title, uploading, handleButtonClick}) => {
   return (
     <div>
-    <button className='bg-primary text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5'  type="submit">{title}</button>
+     <button
+        className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]"
+        type="button"
+        disabled={uploading}
+        onClick={handleButtonClick}
+      >
+        {uploading ? "Uploading..." : title}
+      </button>
   </div>
   )
 }

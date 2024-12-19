@@ -36,7 +36,7 @@ const Step1: React.FC<Props> = ({handleNextStep}) => {
             {/* <button className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]">
               Choose File
             </button> */}
-            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
+            <ButtonFileUploader title="Choose File" onUploadComplete={handleUploadComplete} multiple={false} />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>

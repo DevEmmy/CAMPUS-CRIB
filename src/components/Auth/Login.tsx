@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { login } from "../../utils/authRequest"; // Assuming login function exists in your authRequest file
 import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
@@ -44,8 +44,8 @@ const Login = () => {
       setIsSubmitting(true);
       const response = await login(formData);
       console.log(response);
-     
-      setFormData({ email: "", password: "" }); 
+
+      setFormData({ email: "", password: "" });
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -75,7 +75,9 @@ const Login = () => {
               className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
               placeholder="Email Address"
             />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div className="w-full">
@@ -87,7 +89,9 @@ const Login = () => {
               className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
               placeholder="Password"
             />
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            )}
             <small className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
               Forget password
             </small>
@@ -99,7 +103,7 @@ const Login = () => {
               disabled={isSubmitting}
               type="submit"
             >
-              Log In
+              {isSubmitting ? "logging in" : "Log In"}
             </button>
           </div>
 
