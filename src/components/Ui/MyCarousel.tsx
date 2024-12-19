@@ -3,7 +3,7 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
-import { IoIosHeartEmpty } from "react-icons/io";
+import { Heart } from "iconsax-react";
 
 interface HostelCardProps {
   image: string;
@@ -34,7 +34,7 @@ const HotelCard = ({
         />
         <div className="absolute top-2 right-2 bg-white/80 rounded-full p-2 shadow-md">
           {/* <i className="fas fa-heart text-gray-500"></i> */}
-          <IoIosHeartEmpty className="size-5" />
+          <Heart size="32" color="#ffffff"/>
         </div>
       </div>
       <div className="py-3">

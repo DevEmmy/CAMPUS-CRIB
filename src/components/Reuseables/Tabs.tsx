@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import home from "/icons/home-02.svg";
-import appointment from "/icons/appointment-02.svg";
-import favourite from "/icons/favourite-square.svg";
-import search from "/icons/search-02.svg";
-import user from "/icons/user.svg";
-import comment from "/icons/comment-01.svg";
-import store from "/icons/store-01.svg";
+// import home from "/icons/home-02.svg";
+// import appointment from "/icons/appointment-02.svg";
+// import favourite from "/icons/favourite-square.svg";
+// import search from "/icons/search-02.svg";
+// import user from "/icons/user.svg";
+// import comment from "/icons/comment-01.svg";
+// import store from "/icons/store-01.svg";
+import {
+  CalendarTick,
+  Home,
+  MessageSquare,
+  MessageText1,
+  Profile,
+  SearchNormal,
+  Shop,
+} from "iconsax-react";
+import { NavLink } from "react-router";
 
 interface tabsProps {
   isAgent?: boolean;
@@ -14,18 +24,58 @@ interface tabsProps {
 const Tabs = ({ isAgent }: tabsProps) => {
   const [activeTab, setActiveTab] = useState<number>();
   const tabList = [
-    { title: "Home", icon: home },
-    { title: "search", icon: search },
-    { title: "appointment", icon: appointment },
-    { title: "favourite", icon: favourite },
-    { title: "user", icon: user },
+    {
+      title: "Home",
+      icon: <Home size="32" color="#A3A3A3" />,
+      iconActive: <Home size="32" color="#ffffff" />,
+      route: "student",
+    },
+    {
+      title: "search",
+      icon: <SearchNormal size="32" color="#A3A3A3" />,
+      iconActive: <SearchNormal size="32" color="#ffffff" />,
+      route: "search",
+    },
+    {
+      title: "appointment",
+      icon: <CalendarTick size="32" color="#A3A3A3" />,
+      iconActive: <CalendarTick size="32" color="#ffffff" />,
+      route: "appointment",
+    },
+    {
+      title: "favourite",
+      icon: <MessageSquare size="32" color="#A3A3A3" />,
+      iconActive: <MessageSquare size="32" color="#ffffff" />,
+      route: "wishlist",
+    },
+    {
+      title: "user",
+      icon: <Profile size="32" color="#A3A3A3" />,
+      iconActive: <Profile size="32" color="#ffffff" />,
+      route: "profile",
+    },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: home },
-    { title: "Comments", icon: comment },
-    { title: "store", icon: store },
-    { title: "user", icon: user },
+    { title: "Home", icon: <Home size="32" color="#A3A3A3" />, route: "agent" },
+    {
+      title: "Comments",
+      icon: <MessageText1 size="32" color="#A3A3A3" />,
+      iconActive: <MessageText1 size="32" color="#ffffff" />,
+      route: "comments",
+    },
+    {
+      title: "store",
+      icon: <Shop size="32" color="#A3A3A3" />,
+      iconActive: <Shop size="32" color="#ffffff" />,
+      route: "store",
+    },
+    {
+      title: "user",
+      icon: <Profile size="32" color="#A3A3A3" />,
+      iconActive: <Profile size="32" color="#ffffff" />,
+      route: "profile",
+    },
   ];
   return (
     <div className="bg-white px-5 py-2.5 shadow z-[999999]  bottom-0 fixed w-full flex items-center justify-between">
@@ -39,12 +89,16 @@ const Tabs = ({ isAgent }: tabsProps) => {
                 "bg-primary flex items-center gap-x-1 text-white rounded-xl"
               }`}
             >
+              {
+                activeTab == i ? `${item?.iconActive}` : `${item?.icon}`
+              }
               {activeTab == i && <p>{item?.title}</p>}
-              <img src={item?.icon} className="size-5" />
+              {/* <img src={item?.icon} className="size-5" /> */}
             </div>
           ))
         : tabList?.map((item, i: number) => (
-            <div
+            <NavLink
+              to={`/${item.route}`}
               key={i}
               onClick={() => setActiveTab(i)}
               className={`p-3 ${
@@ -52,9 +106,12 @@ const Tabs = ({ isAgent }: tabsProps) => {
                 "bg-primary flex items-center gap-x-1 text-white rounded-xl"
               }`}
             >
+               {
+                activeTab == i ? `${item?.iconActive}` : `${item?.icon}`
+              }
               {activeTab == i && <p>{item?.title}</p>}
-              <img src={item?.icon} className="size-5" />
-            </div>
+              {/* <img src={item?.icon} className="size-5" /> */}
+            </NavLink>
           ))}
     </div>
   );
