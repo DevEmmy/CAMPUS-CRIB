@@ -21,6 +21,7 @@ import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
 import Home from "./pages/Home";
+import Search from "./components/Search";
 
 function App() {
   return (
@@ -82,6 +83,9 @@ function App() {
 
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
+
+          {/* Search */}
+          <Route path="/search" element={<Search />} />
         </Routes>
       </BrowserRouter>
     </>
