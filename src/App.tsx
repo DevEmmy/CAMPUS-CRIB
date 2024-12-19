@@ -23,6 +23,7 @@ import VerifyAgent from "./components/Auth/VerifyAgent";
 import ScreenLayout from "./Layout/ScreenLayout";
 import Search from "./pages/Search";
 
+
 function App() {
   return (
     <>
@@ -83,6 +84,14 @@ function App() {
 
           <Route path="chat">
             <Route path="/chat/:userId" element={<Chat />} />
+
+          </Route> 
+
+
+          {/* Wishlist & Bookmark */}
+          <Route path="/wishlist" element={<WishlistOrBookmark />} />
+
+         
           </Route>
         </Routes>
       </BrowserRouter>

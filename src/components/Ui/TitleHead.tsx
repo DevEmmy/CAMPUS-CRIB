@@ -16,7 +16,7 @@ const TitleHead = ({title} : any) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <div className={`flex items-center justify-between mb-4 pt-5 px-5 pb-3  top-0 fixed z-[9999999] bg-white w-full transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
+    <div className={`flex items-center justify-between mb-4 pt-5 px-5 pb-3  top-0 fixed z-[9999] bg-white w-full transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
       <button
         onClick={() => navigate(-1)}
         className="rounded-full bg-primary size-7 flex items-center justify-center"
