@@ -8,6 +8,7 @@ import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
 // import cap from "/onboarding/cap.svg";
 import { Link } from "react-router";
+import { login } from "../../utils/authRequest";
 
 const userSchema = z.object({
   fullName: z.string(),
@@ -27,9 +28,9 @@ const Signup: React.FC = () => {
 
   const handleSignup = async (data: User) => {
     try {
-      console.log(123);
-      //   const response = await login(data);
-      console.log(data);
+      // console.log(123);
+        const response = await login(data);
+      console.log(response);
       reset();
     } catch (error) {
       console.log(error);
