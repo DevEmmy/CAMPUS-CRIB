@@ -10,7 +10,11 @@ export const signup = async (data: { firstName: string; lastName: string; email:
 
 }
 
-export const login = async (data: any) => {
-    const response = await axiosConfig.post('')
-    console.log(response)
+export const login = async (data: {email: string; password: string}) => {
+    try {
+        const response = await axiosConfig.post('auth/sign-in', data)
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
 }
