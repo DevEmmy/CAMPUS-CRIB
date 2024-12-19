@@ -1,8 +1,8 @@
 import React from "react";
-import { BiChevronLeft } from "react-icons/bi";
 import indicator from "/onboarding/step2.svg";
 import document from "/onboarding/document-attachment.svg";
 import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
+import { ArrowLeft2 } from "iconsax-react";
 // import attachment from '/onboarding/document-attachment-light.svg'
 
 interface Props {
@@ -18,7 +18,7 @@ const Step2: React.FC<Props> = ({handleNextStep, handlePrevStep}) => {
   return (
     <section className="p-5 h-full w-full">
       <div className="flex items-center gap-2">
-        <BiChevronLeft size={30} />
+      <ArrowLeft2 size="32" color="#0E0F1D"/>
         <img className="ml-20" src={indicator} alt="" />
       </div>
 

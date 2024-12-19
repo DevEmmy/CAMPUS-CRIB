@@ -17,7 +17,7 @@ const StudentHome = () => {
         <MyCarousel />
       </section>
 
-      <Tabs />
+      {/* <Tabs /> */}
     </main>
   );
 };

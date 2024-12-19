@@ -43,7 +43,7 @@ const AgentHome = () => {
         )}
       </section>
 
-      <Tabs isAgent/>
+      {/* <Tabs isAgent/> */}
     </main>
   );
 };
