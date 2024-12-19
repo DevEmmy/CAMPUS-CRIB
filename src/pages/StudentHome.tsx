@@ -4,7 +4,7 @@ import Head from "../components/Home/Head";
 import Search from "../components/Home/Search";
 import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
-import Tabs from "../components/Reuseables/Tabs";
+// import Tabs from "../components/Reuseables/Tabs";
 
 const StudentHome = () => {
   return (
