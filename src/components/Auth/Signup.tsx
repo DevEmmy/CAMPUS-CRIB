@@ -1,40 +1,112 @@
-import React from "react";
-import ControlledInput from "../Reuseables/ControlledInputs";
-import { User } from "../../types/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
-// import cap from "/onboarding/cap.svg";
 import { Link } from "react-router";
-
-const userSchema = z.object({
-  fullName: z.string(),
-  email: z.string().email(),
-  password: z.string().min(6, "Password must at least be 6 characters"),
-});
+import { signup } from "../../utils/authRequest";
 
 const Signup: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<User>({
-    resolver: zodResolver(userSchema),
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const handleSignup = async (data: User) => {
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle form field change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Validate form fields
+  const validate = () => {
+    const newErrors = { ...errors };
+    let isValid = true;
+
+    // Validate firstName
+    if (!formData.firstName) {
+      newErrors.firstName = "First name is required.";
+      isValid = false;
+    } else {
+      newErrors.firstName = "";
+    }
+
+    // Validate lastName
+    if (!formData.lastName) {
+      newErrors.lastName = "Last name is required.";
+      isValid = false;
+    } else {
+      newErrors.lastName = "";
+    }
+
+    // Validate email
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is not valid.";
+      isValid = false;
+    } else {
+      newErrors.email = "";
+    }
+
+    // Validate password
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+      isValid = false;
+    } else {
+      newErrors.password = "";
+    }
+
+    // Validate confirmPassword
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords don't match.";
+      isValid = false;
+    } else {
+      newErrors.confirmPassword = "";
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  // Handle form submit
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate the form
+    if (!validate()) return;
+
     try {
-      console.log(123);
-      //   const response = await login(data);
-      console.log(data);
-      reset();
+      setIsSubmitting(true);
+      const { confirmPassword, ...userData } = formData; 
+      const response = await signup(userData); 
+      console.log(response);
+      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" }); 
     } catch (error) {
-      console.log(error);
+      console.error("Signup error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   return (
     <section className="h-full w-full p-5">
       <div className="bg-[#E6CDBF4D] p-5 rounded-xl my-5">
@@ -47,57 +119,80 @@ const Signup: React.FC = () => {
           </p>
         </div>
 
-        <form className="space-y-5" onSubmit={handleSubmit(handleSignup)}>
-          <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
-              type="firstName"
-              placeholder="firstName"
+        <form onSubmit={handleSignup} className="space-y-5">
+          {/* First Name */}
+          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-          </div>
-          <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
-              type="lastName"
-              placeholder="lastName"
-            />
-          </div>
-          <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
-              type="email"
-              placeholder="Email Address"
-            />
+            {errors.firstName && <span className="text-red-500 text-sm">{errors.firstName}</span>}
           </div>
 
-          <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
+          {/* Last Name */}
+          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+            />
+            {errors.lastName && <span className="text-red-500 text-sm">{errors.lastName}</span>}
+          </div>
+
+          {/* Email */}
+          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email Address"
+              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+            />
+            {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
+          </div>
+
+          {/* Password */}
+          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <input
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Password"
+              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
+            {errors.password && <span className="text-red-500 text-sm">{errors.password}</span>}
           </div>
-          <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
+
+          {/* Confirm Password */}
+          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <input
               type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
               placeholder="Confirm Password"
+              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
+            {errors.confirmPassword && <span className="text-red-500 text-sm">{errors.confirmPassword}</span>}
           </div>
-          <div>
-            <button
-              className="bg-primary text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5"
-              disabled={isSubmitting}
-              type="submit"
-            >
-              Create Account
-            </button>
-          </div>
+
+          {/* Submit Button */}
+          <button
+            className="bg-primary text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5"
+            disabled={isSubmitting}
+            type="submit"
+          >
+            {isSubmitting ? "Creating..." : "Create Account"}
+          </button>
 
           <div className="flex items-center justify-around gap-2 w-full">
             <img width={80} src={line} alt="line" />
@@ -109,24 +204,18 @@ const Signup: React.FC = () => {
 
           <div className="space-y-3">
             <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
-              <img src={google} alt="" />
+              <img src={google} alt="google" />
               <p className="text-dark text-[14px] leading-5 font-normal">
                 Continue with Google
               </p>
             </div>
-            {/* <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
-              <img src={cap} alt="" />
-              <p className="text-dark text-[14px] leading-5 font-normal">
-                Continue with Student ID
-              </p>
-            </div> */}
           </div>
         </form>
       </div>
 
       <div className="flex items-center justify-center my-10">
         <small className="text-dark text-[14px] leading-5 text-center">
-          Already have account?{" "}
+          Already have an account?{" "}
           <Link className="text-primary" to={"/login"}>
             Log In
           </Link>

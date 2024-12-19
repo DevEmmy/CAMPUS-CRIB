@@ -91,8 +91,6 @@ function App() {
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
 
-         
-          </Route>
         </Routes>
       </BrowserRouter>
     </>

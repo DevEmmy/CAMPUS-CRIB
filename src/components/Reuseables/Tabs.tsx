@@ -26,54 +26,46 @@ const Tabs = ({ isAgent }: tabsProps) => {
   const tabList = [
     {
       title: "Home",
-      icon: <Home size="32" color="#A3A3A3" />,
-      iconActive: <Home size="32" color="#ffffff" />,
+      icon: <Home size="32" />,
       route: "student",
     },
     {
       title: "search",
-      icon: <SearchNormal size="32" color="#A3A3A3" />,
-      iconActive: <SearchNormal size="32" color="#ffffff" />,
+      icon: <SearchNormal size="32" />,
       route: "search",
     },
     {
       title: "appointment",
-      icon: <CalendarTick size="32" color="#A3A3A3" />,
-      iconActive: <CalendarTick size="32" color="#ffffff" />,
+      icon: <CalendarTick size="32" />,
       route: "appointment",
     },
     {
       title: "favourite",
-      icon: <MessageSquare size="32" color="#A3A3A3" />,
-      iconActive: <MessageSquare size="32" color="#ffffff" />,
+      icon: <MessageSquare size="32" />,
       route: "wishlist",
     },
     {
       title: "user",
-      icon: <Profile size="32" color="#A3A3A3" />,
-      iconActive: <Profile size="32" color="#ffffff" />,
+      icon: <Profile size="32" />,
       route: "profile",
     },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: <Home size="32" color="#A3A3A3" />, route: "agent" },
+    { title: "Home", icon: <Home size="32" />, route: "agent" },
     {
       title: "Comments",
-      icon: <MessageText1 size="32" color="#A3A3A3" />,
-      iconActive: <MessageText1 size="32" color="#ffffff" />,
+      icon: <MessageText1 size="32" />,
       route: "comments",
     },
     {
       title: "store",
-      icon: <Shop size="32" color="#A3A3A3" />,
-      iconActive: <Shop size="32" color="#ffffff" />,
+      icon: <Shop size="32" />,
       route: "store",
     },
     {
       title: "user",
-      icon: <Profile size="32" color="#A3A3A3" />,
-      iconActive: <Profile size="32" color="#ffffff" />,
+      icon: <Profile size="32" />,
       route: "profile",
     },
   ];
@@ -89,9 +81,8 @@ const Tabs = ({ isAgent }: tabsProps) => {
                 "bg-primary flex items-center gap-x-1 text-white rounded-xl"
               }`}
             >
-              {
-                activeTab == i ? `${item?.iconActive}` : `${item?.icon}`
-              }
+              {item.icon}
+
               {activeTab == i && <p>{item?.title}</p>}
               {/* <img src={item?.icon} className="size-5" /> */}
             </div>
@@ -106,9 +97,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
                 "bg-primary flex items-center gap-x-1 text-white rounded-xl"
               }`}
             >
-               {
-                activeTab == i ? `${item?.iconActive}` : `${item?.icon}`
-              }
+              {item?.icon}
               {activeTab == i && <p>{item?.title}</p>}
               {/* <img src={item?.icon} className="size-5" /> */}
             </NavLink>

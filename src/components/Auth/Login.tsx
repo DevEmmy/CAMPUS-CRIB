@@ -1,39 +1,58 @@
-import React from "react";
-import ControlledInput from "../Reuseables/ControlledInputs";
-import { User } from "../../types/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import  { useState } from "react";
+import { login } from "../../utils/authRequest"; // Assuming login function exists in your authRequest file
 import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
-// import cap from "/onboarding/cap.svg";
 import { Link } from "react-router";
 
-const userSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6, "Password must at least be 6 characters"),
-});
-
-const Login: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<User>({
-    resolver: zodResolver(userSchema),
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
   });
 
-  const handleLogin = async (data: User) => {
+  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle change of form input
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Validate form inputs
+  const validate = () => {
+    const newErrors = { email: "", password: "" };
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
+  };
+
+  // Handle form submit
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
     try {
-      console.log(123);
-      //   const response = await login(data);
-      console.log(data);
-      reset();
+      setIsSubmitting(true);
+      const response = await login(formData);
+      console.log(response);
+     
+      setFormData({ email: "", password: "" }); 
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   return (
     <section className="h-full w-full p-5">
       <div className="bg-[#E6CDBF4D] p-5 rounded-xl my-5">
@@ -46,33 +65,41 @@ const Login: React.FC = () => {
           </p>
         </div>
 
-        <form className="space-y-5" onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleLogin} className="space-y-5">
           <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
+            <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
               placeholder="Email Address"
             />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
+
           <div className="w-full">
-            <ControlledInput
-              register={register}
-              errors={errors}
+            <input
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
               placeholder="Password"
             />
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             <small className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
               Forget password
             </small>
           </div>
+
           <div>
             <button
               className="bg-primary text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5"
               disabled={isSubmitting}
               type="submit"
             >
-              Create Account
+              Log In
             </button>
           </div>
 
@@ -91,19 +118,13 @@ const Login: React.FC = () => {
                 Continue with Google
               </p>
             </div>
-            {/* <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
-              <img src={cap} alt="" />
-              <p className="text-dark text-[14px] leading-5 font-normal">
-                Continue with Student ID
-              </p>
-            </div> */}
           </div>
         </form>
       </div>
 
       <div className="flex items-center justify-center my-10">
         <small className="text-dark text-[14px] leading-5 text-center">
-          Already have account?{" "}
+          Don't have an account?{" "}
           <Link className="text-primary" to={"/signup"}>
             Sign Up
           </Link>
