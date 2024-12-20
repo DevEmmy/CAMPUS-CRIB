@@ -1,11 +1,14 @@
 import React, { ChangeEvent, useId, useState } from "react";
+import ControlledButton from "./ControlledButton";
 
 interface ButtonFileUploaderProps {
+  title: string;
   onUploadComplete?: (uploadUrls?: string[]) => void;
   multiple?: boolean;
 }
 
 const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
+  title,
   onUploadComplete,
   multiple,
 }) => {
@@ -33,7 +36,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
 
         // Perform the upload
         const uploadPromises = formDataArray.map((formData) =>
-          fetch("", {
+          fetch("https://api.cloudinary.com/v1_1/devemmy/upload", {
             method: "POST",
             body: formData,
           }).then((res) => res.json())
@@ -62,14 +65,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
   return (
     <div className="flex flex-col items-center gap-2">
       {/* Button to trigger file input */}
-      <button
-        className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]"
-        type="button"
-        disabled={uploading}
-        onClick={handleButtonClick}
-      >
-        {uploading ? "Uploading..." : "Choose File"}
-      </button>
+      <ControlledButton title={title} uploading={uploading} handleButtonClick={handleButtonClick} />
       {/* Hidden file input */}
       <input
         type="file"
