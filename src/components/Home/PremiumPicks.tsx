@@ -24,11 +24,10 @@ const PremiumPicks: React.FC = () => {
           <div className="bg-white min-w-[80vw]" key={hostel._id}>
             <div className="relative">
               <img
-                // src="https://placehold.co/320x180"
                 src={hostel.images[0]}
                 alt="Modern building with trees"
                 className="rounded-2xl w-full h-40 object-cover"
-                onClick={() => navigate('/hostel/89765')}
+                onClick={() => navigate(`/hostel/${hostel._id}`)}
               />
               <button className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
                 {/* <RiHeart2Line /> */}
