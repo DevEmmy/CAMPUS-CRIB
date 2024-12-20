@@ -1,9 +1,12 @@
 import React from 'react'
+import Search from '../../components/Search'
 
-const Search: React.FC = () => {
+const SearchPage: React.FC = () => {
   return (
-    <div>Search</div>
+    <div>
+      <Search />
+    </div>
   )
 }
 
-export default Search
+export default SearchPage

@@ -21,7 +21,7 @@ import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
 import ScreenLayout from "./Layout/ScreenLayout";
-import Search from "./pages/Search";
+import SearchPage from "./pages/Search";
 
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
           <Route element={<ScreenLayout />}>
             <Route path="/agent" element={<AgentHome />} />
             <Route path="/student" element={<StudentHome />} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
           </Route>
           <Route path="/account-type" element={<AccountType />} />
