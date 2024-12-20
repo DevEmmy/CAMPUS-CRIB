@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 const AccountType: React.FC = () => {
   const navigate = useNavigate()
 
-  const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("AGENT");
+  const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
   const user = useQuery({ queryKey: ["todos"], queryFn: fetchUser });
 
   useEffect(() => {

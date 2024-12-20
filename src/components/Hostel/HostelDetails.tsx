@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TitleHead from "../Ui/TitleHead";
 import { useParams } from "react-router";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -11,10 +11,21 @@ import agentPic from "/icons/profile.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
 import { Link } from "react-router";
+import { Hostel } from "../../types/Hostel";
+import { fetchHostelById } from "../../lib/fetchHostels";
 
-const HostelDetails = () => {
+const HostelDetails: React.FC = () => {
   const { hostelId } = useParams();
   console.log(hostelId)
+
+  const [hostels, setHostels] = useState<Hostel[]>()
+  const fetchEachHostel = async () => {
+    const response = await fetchHostelById(hostelId as string)
+    if(response) setHostels(response)
+  }
+  useEffect(() => {
+    fetchEachHostel()
+  }, [])
 
   return (
     <main>
