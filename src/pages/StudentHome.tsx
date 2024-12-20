@@ -4,16 +4,17 @@ import Head from "../components/Home/Head";
 import Search from "../components/Home/Search";
 import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
-import Tabs from "../components/Reuseables/Tabs";
 
-const StudentHome = () => {
+
+const StudentHome: React.FC = () => {
+  
   return (
     <main>
       <Head name={"Clinton"} profilePic={profile} isAgent={false} />
 
       <section className="p-5 py-16">
         <Search />
-        <PremiumPicks />
+        <PremiumPicks/>
         <MyCarousel />
       </section>
 
