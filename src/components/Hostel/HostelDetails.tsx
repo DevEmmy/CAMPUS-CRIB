@@ -3,10 +3,7 @@ import TitleHead from "../Ui/TitleHead";
 import { useParams } from "react-router";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { FaWifi } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
-import { MdOutlineBed } from "react-icons/md";
-import { PiDesk } from "react-icons/pi";
 import agentPic from "/icons/profile.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
