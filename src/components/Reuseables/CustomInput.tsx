@@ -7,9 +7,10 @@ interface inputProps {
   options?: string[];
   placeholder?: string;
   notBordered?: boolean;
+  value?: any;
 }
 
-const CustomInput = ({ type, placeholder, options, notBordered}: inputProps) => {
+const CustomInput = ({ type, placeholder, options, notBordered, value, onChange}: inputProps) => {
     const style = 'grow w-full outline-none border-0 p-3 text-dark';
     const [isOn,setIsOn] = useState(true)
   return (
@@ -17,6 +18,8 @@ const CustomInput = ({ type, placeholder, options, notBordered}: inputProps) => 
       {(type == "text" || type ==  "number") && (
         <input
           type={type}
+          value={value}
+          onChange={onChange}
           className={`${style}`}
           placeholder={placeholder}
         />
