@@ -40,9 +40,9 @@ const HostelDetails: React.FC = () => {
           centerMode={false}
           className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-2"
         >
-          {hostel && hostel.images.map((index) => (
+          {hostel && hostel.images.map((image,index) => (
             <div key={index} className="w-full rounded-2xl">
-              <img src="https://placehold.co/600x400" className="rounded-xl" />
+              <img src={image} className="rounded-xl" />
             </div>
           ))}
         </Carousel>
@@ -62,19 +62,12 @@ const HostelDetails: React.FC = () => {
                 <span className="text-lg font-bold">₦ {hostel?.price}</span>
               </div>
             </div>
-            <div className="flex items-center justify-between mt-2 text-[#64748B]">
-              <div className="flex items-center space-x-2 bg-[#E5E5E54D] rounded-lg p-2 px-3">
-                <MdOutlineBed size={18} />
-                <span className="text-gray-500">2 Beds</span>
-              </div>
-              <div className="flex items-center space-x-2 bg-[#E5E5E54D] rounded-lg p-2 px-3">
-                <FaWifi size={18} />
-                <span className="text-gray-500">Free Wifi</span>
-              </div>
-              <div className="flex items-center space-x-2 bg-[#E5E5E54D] rounded-lg p-2 px-3">
-                <PiDesk size={18} />
-                <span className="text-gray-500">Desk</span>
-              </div>
+            <div className="flex flex-col items-start justify-between my-5 gap-2 text-[#64748B]">
+              {hostel?.features.map((feature, index) => (
+                 <div key={index} className="flex items-center space-x-2 bg-[#E5E5E54D] rounded-lg p-2 px-3">
+                 <span className="text-gray-500">{feature}</span>
+               </div>
+              ))}
             </div>
           </div>
         </div>
