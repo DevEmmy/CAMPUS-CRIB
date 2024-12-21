@@ -6,20 +6,26 @@ import { fetchUser } from "../../lib/fetchUser";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
-
 const AccountType: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
-  const user = useQuery({ queryKey: ["todos"], queryFn: fetchUser });
+  const { data: user } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
 
   useEffect(() => {
-    if(user && accountType === "AGENT"){
-      navigate('/agent')
-    }else if(user && accountType === "BASIC"){
-      navigate('/student')
+    if (user) {
+      setAccountType(user.userType);
+      console.log(user);
     }
-  }, [user])
+  }, []);
+
+  useEffect(() => {
+    if (user && accountType === "AGENT") {
+      navigate("/agent");
+    } else if (user && accountType === "BASIC") {
+      navigate("/student");
+    }
+  }, [user]);
 
   const handleChoice = (choice: string) => {
     // Store the user's choice in localStorage

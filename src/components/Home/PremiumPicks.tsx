@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { useNavigate } from "react-router";
 import mapMarker from "/icons/location.svg";
 import { fetchAllHostels } from "../../lib/fetchHostels";
 import { Hostel } from "../../types/Hostel";
+import { useQuery } from "@tanstack/react-query";
 
 const PremiumPicks: React.FC = () => {
-  const [hostels, setHostels] = useState<Hostel[]>()
-  const fetchHostels = async () => {
-    const response = await fetchAllHostels()
-    if(response) setHostels(response)
-  }
-  useEffect(() => {
-    fetchHostels()
-  }, [])
+  const { data: hostels } = useQuery({
+    queryKey: ["hostels"],
+    queryFn: fetchAllHostels,
+  });
   const navigate = useNavigate();
   return (
     <div className="mb-6">
@@ -31,16 +28,21 @@ const PremiumPicks: React.FC = () => {
               />
               <button className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
                 {/* <RiHeart2Line /> */}
-                <IoIosHeartEmpty className='size-5' />
+                <IoIosHeartEmpty className="size-5" />
               </button>
             </div>
-            <h3 className="font-semibold mt-4 text-dark" onClick={() => navigate('/hostel/5676')}>{hostel.hostelName}</h3>
+            <h3
+              className="font-semibold mt-4 text-dark"
+              onClick={() => navigate("/hostel/5676")}
+            >
+              {hostel.hostelName}
+            </h3>
             <div className="text-gray-500 flex mt-1 items-center">
               <img src={mapMarker} className="size-5 mr-1" />
               <span>{hostel.location}</span>
             </div>
             <p className="text-gray-500 mt-2 text-sm text-[#64748B]">
-            {hostel.description}
+              {hostel.description}
             </p>
           </div>
         ))}

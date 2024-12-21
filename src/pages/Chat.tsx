@@ -2,14 +2,32 @@
 import React, { useState } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 
 import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
 import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
+import { messaging } from "../utils/messageRequest";
 
 const Chat = () => {
+  const { userId } = useParams();
+  console.log(userId);
+  const [content, setContent] = useState("");
+
+  const messageData = {
+    recipient: userId,
+    message: content,
+  };
+
+  // const {data: user} = useQuery({ queryKey: ["user"], queryFn: fetchUser });
+
+  const sendMessage = async () => {
+    const response = await messaging(messageData);
+    setContent("");
+    console.log(response);
+  };
+
   const [isTexted, setIsTexted] = useState<boolean>(true);
   const chatDetails = [
     {
@@ -76,7 +94,7 @@ const Chat = () => {
     },
   ];
 
-  const convertToNormalTime = (timestamp : any) => {
+  const convertToNormalTime = (timestamp: any) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], {
       hour: "2-digit",
@@ -145,9 +163,9 @@ const Chat = () => {
                 design...
               </p>
               <Link to={"/checkout"} className="w-full">
-              <button className="bg-primary p-3 mt-1.5 w-full rounded-xl text-white">
+                <button className="bg-primary p-3 mt-1.5 w-full rounded-xl text-white">
                   Pay now
-              </button>
+                </button>
               </Link>
             </div>
           </div>
@@ -176,10 +194,18 @@ const Chat = () => {
             type="text"
             className="w-full bg-[#E5E5E54D] p-2 outline-none rounded-lg"
             placeholder="Type something..."
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
         {/* <div> */}
-        <MdSend className="text-primary size-6" />
+        <button
+          onClick={() => {
+            sendMessage();
+            console.log(123);
+          }}
+        >
+          <MdSend className="text-primary size-6" />
+        </button>
         {/* </div> */}
       </div>
     </main>
