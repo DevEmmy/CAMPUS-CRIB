@@ -22,6 +22,7 @@ import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
 import ScreenLayout from "./Layout/ScreenLayout";
 import SearchPage from "./pages/Search";
+import AllConversationDisplay from "./components/Chat/AllConversationDisplay";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
           {/* Chat */}
 
           <Route path="chat">
+            <Route path="/chat" element={<AllConversationDisplay />} />
             <Route path="/chat/:userId" element={<Chat />} />
           </Route>
 
