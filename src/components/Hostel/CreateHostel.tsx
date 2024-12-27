@@ -3,9 +3,10 @@ import { ChangeEvent, useState } from "react";
 import TitleHead from "../Ui/TitleHead";
 import CustomInput from "../Reuseables/CustomInput";
 import { CiCalendarDate } from "react-icons/ci";
-import imageAdd from "/icons/image-add-01.svg";
+// import imageAdd from "/icons/image-add-01.svg";
 // import sent from "/icons/sent.svg";
-import ImageUploading from "react-images-uploading";
+// import ImageUploading from "react-images-uploading";
+import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
 
 const CreateHostel = () => {
   const [step, setStep] = useState<number>(0);
@@ -48,12 +49,18 @@ const CreateHostel = () => {
     }
   }
 
-  const [images, setImages] = useState([]);
-  const maxNumber = 69;
+  // const [images, setImages] = useState([]);
+  // const maxNumber = 69;
 
-  const onChange = (imageList: any) => {
-    setImages(imageList);
-    handleInputChange("images", imageList);
+  // const onChange = (imageList: any) => {
+  //   setImages(imageList);
+  //   handleInputChange("images", imageList);
+  // };
+
+  const handleUploadComplete = (uploadUrls?: string[]) => {
+    handleInputChange("images", uploadUrls);
+    // Handle the uploaded file URLs if needed
+    console.log("Files uploaded:", uploadUrls);
   };
 
   const step1 = [
@@ -182,7 +189,7 @@ const CreateHostel = () => {
             <p className="text-dark/60 text-sm my-2">
               Upload high-quality images to attract more students
             </p>
-            <ImageUploading
+            {/* <ImageUploading
               multiple
               value={images}
               onChange={onChange}
@@ -222,7 +229,18 @@ const CreateHostel = () => {
                   </div>
                 </div>
               )}
-            </ImageUploading>
+            </ImageUploading> */}
+
+            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
+            <small className="text-dark text-[12px] leading-5 font-normal">
+              JPG, PNG, PDF (Max size: 5MB).
+            </small>
+
+            {
+              formState?.images && formState?.images?.map((item) => (
+                <img src={item} />
+              ))
+            }
           </div>
         );
       default:

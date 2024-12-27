@@ -22,6 +22,8 @@ import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
 import ScreenLayout from "./Layout/ScreenLayout";
 import Search from "./pages/Search";
+import Review from "./components/Review/Review";
+import ChatList from "./pages/ChatList";
 
 
 function App() {
@@ -83,6 +85,7 @@ function App() {
           {/* Chat */}
 
           <Route path="chat">
+            <Route path="/chat" element={<ChatList />} />
             <Route path="/chat/:userId" element={<Chat />} />
 
           </Route> 
@@ -90,6 +93,8 @@ function App() {
 
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
+
+          <Route path="/review" element={<Review />} />
 
         </Routes>
       </BrowserRouter>
