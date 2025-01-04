@@ -23,7 +23,7 @@ const TitleHead = ({title} : any) => {
       >
         <img src={back} alt="back" className="size-3.5" />
       </button>
-      <h1 className="text-xl font-bold">
+      <h1 className="text-xl font-bold capitalize">
         {title}
       </h1>
       <div className="w-6"></div>

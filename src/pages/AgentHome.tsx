@@ -4,7 +4,7 @@ import Head from "../components/Home/Head";
 import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
 import home from "/icons/home-13.svg";
-import Tabs from "../components/Reuseables/Tabs";
+// import Tabs from "../components/Reuseables/Tabs";
 
 const AgentHome = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

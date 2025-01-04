@@ -22,6 +22,7 @@ interface CustomInputProps {
   handleChecked?: any;
   options?: string[];
   notBordered?: boolean;
+  borderColor? : string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -29,6 +30,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   placeholder,
   options,
   notBordered,
+  borderColor,
   name,
   value,
   handleChange,
@@ -39,8 +41,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <div
       className={` flex  p-0.5 ${
-        !notBordered && "rounded-lg border border-primary"
-      } `}
+        !notBordered ? `rounded-lg border` : 'border-0'} ${borderColor ? `border-[${borderColor}]` : 'border-primary' }`}
     >
       {(type == "text" || type == "number") && (
         <input
@@ -104,6 +105,21 @@ const CustomInput: React.FC<CustomInputProps> = ({
           </div>
         </div>
       )}
+
+      {
+        type == "date" && (
+          <input
+          id={name}
+          name={name}
+          type={type}
+          // value={value}
+          onChange={handleChange}
+          className={`${style}`}
+          placeholder={placeholder}
+          // contentEditable
+        />
+        )
+      }
     </div>
   );
 };

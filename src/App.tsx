@@ -24,6 +24,13 @@ import ScreenLayout from "./Layout/ScreenLayout";
 import Search from "./pages/Search";
 import Review from "./components/Review/Review";
 import ChatList from "./pages/ChatList";
+import Profile from "./pages/Profile";
+import PersonalDetails from "./pages/Profile/PersonalDetails";
+import MyBookings from "./pages/Profile/MyBookings";
+import Settings from "./pages/Profile/Settings";
+import SavedHostels from "./pages/Profile/SavedHostels";
+import PaymentHistory from "./components/Payment/PaymentHistory";
+import PaymentDetails from "./components/Payment/PaymentDetails";
 
 
 function App() {
@@ -96,6 +103,22 @@ function App() {
 
           <Route path="/review" element={<Review />} />
 
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/personal-details" element={<PersonalDetails />} />
+
+          <Route path="/my-bookings" element={<MyBookings />} />
+
+          <Route path="/setting/:settingsType" element={<Settings />} />
+
+          <Route path="/saved-hostels" element={<SavedHostels />} />
+
+
+          <Route path="/payment-history" element={<PaymentHistory />} />
+
+          <Route path="/payment-details" element={<PaymentDetails />} />
+          
+ 
         </Routes>
       </BrowserRouter>
     </>
