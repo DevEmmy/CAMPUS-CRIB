@@ -22,7 +22,7 @@ interface CustomInputProps {
   handleChecked?: any;
   options?: string[];
   notBordered?: boolean;
-  borderColor? : string;
+  borderColor?: string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -48,8 +48,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
           id={name}
           name={name}
           type={type}
-          value={value}
-          onChange={handleChange}
           className={`${style}`}
           placeholder={placeholder}
           // contentEditable
