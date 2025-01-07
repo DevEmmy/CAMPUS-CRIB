@@ -5,12 +5,15 @@ import { Link } from "react-router";
 import { signup } from "../../utils/authRequest";
 
 const Signup: React.FC = () => {
+  const accountType = localStorage.getItem("accountType");
+  // console.log(accountType)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
+    userType: accountType || null,
   });
 
   const [errors, setErrors] = useState({
@@ -99,7 +102,7 @@ const Signup: React.FC = () => {
       const { confirmPassword, ...userData } = formData; 
       const response = await signup(userData); 
       console.log(response);
-      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "" }); 
+      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", userType: accountType }); 
     } catch (error) {
       console.error("Signup error:", error);
     } finally {

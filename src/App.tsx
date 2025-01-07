@@ -42,7 +42,7 @@ function App() {
           <Route element={<ScreenLayout />}>
             <Route path="/agent" element={<AgentHome />} />
             <Route path="/student" element={<StudentHome />} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
           </Route>
           <Route path="/account-type" element={<AccountType />} />
@@ -94,9 +94,7 @@ function App() {
           <Route path="chat">
             <Route path="/chat" element={<ChatList />} />
             <Route path="/chat/:userId" element={<Chat />} />
-
-          </Route> 
-
+          </Route>
 
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />

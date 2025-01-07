@@ -1,10 +1,19 @@
+import { User } from "./user";
+
 export interface Hostel {
-    hostelName: string;
-    address: string;
-    type: string;
-    desc: string;
-    price: number;
-    availability: boolean;
-    amenities: string[];
-    media: string[]
+  _id: string;
+  user: User;
+  hostelName: string;
+  location: string;
+  description: string;
+  price: string;
+  isAvailable: boolean;
+  availableRooms: number;
+  hostelType: string;
+  cover: string;
+  images: string[];
+  features: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }

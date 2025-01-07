@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { Heart } from "iconsax-react";
+import { fetchAllHostels } from "../../lib/fetchHostels";
+import { Hostel } from "../../types/Hostel";
+import { useQuery } from "@tanstack/react-query";
 
 interface HostelCardProps {
   image: string;
@@ -34,7 +36,7 @@ const HotelCard = ({
         />
         <div className="absolute top-2 right-2 bg-white/80 rounded-full p-2 shadow-md">
           {/* <i className="fas fa-heart text-gray-500"></i> */}
-          <Heart size="32" color="#ffffff"/>
+          <Heart size="32" color="#ffffff" />
         </div>
       </div>
       <div className="py-3">
@@ -45,35 +47,19 @@ const HotelCard = ({
           </div>
           <p className="text-left text-[15px]">{address}</p>
         </div>
-        <p className="text-sm text-variant-500 text-left">{desc && desc.slice(0, 30)}</p>
+        <p className="text-sm text-variant-500 text-left">
+          {desc && desc.slice(0, 30)}
+        </p>
       </div>
     </div>
   );
 };
 
 const MyCarousel = () => {
-  const cards = [
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-  ];
+  const { data: hostels } = useQuery({
+    queryKey: ["hostels"],
+    queryFn: fetchAllHostels,
+  });
 
   return (
     <>
@@ -86,14 +72,15 @@ const MyCarousel = () => {
           centerMode={false}
           className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
         >
-          {cards.map((card, index) => (
-            <HotelCard
-              key={index}
-              image={card.image}
-              title={card.title}
-              address={card.address}
-            />
-          ))}
+          {hostels &&
+            hostels.map((hostel: Hostel) => (
+              <HotelCard
+                key={hostel._id}
+                image={hostel.images[0]}
+                title={hostel.hostelName}
+                address={hostel.location}
+              />
+            ))}
         </Carousel>
       </div>
 
@@ -107,16 +94,17 @@ const MyCarousel = () => {
           centerMode={false}
           className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
         >
-          {cards.map((card, index) => (
-            <HotelCard
-              key={index}
-              image={card.image}
-              title={card.title}
-              address={card.address}
-              desc="Lorem ipsum dolor sit aro rem non dolore pariatur aliquid quae. Repellat, ipsa placeat temporibus libero in eum, at minus culpa cumque odit reprehenderit!"
-              isFlex
-            />
-          ))}
+          {hostels &&
+            hostels.map((hostel: Hostel) => (
+              <HotelCard
+                key={hostel._id}
+                image={hostel.images[0]}
+                title={hostel.hostelName}
+                address={hostel.location}
+                desc={hostel.description}
+                isFlex
+              />
+            ))}
         </Carousel>
       </div>
     </>
