@@ -1,240 +1,278 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import TitleHead from "../Ui/TitleHead";
 import CustomInput from "../Reuseables/CustomInput";
 import { CiCalendarDate } from "react-icons/ci";
-import imageAdd from "/icons/image-add-01.svg";
-import sent from "/icons/sent.svg";
-import ImageUploading from "react-images-uploading";
-
-const Step1 = () => {
-  return (
-    <div className="grid gap-2.5">
-      <p className="text-dark/60 text-sm my-2">
-        Tell us about the basics of your hostel
-      </p>
-      <CustomInput type="text" placeholder="Hostel name" onChange={() => {}} />
-      <CustomInput
-        type="text"
-        placeholder="Address of the hostel"
-        onChange={() => {}}
-      />
-      <CustomInput
-        type="select"
-        placeholder="Hostel Type"
-        options={["a", "b", "c"]}
-        onChange={() => {}}
-      />
-      <CustomInput
-        type="textarea"
-        placeholder="Describe your hostel (max 150 chararcters"
-        options={["a", "b", "c"]}
-        onChange={() => {}}
-      />
-    </div>
-  );
-};
-
-const Step2 = () => {
-  return (
-    <div className="grid gap-2.5">
-      <p className="text-dark/60 text-sm my-2">
-        Provide details about the rooms in your hostel
-      </p>
-      <CustomInput
-        type="select"
-        placeholder="Number of Room Types"
-        options={["a", "b", "c"]}
-        onChange={() => {}}
-      />
-      <CustomInput type="number" placeholder="Room price" onChange={() => {}} />
-      <div className="flex items-center justify-between mt-2">
-        <p className="text-dark/70 fontsemibold">availability</p>
-        <CiCalendarDate className="size-6 text-dark" />
-      </div>
-
-      <CustomInput
-        type="toggle"
-        placeholder="Room price"
-        onChange={() => {}}
-        notBordered
-      />
-
-      <div>
-        <p className="text-dark/70 mb-2">amenities</p>
-        <div className="flex flex-wrap gap-x-2">
-          {["wifi", "air conditioning", "study desk", "ward-rope"].map(
-            (item) => (
-              <CustomInput
-                key={item}
-                type="checkbox"
-                placeholder={item}
-                onChange={() => {}}
-                notBordered
-              />
-            )
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Step3 = () => {
-  // const [media,setMedia] = useState();
-  const [images, setImages] = useState([]);
-  const maxNumber = 69;
-
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList);
-  };
-  return (
-    <div className="grid gap-2.5">
-      <p className="text-dark/60 text-sm my-2">
-        Upload high-quality images to attract more students
-      </p>
-
-      <ImageUploading
-        multiple
-        value={images}
-        onChange={onChange}
-        maxNumber={maxNumber}
-        dataURLKey="data_url"
-      >
-        {({
-          imageList,
-          onImageUpload,
-          // onImageRemoveAll,
-          // onImageUpdate,
-          // onImageRemove,
-          isDragging,
-          dragProps,
-        }: any) => (
-          // write your building UI
-          <div className="upload__image-wrapper">
-            <button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-              className="w-full"
-            >
-              <div className="rounded-lg border border-primary p-4 border-lg grid place-items-center">
-                <img src={imageAdd} className="size-6 mb-3" />
-
-                <button
-                  type="button"
-                  className="capitalize bg-primary my-2 text-white p-3 rounded-lg disabled:bg-primary/60"
-                  disabled
-                >
-                  Upload from gallery
-                </button>
-                <p className="text-dark/60 text-xs ">
-                  PG, PNG (Max 10MB per image)
-                </p>
-              </div>
-            </button>
-
-            <div className="grid grid-cols-3 gap-1 my-2">
-              {imageList.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.data_url}
-                  className="w-full rounded-lg h-24 object-cover"
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </ImageUploading>
-    </div>
-  );
-};
-
-const Step4 = () => {
-  return (
-    <div>
-      <Step1 />
-      <Step2 />
-      <Step3 />
-      <div>.</div>
-    </div>
-  );
-};
-
-const Step5 = () => {
-  return (
-    <section className="h-[80vh] w-full p-5 grid place-items-center">
-      <div className="">
-        <img src={sent} className="mx-auto" />
-
-        <p className="mb-2.5 text-xl text-center">Submitted</p>
-        <p className="text-[#7d8a9e] text-center my-3">
-          Your listing has been submitted for review. We’ll notify you once it’s
-          approved.
-        </p>
-        <button className="p-3 w-full bg-primary flex justify-center items-center rounded-lg text-white">
-          <p>Go to home</p>
-        </button>
-      </div>
-    </section>
-  );
-};
+// import imageAdd from "/icons/image-add-01.svg";
+// import sent from "/icons/sent.svg";
+// import ImageUploading from "react-images-uploading";
+import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
 
 const CreateHostel = () => {
   const [step, setStep] = useState<number>(0);
+  const [formState, setFormState] = useState({
+    hostelName: "",
+    address: "",
+    hostelType: "",
+    hostelDesc: "",
+    roomTypes: "",
+    roomPrice: "",
+    availability: true,
+    amenities: [''],
+    images: [''],
+  });
+
+  // Handle form field change
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleInputChange = (name: string, value: any) => {
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // createPostFn(postData);
+      console.log('Success:', formState);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // const [images, setImages] = useState([]);
+  // const maxNumber = 69;
+
+  // const onChange = (imageList: any) => {
+  //   setImages(imageList);
+  //   handleInputChange("images", imageList);
+  // };
+
+  const handleUploadComplete = (uploadUrls?: string[]) => {
+    handleInputChange("images", uploadUrls);
+    // Handle the uploaded file URLs if needed
+    console.log("Files uploaded:", uploadUrls);
+  };
+
+  const step1 = [
+    {
+      type: "text",
+      name: "hostelName",
+      placeholder: "Hostel name",
+      value: formState?.hostelName || "",
+      handleChange: handleChange,
+    },
+    {
+      type: "text",
+      name: "address",
+      placeholder: "Address of the hostel",
+      value: formState?.address || "",
+      handleChange: handleChange,
+    },
+    {
+      type: "select",
+      name: "hostelType",
+      placeholder: "Hostel Type",
+      value: formState?.hostelType || "",
+      options: ["Type A", "Type B", "Type C"],
+      handleChange: handleChange,
+    },
+    {
+      type: "textarea",
+      name: "hostelDesc",
+      placeholder: "Describe your hostel (max 150 characters)",
+      value: formState?.hostelDesc || "",
+      handleChange: handleChange,
+    },
+  ];
 
   const create = () => {
     switch (step) {
       case 0:
-        return <Step1 />;
-        break;
+        return (
+          <div className="grid gap-2.5">
+            <p className="text-dark/60 text-sm my-2">
+              Tell us about the basics of your hostel
+            </p>
+            {step1?.map((item: any, i: number) => (
+              <CustomInput
+                key={i}
+                type={item?.type}
+                name={item?.name}
+                placeholder={item?.placeholder}
+                value={item?.value}
+                options={item?.options} // Only applicable for select inputs
+                handleChange={item?.handleChange}
+              />
+            ))}
+          </div>
+        );
       case 1:
-        return <Step2 />;
-        break;
+        return (
+          <div className="grid gap-2.5">
+            <p className="text-dark/60 text-sm my-2">
+              Provide details about the rooms in your hostel
+            </p>
+            <CustomInput
+              value={formState?.roomTypes}
+              name="roomTypes"
+              type="select"
+              placeholder="Number of Room Types"
+              options={["1", "2", "3"]}
+              handleChange={handleChange}
+            />
+            <CustomInput
+              name="roomPrice"
+              type="number"
+              placeholder="Room price"
+              value={formState?.roomPrice}
+              handleChange={handleChange}
+            />
+            <div className="flex items-center justify-between mt-2">
+              <p className="text-dark/70 fontsemibold">Availability</p>
+              <CiCalendarDate className="size-6 text-dark" />
+            </div>
+            <CustomInput
+              value={formState?.availability}
+              name="availability"
+              type="toggle"
+              placeholder="Availability"
+              handleChecked={() => setFormState({...formState,availability: !formState?.availability})}
+              notBordered
+            />
+            <div>
+              <p className="text-dark/70 mb-2">Amenities</p>
+              <div className="flex flex-wrap gap-x-2">
+                {["WiFi", "Air Conditioning", "Study Desk", "Wardrobe"].map(
+                  (item) => (
+                    <CustomInput
+                      key={item}
+                      name="amenities" // Use a fixed name for the group of amenities
+                      type="checkbox"
+                      placeholder={item}
+                      value={formState.amenities.includes(item)} // Check if this amenity is selected
+                      handleChecked={(e: ChangeEvent<HTMLInputElement>) => {
+                        const { checked } = e.target;
+                        setFormState((prevState) => {
+                          const updatedAmenities = checked
+                            ? [...prevState.amenities, item]
+                            : prevState.amenities.filter(
+                                (amenity) => amenity !== item
+                              );
+
+                          return {
+                            ...prevState,
+                            amenities: updatedAmenities,
+                          };
+                        });
+                      }}
+                      notBordered
+                    />
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        );
       case 2:
-        return <Step3 />;
-        break;
-      case 3:
-        return <Step4 />;
+        return (
+          <div className="grid gap-2.5">
+            <p className="text-dark/60 text-sm my-2">
+              Upload high-quality images to attract more students
+            </p>
+            {/* <ImageUploading
+              multiple
+              value={images}
+              onChange={onChange}
+              maxNumber={maxNumber}
+              dataURLKey="data_url"
+            >
+              {({ imageList, onImageUpload, isDragging, dragProps }) => (
+                <div className="upload__image-wrapper">
+                  <button
+                    style={isDragging ? { color: "red" } : undefined}
+                    onClick={onImageUpload}
+                    {...dragProps}
+                    className="w-full"
+                  >
+                    <div className="rounded-lg border border-primary p-4 border-lg grid place-items-center">
+                      <img src={imageAdd} className="size-6 mb-3" />
+                      <button
+                        type="button"
+                        className="capitalize bg-primary my-2 text-white p-3 rounded-lg disabled:bg-primary/60"
+                        disabled
+                      >
+                        Upload from gallery
+                      </button>
+                      <p className="text-dark/60 text-xs ">
+                        JPG, PNG (Max 10MB per image)
+                      </p>
+                    </div>
+                  </button>
+                  <div className="grid grid-cols-3 gap-1 my-2">
+                    {imageList.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.data_url}
+                        className="w-full rounded-lg h-24 object-cover"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </ImageUploading> */}
+
+            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
+            <small className="text-dark text-[12px] leading-5 font-normal">
+              JPG, PNG, PDF (Max size: 5MB).
+            </small>
+
+            {
+              formState?.images && formState?.images?.map((item) => (
+                <img src={item} />
+              ))
+            }
+          </div>
+        );
       default:
-        return <Step5 />;
-        break;
+        return <div>Thank you for submitting!</div>;
     }
   };
 
   return (
     <main>
-      <TitleHead title="" />
+      <TitleHead title="Create Hostel" />
       <section className="mt-14 p-5">
-        {step != 4 && (
-          <h3 className="text-xl text-primary font-semibold">
-            Create a Hostel
-          </h3>
-        )}
         {create()}
-
-        {step != 4 && (
-          <div className="flex items-center justify-between mt-6">
-            {(step > 0 || step < 3) && (
-              <button
-                onClick={() => setStep((prev) => prev - 1)}
-                className="w-1/2 py-2.5 border bg-[#E6CDBF] text-xs border-[#A64e1b] text-brown-500 rounded-lg mr-2"
-              >
-                back
-              </button>
-            )}
-            {step < 4 && (
-              <button
-                onClick={() => (step < 4 ? setStep((prev) => prev + 1) : "")}
-                className="w-1/2 p-3 bg-primary text-white text-xs rounded-lg"
-              >
-                {step < 3 ? "next" : "submit"}
-              </button>
-            )}
-          </div>
-        )}
+        <div className="flex items-center justify-between mt-6">
+          {step > 0 && (
+            <button
+              onClick={() => setStep((prev) => prev - 1)}
+              className="w-1/2 py-2.5 border bg-[#E6CDBF] text-xs border-[#A64e1b] text-brown-500 rounded-lg mr-2"
+            >
+              Back
+            </button>
+          )}
+          {step < 3 && (
+            <button
+              onClick={step < 2 ? () => setStep((prev) => prev + 1) : handleSubmit}
+              className="w-1/2 p-3 bg-primary text-white text-xs rounded-lg"
+            >
+              {
+                step < 2 ? 'Next' : 'Submit'
+              }
+            </button>
+          )}
+        </div>
       </section>
     </main>
   );

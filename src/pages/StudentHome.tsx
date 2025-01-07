@@ -6,6 +6,7 @@ import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
 
 
+
 const StudentHome: React.FC = () => {
   
   return (

@@ -21,8 +21,17 @@ import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import VerifyAgent from "./components/Auth/VerifyAgent";
 import ScreenLayout from "./Layout/ScreenLayout";
-import SearchPage from "./pages/Search";
-import AllConversationDisplay from "./components/Chat/AllConversationDisplay";
+import Search from "./pages/Search";
+import Review from "./components/Review/Review";
+import ChatList from "./pages/ChatList";
+import Profile from "./pages/Profile";
+import PersonalDetails from "./pages/Profile/PersonalDetails";
+import MyBookings from "./pages/Profile/MyBookings";
+import Settings from "./pages/Profile/Settings";
+import SavedHostels from "./pages/Profile/SavedHostels";
+import PaymentHistory from "./components/Payment/PaymentHistory";
+import PaymentDetails from "./components/Payment/PaymentDetails";
+
 
 function App() {
   return (
@@ -83,12 +92,31 @@ function App() {
           {/* Chat */}
 
           <Route path="chat">
-            <Route path="/chat" element={<AllConversationDisplay />} />
+            <Route path="/chat" element={<ChatList />} />
             <Route path="/chat/:userId" element={<Chat />} />
           </Route>
 
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
+
+          <Route path="/review" element={<Review />} />
+
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/personal-details" element={<PersonalDetails />} />
+
+          <Route path="/my-bookings" element={<MyBookings />} />
+
+          <Route path="/setting/:settingsType" element={<Settings />} />
+
+          <Route path="/saved-hostels" element={<SavedHostels />} />
+
+
+          <Route path="/payment-history" element={<PaymentHistory />} />
+
+          <Route path="/payment-details" element={<PaymentDetails />} />
+          
+ 
         </Routes>
       </BrowserRouter>
     </>
