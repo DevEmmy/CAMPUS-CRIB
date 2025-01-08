@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
 import { Link } from "react-router";
 import back from "/icons/back.svg";
 import search from "/icons/search-01.svg";
-import { SearchNormal } from "iconsax-react";
 import ChatComponent from "../components/Ui/ChatComponent";
 
 const ChatList = () => {
@@ -61,9 +58,6 @@ const ChatList = () => {
         </Link>
 
         <img src={search} alt="search" className="size-6" />
-        {/* <button className="border border-primary rounded-xl  p-2"> */}
-        {/* <SearchNormal className="size-6 text-primary" /> */}
-        {/* </button> */}
       </div>
 
       <section className="p-5 py-16 bg-white">

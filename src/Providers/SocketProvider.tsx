@@ -31,7 +31,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     });
 
     if (socket.current) {
-      // console.log(socket.connected)
       socket.current.disconnect();
     }
   }, []);

@@ -5,18 +5,22 @@ import mentoring from "/onboarding/mentoring.svg";
 import { fetchUser } from "../../lib/fetchUser";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { useUserStore } from "../../store/UseUserStore";
 
 const AccountType: React.FC = () => {
   const navigate = useNavigate();
+  const { setUserData } = useUserStore();
 
-  const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
+  const [accountType, setAccountType] = useState<"AGENT" | "BASIC">();
   const { data: user } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
 
   useEffect(() => {
     if (user) {
+      setUserData(user)
       setAccountType(user.userType);
-      console.log(user);
+      return
     }
+    return
   }, []);
 
   useEffect(() => {
@@ -25,10 +29,10 @@ const AccountType: React.FC = () => {
     } else if (user && accountType === "BASIC") {
       navigate("/student");
     }
+    return
   }, [user]);
 
   const handleChoice = (choice: string) => {
-    // Store the user's choice in localStorage
     localStorage.setItem("accountType", choice);
   };
   return (

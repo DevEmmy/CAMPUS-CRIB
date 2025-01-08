@@ -3,9 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { Heart } from "iconsax-react";
-import { fetchAllHostels } from "../../lib/fetchHostels";
 import { Hostel } from "../../types/Hostel";
-import { useQuery } from "@tanstack/react-query";
 
 interface HostelCardProps {
   image: string;
@@ -13,6 +11,10 @@ interface HostelCardProps {
   address: string;
   desc?: string;
   isFlex?: boolean;
+}
+
+interface CarouselProps {
+  hostels: Hostel[];
 }
 
 const HotelCard = ({
@@ -55,12 +57,7 @@ const HotelCard = ({
   );
 };
 
-const MyCarousel = () => {
-  const { data: hostels } = useQuery({
-    queryKey: ["hostels"],
-    queryFn: fetchAllHostels,
-  });
-
+const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
   return (
     <>
       <div>
