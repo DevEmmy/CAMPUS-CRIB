@@ -98,7 +98,7 @@ function App() {
           {/* Wishlist & Bookmark */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
 
-          <Route path="/review" element={<Review />} />
+          <Route path="/review/:hostelId" element={<Review />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/personal-details" element={<PersonalDetails />} />

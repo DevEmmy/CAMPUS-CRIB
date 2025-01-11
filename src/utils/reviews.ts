@@ -1,9 +1,10 @@
 import { axiosConfig } from "./axiosConfig"
 
-export const sendReview = async (review: string, rating: number) => {
+export const sendReview = async (review: string, rating: number, hostelId: string) => {
     const  response = await axiosConfig.post('reviews/', {
         review,
-        rating
+        rating,
+        hostelId
     })
     return response
 } 

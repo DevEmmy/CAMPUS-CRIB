@@ -1,6 +1,6 @@
 import { useState } from "react";
 import RatingSystem from "../Reuseables/RatingSystem";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import successful from "/icons/successTick.svg";
 import { RiCloseLine } from "react-icons/ri";
@@ -9,9 +9,10 @@ import { sendReview } from "../../utils/reviews";
 
 const Review = () => {
   const navigate = useNavigate();
+  const {hostelId} = useParams()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [review, setReview] = useState("");
+  const [comment, setComment] = useState("");
   const [rating, setRating] = useState<number>()
 
   const handleRatingChange = (rating: any) => {
@@ -21,13 +22,13 @@ const Review = () => {
 
   const mutation = useMutation({
     mutationKey: ["review"],
-    mutationFn: async () => sendReview(review, rating as number),
+    mutationFn: async () => sendReview(comment, rating as number, hostelId as string),
   });
 
   const handleSubmit = () => {
     setIsSubmitted(true);
     mutation.mutate();
-    setReview("");
+    setComment("");
   };
   return (
     <div className="p-5">
@@ -64,7 +65,7 @@ const Review = () => {
           <div>
             <input
               type="text"
-              onChange={(e) => setReview(e.target.value)}
+              onChange={(e) => setComment(e.target.value)}
               className="border border-primary p-2 rounded-lg my-5 w-full"
               placeholder="Type a review"
             />

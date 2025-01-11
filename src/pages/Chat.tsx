@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { Link, useParams } from "react-router";
