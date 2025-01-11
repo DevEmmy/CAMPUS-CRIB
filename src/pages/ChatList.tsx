@@ -2,50 +2,28 @@ import { Link } from "react-router";
 import back from "/icons/back.svg";
 import search from "/icons/search-01.svg";
 import ChatComponent from "../components/Ui/ChatComponent";
+import { fetchConversations } from "../lib/fetchConversations";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { User } from "../types/user";
 
 const ChatList = () => {
-  const messages = [
-    {
-      firstname: "John",
-      lastname: "Doe",
-      profilePic: "https://example.com/profile/john.jpg",
-      lastMessage: "Hey, how are you?",
-      isRead: true,
-      unreadMessage: 0,
-      time: "2024-12-27T10:30:00Z",
-      isAgent: false,
-    },
-    {
-      firstname: "Jane",
-      lastname: "Smith",
-      profilePic: "https://example.com/profile/jane.jpg",
-      lastMessage: "Can we talk later?",
-      isRead: false,
-      unreadMessage: 2,
-      time: "2024-12-27T09:45:00Z",
-      isAgent: true,
-    },
-    {
-      firstname: "Alice",
-      lastname: "Johnson",
-      profilePic: "https://example.com/profile/alice.jpg",
-      lastMessage: "Thanks for the update!",
-      isRead: true,
-      unreadMessage: 0,
-      time: "2024-12-27T08:15:00Z",
-      isAgent: false,
-    },
-    {
-      firstname: "Bob",
-      lastname: "Brown",
-      profilePic: "https://example.com/profile/bob.jpg",
-      lastMessage: "Where are you?",
-      isRead: false,
-      unreadMessage: 1,
-      time: "2024-12-27T07:50:00Z",
-      isAgent: true,
-    },
-  ];
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const response = JSON.parse(localStorage.getItem("user") as string);
+
+    setUser(response);
+  }, []);
+
+  const { data: conversations } = useQuery({
+    queryKey: ["conversations"],
+    queryFn: fetchConversations,
+  });
+
+  useEffect(() => {
+    if(conversations) console.log(conversations)
+  },[])
 
   return (
     <main>
@@ -62,9 +40,9 @@ const ChatList = () => {
 
       <section className="p-5 py-16 bg-white">
         <div className="">
-          {messages?.map((item, i: number) => (
-            <Link to={'/chat/tyu'}>
-                <ChatComponent key={i} item={item} />
+          {conversations?.map((item: any, i: number) => (
+            <Link to={`/chat/${user?._id}`}>
+              <ChatComponent key={i} item={item} />
             </Link>
           ))}
         </div>

@@ -3,7 +3,8 @@ import { Socket } from 'socket.io-client';
 
 
 interface ISocketContext {
-    socket: Socket | null;
+    socket: Socket | null; 
+    isConnected: boolean; 
 }
 
 const SocketContext = createContext<ISocketContext | undefined>(undefined);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { Link, useParams } from "react-router";
@@ -8,91 +8,54 @@ import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
 import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
-import { messaging } from "../utils/messageRequest";
+import { useSocket } from "../hooks/useSocket";
+import { fetchMessages } from "../lib/fetchMessages";
+import { useQuery } from "@tanstack/react-query";
 
 const Chat = () => {
   const { userId } = useParams();
+  const {socket, isConnected} = useSocket()
   console.log(userId);
   const [content, setContent] = useState("");
 
-  const messageData = {
-    recipient: userId,
-    message: content,
+  const {data: messages} = useQuery({ queryKey: ["messages"], queryFn: () => fetchMessages(userId as string) });
+
+  const sendMessage = () => {
+    if (socket && content.trim() !== "") {
+      const messageData = {
+        recipient: userId,
+        message: content,
+      };
+
+      socket.emit("sendMessage", messageData);
+
+      setContent("");
+    }
   };
 
-  // const {data: user} = useQuery({ queryKey: ["user"], queryFn: fetchUser });
+  useEffect(() => {
+    if (socket) {
+      socket.on('receiveMessage', (messageData) => {
+        console.log('New message received:', messageData);
+        // toast({
+        //   title: 'New message',
+        //   description: messageData.message,
+        //   status: 'info',
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
+      });
+    }
 
-  const sendMessage = async () => {
-    const response = await messaging(messageData);
-    setContent("");
-    console.log(response);
-  };
+    return () => {
+      if (socket) {
+        socket.off('receiveMessage');
+      }
+    };
+  }, [socket]);
+
 
   const [isTexted, setIsTexted] = useState<boolean>(true);
-  const chatDetails = [
-    {
-      senderId: 1,
-      message: "Hey, how are you?",
-      timestamp: "2024-12-09 10:00 AM",
-    },
-    {
-      senderId: 2,
-      message: "Hi Alice! I'm good, thanks. How about you?",
-      timestamp: "2024-12-09 10:01 AM",
-    },
-    {
-      senderId: 1,
-      message:
-        "I'm doing well, just busy with work. Any plans for the weekend?",
-      timestamp: "2024-12-09 10:02 AM",
-    },
-    {
-      senderId: 2,
-      message: "Not much, maybe catch a movie or relax. What about you?",
-      timestamp: "2024-12-09 10:03 AM",
-    },
-    {
-      senderId: 1,
-      message: "Thinking of going hiking. Want to join?",
-      timestamp: "2024-12-09 10:04 AM",
-    },
-    {
-      senderId: 2,
-      message: "That sounds fun! Count me in.",
-      timestamp: "2024-12-09 10:05 AM",
-    },
-    {
-      senderId: 1,
-      message: "Hey, how are you?",
-      timestamp: "2024-12-09 10:00 AM",
-    },
-    {
-      senderId: 2,
-      message: "Hi Alice! I'm good, thanks. How about you?",
-      timestamp: "2024-12-09 10:01 AM",
-    },
-    {
-      senderId: 1,
-      message:
-        "I'm doing well, just busy with work. Any plans for the weekend?",
-      timestamp: "2024-12-09 10:02 AM",
-    },
-    {
-      senderId: 2,
-      message: "Not much, maybe catch a movie or relax. What about you?",
-      timestamp: "2024-12-09 10:03 AM",
-    },
-    {
-      senderId: 1,
-      message: "Thinking of going hiking. Want to join?",
-      timestamp: "2024-12-09 10:04 AM",
-    },
-    {
-      senderId: 2,
-      message: "That sounds fun! Count me in.",
-      timestamp: "2024-12-09 10:05 AM",
-    },
-  ];
 
   const convertToNormalTime = (timestamp: any) => {
     const date = new Date(timestamp);
@@ -130,22 +93,22 @@ const Chat = () => {
       <section className="p-5 py-16 bg-[#f7f7f7]">
         {isTexted ? (
           <div>
-            {chatDetails?.map((item: any, i: number) => (
+            {messages?.map((message: any, i: number) => (
               <div
                 key={i}
-                className={`flex my-3 ${item?.senderId == 1 && "justify-end"}`}
+                className={`flex my-3 ${message?.sender == userId && "justify-end"}`}
               >
                 <div
                   className={` max-w-[76%] w-fit p-3 rounded-xl ${
-                    item?.senderId == 1
+                    message?.sender == userId
                       ? "bg-primary text-white"
                       : "bg-white text-dark"
                   }`}
                 >
-                  {item?.message}
+                  {message?.message}
                   <p className="!text-[10px] text-right mt-1">
-                    {convertToNormalTime(item.timestamp)}{" "}
-                    {item?.senderId == 1 && "read"}
+                    {convertToNormalTime(message.timestamp)}{" "}
+                    {message?.senderId == userId && "read"}
                   </p>
                 </div>
               </div>
@@ -199,10 +162,7 @@ const Chat = () => {
         </div>
         {/* <div> */}
         <button
-          onClick={() => {
-            sendMessage();
-            console.log(123);
-          }}
+          onClick={() => sendMessage()}
         >
           <MdSend className="text-primary size-6" />
         </button>
