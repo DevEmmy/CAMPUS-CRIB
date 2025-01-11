@@ -5,6 +5,3 @@ export const messaging = async (data: any) => {
     console.log(response)
 }
 
-export const getAllMessages = () => {
-    
-}

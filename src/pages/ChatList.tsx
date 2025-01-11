@@ -4,17 +4,15 @@ import search from "/icons/search-01.svg";
 import ChatComponent from "../components/Ui/ChatComponent";
 import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { User } from "../types/user";
+import { useEffect } from "react";
+import { fetchUser } from "../lib/fetchUser";
 
 const ChatList = () => {
-  const [user, setUser] = useState<User>();
 
-  useEffect(() => {
-    const response = JSON.parse(localStorage.getItem("user") as string);
-
-    setUser(response);
-  }, []);
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+  });
 
   const { data: conversations } = useQuery({
     queryKey: ["conversations"],
@@ -22,8 +20,8 @@ const ChatList = () => {
   });
 
   useEffect(() => {
-    if(conversations) console.log(conversations)
-  },[])
+    if (conversations) console.log(conversations);
+  }, []);
 
   return (
     <main>

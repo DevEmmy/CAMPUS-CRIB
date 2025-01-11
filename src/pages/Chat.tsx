@@ -8,52 +8,82 @@ import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
 import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
-import { useSocket } from "../hooks/useSocket";
+// import { useSocket } from "../hooks/useSocket";
 import { fetchMessages } from "../lib/fetchMessages";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { messaging } from "../utils/messageRequest";
+import Loader from "../components/Reuseables/Loader";
 
 const Chat = () => {
   const { userId } = useParams();
-  const {socket, isConnected} = useSocket()
+  // const {socket, isConnected} = useSocket()
   console.log(userId);
   const [content, setContent] = useState("");
 
-  const {data: messages} = useQuery({ queryKey: ["messages"], queryFn: () => fetchMessages(userId as string) });
+  const queryClient = useQueryClient();
 
-  const sendMessage = () => {
-    if (socket && content.trim() !== "") {
-      const messageData = {
-        recipient: userId,
-        message: content,
-      };
+  const {
+    data: messages,
+    isError,
+    isFetching,
+  } = useQuery({
+    queryKey: ["messages"],
+    queryFn: () => fetchMessages(userId as string),
+  });
 
-      socket.emit("sendMessage", messageData);
+  queryClient.invalidateQueries({ queryKey: ["messages"] });
 
-      setContent("");
-    }
+  const mutation = useMutation({
+    mutationKey: ["messages"],
+    mutationFn: () => messaging(messageData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    },
+  });
+
+  const messageData = {
+    recipient: userId,
+    message: content,
   };
 
-  useEffect(() => {
-    if (socket) {
-      socket.on('receiveMessage', (messageData) => {
-        console.log('New message received:', messageData);
-        // toast({
-        //   title: 'New message',
-        //   description: messageData.message,
-        //   status: 'info',
-        //   duration: 5000,
-        //   isClosable: true,
-        // });
-      });
+  const sendMessage = () => {
+    if (content.trim() === "") {
+      return;
     }
 
-    return () => {
-      if (socket) {
-        socket.off('receiveMessage');
-      }
-    };
-  }, [socket]);
+    mutation.mutate();
+    setContent("");
+  };
 
+  // const sendMessage = () => {
+  //   if (socket && content.trim() !== "") {
+
+  //     socket.emit("sendMessage", messageData);
+
+  //     setContent("");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.on('receiveMessage', (messageData) => {
+  //       console.log('New message received:', messageData);
+  //       // toast({
+  //       //   title: 'New message',
+  //       //   description: messageData.message,
+  //       //   status: 'info',
+  //       //   duration: 5000,
+  //       //   isClosable: true,
+  //       // });
+  //     });
+  //   }
+
+  //   return () => {
+  //     if (socket) {
+  //       socket.off('receiveMessage');
+  //     }
+  //   };
+  // }, [socket]);
 
   const [isTexted, setIsTexted] = useState<boolean>(true);
 
@@ -91,12 +121,15 @@ const Chat = () => {
       </div>
 
       <section className="p-5 py-16 bg-[#f7f7f7]">
-        {isTexted ? (
+        {isFetching && <Loader />}
+        {messages.length > 0 ? (
           <div>
             {messages?.map((message: any, i: number) => (
               <div
                 key={i}
-                className={`flex my-3 ${message?.sender == userId && "justify-end"}`}
+                className={`flex my-3 ${
+                  message?.sender == userId && "justify-end"
+                }`}
               >
                 <div
                   className={` max-w-[76%] w-fit p-3 rounded-xl ${
@@ -161,9 +194,7 @@ const Chat = () => {
           />
         </div>
         {/* <div> */}
-        <button
-          onClick={() => sendMessage()}
-        >
+        <button onClick={() => sendMessage()}>
           <MdSend className="text-primary size-6" />
         </button>
         {/* </div> */}
