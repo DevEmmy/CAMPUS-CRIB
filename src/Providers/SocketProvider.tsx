@@ -13,26 +13,30 @@ interface SocketProviderProps {
 }
 
 const SocketContext = createContext<ISocketContext | undefined>(undefined);
-const SOCKET_SERVER_URL = "https://campus-crib-backend.onrender.com";
+const SOCKET_SERVER_URL = "ws://campus-crib-backend.onrender.com";
+
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const socket = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
-  const response = JSON.parse(localStorage.getItem('user') as string)
-  const userId = response?._id;
+
+  const response = localStorage.getItem('user');
+  const userId = response ? JSON.parse(response)._id : null;
 
   useEffect(() => {
+    if (!userId) {
+      // showToast("warning", "User Not Logged In", "Please log in to receive notifications.");
+      return;
+    }
+
+    // Initialize socket connection only if userId exists
     socket.current = io(SOCKET_SERVER_URL);
 
+   
     socket.current.on('connect', () => {
       setIsConnected(true);
-      console.log('Connected to the server');
-      
-      // Emit 'init' event after establishing connection
-      if (socket.current && userId) {
-        socket.current.emit('init', { userId });
-      }
+      console.log('Connected to the server');  
+      socket.current?.emit('init', { userId });
     });
 
     socket.current.on('disconnect', () => {
@@ -40,57 +44,40 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       console.log('Disconnected from the server');
     });
 
-    // Listen for notification events
-    socket.current.on('notification', (notification) => {
+    socket.current.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+      setIsConnected(false);
+      showToast("error", "Connection Error", "Unable to connect to the server.");
+    });
+
+    // Listen for notification events and chat messages
+    const handleNotification = (notification: any) => {
       console.log('New notification:', notification);
-      const showNotificationTimeout = setTimeout(() => {
-        setShowNotifications(true);
-        // set the notification title and message later
-        showToast("info", "New Notification", "Notification message");
-      }, 1000);
+      showToast("info", "New Notification", notification.message || "No message");
+    };
 
-      const hideNotificationTimeout = setTimeout(() => {
-        setShowNotifications(false);
-      }, 5000);
-
-      return () => {
-        clearTimeout(showNotificationTimeout);
-        clearTimeout(hideNotificationTimeout);
-      };
-    });
-
-    // Listen for chat messages
-    socket.current.on('chatMessage', (messageData) => {
+    const handleChatMessage = (messageData: any) => {
       console.log('New chat message:', messageData);
-      const showNotificationTimeout = setTimeout(() => {
-        setShowNotifications(true);
-        // Set the details later
-        showToast("info", "New Message", "Message");
-      }, 1000);
+      showToast("info", "New Message", messageData.content || "No content");
+    };
 
-      const hideNotificationTimeout = setTimeout(() => {
-        setShowNotifications(false);
-      }, 5000);
+    // Attach event listeners for notifications and messages
+    socket.current.on('notification', handleNotification);
+    socket.current.on('chatMessage', handleChatMessage);
 
-      return () => {
-        clearTimeout(showNotificationTimeout);
-        clearTimeout(hideNotificationTimeout);
-      };
-    });
-
-    // Clean up listeners on unmount
+    // Cleanup on component unmount
     return () => {
       if (socket.current) {
-        socket.current.off('notification');
-        socket.current.off('chatMessage');
+        socket.current.off('notification', handleNotification);
+        socket.current.off('chatMessage', handleChatMessage);
       }
     };
   }, [userId]);
 
   return (
     <SocketContext.Provider value={{ socket: socket.current, isConnected }}>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+      {toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-[99999]">
           <Toast
             type={toast.type}
             message={toast.message}

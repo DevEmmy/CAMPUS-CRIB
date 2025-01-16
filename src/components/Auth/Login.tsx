@@ -3,8 +3,10 @@ import { login } from "../../utils/authRequest"; // Assuming login function exis
 import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,10 +45,19 @@ const Login = () => {
     try {
       setIsSubmitting(true);
       const response = await login(formData);
-      console.log(response);
-
+       // Ensure that response is valid
+    if (response && response.data) {
+      const user = localStorage.getItem('user');
+      const userType = user ? JSON.parse(user)?.userType || "BASIC" : "BASIC"
+      
+      const redirectTo = userType === "AGENT" ? "/agent" : "/student";
+      
+      // Navigate based on userType
+      navigate(redirectTo);
+      
+      // Clear form data after successful login
       setFormData({ email: "", password: "" });
-    } catch (error) {
+    } }catch (error) {
       console.error("Login error:", error);
     } finally {
       setIsSubmitting(false);
