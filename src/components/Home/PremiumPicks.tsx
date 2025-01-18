@@ -44,6 +44,11 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
             </p>
           </div>
         ))}
+        {
+          !hostels && (
+            <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
+          )
+        }
       </div>
     </div>
   );

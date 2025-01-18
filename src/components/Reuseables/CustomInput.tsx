@@ -34,35 +34,40 @@ const CustomInput: React.FC<CustomInputProps> = ({
   name,
   value,
   handleChange,
-  handleChecked
+  handleChecked,
 }) => {
   const style = "grow w-full outline-none border-0 p-3 text-dark";
   // const [isOn, setIsOn] = useState(true);
   return (
     <div
       className={` flex  p-0.5 ${
-        !notBordered ? `rounded-lg border` : 'border-0'} ${borderColor ? `border-[${borderColor}]` : 'border-primary' }`}
+        !notBordered ? `rounded-lg border` : "border-0"
+      } ${borderColor ? `border-[${borderColor}]` : "border-primary"}`}
     >
       {(type == "text" || type == "number") && (
         <input
           id={name}
           name={name}
           type={type}
+          defaultValue={value}
           className={`${style}`}
           placeholder={placeholder}
+          onChange={handleChange}
           // contentEditable
         />
       )}
 
       {type == "select" && (
-        <select className={`${style} bg-white`} name={name} value={value} onChange={handleChange}>
-          <option className="text-variant-500">
-            <span className="text-dark/70">{placeholder}</span>
-          </option>
+        <select
+          className={`${style} bg-white`}
+          name={name}
+          onChange={handleChange}
+        >
+          <option className="text-dark/70">{placeholder}</option>
 
-          {options?.map((item) => (
-            <option key={name} className="" value={item}>
-              <span className="text-dark/60">{item}</span>
+          {options?.map((item, i) => (
+            <option key={i} className="text-dark/60" value={item}>
+              {item}
             </option>
           ))}
         </select>
@@ -75,14 +80,21 @@ const CustomInput: React.FC<CustomInputProps> = ({
           rows={6}
           maxLength={150}
           className={`${style}`}
-          value={value}
+          defaultValue={value}
           onChange={handleChange}
         />
       )}
 
       {type == "checkbox" && (
         <div className="flex gap-x-1 items-center">
-          <input type="checkbox" name={name} checked={value} onChange={handleChecked} id="" className="size-4" />
+          <input
+            type="checkbox"
+            name={name}
+            checked={value}
+            onChange={handleChecked}
+            id=""
+            className="size-4"
+          />
           <p className="text-xs text-dark">{placeholder}</p>
         </div>
       )}
@@ -97,27 +109,27 @@ const CustomInput: React.FC<CustomInputProps> = ({
           >
             <div
               className={`absolute w-4 h-4 rounded-full transition-transform ${
-                value == true ? "bg-primary right-1 top-0.5" : "bg-white left-1 top-0.5"
+                value == true
+                  ? "bg-primary right-1 top-0.5"
+                  : "bg-white left-1 top-0.5"
               }`}
             ></div>
           </div>
         </div>
       )}
 
-      {
-        type == "date" && (
-          <input
+      {type == "date" && (
+        <input
           id={name}
           name={name}
           type={type}
-          // value={value}
+          defaultValue={value}
           onChange={handleChange}
           className={`${style}`}
           placeholder={placeholder}
           // contentEditable
         />
-        )
-      }
+      )}
     </div>
   );
 };
