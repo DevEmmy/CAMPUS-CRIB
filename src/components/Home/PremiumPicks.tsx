@@ -15,7 +15,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
     <div className="mb-6">
       <h2 className="text-dark font-semibold my-4">Premium Picks</h2>
       <div className="flex w-full overflow-x-scroll gap-x-1.5 mb-1.5">
-        {hostels?.map((hostel: Hostel) => (
+        {hostels && hostels?.map((hostel: Hostel) => (
           <div className="bg-white min-w-[80vw]" key={hostel._id}>
             <div className="relative">
               <img
@@ -45,7 +45,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
           </div>
         ))}
         {
-          hostels.length == 0 && (
+          hostels?.length == 0 && (
             <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
           )
         }
