@@ -7,6 +7,7 @@ import home from "/icons/home-13.svg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllHostels } from "../lib/fetchHostels";
 import { useUserStore } from "../store/UseUserStore";
+import { Link } from "react-router";
 
 const AgentHome: React.FC = () => {
   const { user } = useUserStore();
@@ -41,9 +42,9 @@ const AgentHome: React.FC = () => {
                 You haven't added any hostels yet. Posting your first listing is
                 easy and takes just a few minutes!
               </p>
-              <button className="bg-primary p-2 px-3 text-white rounded-lg">
+              <Link to={'/hostel/create'} className="bg-primary p-2 px-3 text-white rounded-lg">
                 Post a hostel now
-              </button>
+              </Link>
             </div>
           </div>
         )}

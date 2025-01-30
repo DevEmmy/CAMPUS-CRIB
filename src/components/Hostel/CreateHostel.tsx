@@ -231,7 +231,7 @@ const CreateHostel = () => {
               )}
             </ImageUploading> */}
 
-            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
+            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>

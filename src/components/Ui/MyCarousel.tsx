@@ -80,7 +80,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
             ))}
         </Carousel>
         {
-          !hostels && (
+          hostels.length == 0 && (
             <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
           )
         }
@@ -109,7 +109,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
             ))}
         </Carousel>
         {
-          !hostels && (
+          hostels.length == 0 && (
             <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
           )
         }
