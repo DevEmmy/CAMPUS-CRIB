@@ -1,4 +1,3 @@
-import React from "react";
 import card1 from "/icons/bankCardDesign1.svg";
 import card2 from "/icons/bankCardDesign2.svg";
 import card3 from "/icons/bankCardDesign3.svg";

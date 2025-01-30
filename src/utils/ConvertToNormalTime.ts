@@ -1,9 +1,9 @@
-export const convertToNormalTime = (isoTime) => {
+export const convertToNormalTime = (isoTime: string) => {
   // Parse the ISO string into a Date object
   const date = new Date(isoTime);
 
   // Define options for formatting
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     // day: "2-digit",
     // month: "short", // Short month name (e.g., "Dec")
     // year: "numeric",

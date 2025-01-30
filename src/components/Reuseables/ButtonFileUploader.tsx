@@ -23,6 +23,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
         file.type.startsWith("image") ? URL.createObjectURL(file) : file.name
       );
       setFilePreviews((prev) => [...prev, ...preview]);
+      console.log(filePreviews)
       setUploading(true);
 
       try {

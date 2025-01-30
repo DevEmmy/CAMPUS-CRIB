@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import filter from '/icons/filter-horizontal.svg';
 import search from '/icons/search.svg';
 import thumbs from '/icons/thumbs-up.svg';
@@ -9,6 +9,9 @@ import location from '/icons/map-pinpoint-01.svg'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Search = () => {
     const [type, setType] = useState<number>(0); 
+    useEffect(() => {
+        console.log(setType(1))
+    })
     const searchType  = [
         {
             title: 'recommended',

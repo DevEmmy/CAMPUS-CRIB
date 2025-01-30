@@ -15,9 +15,10 @@ const AuthProvider = ({
 
   const checkUser = () => {
     if (user) {
-      const accountType = localStorage.getItem("accountType");
-      if (accountType) {
-        setAccountType(accountType as "AGENT" | "BASIC");
+      const account = localStorage.getItem("accountType");
+      if (account) {
+        console.log(accountType)
+        setAccountType(account as "AGENT" | "BASIC");
         navigate("/login");
       }
     }
