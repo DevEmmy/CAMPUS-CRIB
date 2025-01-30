@@ -70,17 +70,17 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
           className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
         >
           {hostels &&
-            hostels.map((hostel: Hostel) => (
+            hostels?.map((hostel: Hostel) => (
               <HotelCard
-                key={hostel._id}
-                image={hostel.images[0]}
-                title={hostel.hostelName}
-                address={hostel.location}
+                key={hostel?._id}
+                image={hostel?.images[0]}
+                title={hostel?.hostelName}
+                address={hostel?.location}
               />
             ))}
         </Carousel>
         {
-          hostels.length == 0 && (
+          hostels?.length == 0 && (
             <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
           )
         }
@@ -97,19 +97,19 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
           className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
         >
           {hostels &&
-            hostels.map((hostel: Hostel) => (
+            hostels?.map((hostel: Hostel) => (
               <HotelCard
-                key={hostel._id}
-                image={hostel.images[0]}
-                title={hostel.hostelName}
-                address={hostel.location}
-                desc={hostel.description}
+                key={hostel?._id}
+                image={hostel?.images[0]}
+                title={hostel?.hostelName}
+                address={hostel?.location}
+                desc={hostel?.description}
                 isFlex
               />
             ))}
         </Carousel>
         {
-          hostels.length == 0 && (
+          hostels?.length == 0 && (
             <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
           )
         }
