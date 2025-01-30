@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
 import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
 import home from "/icons/home-13.svg";
-// import Tabs from "../components/Reuseables/Tabs";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllHostels } from "../lib/fetchHostels";
+import { useUserStore } from "../store/UseUserStore";
+import { Link } from "react-router";
 
-const AgentHome = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [hasHostel, setHasHostel] = useState<boolean>(!false);
-  
+const AgentHome: React.FC = () => {
+  const { user } = useUserStore();
+  const { data: hostels } = useQuery({
+    queryKey: ["hostels"],
+    queryFn: fetchAllHostels,
+  });
+
   return (
     <main className="">
-        <Head name={"Aremu"} profilePic={profile} isAgent />
-
+      {/* Pass the User name and his profile picture into the component */}
+      <Head name={user?.firstName as string} profilePic={profile} isAgent />
 
       <section className="bg p-5 pb-20 ">
-        {hasHostel ? (
+        {/* Check if the agent has hostels then render it */}
+        {hostels && hostels.length > 0 ? (
           <>
             <div className="my-6  flex items-center space-x-2">
               <h3 className="text-dark text-lg font-semibold">
@@ -24,8 +31,8 @@ const AgentHome = () => {
               </h3>
               <hr className="grow textprimary text-primary text-lg" />
             </div>
-            <PremiumPicks />
-            <MyCarousel />
+            <PremiumPicks hostels={hostels} />
+            <MyCarousel hostels={hostels} />
           </>
         ) : (
           <div className="h-screen flex items-center justify-between">
@@ -35,15 +42,13 @@ const AgentHome = () => {
                 You haven't added any hostels yet. Posting your first listing is
                 easy and takes just a few minutes!
               </p>
-              <button className="bg-primary p-2 px-3 text-white rounded-lg">
+              <Link to={'/hostel/create'} className="bg-primary p-2 px-3 text-white rounded-lg">
                 Post a hostel now
-              </button>
+              </Link>
             </div>
           </div>
         )}
       </section>
-
-      {/* <Tabs isAgent/> */}
     </main>
   );
 };

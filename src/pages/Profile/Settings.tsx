@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 import TitleHead from "../../components/Ui/TitleHead";
 // import CustomInput from "../../components/Reuseables/CustomInput";

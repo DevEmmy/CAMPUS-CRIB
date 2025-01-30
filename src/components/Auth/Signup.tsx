@@ -3,8 +3,10 @@ import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
 import { Link } from "react-router";
 import { signup } from "../../utils/authRequest";
+import { useNavigate } from "react-router";
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate()
   const accountType = localStorage.getItem("accountType");
   // console.log(accountType)
   const [formData, setFormData] = useState({
@@ -101,8 +103,14 @@ const Signup: React.FC = () => {
       setIsSubmitting(true);
       const { confirmPassword, ...userData } = formData; 
       const response = await signup(userData); 
+      const userType = response?.data.userType || formData.userType;
       console.log(response);
       setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", userType: accountType }); 
+      if (userType === "AGENT") {
+        navigate("/agent"); 
+      } else if (userType === "BASIC") {
+        navigate("/student"); 
+      }
     } catch (error) {
       console.error("Signup error:", error);
     } finally {

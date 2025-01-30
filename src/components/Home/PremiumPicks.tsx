@@ -3,15 +3,13 @@ import React from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { useNavigate } from "react-router";
 import mapMarker from "/icons/location.svg";
-import { fetchAllHostels } from "../../lib/fetchHostels";
 import { Hostel } from "../../types/Hostel";
-import { useQuery } from "@tanstack/react-query";
 
-const PremiumPicks: React.FC = () => {
-  const { data: hostels } = useQuery({
-    queryKey: ["hostels"],
-    queryFn: fetchAllHostels,
-  });
+interface PremiumPicksProps {
+  hostels: Hostel[];
+}
+
+const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
   const navigate = useNavigate();
   return (
     <div className="mb-6">
@@ -46,6 +44,11 @@ const PremiumPicks: React.FC = () => {
             </p>
           </div>
         ))}
+        {
+          hostels.length == 0 && (
+            <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
+          )
+        }
       </div>
     </div>
   );

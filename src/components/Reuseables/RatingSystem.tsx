@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 
 interface ratingProps {

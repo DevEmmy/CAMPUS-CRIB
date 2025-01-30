@@ -14,8 +14,10 @@ import {
   Notification,
 } from "iconsax-react";
 import { Link } from "react-router";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Profile = () => {
+  const { user } = useUserStore();
   const profileItems = [
     {
       title: "Personal Details",
@@ -67,8 +69,8 @@ const Profile = () => {
         <div className="flex items-center gap-x-3 mb-3">
           <img src={profile} className="size-16 rounded-xl" />
           <div className="flex-row gap-0 justify-center">
-            <h2 className="text-dark font-semibold text-lg">Cliton Sandra</h2>
-            <span className="text-variant-500 text-sm">clisan@gmail.com</span>
+            <h2 className="text-dark font-semibold text-lg">{user?.firstName as string} {user?.lastName as string}</h2>
+            <span className="text-variant-500 text-sm">{user?.email as string}</span>
           </div>
         </div>
 

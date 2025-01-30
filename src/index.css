@@ -48,3 +48,37 @@ body{
   animation: l3 1s infinite linear;
 }
 @keyframes l3 {to{transform: rotate(1turn)}}
+
+.fetcher {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+.fetcher::after,
+.fetcher::before {
+  content: '';  
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #31809a;
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  animation: animloader 2s ease-in-out infinite;
+}
+.fetcher::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0%, 100% {
+    transform: scale(0);
+    opacity: 1;
+}
+  50% {
+    transform: scale(1);
+    opacity: 0;
+}
+}

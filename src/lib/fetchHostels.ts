@@ -3,7 +3,6 @@ import { axiosConfig } from "../utils/axiosConfig"
 export const fetchAllHostels = async () => {
    const response = await axiosConfig.get('hostels')
    const allHostels = response.data.data
-//    console.log(allHostels)
    return allHostels
 }
 

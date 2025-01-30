@@ -1,11 +1,23 @@
 import axios from "axios";
 
-const token = localStorage.getItem('token')
-
+// Create an axios instance
 export const axiosConfig = axios.create({
-    // baseURL: "http://192.168.176.168:3050/",
-    baseURL: "https://campus-crib-backend.onrender.com",
-    headers: {
-      Authorization: `Bearer ${token}`
+  baseURL: "https://campus-crib-backend.onrender.com",
+});
+
+// Add a request interceptor to dynamically add the token from localStorage
+axiosConfig.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+
+    // If a token exists, add it to the Authorization header
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-  });
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
