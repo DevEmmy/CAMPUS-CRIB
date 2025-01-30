@@ -1,4 +1,3 @@
-import React from "react";
 import TitleHead from "../Ui/TitleHead";
 import share from "/icons/share-08.png";
 import download from "/icons/download-02.png";

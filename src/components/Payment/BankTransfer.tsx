@@ -1,4 +1,3 @@
-import React from "react";
 import back from "/icons/back.svg";
 import { Link } from "react-router";
 import { IoCopyOutline } from "react-icons/io5";

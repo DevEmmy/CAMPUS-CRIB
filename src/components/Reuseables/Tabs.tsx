@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 // import home from "/icons/home-02.svg";
 // import appointment from "/icons/appointment-02.svg";
 // import favourite from "/icons/favourite-square.svg";

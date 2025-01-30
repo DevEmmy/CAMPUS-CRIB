@@ -1,4 +1,3 @@
-import React from "react";
 import tick from "/icons/successTick.svg";
 import { GoDownload } from "react-icons/go";
 

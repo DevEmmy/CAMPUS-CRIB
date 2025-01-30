@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { useState } from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import search from "/icons/search.svg";
 import locationImg from "/icons/location.svg";

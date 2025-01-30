@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import profile from "/icons/profile.png";
 import {

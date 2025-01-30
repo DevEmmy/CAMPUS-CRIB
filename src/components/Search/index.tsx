@@ -8,12 +8,15 @@ import cancelCircle from "/icons/cancel-circle.svg";
 // import MyCarousel from "../Ui/MyCarousel";
 import SearchCarousel from "./SearchCarousel";
 import Filter from "./Filter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiCloseFill } from "react-icons/ri";
 
 const Search = () => {
   const [haveSearch, setHaveSearched] = useState<boolean>(true);
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  useEffect(() => {
+    setHaveSearched(false);
+  }, [])
   return (
     <main className="">
       <TitleHead title="Search" />

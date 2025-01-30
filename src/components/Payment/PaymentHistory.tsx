@@ -1,4 +1,3 @@
-import React from "react";
 import TitleHead from "../Ui/TitleHead";
 import paymentHand from "/icons/payment-02.png";
 import { Link } from "react-router";

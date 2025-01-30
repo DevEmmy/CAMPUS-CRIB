@@ -1,4 +1,3 @@
-import React from "react";
 import TitleHead from "../Ui/TitleHead";
 import { MdOutlineBed } from "react-icons/md";
 import { FaChevronRight, FaWifi } from "react-icons/fa6";

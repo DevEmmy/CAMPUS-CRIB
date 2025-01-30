@@ -50,6 +50,7 @@ const Chat = () => {
     if (content.trim() === "") {
       return;
     }
+    console.log(setIsTexted(true))
 
     mutation.mutate();
     setContent("");
@@ -95,6 +96,10 @@ const Chat = () => {
       hour12: true,
     });
   };
+
+  if(isError){
+    return <div>Error fetching messages</div>
+  }
   return (
     <main className="">
       <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white">

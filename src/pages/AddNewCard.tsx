@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import back from "/icons/back.svg";
 import BankCard from "../components/Payment/BankCard";
 import mastercard from "/icons/mastercard.png";

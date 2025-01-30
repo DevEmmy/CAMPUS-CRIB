@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 // import { Link } from "react-router";
 import locationImg from "/icons/location.svg";

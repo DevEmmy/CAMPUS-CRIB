@@ -34,7 +34,7 @@ const Step2: React.FC<Props> = ({handleNextStep, handlePrevStep}) => {
 
           <div className="border border-primary rounded-lg mt-5 flex flex-col items-center justify-between gap-5 p-5 h-[168px]">
             <img src={document} alt="attachment" />
-            <ButtonFileUploader onUploadComplete={handleUploadComplete} />
+            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>
