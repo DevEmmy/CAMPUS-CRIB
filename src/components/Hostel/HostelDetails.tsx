@@ -1,14 +1,13 @@
 import React from "react";
 import TitleHead from "../Ui/TitleHead";
 import { useParams } from "react-router";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { IoLocationOutline } from "react-icons/io5";
 import agentPic from "/icons/profile.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
 import { Link } from "react-router";
-// import { Hostel } from "../../types/Hostel";
 import { fetchHostelById } from "../../lib/fetchHostels";
 import { useQuery } from "@tanstack/react-query";
 
@@ -34,9 +33,9 @@ const HostelDetails: React.FC = () => {
         >
           {hostel &&
             hostel.images.map(
-              ({ image, index }: { image: string; index: number }) => (
+              (image: string, index: number ) => (
                 <div key={index} className="w-full rounded-2xl">
-                  <img src={image} className="rounded-xl" />
+                  <img src={image} alt="image" className="rounded-xl" />
                 </div>
               )
             )}

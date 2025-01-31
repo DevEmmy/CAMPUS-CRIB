@@ -16,7 +16,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
       <h2 className="text-dark font-semibold my-4">Premium Picks</h2>
       <div className="flex w-full overflow-x-scroll gap-x-1.5 mb-1.5">
         {hostels && hostels?.map((hostel: Hostel) => (
-          <div className="bg-white min-w-[80vw]" key={hostel._id}>
+          <div onClick={() => navigate(`/hostel/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
             <div className="relative">
               <img
                 src={hostel.images[0]}
@@ -31,7 +31,6 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
             </div>
             <h3
               className="font-semibold mt-4 text-dark"
-              onClick={() => navigate("/hostel/5676")}
             >
               {hostel.hostelName}
             </h3>
