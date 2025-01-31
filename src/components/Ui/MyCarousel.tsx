@@ -4,6 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { Heart } from "iconsax-react";
 import { Hostel } from "../../types/Hostel";
+import { useNavigate } from "react-router";
 
 interface HostelCardProps {
   image: string;
@@ -11,6 +12,7 @@ interface HostelCardProps {
   address: string;
   desc?: string;
   isFlex?: boolean;
+  id: string;
 }
 
 interface CarouselProps {
@@ -23,9 +25,13 @@ const HotelCard = ({
   address,
   desc,
   isFlex,
+  id
 }: HostelCardProps) => {
+  const navigate = useNavigate()
   return (
     <div
+    key={id}
+    onClick={() => navigate(`/hostel/${id}`)}
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
         isFlex && "grid grid-cols-2 gap-x-1 items-center"
       }`}
@@ -73,6 +79,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
             hostels?.map((hostel: Hostel) => (
               <HotelCard
                 key={hostel?._id}
+                id={hostel?._id}
                 image={hostel?.images[0]}
                 title={hostel?.hostelName}
                 address={hostel?.location}
@@ -100,6 +107,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
             hostels?.map((hostel: Hostel) => (
               <HotelCard
                 key={hostel?._id}
+                id={hostel?._id}
                 image={hostel?.images[0]}
                 title={hostel?.hostelName}
                 address={hostel?.location}

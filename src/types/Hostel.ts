@@ -17,3 +17,15 @@ export interface Hostel {
   updatedAt: string;
   __v: number;
 }
+
+export interface CreateHostel{
+  hostelName: string;
+    address: string;
+    hostelType: string;
+    hostelDesc: string;
+    roomTypes: string;
+    roomPrice: string;
+    availability: boolean;
+    amenities: string[];
+    images: string[];
+}

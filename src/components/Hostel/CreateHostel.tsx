@@ -7,8 +7,12 @@ import { CiCalendarDate } from "react-icons/ci";
 // import sent from "/icons/sent.svg";
 // import ImageUploading from "react-images-uploading";
 import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
+import { createHostel } from "../../lib/fetchHostels";
+import { HiX } from "react-icons/hi";
+import { useNavigate } from "react-router";
 
 const CreateHostel = () => {
+  const navigate = useNavigate()
   const [step, setStep] = useState<number>(0);
   const [formState, setFormState] = useState({
     hostelName: "",
@@ -33,6 +37,23 @@ const CreateHostel = () => {
     }));
   };
 
+
+  const removeItem = (index: number) => {
+    setFormState((prevState) => {
+      // Create a new array without the item at the specified index
+      const updatedImages = [
+        ...prevState.images.slice(0, index),
+        ...prevState.images.slice(index + 1),
+      ];
+      
+      // Return the updated state with the new images array
+      return {
+        ...prevState,
+        images: updatedImages,
+      };
+    });
+  };
+
   const handleInputChange = (name: string, value: any) => {
     setFormState((prev) => ({
       ...prev,
@@ -43,7 +64,12 @@ const CreateHostel = () => {
   const handleSubmit = async () => {
     try {
       // createPostFn(postData);
-      console.log('Success:', formState);
+      const response = await createHostel(formState)
+      console.log('Success:', response);
+      if(response.status == 200){
+        navigate('/agent')
+      }
+      return
     } catch (error) {
       console.error('Error:', error);
     }
@@ -73,7 +99,7 @@ const CreateHostel = () => {
     },
     {
       type: "text",
-      name: "address",
+      name: "location",
       placeholder: "Address of the hostel",
       value: formState?.address || "",
       handleChange: handleChange,
@@ -83,12 +109,12 @@ const CreateHostel = () => {
       name: "hostelType",
       placeholder: "Hostel Type",
       value: formState?.hostelType || "",
-      options: ["Type A", "Type B", "Type C"],
+      options: ["SINGLE_ROOMS", "SHARED_ROOMS", "APARTMENTS", "SUITES"],
       handleChange: handleChange,
     },
     {
       type: "textarea",
-      name: "hostelDesc",
+      name: "description",
       placeholder: "Describe your hostel (max 150 characters)",
       value: formState?.hostelDesc || "",
       handleChange: handleChange,
@@ -131,7 +157,7 @@ const CreateHostel = () => {
               handleChange={handleChange}
             />
             <CustomInput
-              name="roomPrice"
+              name="price"
               type="number"
               placeholder="Room price"
               value={formState?.roomPrice}
@@ -231,16 +257,26 @@ const CreateHostel = () => {
               )}
             </ImageUploading> */}
 
-            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} />
+            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} multiple />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>
 
+            <div className="flex gap-3 overflow-scroll py-4">
             {
-              formState?.images && formState?.images?.map((item) => (
-                <img src={item} />
+              formState?.images && formState?.images?.map((item, idx) => (
+                <div key={idx} className="relative">
+                   <button
+                          className="absolute -top-3 -right-2 p-1 rounded-full bg-red-500 text-white"
+                          onClick={() => removeItem(idx)}
+                        >
+                          <HiX />
+                        </button>
+                <img className="min-w-[150px] h-[150px] rounded-lg object-cover" src={item} />
+                </div>
               ))
             }
+            </div>
           </div>
         );
       default:
