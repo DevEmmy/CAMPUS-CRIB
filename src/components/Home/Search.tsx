@@ -32,7 +32,7 @@ const Search = () => {
     ]
   return (
     <div className='mt-6'>
-        <div className='flex gap-1.5 '>
+        <div onClick={() => navigate('/search')} className='flex gap-1.5 '>
             <div className='flex items-center border gap-1 border-variant-400 grow rounded-lg p-3'>
                 <img src={search} className='size-7' />
                 <input type="search" name="" className='outline-0 grow h-full' placeholder='Search for Hostels, locations' id="" />
