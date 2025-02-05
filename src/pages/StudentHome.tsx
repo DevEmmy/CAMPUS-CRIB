@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAllHostels } from "../lib/fetchHostels";
 import { useUserStore } from "../store/UseUserStore";
 
-const StudentHome: React.FC = () => {
+const  StudentHome: React.FC = () => {
   const { user } = useUserStore();
   const { data: hostels } = useQuery({
     queryKey: ["hostels"],

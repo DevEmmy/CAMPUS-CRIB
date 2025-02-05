@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Tabs from "../components/Reuseables/Tabs";
-import { Outlet } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUser } from "../lib/fetchUser";
-import { useUserStore } from "../store/UseUserStore";
+import { Outlet, useNavigate } from "react-router";
+import { useUserContext } from "../contexts/UserContext";
+import Loader from "../components/Ui/Loader";
+
 
 const ScreenLayout: React.FC = () => {
-  const [accountType, setAccountType] = useState<"AGENT" | "BASIC">();
-  const { setUserData } = useUserStore();
-  const { data: user } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
+  const { userType, loading } = useUserContext();  // Get userType from context
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      setUserData(user)
-      setAccountType(user.userType);
-      return;
+    if (!loading && userType === null) {
+      navigate("/login");
     }
-    return;
-  }, []);
+  }, [userType, loading, navigate]);
+
+  if (loading) {
+    return <div className='h-screen w-full flex items-center justify-center'><Loader/>.</div>;
+  }
 
   return (
     <section className="h-dvh">
       <div>
         <Outlet />
       </div>
-      {accountType === "AGENT" ? <Tabs isAgent /> : <Tabs />}
+      {userType === "AGENT" ? <Tabs isAgent /> : <Tabs />}
     </section>
   );
 };

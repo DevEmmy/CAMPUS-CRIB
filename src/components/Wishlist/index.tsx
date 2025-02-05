@@ -42,22 +42,22 @@ const Wishlist: React.FC = () => {
         </div>
         <div className='p-2'>
             <div className='flex gap-5 items-start'>
-                <img src={hostel} alt="hostel" />
+                <img className='size-28' src={hostel} alt="hostel" />
                 <div className='space-y-2'>
-                    <h2 className='text-dark font-bold leading-6'>Aspire Stay Inn</h2>
+                    <h2 className='text-dark font-bold leading-5'>Aspire Stay Inn</h2>
                     <div className='flex items-center justify-start gap-2'>
                         <img src={location} alt="location icon" />
-                        <p className='text-dark text-[14px] leading-5'>123 Harmony Estate</p>
+                        <p className='text-dark text-[12px] leading-4'>123 Harmony Estate</p>
                     </div>
-                    <p className='text-[#64748B] text-[12px] leading-5'>A cozy and affordable hostel offering free Wi-Fi, 24/7 security, and a study loun....</p>
+                    <p className='text-[#64748B] text-[10px] leading-4'>A cozy and affordable hostel offering free Wi-Fi, 24/7 security, and a study loun....</p>
                     <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-1'>
                             <FiEye color='#7D8A9E' size={25}/>
-                            <small className='text-[#525252] text-[14px] leading-5'>121.1k</small>
+                            <small className='text-[#525252] text-[12px] leading-4'>121.1k</small>
                         </div>
                         <div className='flex items-center gap-1'>
                             <TiHeartFullOutline color='#C80F0F' size={25}/>
-                            <small className='text-[#525252] text-[14px] leading-5'>100</small>
+                            <small className='text-[#525252] text-[12px] leading-4'>100</small>
                         </div>
                     </div>
                 </div>
