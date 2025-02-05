@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {useState, useEffect} from 'react'
 import notification from '/icons/notification.svg';
+import { useNavigate } from 'react-router';
 
 
 interface HeadProps { 
@@ -10,6 +11,7 @@ interface HeadProps {
 }
 
 const Head = ({name, profilePic, isAgent} : HeadProps) => {
+  const navigate = useNavigate()
   const [hasShadow, setHasShadow] = useState<boolean>(false);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Head = ({name, profilePic, isAgent} : HeadProps) => {
             </div>
         </div>
         
-        <img src={notification} alt="notifications" />
+        <img onClick={() => navigate('/notifications')} src={notification} alt="notifications" />
     </div>
   )
 }

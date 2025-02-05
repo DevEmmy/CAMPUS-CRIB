@@ -16,7 +16,7 @@ const CustomReturn: React.FC<CustomReturnProps> = ({title}) => {
           <VscChevronLeft size={25} />
         </button>
         <h2 className="text-dark font-bold leading-6 flex-1">{title}</h2>
-        <button>
+        <button className="hidden">
           <IoMdMore size={24} />
         </button>
       </div>

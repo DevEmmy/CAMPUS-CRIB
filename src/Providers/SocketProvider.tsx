@@ -1,91 +1,97 @@
-// import React, { createContext, useState, useEffect, useRef, ReactNode } from "react";
-// import { io, Socket } from "socket.io-client";
-// import Toast from "../components/Reuseables/Toast";
-// import useToastNotifications from "../hooks/useToastNotifications";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { io, Socket } from "socket.io-client";
+// import useVendorStore from '../store/vendorStore';
 
-// interface ISocketContext {
-//   socket: Socket | null;
-//   isConnected: boolean;
-// }
+interface SocketContextProps {
+  socket: Socket | null;
+  sendMessage: (data: any) => void;
+}
 
-// interface SocketProviderProps {
-//   children: ReactNode;
-// }
+const SocketContext = createContext<SocketContextProps | undefined>(undefined);
 
-// const SocketContext = createContext<ISocketContext | undefined>(undefined);
-// const SOCKET_SERVER_URL = "ws://campus-crib-backend.onrender.com";
+const SOCKET_URL = "https://campus-crib-backend.onrender.com";
 
-// export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
-//   const socket = useRef<Socket | null>(null);
-//   const [isConnected, setIsConnected] = useState<boolean>(false);
-//   const { toast, showToast } = useToastNotifications();
+export const SocketProvider = ({ children }: { children: ReactNode }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
 
-//   const response = localStorage.getItem('user');
-//   const userId = response ? JSON.parse(response)._id : null;
+  useEffect(() => {
+    const socketInstance = io(SOCKET_URL, {
+      transports: ["websocket"],
+      autoConnect: true,
+    });
 
-//   useEffect(() => {
-//     if (!userId) {
-//       // showToast("warning", "User Not Logged In", "Please log in to receive notifications.");
-//       return;
-//     }
+    setSocket(socketInstance);
+    console.log(socketInstance);
 
-//     // Initialize socket connection only if userId exists
-//     socket.current = io(SOCKET_SERVER_URL);
+    // return () => {
+    //   socketInstance.disconnect();
+    // };
+  }, []);
 
-   
-//     socket.current.on('connect', () => {
-//       setIsConnected(true);
-//       console.log('Connected to the server');  
-//       socket.current?.emit('init', { userId });
-//     });
+  useEffect(() => {
+    // Listen for notification events and chat messages
+    const handleNotification = (notification: any) => {
+      console.log("New notification:", notification);
+      //   showToast("info", "New Notification", notification.message || "No message");
+    };
 
-//     socket.current.on('disconnect', () => {
-//       setIsConnected(false);
-//       console.log('Disconnected from the server');
-//     });
+    const handleChatMessage = (messageData: any) => {
+      console.log("New chat message:", messageData);
+      //   showToast("info", "New Message", messageData.content || "No content");
+    };
 
-//     socket.current.on('connect_error', (error) => {
-//       console.error('Connection error:', error);
-//       setIsConnected(false);
-//       // showToast("error", "Connection Error", "Unable to connect to the server.");
-//     });
+    //     // Attach event listeners for notifications and messages
+    if (socket) {
+      socket.on("notification", handleNotification);
+      socket.on("chatMessage", handleChatMessage);
+    }
+    return () => {
+              if (socket) {
+                socket.off('notification', handleNotification);
+                socket.off('chatMessage', handleChatMessage);
+              }
+            };
+  }, [socket]);
 
-//     // Listen for notification events and chat messages
-//     const handleNotification = (notification: any) => {
-//       console.log('New notification:', notification);
-//       showToast("info", "New Notification", notification.message || "No message");
-//     };
+  const register = (userId: string) => {
+    if (socket) {
+      console.log(socket);
+      socket.emit("register", userId);
+    }
+  };
 
-//     const handleChatMessage = (messageData: any) => {
-//       console.log('New chat message:', messageData);
-//       showToast("info", "New Message", messageData.content || "No content");
-//     };
+  const sendMessage = (data: any) => {
+    if (socket) {
+      socket.emit("user_provider", data);
+    }
+  };
 
-//     // Attach event listeners for notifications and messages
-//     socket.current.on('notification', handleNotification);
-//     socket.current.on('chatMessage', handleChatMessage);
+  //   const {vendor} = useVendorStore();
 
-//     // Cleanup on component unmount
-//     return () => {
-//       if (socket.current) {
-//         socket.current.off('notification', handleNotification);
-//         socket.current.off('chatMessage', handleChatMessage);
-//       }
-//     };
-//   }, [userId]);
+  //   useEffect(()=>{
+  //     if(vendor){
+  //         register(vendor._id)
+  //     }
 
-//   return (
-//     <SocketContext.Provider value={{ socket: socket.current, isConnected }}>
-//       {toast && (
-//         <div className="absolute top-0 flex items-center justify-center w-full z-[99999]">
-//           <Toast
-//             type={toast.type}
-//             message={toast.message}
-//             description={toast.description}
-//           />
-//         </div>
-//       )}
-//       {children}
-//     </SocketContext.Provider>
-//   );
-// };
+  //   }, [vendor])
+
+  return (
+    <SocketContext.Provider value={{ socket, sendMessage }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
+export const useSocket = (): SocketContextProps => {
+  const context = useContext(SocketContext);
+  if (!context) {
+    throw new Error("useSocket must be used within a SocketProvider");
+  }
+  return context;
+};

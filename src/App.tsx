@@ -9,10 +9,8 @@ import AddNewCard from "./pages/AddNewCard";
 import BankTransfer from "./components/Payment/BankTransfer";
 import SuccessfulPayment from "./components/Payment/SuccessfulPayment";
 import Checkout from "./components/Payment/Checkout";
-import StudentHome from "./pages/StudentHome";
 import HostelDetails from "./components/Hostel/HostelDetails";
 import Chat from "./pages/Chat";
-import AgentHome from "./pages/AgentHome";
 import CreateHostel from "./components/Hostel/CreateHostel";
 import WishlistOrBookmark from "./pages/Wishlist";
 import AllNotifications from "./components/Notifications/AllNotifications";
@@ -31,89 +29,95 @@ import Settings from "./pages/Profile/Settings";
 import SavedHostels from "./pages/Profile/SavedHostels";
 import PaymentHistory from "./components/Payment/PaymentHistory";
 import PaymentDetails from "./components/Payment/PaymentDetails";
+import { SocketProvider } from "./Providers/SocketProvider.tsx";
+import HomepageLayout from "./Layout/HomepageLayout.tsx";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AccountType />} />
-          <Route element={<ScreenLayout />}>
-            <Route path="/agent" element={<AgentHome />} />
-            <Route path="/student" element={<StudentHome />} />
+      <SocketProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<ScreenLayout />}>
+            <Route path="/" element={<HomepageLayout/>} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
-          </Route>
-          {/* <Route path="/account-type" element={<AccountType />} /> */}
+            <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/account-type" element={<AccountType />} /> 
 
-          {/* Student Onboarding */}
-          <Route path="student">
-            <Route path="/student/onboarding" element={<StudentOnboarding />} />
-            {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
-          </Route>
+            {/* Student Onboarding */}
+            <Route path="student">
+              <Route
+                path="/student/onboarding"
+                element={<StudentOnboarding />}
+              />
+              {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
+            </Route>
 
-          {/* Agent Onboarding */}
-          <Route path="agent">
-            <Route path="/agent/onboarding" element={<AgentOnboarding />} />
-            <Route path="/agent/verification" element={<VerifyAgent />} />
-          </Route>
+            {/* Agent Onboarding */}
+            <Route path="agent">
+              <Route path="/agent/onboarding" element={<AgentOnboarding />} />
+              <Route path="/agent/verification" element={<VerifyAgent />} />
+            </Route>
 
-          {/* Authentication */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+            {/* Authentication */}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
 
-          {/* Notification Alerts */}
-          <Route path="notifications" element={<NotificationsAlert />}>
-            <Route path="/notifications" element={<AllNotifications />} />
-          </Route>
+            {/* Notification Alerts */}
+            <Route path="notifications" element={<NotificationsAlert />}>
+              <Route path="/notifications" element={<AllNotifications />} />
+            </Route>
 
-          {/* Email Verification */}
-          {/* Implement protected routes logic */}
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/email-confirmed" element={<EmailConfirmed />} />
+            {/* Email Verification */}
+            {/* Implement protected routes logic */}
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/email-confirmed" element={<EmailConfirmed />} />
 
-          {/* checkout */}
-          <Route path="/checkout" element={<Checkout />} />
+            {/* checkout */}
+            <Route path="/checkout" element={<Checkout />} />
 
-          {/* Payment route */}
+            {/* Payment route */}
 
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/payment/add-new-card" element={<AddNewCard />} />
-          <Route path="/payment/bank-transfer" element={<BankTransfer />} />
-          <Route path="/payment/successful" element={<SuccessfulPayment />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/payment/add-new-card" element={<AddNewCard />} />
+            <Route path="/payment/bank-transfer" element={<BankTransfer />} />
+            <Route path="/payment/successful" element={<SuccessfulPayment />} />
 
-          {/* Hostel details */}
-          {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
-          <Route path="hostel">
-            <Route path="/hostel/:hostelId" element={<HostelDetails />} />
-            <Route path="/hostel/create" element={<CreateHostel />} />
-          </Route>
-          {/* Chat */}
+            {/* Hostel details */}
+            {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
+            <Route path="hostel">
+              <Route path="/hostel/:hostelId" element={<HostelDetails />} />
+              <Route path="/hostel/create" element={<CreateHostel />} />
+            </Route>
+            {/* Chat */}
 
-          <Route path="chat">
-            <Route path="/chat" element={<ChatList />} />
-            <Route path="/chat/:userId" element={<Chat />} />
-          </Route>
+            <Route path="chat">
+              <Route path="/chat" element={<ChatList />} />
+              <Route path="/chat/:userId" element={<Chat />} />
+            </Route>
 
-          {/* Wishlist & Bookmark */}
-          <Route path="/wishlist" element={<WishlistOrBookmark />} />
+            {/* Wishlist & Bookmark */}
+            <Route path="/wishlist" element={<WishlistOrBookmark />} />
 
-          <Route path="/review/:hostelId" element={<Review />} />
+            <Route path="/review/:hostelId" element={<Review />} />
 
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/personal-details" element={<PersonalDetails />} />
+           
+            <Route path="/personal-details" element={<PersonalDetails />} />
 
-          <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/my-bookings" element={<MyBookings />} />
 
-          <Route path="/setting/:settingsType" element={<Settings />} />
+            <Route path="/setting/:settingsType" element={<Settings />} />
 
-          <Route path="/saved-hostels" element={<SavedHostels />} />
+            <Route path="/saved-hostels" element={<SavedHostels />} />
 
-          <Route path="/payment-history" element={<PaymentHistory />} />
+            <Route path="/payment-history" element={<PaymentHistory />} />
 
-          <Route path="/payment-details" element={<PaymentDetails />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/payment-details" element={<PaymentDetails />} />
+          </Routes>
+        </BrowserRouter>
+      </SocketProvider>
     </>
   );
 }

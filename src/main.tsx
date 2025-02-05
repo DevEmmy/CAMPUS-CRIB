@@ -3,14 +3,17 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import ReactQueryProvider from "./Providers/ReactQueryProvider.tsx";
-// import { SocketProvider } from "./Providers/SocketProvider.tsx";
+import { SocketProvider } from "./Providers/SocketProvider.tsx";
+import { UserProvider } from "./contexts/UserContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReactQueryProvider>
-      {/* <SocketProvider> */}
+    <UserProvider>
+      <SocketProvider>
         <App />
-      {/* </SocketProvider> */}
+      </SocketProvider>
+    </UserProvider>
     </ReactQueryProvider>
   </StrictMode>
 );

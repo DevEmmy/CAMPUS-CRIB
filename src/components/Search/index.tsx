@@ -21,18 +21,18 @@ const Search = () => {
     <main className="">
       <TitleHead title="Search" />
       <section className="p-5 my-10">
-        <div className="flex gap-1.5 ">
-          <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-1">
-            <img src={search} className="size-5" />
+        <div className="flex gap-2  my-5">
+          <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3">
+            <img src={search} className="size-7" />
             <input
               type="search"
               name=""
-              className="outline-0 grow h-full"
+              className="outline-none grow h-full"
               placeholder="Search for Hostels, locations"
               id=""
             />
           </div>
-          <button className="bg-primary rounded-xl p-1.5" onClick={() => setIsFilter(true)}>
+          <button className="bg-primary rounded-xl p-3" onClick={() => setIsFilter(true)}>
             <img src={filter} />
           </button>
         </div>

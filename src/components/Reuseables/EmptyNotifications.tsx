@@ -1,7 +1,12 @@
 import React from "react";
 import ControlledButton from "./ControlledButton";
+import { useNavigate } from "react-router";
 
 const EmptyNotifications: React.FC = () => {
+  const navigate = useNavigate()
+  const handleButtonClick = () => {
+    navigate("/")
+  }
   return (
     <div className="w-full h-full p-2 flex flex-col items-center justify-center mt-36 gap-5">
       {/* home icon */}
@@ -9,7 +14,7 @@ const EmptyNotifications: React.FC = () => {
         No listing/payment on any hostels yet. Just make sure you stay updated
         for any new flaws!
       </p>
-      <ControlledButton title="Discover new hostels" />
+      <ControlledButton handleButtonClick={handleButtonClick} title="Discover new hostels" />
     </div>
   );
 };

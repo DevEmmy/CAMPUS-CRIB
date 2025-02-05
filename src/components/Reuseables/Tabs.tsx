@@ -1,107 +1,93 @@
-import { useState } from "react";
-// import home from "/icons/home-02.svg";
-// import appointment from "/icons/appointment-02.svg";
-// import favourite from "/icons/favourite-square.svg";
-// import search from "/icons/search-02.svg";
-// import user from "/icons/user.svg";
-// import comment from "/icons/comment-01.svg";
-// import store from "/icons/store-01.svg";
+import { useState, useEffect } from "react";
 import {
-  CalendarTick,
   Home,
   MessageSquare,
   MessageText1,
+  Messenger,
   Profile,
   SearchNormal,
   Shop,
 } from "iconsax-react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 interface tabsProps {
   isAgent?: boolean;
 }
 
 const Tabs = ({ isAgent }: tabsProps) => {
-  const [activeTab, setActiveTab] = useState<number>();
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const location = useLocation();
+
   const tabList = [
     {
       title: "Home",
-      icon: <Home size="32" />,
-      route: "student",
+      icon: <Home size="28" />,
+      route: "",
     },
     {
       title: "search",
-      icon: <SearchNormal size="32" />,
+      icon: <SearchNormal size="28" />,
       route: "search",
     },
     {
       title: "appointment",
-      icon: <CalendarTick size="32" />,
-      route: "appointment",
+      icon:<Messenger size="32"/>,
+      route: "chat",
     },
     {
       title: "favourite",
-      icon: <MessageSquare size="32" />,
+      icon: <MessageSquare size="28" />,
       route: "wishlist",
     },
     {
       title: "user",
-      icon: <Profile size="32" />,
+      icon: <Profile size="28" />,
       route: "profile",
     },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: <Home size="32" />, route: "agent" },
+    { title: "Home", icon: <Home size="28" />, route: "" },
     {
       title: "Comments",
-      icon: <MessageText1 size="32" />,
+      icon: <MessageText1 size="28" />,
       route: "comments",
     },
     {
       title: "store",
-      icon: <Shop size="32" />,
+      icon: <Shop size="28" />,
       route: "store",
     },
     {
       title: "user",
-      icon: <Profile size="32" />,
+      icon: <Profile size="28" />,
       route: "profile",
     },
   ];
-  return (
-    <div className="bg-white px-5 py-2.5 shadow z-[999999]  bottom-0 fixed w-full flex items-center justify-between">
-      {isAgent
-        ? agentTabList?.map((item, i: number) => (
-            <div
-              key={i}
-              onClick={() => setActiveTab(i)}
-              className={`p-3 ${
-                activeTab == i &&
-                "bg-primary flex items-center gap-x-1 text-white rounded-xl"
-              }`}
-            >
-              {item.icon}
 
-              {activeTab == i && <p>{item?.title}</p>}
-              {/* <img src={item?.icon} className="size-5" /> */}
-            </div>
-          ))
-        : tabList?.map((item, i: number) => (
-            <NavLink
-              to={`/${item.route}`}
-              key={i}
-              onClick={() => setActiveTab(i)}
-              className={`p-3 ${
-                activeTab == i &&
-                "bg-primary flex items-center gap-x-1 text-white rounded-xl"
-              }`}
-            >
-              {item?.icon}
-              {activeTab == i && <p>{item?.title}</p>}
-              {/* <img src={item?.icon} className="size-5" /> */}
-            </NavLink>
-          ))}
+  useEffect(() => {
+    const currentPath = location.pathname.split('/')[1]; // Get the route without the leading slash
+    const currentList = isAgent ? agentTabList : tabList;
+    const activeIndex = currentList.findIndex(item => item.route === currentPath);
+    setActiveTab(activeIndex !== -1 ? activeIndex : 0);
+  }, [location.pathname, isAgent]);
+
+  return (
+    <div className="bg-white px-5 py-2.5 shadow z-[999999] bottom-0 fixed w-full flex items-center justify-between">
+      {(isAgent ? agentTabList : tabList)?.map((item, i: number) => (
+        <NavLink
+          to={`/${item.route}`}
+          key={i}
+          onClick={() => setActiveTab(i)}
+          className={`p-3 ${
+            activeTab === i &&
+            "bg-primary flex items-center gap-x-1 text-white rounded-xl"
+          }`}
+        >
+          {item.icon}
+          {activeTab === i && <p>{item.title}</p>}
+        </NavLink>
+      ))}
     </div>
   );
 };
