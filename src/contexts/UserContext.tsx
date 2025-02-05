@@ -2,11 +2,13 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useUserStore } from "../store/UseUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "../lib/fetchUser";
+import { User } from "../types/user";
 
 interface UserContextType {
   userType: "AGENT" | "BASIC" | null;
   setUserType: (type: "AGENT" | "BASIC" | null) => void;
   loading: boolean;
+  fetchedUser: User;
 }
 
 interface UserProviderProps {
@@ -51,7 +53,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [fetchedUser]);
 
   return (
-    <UserContext.Provider value={{ userType, setUserType, loading }}>
+    <UserContext.Provider value={{ userType, setUserType, loading, fetchedUser }}>
       {children}
     </UserContext.Provider>
   );

@@ -3,10 +3,13 @@ import CustomInput from "../../components/Reuseables/CustomInput";
 import profile from "/icons/profile.png";
 import { Camera } from "iconsax-react";
 import ControlledButton from "../../components/Reuseables/ControlledButton";
-import { useUserStore } from "../../store/UseUserStore";
+// import { useUserStore } from "../../store/UseUserStore";
+import { useUserContext } from "../../contexts/UserContext";
 
 const PersonalDetails = () => {
-  const { user } = useUserStore();
+  // const { user } = useUserStore();
+  const {fetchedUser: user} = useUserContext()
+
   return (
     <main>
       <TitleHead title={"Personal details"} />

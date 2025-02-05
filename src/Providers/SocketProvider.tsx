@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
@@ -10,7 +10,7 @@ import { io, Socket } from "socket.io-client";
 
 interface SocketContextProps {
   socket: Socket | null;
-  sendMessage: (data: any) => void;
+  // sendMessage: (data: any) => void;
 }
 
 const SocketContext = createContext<SocketContextProps | undefined>(undefined);
@@ -59,18 +59,18 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
             };
   }, [socket]);
 
-  const register = (userId: string) => {
-    if (socket) {
-      console.log(socket);
-      socket.emit("register", userId);
-    }
-  };
+  // const register = (userId: string) => {
+  //   if (socket) {
+  //     console.log(socket);
+  //     socket.emit("register", userId);
+  //   }
+  // };
 
-  const sendMessage = (data: any) => {
-    if (socket) {
-      socket.emit("user_provider", data);
-    }
-  };
+  // const sendMessage = (data: any) => {
+  //   if (socket) {
+  //     socket.emit("user_provider", data);
+  //   }
+  // };
 
   //   const {vendor} = useVendorStore();
 
@@ -82,7 +82,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   //   }, [vendor])
 
   return (
-    <SocketContext.Provider value={{ socket, sendMessage }}>
+    <SocketContext.Provider value={{ socket }}>
       {children}
     </SocketContext.Provider>
   );
