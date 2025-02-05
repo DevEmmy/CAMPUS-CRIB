@@ -4,18 +4,20 @@ import profile from "/icons/profile.png";
 import {
   ArchiveBook,
   ArrowRight2,
-  Calendar1,
-  CardPos,
-  Headphone,
+  // Calendar1,
+  // CardPos,
+  // Headphone,
   Logout,
   ProfileCircle,
-  Setting3,
+  // Setting3,
   Notification,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useUserStore } from "../../store/UseUserStore";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
+  const navigate = useNavigate()
   const { user } = useUserStore();
   const profileItems = [
     {
@@ -23,16 +25,16 @@ const Profile = () => {
       link: "/personal-details",
       image: <ProfileCircle size="22" color="#0E0F1D" />,
     },
-    {
-      title: "My Bookings",
-      link: "/my-bookings",
-      image: <Calendar1 size="22" color="#0E0F1D" />,
-    },
-    {
-      title: "Payment Details",
-      link: "/payment-history",
-      image: <CardPos size="22" color="#0E0F1D" />,
-    },
+    // {
+    //   title: "My Bookings",
+    //   link: "/my-bookings",
+    //   image: <Calendar1 size="22" color="#0E0F1D" />,
+    // },
+    // {
+    //   title: "Payment Details",
+    //   link: "/payment-history",
+    //   image: <CardPos size="22" color="#0E0F1D" />,
+    // },
     {
       title: "Saved Hostels",
       link: "/saved-hostels",
@@ -40,25 +42,31 @@ const Profile = () => {
     },
     {
       title: "Notification Settings",
-      link: "/notification-settings",
+      link: "/notifications",
       image: <Notification size="22" color="#0E0F1D" />,
     },
-    {
-      title: "App Settings",
-      link: "/app-settings",
-      image: <Setting3 size="22" color="#0E0F1D" />,
-    },
-    {
-      title: "Contact Support",
-      link: "/contact-support",
-      image: <Headphone size="22" color="#0E0F1D" />,
-    },
-    {
-      title: "Log Out",
-      link: "/log-out",
-      image: <Logout size="22" color="#B90000" />,
-    },
+    // {
+    //   title: "App Settings",
+    //   link: "/app-settings",
+    //   image: <Setting3 size="22" color="#0E0F1D" />,
+    // },
+    // {
+    //   title: "Contact Support",
+    //   link: "/contact-support",
+    //   image: <Headphone size="22" color="#0E0F1D" />,
+    // },
+    // {
+    //   title: "Log Out",
+    //   link: "/log-out",
+    //   image: <Logout size="22" color="#B90000" />,
+    // },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('accountType')
+    localStorage.removeItem('user')
+    navigate('/login', {replace: true})
+  }
 
   return (
     <main>
@@ -93,6 +101,13 @@ const Profile = () => {
               </Link>
             );
           })}
+          <div onClick={handleLogout} className="flex items-center justify-between gap-x-2 my-3">
+            <span className="bg-[#F5F5F5] rounded-xl p-2">
+          <Logout size="22" color="#B90000" />
+            </span>
+          <div className='grow font-medium text-[#B90000] flex-1'>Log Out</div>
+          <ArrowRight2 size={20} /> 
+          </div>
         </div>
       </section>
     </main>

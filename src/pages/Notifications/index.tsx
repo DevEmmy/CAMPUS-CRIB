@@ -1,6 +1,6 @@
 import React from "react";
 import CustomReturn from "../../components/Reuseables/CustomReturn";
-import SearchInputs from "../../components/Reuseables/SearchInputs";
+// import SearchInputs from "../../components/Reuseables/SearchInputs";
 import { NavLink, Outlet } from "react-router";
 
 const NotificationsAlert: React.FC = () => {
@@ -37,7 +37,7 @@ const NotificationsAlert: React.FC = () => {
         </p>
 
         <div className="my-5">
-          <SearchInputs />
+          {/* <SearchInputs /> */}
           <div className="h-full">
             <div className="flex items-center gap-5 p-2 justify-center">
               {notificationRoutes.map((route, idx) => (

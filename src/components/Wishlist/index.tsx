@@ -71,7 +71,7 @@ const Wishlist: React.FC = () => {
 
         {/* Search history */}
         <div className='my-8'>
-          <h2 className='font-bold text-[22px] leading-7'>Search History</h2>
+          <h2 className='font-semibold text-[22px] leading-7'>Search History</h2>
           <div className='flex items-center gap-5 flex-wrap my-5'>
             {searchHistory.map((search, idx) => (
               <small
@@ -89,8 +89,8 @@ const Wishlist: React.FC = () => {
       {/* Favourites */}
       <div>
         <div className='flex items-center justify-between w-full my-2'>
-          <h2 className='font-bold text-[22px] leading-7'>Favorites</h2>
-          <button className='text-[14px] leading-5 text-[#525252] font-normal'>View all</button>
+          <h2 className='font-semibold text-[22px] leading-7'>Favorites</h2>
+          <button className='text-[14px] leading-5 text-[#525252] font-normal hidden'>View all</button>
         </div>
         <div className='p-2'>
           {filteredFavorites.length > 0 ? (

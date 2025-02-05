@@ -1,20 +1,20 @@
 import React from "react";
 import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
-import PremiumPicks from "../components/Home/PremiumPicks";
-import MyCarousel from "../components/Ui/MyCarousel";
+// import PremiumPicks from "../components/Home/PremiumPicks";
+// import MyCarousel from "../components/Ui/MyCarousel";
 import home from "/icons/home-13.svg";
-import { useQuery } from "@tanstack/react-query";
-import { fetchAllHostels } from "../lib/fetchHostels";
+// import { useQuery } from "@tanstack/react-query";
+// import { fetchAllHostels } from "../lib/fetchHostels";
 import { useUserStore } from "../store/UseUserStore";
 import { Link } from "react-router";
 
 const AgentHome: React.FC = () => {
   const { user } = useUserStore();
-  const { data: hostels } = useQuery({
-    queryKey: ["hostels"],
-    queryFn: fetchAllHostels,
-  });
+  // const { data: hostels } = useQuery({
+  //   queryKey: ["hostels"],
+  //   queryFn: fetchAllHostels,
+  // });
 
   return (
     <main className="">
