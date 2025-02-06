@@ -45,19 +45,12 @@ const Login = () => {
     try {
       setIsSubmitting(true);
       const response = await login(formData);
-       // Ensure that response is valid
-    if (response && response.data) {
-      const user = localStorage.getItem('user');
-      const userType = user ? JSON.parse(user)?.userType || "BASIC" : "BASIC"
-      
-      const redirectTo = userType === "AGENT" ? "/agent" : "/student";
-      
-      // Navigate based on userType
-      navigate(redirectTo);
-      
-      // Clear form data after successful login
+      // Ensure that response is valid
+      if (response?.status === 200) {
+        navigate("/");
+      }
       setFormData({ email: "", password: "" });
-    } }catch (error) {
+    } catch (error) {
       console.error("Login error:", error);
     } finally {
       setIsSubmitting(false);

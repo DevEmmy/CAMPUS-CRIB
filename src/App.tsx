@@ -13,7 +13,6 @@ import HostelDetails from "./components/Hostel/HostelDetails";
 import Chat from "./pages/Chat";
 import CreateHostel from "./components/Hostel/CreateHostel";
 import WishlistOrBookmark from "./pages/Wishlist";
-import AllNotifications from "./components/Notifications/AllNotifications";
 import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
@@ -64,10 +63,9 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             {/* Notification Alerts */}
-            <Route path="notifications" element={<NotificationsAlert />}>
-              <Route path="/notifications" element={<AllNotifications />} />
-            </Route>
-
+            <Route path="/notifications" element={<NotificationsAlert />}/>
+              
+        
             {/* Email Verification */}
             {/* Implement protected routes logic */}
             <Route path="/verify-email" element={<VerifyEmail />} />

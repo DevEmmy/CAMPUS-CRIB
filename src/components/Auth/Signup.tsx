@@ -6,7 +6,7 @@ import { signup } from "../../utils/authRequest";
 import { useNavigate } from "react-router";
 
 const Signup: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const accountType = localStorage.getItem("accountType");
   // console.log(accountType)
   const [formData, setFormData] = useState({
@@ -101,15 +101,10 @@ const Signup: React.FC = () => {
 
     try {
       setIsSubmitting(true);
-      const { confirmPassword, ...userData } = formData; 
-      const response = await signup(userData); 
-      const userType = response?.data.userType || formData.userType;
-      console.log(response);
-      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", userType: accountType }); 
-      if (userType === "AGENT") {
-        navigate("/agent"); 
-      } else if (userType === "BASIC") {
-        navigate("/student"); 
+      const { confirmPassword, ...userData } = formData;
+      const response = await signup(userData);
+      if (response?.status === 200) {
+        navigate("/");
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -141,7 +136,9 @@ const Signup: React.FC = () => {
               placeholder="First Name"
               className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-            {errors.firstName && <span className="text-red-500 text-sm">{errors.firstName}</span>}
+            {errors.firstName && (
+              <span className="text-red-500 text-sm">{errors.firstName}</span>
+            )}
           </div>
 
           {/* Last Name */}
@@ -154,7 +151,9 @@ const Signup: React.FC = () => {
               placeholder="Last Name"
               className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-            {errors.lastName && <span className="text-red-500 text-sm">{errors.lastName}</span>}
+            {errors.lastName && (
+              <span className="text-red-500 text-sm">{errors.lastName}</span>
+            )}
           </div>
 
           {/* Email */}
@@ -167,7 +166,9 @@ const Signup: React.FC = () => {
               placeholder="Email Address"
               className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-            {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
+            {errors.email && (
+              <span className="text-red-500 text-sm">{errors.email}</span>
+            )}
           </div>
 
           {/* Password */}
@@ -180,7 +181,9 @@ const Signup: React.FC = () => {
               placeholder="Password"
               className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-            {errors.password && <span className="text-red-500 text-sm">{errors.password}</span>}
+            {errors.password && (
+              <span className="text-red-500 text-sm">{errors.password}</span>
+            )}
           </div>
 
           {/* Confirm Password */}
@@ -193,7 +196,11 @@ const Signup: React.FC = () => {
               placeholder="Confirm Password"
               className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
             />
-            {errors.confirmPassword && <span className="text-red-500 text-sm">{errors.confirmPassword}</span>}
+            {errors.confirmPassword && (
+              <span className="text-red-500 text-sm">
+                {errors.confirmPassword}
+              </span>
+            )}
           </div>
 
           {/* Submit Button */}
