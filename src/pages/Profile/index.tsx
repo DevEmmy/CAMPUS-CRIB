@@ -2,7 +2,7 @@
 import TitleHead from "../../components/Ui/TitleHead";
 import profile from "/icons/profile.png";
 import {
-  ArchiveBook,
+  // ArchiveBook,
   ArrowRight2,
   // Calendar1,
   // CardPos,
@@ -35,11 +35,11 @@ const Profile = () => {
     //   link: "/payment-history",
     //   image: <CardPos size="22" color="#0E0F1D" />,
     // },
-    {
-      title: "Saved Hostels",
-      link: "/saved-hostels",
-      image: <ArchiveBook size="22" color="#0E0F1D" />,
-    },
+    // {
+    //   title: "Saved Hostels",
+    //   link: "/saved-hostels",
+    //   image: <ArchiveBook size="22" color="#0E0F1D" />,
+    // },
     {
       title: "Notification Settings",
       link: "/notifications",
@@ -65,6 +65,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem('accountType')
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
     navigate('/login', {replace: true})
   }
 

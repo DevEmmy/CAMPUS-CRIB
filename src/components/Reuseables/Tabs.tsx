@@ -30,7 +30,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
       route: "search",
     },
     {
-      title: "appointment",
+      title: "chats",
       icon:<Messenger size="32"/>,
       route: "chat",
     },
@@ -79,7 +79,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
           to={`/${item.route}`}
           key={i}
           onClick={() => setActiveTab(i)}
-          className={`p-3 ${
+          className={`p-3 capitalize ${
             activeTab === i &&
             "bg-primary flex items-center gap-x-1 text-white rounded-xl"
           }`}

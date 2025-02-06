@@ -29,18 +29,17 @@ import Settings from "./pages/Profile/Settings";
 import SavedHostels from "./pages/Profile/SavedHostels";
 import PaymentHistory from "./components/Payment/PaymentHistory";
 import PaymentDetails from "./components/Payment/PaymentDetails";
-import { SocketProvider } from "./Providers/SocketProvider.tsx";
 import HomepageLayout from "./Layout/HomepageLayout.tsx";
 
 function App() {
   return (
     <>
-      <SocketProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<ScreenLayout />}>
             <Route path="/" element={<HomepageLayout/>} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/chat" element={<ChatList />} />
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
             <Route path="/profile" element={<Profile />} />
             </Route>
@@ -94,7 +93,7 @@ function App() {
             {/* Chat */}
 
             <Route path="chat">
-              <Route path="/chat" element={<ChatList />} />
+              
               <Route path="/chat/:userId" element={<Chat />} />
             </Route>
 
@@ -117,7 +116,6 @@ function App() {
             <Route path="/payment-details" element={<PaymentDetails />} />
           </Routes>
         </BrowserRouter>
-      </SocketProvider>
     </>
   );
 }

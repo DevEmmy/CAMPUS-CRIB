@@ -95,16 +95,16 @@ const Wishlist: React.FC = () => {
         <div className='p-2'>
           {filteredFavorites.length > 0 ? (
             filteredFavorites.map((hostel) => (
-              <div key={hostel.id} className='flex gap-5 items-start mb-4'>
+              <div key={hostel.id} className='flex gap-3 items-start mb-4 w-full'>
                 <img className='size-28' src={hostel.image} alt="hostel" />
-                <div className='space-y-2'>
+                <div className='space-y-2 flex-1'>
                   <h2 className='text-dark font-bold leading-5'>{hostel.name}</h2>
                   <div className='flex items-center justify-start gap-2'>
                     <img src={location} alt="location icon" />
                     <p className='text-dark text-[12px] leading-4'>{hostel.location}</p>
                   </div>
                   <p className='text-[#64748B] text-[10px] leading-4'>{hostel.description}</p>
-                  <div className='flex items-center justify-between'>
+                  <div className='flex items-center justify-between w-full'>
                     <div className='flex items-center gap-1'>
                       <FiEye color='#7D8A9E' size={25} />
                       <small className='text-[#525252] text-[12px] leading-4'>{hostel.views.toLocaleString()}</small>

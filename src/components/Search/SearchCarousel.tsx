@@ -3,6 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { IoIosHeartEmpty } from "react-icons/io";
+import { mockSearchResults } from "./__mock__/SearchResult";
 
 interface HostelCardProps {
   image: string;
@@ -10,6 +11,10 @@ interface HostelCardProps {
   address: string;
   desc?: string;
   isFlex?: boolean;
+}
+
+interface SearchCarouselProps {
+  cards: typeof mockSearchResults;
 }
 
 const HotelCard = ({
@@ -52,29 +57,8 @@ const HotelCard = ({
   );
 };
 
-const SearchCarousel = () => {
-  const cards = [
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-    {
-      image: "https://placehold.co/600x400",
-      title: "Aspire Stay Inn",
-      address: "123 Harmony Estate",
-    },
-  ];
+const SearchCarousel = ({ cards }: SearchCarouselProps) => {
+
 
   return (
     <>
