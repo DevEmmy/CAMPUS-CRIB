@@ -13,7 +13,6 @@ import HostelDetails from "./components/Hostel/HostelDetails";
 import Chat from "./pages/Chat";
 import CreateHostel from "./components/Hostel/CreateHostel";
 import WishlistOrBookmark from "./pages/Wishlist";
-import AllNotifications from "./components/Notifications/AllNotifications";
 import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
