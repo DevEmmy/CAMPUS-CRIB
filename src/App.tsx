@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import AccountType from "./components/Onboarding/AccountType";
 import StudentOnboarding from "./pages/studentOnboarding";
 import AgentOnboarding from "./pages/agentOnboarding";
@@ -34,7 +34,6 @@ import HomepageLayout from "./Layout/HomepageLayout.tsx";
 function App() {
   return (
     <>
-        <BrowserRouter>
           <Routes>
             <Route element={<ScreenLayout />}>
             <Route path="/" element={<HomepageLayout/>} />
@@ -115,7 +114,6 @@ function App() {
 
             <Route path="/payment-details" element={<PaymentDetails />} />
           </Routes>
-        </BrowserRouter>
     </>
   );
 }
