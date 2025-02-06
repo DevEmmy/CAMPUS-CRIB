@@ -1,32 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomReturn from "../../components/Reuseables/CustomReturn";
-// import SearchInputs from "../../components/Reuseables/SearchInputs";
-import { NavLink, Outlet } from "react-router";
+import AllNotifications from "../../components/Notifications/AllNotifications";
+import BiddingResultNotifications from "../../components/Notifications/BiddingResultNotifications";
+import NewListingNotifications from "../../components/Notifications/NewListingNotifications";
+import PaymentNotifications from "../../components/Notifications/PaymentNotifications";
 
 const NotificationsAlert: React.FC = () => {
   const notificationRoutes = [
-    {
-      type: "all",
-      route: "/notifications",
-    },
-    {
-      type: "bidding result",
-      route: "bidding-result",
-    },
-    {
-      type: "New listing",
-      route: "new-listing",
-    },
-    {
-      type: "payments",
-      route: "payments",
-    },
+    { type: "All", component: <AllNotifications /> },
+    { type: "Bidding Result", component: <BiddingResultNotifications /> },
+    { type: "New Listing", component: <NewListingNotifications /> },
+    { type: "Payments", component: <PaymentNotifications /> },
   ];
 
-  const activeLink =
+  const [selectedTab, setSelectedTab] = useState("All");
+
+  const activeTab =
     "bg-primary py-2 px-5 rounded-md text-white text-[14px] leading-5 font-normal text-nowrap capitalize";
-  const normalLink =
+  const normalTab =
     "text-[#7D8A9E] text-[14px] leading-5 font-normal text-nowrap capitalize";
+
+
+    const handleTabChange = (tab: string) => {
+      setSelectedTab(tab);
+    };
   return (
     <section className="h-dvh w-full p-2">
       <CustomReturn title="Notification Alerts" />
@@ -40,21 +37,22 @@ const NotificationsAlert: React.FC = () => {
           {/* <SearchInputs /> */}
           <div className="h-full">
             <div className="flex items-center gap-5 p-2 justify-center">
-              {notificationRoutes.map((route, idx) => (
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive ? activeLink : normalLink
+            {notificationRoutes.map((route) => (
+                <button
+                  key={route.type}
+                  className={
+                    selectedTab === route.type ? activeTab : normalTab
                   }
-                  key={idx}
-                  to={route.route}
+                  onClick={() => handleTabChange(route.type)}
                 >
                   {route.type}
-                </NavLink>
+                </button>
               ))}
             </div>
 
-            <div className="h-full w-full">
-              <Outlet />
+            <div className="h-full w-full mt-5">
+              {notificationRoutes.find((route) => route.type === selectedTab)
+                ?.component}
             </div>
           </div>
         </div>

@@ -64,10 +64,9 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             {/* Notification Alerts */}
-            <Route path="notifications" element={<NotificationsAlert />}>
-              <Route path="/notifications" element={<AllNotifications />} />
-            </Route>
-
+            <Route path="/notifications" element={<NotificationsAlert />}/>
+              
+        
             {/* Email Verification */}
             {/* Implement protected routes logic */}
             <Route path="/verify-email" element={<VerifyEmail />} />

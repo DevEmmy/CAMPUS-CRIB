@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import EmptyNotifications from "../Reuseables/EmptyNotifications";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUser } from "../../lib/fetchUser";
 import { getAllNotifications } from "../../lib/getNotifications";
+import { useUserContext } from "../../contexts/UserContext";
+import Loader from "../Ui/Loader";
 
 const AllNotifications: React.FC = () => {
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUser,
-  });
+ const {fetchedUser: user} = useUserContext()
 
-  const { data: notifications } = useQuery({
+  const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => getAllNotifications(user?._id),
   });
@@ -20,6 +18,8 @@ const AllNotifications: React.FC = () => {
       console.log(notifications);
     }
   }, []);
+
+  if(isLoading) <div className="h-screen w-full flex items-center justify-center"><Loader/></div>
 
   return (
     <div className="h-full w-full">
