@@ -10,15 +10,21 @@ import { LuPhone } from "react-icons/lu";
 import { Link } from "react-router";
 import { fetchHostelById } from "../../lib/fetchHostels";
 import { useQuery } from "@tanstack/react-query";
+import { formatPrice } from "../../utils/formatPrice";
+import Loader from "../Ui/Loader";
 
 const HostelDetails: React.FC = () => {
   const { hostelId } = useParams();
   console.log(hostelId);
 
-  const { data: hostel } = useQuery({
+  const { data: hostel, isLoading } = useQuery({
     queryKey: ["hostel"],
     queryFn: () => fetchHostelById(hostelId as string),
   });
+
+  if (isLoading) {
+    return <div className="h-screen w-full flex items-center justify-center"><Loader/></div>;
+  }
 
   return (
     <main>
@@ -53,7 +59,7 @@ const HostelDetails: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <span className="text-lg font-bold">₦ {hostel?.price}</span>
+                <span className="text-lg font-bold">{formatPrice(hostel?.price)}</span>
               </div>
             </div>
             <div className="flex flex-col items-start justify-between my-5 gap-2 text-[#64748B]">
@@ -72,7 +78,7 @@ const HostelDetails: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3 border-y border-[#E5E5E5] py-3 ">
-          <p className="text-dark text-xl font-bold">₦ {hostel?.price}</p>
+          <p className="text-dark text-xl font-bold">{formatPrice(hostel?.price)}</p>
           <button className="grow bg-[#E5E5E54D] text-variant-500 p-2.5 rounded-xl">
             Negotiable
           </button>

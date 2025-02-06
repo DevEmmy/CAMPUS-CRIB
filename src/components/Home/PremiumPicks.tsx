@@ -12,16 +12,16 @@ interface PremiumPicksProps {
 const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
   const navigate = useNavigate();
   return (
-    <div className="mb-6">
+    <div className="mb-6 w-full">
       <h2 className="text-dark font-semibold my-4">Premium Picks</h2>
-      <div className="flex w-full overflow-x-scroll gap-x-1.5 mb-1.5">
+      <div className="flex flex-1 w-full overflow-x-scroll gap-x-1.5 mb-2 no-scrollbar">
         {hostels && hostels?.map((hostel: Hostel) => (
           <div onClick={() => navigate(`/hostel/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
-            <div className="relative">
+            <div className="relative w-[90%] h-[230px]">
               <img
                 src={hostel.images[0]}
                 alt="Modern building with trees"
-                className="rounded-2xl w-full h-40 object-cover"
+                className="rounded-xl w-full h-full object-cover"
                 onClick={() => navigate(`/hostel/${hostel._id}`)}
               />
               <button className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">

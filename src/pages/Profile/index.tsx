@@ -2,7 +2,7 @@
 import TitleHead from "../../components/Ui/TitleHead";
 import profile from "/icons/profile.png";
 import {
-  ArchiveBook,
+  // ArchiveBook,
   ArrowRight2,
   // Calendar1,
   // CardPos,
@@ -13,19 +13,19 @@ import {
   Notification,
 } from "iconsax-react";
 import { Link } from "react-router";
-import { useUserStore } from "../../store/UseUserStore";
 import { useNavigate } from "react-router";
+import { useUserContext } from "../../contexts/UserContext";
 
 const Profile = () => {
-  const navigate = useNavigate()
-  const { user } = useUserStore();
+  const navigate = useNavigate();
+  const { fetchedUser: user } = useUserContext();
   const profileItems = [
     {
       title: "Personal Details",
       link: "/personal-details",
       image: <ProfileCircle size="22" color="#0E0F1D" />,
     },
-    // {
+    // { 
     //   title: "My Bookings",
     //   link: "/my-bookings",
     //   image: <Calendar1 size="22" color="#0E0F1D" />,
@@ -35,13 +35,13 @@ const Profile = () => {
     //   link: "/payment-history",
     //   image: <CardPos size="22" color="#0E0F1D" />,
     // },
+    // {
+    //   title: "Saved Hostels",
+    //   link: "/saved-hostels",
+    //   image: <ArchiveBook size="22" color="#0E0F1D" />,
+    // },
     {
-      title: "Saved Hostels",
-      link: "/saved-hostels",
-      image: <ArchiveBook size="22" color="#0E0F1D" />,
-    },
-    {
-      title: "Notification Settings",
+      title: "Notifications", 
       link: "/notifications",
       image: <Notification size="22" color="#0E0F1D" />,
     },
@@ -63,10 +63,11 @@ const Profile = () => {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('accountType')
-    localStorage.removeItem('user')
-    navigate('/login', {replace: true})
-  }
+    localStorage.removeItem("accountType");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <main>
@@ -76,8 +77,12 @@ const Profile = () => {
         <div className="flex items-center gap-x-3 mb-3">
           <img src={profile} className="size-16 rounded-xl" />
           <div className="flex-row gap-0 justify-center">
-            <h2 className="text-dark font-semibold text-lg">{user?.firstName as string} {user?.lastName as string}</h2>
-            <span className="text-variant-500 text-sm">{user?.email as string}</span>
+            <h2 className="text-dark font-semibold text-lg">
+              {user?.firstName as string} {user?.lastName as string}
+            </h2>
+            <span className="text-variant-500 text-sm">
+              {user?.email as string}
+            </span>
           </div>
         </div>
 
@@ -92,21 +97,28 @@ const Profile = () => {
                     {item?.image}
                   </span>
 
-                  <div className={`grow font-medium ${i > 6 && 'text-[#B90000]' }`}>{item?.title}</div>
+                  <div
+                    className={`grow font-medium ${i > 6 && "text-[#B90000]"}`}
+                  >
+                    {item?.title}
+                  </div>
 
-                  {
-                    i < 7 && <ArrowRight2 size={20} /> 
-                  }
+                  {i < 7 && <ArrowRight2 size={20} />}
                 </div>
               </Link>
             );
           })}
-          <div onClick={handleLogout} className="flex items-center justify-between gap-x-2 my-3">
+          <div
+            onClick={handleLogout}
+            className="flex items-center justify-between gap-x-2 my-3"
+          >
             <span className="bg-[#F5F5F5] rounded-xl p-2">
-          <Logout size="22" color="#B90000" />
+              <Logout size="22" color="#B90000" />
             </span>
-          <div className='grow font-medium text-[#B90000] flex-1'>Log Out</div>
-          <ArrowRight2 size={20} /> 
+            <div className="grow font-medium text-[#B90000] flex-1">
+              Log Out
+            </div>
+            <ArrowRight2 size={20} />
           </div>
         </div>
       </section>

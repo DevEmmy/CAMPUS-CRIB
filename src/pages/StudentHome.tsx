@@ -6,10 +6,11 @@ import PremiumPicks from "../components/Home/PremiumPicks";
 import MyCarousel from "../components/Ui/MyCarousel";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllHostels } from "../lib/fetchHostels";
-import { useUserStore } from "../store/UseUserStore";
+import { useUserContext } from "../contexts/UserContext";
+
 
 const  StudentHome: React.FC = () => {
-  const { user } = useUserStore();
+  const { fetchedUser: user } = useUserContext();
   const { data: hostels } = useQuery({
     queryKey: ["hostels"],
     queryFn: fetchAllHostels,

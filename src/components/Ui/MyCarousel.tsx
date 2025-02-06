@@ -33,10 +33,10 @@ const HotelCard = ({
     key={id}
     onClick={() => navigate(`/hostel/${id}`)}
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
-        isFlex && "grid grid-cols-2 gap-x-1 items-center"
+        isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
     >
-      <div className="relative">
+      <div className="relative w-4/5 h-[230px]">
         <img
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"

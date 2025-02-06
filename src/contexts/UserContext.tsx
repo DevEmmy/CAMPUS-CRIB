@@ -3,6 +3,7 @@ import { useUserStore } from "../store/UseUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "../lib/fetchUser";
 import { User } from "../types/user";
+import { useNavigate } from "react-router";
 
 interface UserContextType {
   userType: "AGENT" | "BASIC" | null;
@@ -26,8 +27,9 @@ export const useUserContext = () => {
 };
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const navigate = useNavigate()
   const [userType, setUserType] = useState<"AGENT" | "BASIC" | null>(null);
-  const [loading, setLoading] = useState(true); // Loading state to wait for data
+  const [loading, setLoading] = useState(true);
 
   const { setUserData } = useUserStore();
 
@@ -51,6 +53,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false); // Set loading to false if no user data is available
     }
   }, [fetchedUser]);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("user");
+
+    // Check if the route is `/login` and the user is already logged in
+    if (location.pathname === "/login" && isLoggedIn) {
+      navigate("/"); // Redirect to base URL if the user is already logged in
+    }
+
+    // Check if the route is base URL `/` and the user is not logged in
+    if (location.pathname === "/" && !isLoggedIn) {
+      navigate("/login"); // Redirect to login if the user is not logged in
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <UserContext.Provider value={{ userType, setUserType, loading, fetchedUser }}>
