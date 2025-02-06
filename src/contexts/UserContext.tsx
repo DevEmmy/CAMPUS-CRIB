@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useUserStore } from "../store/UseUserStore";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "../lib/fetchUser";
@@ -27,7 +33,7 @@ export const useUserContext = () => {
 };
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [userType, setUserType] = useState<"AGENT" | "BASIC" | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,8 +45,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    const storedUserType = localStorage.getItem("accountType") as "AGENT" | "BASIC" | null;
-    
+    const storedUserType = localStorage.getItem("accountType") as
+      | "AGENT"
+      | "BASIC"
+      | null;
+
     if (storedUserType) {
       setUserType(storedUserType);
       setLoading(false); // Set loading to false once we have the value from localStorage
@@ -56,20 +65,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("user");
+    const accountType = localStorage.getItem("accountType");
 
-    // Check if the route is `/login` and the user is already logged in
     if (location.pathname === "/login" && isLoggedIn) {
-      navigate("/"); // Redirect to base URL if the user is already logged in
+      navigate("/");
     }
 
-    // Check if the route is base URL `/` and the user is not logged in
     if (location.pathname === "/" && !isLoggedIn) {
-      navigate("/login"); // Redirect to login if the user is not logged in
+      navigate("/login");
+    }
+
+    if (!accountType && location.pathname === "/") {
+      navigate("/account-type");
     }
   }, [location.pathname, navigate]);
 
   return (
-    <UserContext.Provider value={{ userType, setUserType, loading, fetchedUser }}>
+    <UserContext.Provider
+      value={{ userType, setUserType, loading, fetchedUser }}
+    >
       {children}
     </UserContext.Provider>
   );
