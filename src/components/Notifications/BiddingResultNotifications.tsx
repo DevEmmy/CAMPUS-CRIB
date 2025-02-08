@@ -1,8 +1,12 @@
 import React from 'react'
+import EmptyNotifications from '../Reuseables/EmptyNotifications'
 
 const BiddingResultNotifications: React.FC = () => {
   return (
-    <div>BiddingResultNotifications</div>
+    <div className="h-full w-full">
+    {/* Fetch notification from the backend and display them */}
+    <EmptyNotifications />
+  </div>
   )
 }
 
