@@ -20,7 +20,6 @@ const HomepageLayout: React.FC = () => {
         return <div className='h-screen w-full flex items-center justify-center'><Loader/></div>;
       }
 
-      useEffect(() => {}, [])
     
   return (
     <div>
