@@ -41,6 +41,7 @@ const ReportResult = ({ item }: any) => {
 };
 
 const Report = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isResult, setIsResult] = useState<boolean>(true);
   const transactions = [
     {

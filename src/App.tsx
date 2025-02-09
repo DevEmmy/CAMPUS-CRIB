@@ -30,6 +30,8 @@ import PaymentHistory from "./components/Payment/PaymentHistory";
 import PaymentDetails from "./components/Payment/PaymentDetails";
 import HomepageLayout from "./Layout/HomepageLayout.tsx";
 import Report from "./components/Report/Report.tsx";
+import Withdraw from "./pages/Withdraw/Withdraw.tsx";
+import WithdrawalStatus from "./pages/Withdraw/WithdrawalStatus.tsx";
 
 function App() {
   return (
@@ -100,7 +102,12 @@ function App() {
 
             <Route path="/review/:hostelId" element={<Review />} />
 
+            {/* Report */}
             <Route path="/report" element={<Report />} />
+
+            {/* Withdraw */}
+            <Route path="/withdraw" element={<Withdraw />} />
+            <Route path="/withdrawal-status/:isSuccess/:price" element={<WithdrawalStatus />} />
 
            
             <Route path="/personal-details" element={<PersonalDetails />} />
