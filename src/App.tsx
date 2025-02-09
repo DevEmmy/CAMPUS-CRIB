@@ -29,6 +29,7 @@ import SavedHostels from "./pages/Profile/SavedHostels";
 import PaymentHistory from "./components/Payment/PaymentHistory";
 import PaymentDetails from "./components/Payment/PaymentDetails";
 import HomepageLayout from "./Layout/HomepageLayout.tsx";
+import Report from "./components/Report/Report.tsx";
 
 function App() {
   return (
@@ -98,6 +99,8 @@ function App() {
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
 
             <Route path="/review/:hostelId" element={<Review />} />
+
+            <Route path="/report" element={<Report />} />
 
            
             <Route path="/personal-details" element={<PersonalDetails />} />
