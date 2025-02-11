@@ -54,6 +54,7 @@ const OTPForm: React.FC = () => {
   };
 
   const handleBlur = (index: number) => {
+    console.log(index)
     // Optional: Add custom blur behavior if needed
   };
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import TitleHead from "../Ui/TitleHead";
 import paymentHand from "/icons/payment-neutral.png";
 import folderLibrary from "/icons/folder-library.png";
@@ -43,6 +43,9 @@ const ReportResult = ({ item }: any) => {
 const Report = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isResult, setIsResult] = useState<boolean>(true);
+  useEffect(() => {
+    setIsResult(true)
+  }, [])
   const transactions = [
     {
       date: "2025-02-09",

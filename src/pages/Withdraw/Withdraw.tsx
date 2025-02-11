@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import { formatDate } from "../../utils/dateFormat";
 import Modal from "../../components/Ui/Modal";
