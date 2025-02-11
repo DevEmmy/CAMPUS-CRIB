@@ -17,7 +17,7 @@ const Search = () => {
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [filteredResults, setFilteredResults] = useState<typeof mockSearchResults>([]);
 
-  const location = useLocation(); // Get the current location
+  const location = useLocation(); 
 
   // Debounced search function
   const debouncedSearch = debounce((query: string) => {
@@ -25,43 +25,41 @@ const Search = () => {
       result.title.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredResults(results);
-    setHaveSearched(true); // Set to true when search has been performed
-  }, 500); // Adjust debounce delay as needed (500ms here)
+    setHaveSearched(true); 
+  }, 500); 
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
 
-    // Reset haveSearched state when clearing search query
+    
     if (!query) {
-      setHaveSearched(false); // No search performed yet
+      setHaveSearched(false); 
       setFilteredResults([]);
     }
 
-    debouncedSearch(query); // Trigger debounced search
+    debouncedSearch(query); 
   };
 
   const handleClearSearch = () => {
-    setSearchQuery(""); // Clear the input field
-    setHaveSearched(false); // Reset search state
-    setFilteredResults([]); // Clear search results
+    setSearchQuery(""); 
+    setHaveSearched(false); 
+    setFilteredResults([]); 
   };
 
-  // Check URL for query parameter on mount and trigger search
+  
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get("query");
     
     if (query) {
-      setSearchQuery(query); // Set the query parameter to the input field
-      // Trigger search based on URL query
+      setSearchQuery(query); 
       debouncedSearch(query); 
-      setHaveSearched(true); // Mark that a search has been performed
+      setHaveSearched(true); 
     }
-  }, [location.search]); // Only re-run when the query parameter changes
+  }, [location.search]); 
 
   useEffect(() => {
-    // Clear results when search query is empty
     if (!searchQuery) {
       setHaveSearched(false);
       setFilteredResults([]);
@@ -78,7 +76,7 @@ const Search = () => {
             <input
               type="search"
               value={searchQuery}
-              onChange={handleSearchChange} // Trigger debounced search
+              onChange={handleSearchChange} 
               className="outline-none grow h-full"
               placeholder="Search for Hostels, locations"
             />
@@ -87,7 +85,7 @@ const Search = () => {
                 src={cancelCircle}
                 alt="clear search"
                 className="cursor-pointer"
-                onClick={handleClearSearch} // Clear search
+                onClick={handleClearSearch} 
               />
             )}
           </div>

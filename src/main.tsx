@@ -6,9 +6,11 @@ import ReactQueryProvider from "./Providers/ReactQueryProvider.tsx";
 import { SocketProvider } from "./Providers/SocketProvider.tsx";
 import { UserProvider } from "./contexts/UserContext.tsx";
 import { BrowserRouter } from "react-router";
+import {ToastProvider} from "oasis-toast"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <ToastProvider>
     <ReactQueryProvider>
       <BrowserRouter>
         <UserProvider>
@@ -18,5 +20,6 @@ createRoot(document.getElementById("root")!).render(
         </UserProvider>
       </BrowserRouter>
     </ReactQueryProvider>
+    </ToastProvider>
   </StrictMode>
 );

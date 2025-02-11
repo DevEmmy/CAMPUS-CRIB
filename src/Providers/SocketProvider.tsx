@@ -1,3 +1,4 @@
+import { infoToast } from "oasis-toast";
 import {
   createContext,
   useContext,
@@ -38,12 +39,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     // Listen for notification events and chat messages
     const handleNotification = (notification: any) => {
       console.log("New notification:", notification);
-      //   showToast("info", "New Notification", notification.message || "No message");
+      infoToast("New Notification", notification.message || "No message");
     };
 
     const handleChatMessage = (messageData: any) => {
       console.log("New chat message:", messageData);
-      //   showToast("info", "New Message", messageData.content || "No content");
+      infoToast("New Message", messageData.content || "No content");
     };
 
     //     // Attach event listeners for notifications and messages

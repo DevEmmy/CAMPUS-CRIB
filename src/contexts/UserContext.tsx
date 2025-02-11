@@ -52,14 +52,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     if (storedUserType) {
       setUserType(storedUserType);
-      setLoading(false); // Set loading to false once we have the value from localStorage
+      setLoading(false); 
     } else if (fetchedUser) {
       setUserType(fetchedUser.userType);
-      localStorage.setItem("accountType", fetchedUser.userType); // Set the accountType in localStorage
+      localStorage.setItem("accountType", fetchedUser.userType); 
       setUserData(fetchedUser);
-      setLoading(false); // Set loading to false once data is fetched
+      setLoading(false); 
     } else {
-      setLoading(false); // Set loading to false if no user data is available
+      setLoading(false);
     }
   }, [fetchedUser]);
 
@@ -68,15 +68,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const accountType = localStorage.getItem("accountType");
 
     if (location.pathname === "/login" && isLoggedIn) {
-      navigate("/");
+      navigate("/", {replace: true});
     }
 
     if (location.pathname === "/" && !isLoggedIn) {
-      navigate("/login");
+      navigate("/login", {replace: true});
+    }
+    if (location.pathname === "/" && !isLoggedIn && !accountType) {
+      navigate("/account-type", {replace: true});
+    }
+    if (location.pathname === "/login" && !accountType) {
+      navigate("/account-type", {replace: true});
+    }
+    if (location.pathname === "/signup" && !accountType) {
+      navigate("/account-type", {replace: true});
     }
 
     if (!accountType && location.pathname === "/") {
-      navigate("/account-type");
+      navigate("/account-type", {replace: true});
     }
   }, [location.pathname, navigate]);
 
