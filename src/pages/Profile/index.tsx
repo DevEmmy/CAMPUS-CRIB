@@ -8,24 +8,26 @@ import {
   // CardPos,
   // Headphone,
   Logout,
-  ProfileCircle,
   // Setting3,
   Notification,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
+import { TbReportAnalytics } from "react-icons/tb";
+import { PiHandWithdrawBold } from "react-icons/pi";
+import { FaRegUser } from "react-icons/fa";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { fetchedUser: user } = useUserContext();
+  const { fetchedUser: user, userType } = useUserContext();
   const profileItems = [
     {
       title: "Personal Details",
       link: "/personal-details",
-      image: <ProfileCircle size="22" color="#0E0F1D" />,
+      image: <FaRegUser size="22" color="#0E0F1D" />,
     },
-    // { 
+    // {
     //   title: "My Bookings",
     //   link: "/my-bookings",
     //   image: <Calendar1 size="22" color="#0E0F1D" />,
@@ -41,7 +43,7 @@ const Profile = () => {
     //   image: <ArchiveBook size="22" color="#0E0F1D" />,
     // },
     {
-      title: "Notifications", 
+      title: "Notifications",
       link: "/notifications",
       image: <Notification size="22" color="#0E0F1D" />,
     },
@@ -83,10 +85,31 @@ const Profile = () => {
               {user?.email as string}
             </span>
           </div>
+          {userType == "AGENT" && (
+            <p className=" text-blue-300 text-xs">Verified Agent</p>
+          )}
         </div>
 
-        <hr />
+        {/* <hr /> */}
+        {userType == "AGENT" && (
+          <div className="bg-[#A64E1B] p-3 my-3 rounded-3xl flex flex-col gap-2">
+            <div className="text-center flex flex-col gap-1.5">
+              <h4 className="text-xs text-white">Wallet balance</h4>
+              <h4 className="text-2xl font-semibold text-white">$ 58,000</h4>
+            </div>
 
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-[#E6CDBF4D] gap-1 p-2 rounded-2xl flex items-center justify-center">
+                <h4 className="text-white">View Report</h4>{" "}
+                <TbReportAnalytics className="text-white" />
+              </div>
+              <div className="bg-white p-2  gap-1 rounded-2xl flex items-center justify-center text-primary">
+                <h4 className="font-medium">Withdraw</h4>{" "}
+                <PiHandWithdrawBold className="font-semibold" />
+              </div>
+            </div>
+          </div>
+        )}
         <div className="flex-row gap-y-3 mt-4">
           {profileItems?.map((item: any, i: number) => {
             return (
