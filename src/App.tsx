@@ -32,6 +32,8 @@ import HomepageLayout from "./Layout/HomepageLayout.tsx";
 import Report from "./components/Report/Report.tsx";
 import Withdraw from "./pages/Withdraw/Withdraw.tsx";
 import WithdrawalStatus from "./pages/Withdraw/WithdrawalStatus.tsx";
+import CreateInvoice from "./pages/Invoice/CreateInvoice.tsx";
+import SuccessfulInvoice from "./pages/Invoice/SuccessfulInvoice.tsx";
 
 function App() {
   return (
@@ -76,6 +78,11 @@ function App() {
 
             {/* checkout */}
             <Route path="/checkout" element={<Checkout />} />
+
+
+            <Route path="/create/invoice" element={<CreateInvoice />} />
+            <Route path="/successful/invoice" element={<SuccessfulInvoice />} />
+
 
             {/* Payment route */}
 
