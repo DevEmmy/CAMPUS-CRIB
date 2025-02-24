@@ -1,4 +1,3 @@
-import React from "react";
 import { GoDownload } from "react-icons/go";
 import tick from "/icons/successTick.svg";
 import { useNavigate } from "react-router";
