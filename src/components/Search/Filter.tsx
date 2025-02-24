@@ -2,7 +2,14 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
-const Filter = ({ onClose }: { onClose: () => void }) => {
+const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilters: (newFilters: {
+  location: string;
+  priceRange: number[];
+  roomTypes: string;
+  amenities: string[];
+  availability: string;
+  availableDate: Date | null;
+}) => void; }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">(
     "single"
@@ -77,19 +84,19 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
-  // Handle filter application
   const handleApplyFilters = () => {
     const filters = {
       location: selectedLocation,
       priceRange,
-      roomTypes: setSelectedRoom,
+      roomTypes: selectedRoom,  
       amenities: selectedAmenities,
       availability,
       availableDate,
     };
-    console.log("Applied Filters:", filters);
+    onApplyFilters(filters);
     onClose();
   };
+  
 
   // Handle filter reset
   const handleResetFilters = () => {
@@ -129,7 +136,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
               className="absolute -top-2 transform -translate-x-1/2 z-10"
               style={{ left: `${calculatePercentage(priceRange[1])}%` }}
             >
-              <div className="bg-[#008DB9] text-white px-3 py-1 rounded text-sm">
+              <div className="bg-primary text-white px-3 py-1 rounded text-sm">
                 {formatPrice(priceRange[1])}
               </div>
             </div>
@@ -138,7 +145,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
             <div className="relative h-2 bg-gray-200 rounded-full">
               {/* Active Track */}
               <div
-                className="absolute h-full bg-[#008DB9] rounded-full"
+                className="absolute h-full bg-primary rounded-full"
                 style={{
                   left: `${calculatePercentage(priceRange[0])}%`,
                   right: `${100 - calculatePercentage(priceRange[1])}%`,
@@ -197,7 +204,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
               type="text"
               value={formatPrice(priceRange[0])}
               onChange={(e) => handleInputChange(0, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#008DB9] focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="₦0"
               min={0}
               max={priceRange[1]}
@@ -206,7 +213,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
               type="text"
               value={formatPrice(priceRange[1])}
               onChange={(e) => handleInputChange(1, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#008DB9] focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="₦500"
               min={priceRange[0]}
               max={maxPrice}
@@ -220,7 +227,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           width: 16px;
           height: 16px;
           background: white;
-          border: 2px solid #008DB9;
+          border: 2px solid #A64E1B;
           border-radius: 50%;
           cursor: pointer;
           pointer-events: auto;
@@ -231,7 +238,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           width: 16px;
           height: 16px;
           background: white;
-          border: 2px solid #008DB9;
+          border: 2px solid #A64E1B;
           border-radius: 50%;
           cursor: pointer;
           pointer-events: auto;
@@ -247,7 +254,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           <button
             className={`w-1/2 px-3 py-2 rounded-md ${
               selectedRoom === "single"
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : "bg-white border"
             }`}
             onClick={() => handleRoomTypeSelect("single")}
@@ -257,7 +264,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           <button
             className={`w-1/2 px-3 py-2 rounded-md ${
               selectedRoom === "shared"
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : "bg-white border"
             }`}
             onClick={() => handleRoomTypeSelect("shared")}
@@ -274,7 +281,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           <button
             className={`px-3 py-2 border rounded-md ${
               selectedAmenities.includes("Wi-Fi")
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : ""
             }`}
             onClick={() => handleAmenitySelect("Wi-Fi")}
@@ -284,7 +291,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           <button
             className={`px-3 py-2 border rounded-md ${
               selectedAmenities.includes("Laundry")
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : ""
             }`}
             onClick={() => handleAmenitySelect("Laundry")}
@@ -294,7 +301,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
           <button
             className={`px-3 py-2 border rounded-md ${
               selectedAmenities.includes("24/7 Security")
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : ""
             }`}
             onClick={() => handleAmenitySelect("24/7 Security")}
@@ -312,7 +319,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
             <button
               className={`w-1/2 px-3 py-2 border rounded-md text-nowrap ${
                 availability === "Available Now"
-                  ? "bg-[#1B85A6] text-white"
+                  ? "bg-primary text-white"
                   : ""
               }`}
               onClick={() => handleAvailabilitySelect("Available Now")}
@@ -321,7 +328,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
             </button>
             <button
               className={`w-1/2 px-3 py-2 border rounded-md text-nowrap ${
-                availability === "Available in" ? "bg-[#1B85A6] text-white" : ""
+                availability === "Available in" ? "bg-primary text-white" : ""
               }`}
               onClick={() => handleAvailabilitySelect("Available in")}
             >
@@ -339,7 +346,7 @@ const Filter = ({ onClose }: { onClose: () => void }) => {
               <DatePicker
                 selected={availableDate}
                 onChange={(date: Date | null) => setAvailableDate(date)} // Update date when user picks one
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1B85A6]"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholderText="Select a date"
                 dateFormat="yyyy/MM/dd"
               />
