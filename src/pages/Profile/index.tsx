@@ -4,12 +4,15 @@ import profile from "/icons/profile.png";
 import {
   // ArchiveBook,
   ArrowRight2,
+  CardPos,
+  Headphone,
   // Calendar1,
   // CardPos,
   // Headphone,
   Logout,
   // Setting3,
   Notification,
+  Setting3,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
@@ -64,6 +67,50 @@ const Profile = () => {
     // },
   ];
 
+  const agentProfileItems = [
+    {
+      title: "Personal Details",
+      link: "/personal-details",
+      image: <FaRegUser size="22" color="#0E0F1D" />,
+    },
+    // {
+    //   title: "My Bookings",
+    //   link: "/my-bookings",
+    //   image: <Calendar1 size="22" color="#0E0F1D" />,
+    // },
+    {
+      title: "Recent Transactions",
+      link: "/recent-transactions",
+      image: <CardPos size="22" color="#0E0F1D" />,
+    },
+    // {
+    //   title: "Saved Hostels",
+    //   link: "/saved-hostels",
+    //   image: <ArchiveBook size="22" color="#0E0F1D" />,
+    // },
+    {
+      title: "Notifications settings",
+      link: "/setting/notification",
+      image: <Notification size="22" color="#0E0F1D" />,
+    },
+    {
+      title: "App Settings",
+      link: "/setting/app",
+      image: <Setting3 size="22" color="#0E0F1D" />,
+    },
+    {
+      title: "Contact Support",
+      link: "/contact-support",
+      image: <Headphone size="22" color="#0E0F1D" />,
+    },
+    // {
+    //   title: "Log Out",
+    //   link: "/log-out",
+    //   image: <Logout size="22" color="#B90000" />,
+    // },
+  ];
+
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -74,7 +121,7 @@ const Profile = () => {
     <main>
       <TitleHead title={"profile"} />
 
-      <section className="p-5 pt-20">
+      <section className="p-5 py-20">
         <div className="flex items-center gap-x-3 mb-3">
           <img src={profile} className="size-16 rounded-xl" />
           <div className="flex-row gap-0 justify-center">
@@ -110,8 +157,27 @@ const Profile = () => {
             </div>
           </div>
         )}
-        <div className="flex-row gap-y-3 mt-4">
-          {profileItems?.map((item: any, i: number) => {
+        <div className="flex flex-col gap-1 mt-4">
+          {userType == "AGENT" ?  agentProfileItems?.map((item: any, i: number) => {
+            return (
+              <Link key={i} to={item?.link} className="">
+                <div className="flex items-center justify-between gap-x-2 my-3">
+                  <span className="bg-[#F5F5F5] rounded-xl p-2">
+                    {item?.image}
+                  </span>
+
+                  <div
+                    className={`grow font-medium ${i > 6 && "text-[#B90000]"}`}
+                  >
+                    {item?.title}
+                  </div>
+
+                  {i < 7 && <ArrowRight2 size={20} />}
+                </div>
+              </Link>
+            )
+          }) :
+          profileItems?.map((item: any, i: number) => {
             return (
               <Link key={i} to={item?.link} className="my-3">
                 <div className="flex items-center justify-between gap-x-2 my-3">

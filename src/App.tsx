@@ -35,6 +35,11 @@ import WithdrawalStatus from "./pages/Withdraw/WithdrawalStatus.tsx";
 import CreateInvoice from "./pages/Invoice/CreateInvoice.tsx";
 import SuccessfulInvoice from "./pages/Invoice/SuccessfulInvoice.tsx";
 
+import ViewInvoice from "./pages/Invoice/ViewInvoice.tsx";
+import BookingsList from "./pages/Bookings/Bookings.tsx";
+import BookingsDetails from "./pages/Bookings/BookingsDetails.tsx";
+import RecentTransactions from "./pages/Profile/RecentTransactions.tsx";
+
 function App() {
   return (
     <>
@@ -82,6 +87,7 @@ function App() {
 
             <Route path="/create/invoice" element={<CreateInvoice />} />
             <Route path="/successful/invoice" element={<SuccessfulInvoice />} />
+            <Route path="/invoice/:invoiceType"  element={<ViewInvoice />} />
 
 
             {/* Payment route */}
@@ -120,6 +126,8 @@ function App() {
             <Route path="/personal-details" element={<PersonalDetails />} />
 
             <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/bookings" element={<BookingsList />} />
+            <Route path="/bookings/:bookingId" element={<BookingsDetails />} />
 
             <Route path="/setting/:settingsType" element={<Settings />} />
 
@@ -128,6 +136,8 @@ function App() {
             <Route path="/payment-history" element={<PaymentHistory />} />
 
             <Route path="/payment-details" element={<PaymentDetails />} />
+
+            <Route path='/recent-transactions' element={<RecentTransactions />} />
           </Routes>
     </>
   );

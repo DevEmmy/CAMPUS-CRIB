@@ -66,7 +66,7 @@ const MyBookings = () => {
 
         <div className="flex flex-col gap-3">
           {hostelList?.map((item: any, i: number) => (
-            <div key={i} className="grid grid-cols-[2fr__3fr] items-center">
+            <div key={i} className="grid grid-cols-[2fr__3fr] gap-2 items-center">
               <div>
                 <img src={item?.image} className="" />
               </div>
