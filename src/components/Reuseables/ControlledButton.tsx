@@ -10,7 +10,7 @@ const ControlledButton: React.FC<ControlledButtonProps> = ({title, uploading, ha
   return (
     <div>
      <button
-        className="bg-[#DFBFAD] px-7 py-4 rounded-lg leading-5 text-white text-[14px]"
+        className="bg-[#DFBFAD] px-7 py-2.5 rounded-lg leading-5 text-white text-[14px]"
         type="button"
         disabled={uploading}
         onClick={handleButtonClick}

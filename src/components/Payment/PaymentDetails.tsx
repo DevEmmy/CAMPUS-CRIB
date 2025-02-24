@@ -1,11 +1,13 @@
 import TitleHead from "../Ui/TitleHead";
 import share from "/icons/share-08.png";
 import download from "/icons/download-02.png";
+import { useUserContext } from "../../contexts/UserContext";
 
 const PaymentDetails = () => {
+  const {  userType } = useUserContext();
   const details = [
     {
-      title: "Agent name",
+      title: `${ userType == "AGENT" ? 'Sender' :'Agent' } name`,
       content: "Aremu davies",
     },
     {
@@ -21,17 +23,19 @@ const PaymentDetails = () => {
       content: "2g2ttt4jee7dnjfne0wnf83j",
     },
   ];
+
+
   return (
     <main>
       <TitleHead title="Payment Details" />
       <section className="p-5 pt-20 flex flex-col gap-3">
-        <div className="bg-[#fafafa]/50 border-2 border-[#A64E1B]/50 border-dashed px-2 py-4 rounded-xl gap-x-2 flex items-center justify-between">
+        <div className="bg-[#fafafa]/50 border-2 border-[#1B85A6]/50 border-dashed px-2 py-4 rounded-xl gap-x-1   flex items-center justify-between">
           <div>
             <h3 className="text-dark text-lg font-semibold">-₦120,000.00</h3>
-            <p className="text-sm">Monday, December 23rd | 5:17 PM</p>
+            <p className="text-sm text-[#A0A0A0]">Monday, December 23rd | 5:17 PM</p>
           </div>
           <div>
-            <p className="text-[#28A745] font-semibold">Successful</p>
+            <p className="text-[#28A745] font-semibold text-xs">Successful</p>
           </div>
         </div>
 

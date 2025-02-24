@@ -54,9 +54,9 @@ const Tabs = ({ isAgent }: tabsProps) => {
       route: "comments",
     },
     {
-      title: "store",
+      title: "bookings",
       icon: <Shop size="28" />,
-      route: "store",
+      route: "bookings",
     },
     {
       title: "user",
