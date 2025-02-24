@@ -4,9 +4,15 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { useNavigate } from "react-router";
 import mapMarker from "/icons/location.svg";
 import { Hostel } from "../../types/Hostel";
+import { updateBookmark } from "../../lib/bookmarkHostel";
 
 interface PremiumPicksProps {
   hostels: Hostel[];
+}
+
+const handleBookmark = async (hostelId: string, action: string) => {
+  const response = await updateBookmark(hostelId, action);
+  return response
 }
 
 const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
@@ -24,7 +30,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({ hostels }) => {
                 className="rounded-xl w-full h-full object-cover"
                 onClick={() => navigate(`/hostel/${hostel._id}`)}
               />
-              <button className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
+              <button onClick={() => handleBookmark(hostel._id, 'add')} className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
                 {/* <RiHeart2Line /> */}
                 <IoIosHeartEmpty className="size-5" />
               </button>
