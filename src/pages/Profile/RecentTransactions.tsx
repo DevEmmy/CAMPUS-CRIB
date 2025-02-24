@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import { FaSortAmountDown } from "react-icons/fa";
 import { CardPos } from "iconsax-react";

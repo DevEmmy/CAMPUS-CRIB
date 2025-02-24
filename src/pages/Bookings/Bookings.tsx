@@ -1,4 +1,3 @@
-import React from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import profile from "/icons/profile.png";
