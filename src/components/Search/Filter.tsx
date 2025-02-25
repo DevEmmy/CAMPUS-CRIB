@@ -46,7 +46,6 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
   };
 
   const handleInputChange = (index: number, value: string) => {
-    // Remove leading zeros and parse the value as a number
     const newValue = parseInt(value.replace(/^0+/, ""), 10) || 0;
 
     const newRange = [...priceRange];
@@ -206,7 +205,7 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
               onChange={(e) => handleInputChange(0, e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="₦0"
-              min={0}
+              // min={0}
               max={priceRange[1]}
             />
             <input
