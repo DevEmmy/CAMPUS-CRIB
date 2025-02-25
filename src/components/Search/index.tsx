@@ -81,7 +81,7 @@ const Search = () => {
       maxPrice: newFilters.priceRange[1],
       hostelType: newFilters.roomTypes,
     });
-    debouncedSearch(searchQuery); // Trigger search with updated filters
+    debouncedSearch(searchQuery);
   };
 
   // Fetch hostels when filters or search query change
@@ -146,7 +146,8 @@ const Search = () => {
         ) : filteredResults.length === 0 ? (
           <div className="min-h-[70vh] text-center grid place-items-center">
             <p className="text-[#7D8A9E]">
-            No results found for "{searchQuery}" in hostels or locations.
+              {/* No results found for "{searchQuery}" in hostels or locations. */}
+              No hostels found...
             </p>
           </div>
         ) : (
