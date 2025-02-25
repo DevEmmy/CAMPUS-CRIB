@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
-import { Heart } from "iconsax-react";
 import { Hostel } from "../../types/Hostel";
 import { useNavigate } from "react-router";
+import { IoIosHeartEmpty } from "react-icons/io";
+import { updateBookmark } from "../../lib/bookmarkHostel";
+import { useState } from "react";
 
 interface HostelCardProps {
   image: string;
@@ -25,37 +26,66 @@ const HotelCard = ({
   address,
   desc,
   isFlex,
-  id
+  id,
 }: HostelCardProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [liked, setLiked] = useState(false);
+
+  const handleBookmark = async (hostelId: string, action: string) => {
+    let response;
+    setLiked((prev) => !prev);
+    if (liked) {
+      response = await updateBookmark(hostelId, action);
+    }
+    response = await updateBookmark(hostelId, action);
+
+    return response;
+  };
+
   return (
     <div
-    key={id}
-    onClick={() => navigate(`/hostel/${id}`)}
+      key={id}
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
     >
       <div className="relative w-4/5 h-[230px]">
         <img
+          onClick={() => navigate(`/hostel/${id}`)}
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
           className="w-full h-48 object-cover rounded-xl"
         />
-        <div className="absolute top-2 right-2 bg-white/80 rounded-full p-2 shadow-md">
-          {/* <i className="fas fa-heart text-gray-500"></i> */}
-          <Heart size="32" color="#ffffff" />
-        </div>
+        <button
+          onClick={() => handleBookmark(id, `${liked ? "remove" : "add"}`)}
+          className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md"
+        >
+          <IoIosHeartEmpty
+            color={liked ? "#C80F0F" : "transparent"}
+            className="size-5"
+          />
+        </button>
       </div>
       <div className="py-3">
-        <h2 className="text-lg font-semibold text-left">{title}</h2>
-        <div className=" text-dark flex items-center text-left gap-1 justify-start mt-2 ">
+        <h2
+          onClick={() => navigate(`/hostel/${id}`)}
+          className="text-lg font-semibold text-left"
+        >
+          {title}
+        </h2>
+        <div
+          onClick={() => navigate(`/hostel/${id}`)}
+          className=" text-dark flex items-center text-left gap-1 justify-start mt-2 "
+        >
           <div>
             <img src={mapMarker} className="size-5" />
           </div>
           <p className="text-left text-[15px]">{address}</p>
         </div>
-        <p className="text-sm text-variant-500 text-left">
+        <p
+          onClick={() => navigate(`/hostel/${id}`)}
+          className="text-sm text-variant-500 text-left"
+        >
           {desc && desc.slice(0, 30)}
         </p>
       </div>
@@ -86,11 +116,11 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
               />
             ))}
         </Carousel>
-        {
-          hostels?.length == 0 && (
-            <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
-          )
-        }
+        {hostels?.length == 0 && (
+          <div className="text-center w-full flex items-center justify-center py-10">
+            No hostels available
+          </div>
+        )}
       </div>
 
       <div>
@@ -116,11 +146,11 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
               />
             ))}
         </Carousel>
-        {
-          hostels?.length == 0 && (
-            <div className="text-center w-full flex items-center justify-center py-10">No hostels available</div>
-          )
-        }
+        {hostels?.length == 0 && (
+          <div className="text-center w-full flex items-center justify-center py-10">
+            No hostels available
+          </div>
+        )}
       </div>
     </>
   );
