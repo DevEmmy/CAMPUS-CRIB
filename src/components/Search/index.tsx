@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import { useLocation } from "react-router";
 import TitleHead from "../Ui/TitleHead";
 import filter from "/icons/filter-horizontal.svg";
-import keyboard from "/icons/keyboard.svg";
+// import keyboard from "/icons/keyboard.svg";
 import search from "/icons/search.svg";
 import cancelCircle from "/icons/cancel-circle.svg";
 import SearchCarousel from "./SearchCarousel";
