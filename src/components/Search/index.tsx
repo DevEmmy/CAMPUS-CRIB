@@ -15,6 +15,7 @@ import { fetchBookmarks } from "../../lib/bookmarkHostel";
 import { useQuery } from "@tanstack/react-query";
 
 const Search = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [haveSearch, setHaveSearched] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
@@ -28,9 +29,8 @@ const Search = () => {
 
   const location = useLocation();
 
-
   // Fetch bookmarks
-  const { data: bookmarks = [], } = useQuery({
+  const { data: bookmarks = [] } = useQuery({
     queryKey: ["bookmarks"],
     queryFn: fetchBookmarks,
   });
@@ -40,6 +40,7 @@ const Search = () => {
 
   // Debounced search function
   const debouncedSearch = debounce(async (query: string) => {
+    setIsLoading(true);
     try {
       const response = await axiosConfig.get("/hostels", {
         params: {
@@ -57,11 +58,11 @@ const Search = () => {
       console.error("Error fetching hostels:", error);
       setFilteredResults([]);
       setHaveSearched(true);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   }, 500);
-  
-  
-  
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -99,13 +100,12 @@ const Search = () => {
     setHaveSearched(true); // Indicate filters are applied
     debouncedSearch(searchQuery); // Search again with updated filters
   };
-  
-  
+
   // Fetch hostels when filters or search query change
   useEffect(() => {
     debouncedSearch(searchQuery);
   }, [filters, searchQuery]);
-  
+
   // Initialize search from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -148,24 +148,25 @@ const Search = () => {
             <img src={filter} />
           </button>
         </div>
+        {/* 
+        {isLoading && (
+          <div className="flex justify-center items-center h-full mt-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        </div>
+        )} */}
 
-        {!haveSearch ? (
-          <div className="min-h-[70vh] text-center grid place-items-center">
-            <div>
-              <img src={keyboard} className="mx-auto" />
-              <p className="text-[#7D8A9E]">
-                Start typing to search for hostels!
-              </p>
+        {isLoading ? (
+          <div className="min-h-[70vh] flex justify-center items-center">
+            <div className="flex justify-center items-center h-full mt-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
             </div>
           </div>
-        ) : filteredResults.length === 0 ? (
+        ) : haveSearch && filteredResults.length === 0 ? (
           <div className="min-h-[70vh] text-center grid place-items-center">
-            <p className="text-[#7D8A9E]">
-              {/* No results found for "{searchQuery}" in hostels or locations. */}
-              No hostels found...
-            </p>
+            <p className="text-[#7D8A9E]">No hostels found...</p>
           </div>
         ) : (
+          // Render search results
           <div className="flex-row">
             <div className="my-3 flex-row gap-1">
               <div className="flex justify-between items-center">
@@ -186,14 +187,13 @@ const Search = () => {
             </div>
 
             <SearchCarousel
-       
               cards={filteredResults.map((hostel) => ({
                 image: hostel.images[0],
                 title: hostel.hostelName,
                 address: hostel.location,
                 id: hostel._id,
                 description: hostel.description,
-                bookmarkedIds:bookmarkedIds
+                bookmarkedIds: bookmarkedIds,
               }))}
             />
           </div>
