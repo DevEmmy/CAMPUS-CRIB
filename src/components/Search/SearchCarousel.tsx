@@ -4,13 +4,16 @@ import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { mockSearchResults } from "./__mock__/SearchResult";
+import { useNavigate } from "react-router";
 
 interface HostelCardProps {
   image: string;
+  id: string;
   title: string;
   address: string;
   desc?: string;
   isFlex?: boolean;
+  bookmarkedIds: string[];
 }
 
 interface SearchCarouselProps {
@@ -19,11 +22,13 @@ interface SearchCarouselProps {
 
 const HotelCard = ({
   image,
+  id,
   title,
   address,
   desc,
   isFlex,
 }: HostelCardProps) => {
+  const navigate = useNavigate()
   return (
     <div
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm pb-7 ${
@@ -32,6 +37,7 @@ const HotelCard = ({
     >
       <div className="relative">
         <img
+         onClick={() => navigate(`/hostel/${id}`)}
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
           className="w-full h-48 object-cover rounded-xl"
@@ -75,10 +81,12 @@ const SearchCarousel = ({ cards }: SearchCarouselProps) => {
           {cards.map((card, index) => (
             <HotelCard
               key={index}
+              id={card.id}
               image={card.image}
               title={card.title}
               address={card.address}
-              desc="Lorem ipsum dolor sit aro rem non dolore pariatur aliquid quae. Repellat, ipsa placeat temporibus libero in eum, at minus culpa cumque odit reprehenderit!"
+              desc={card.description}
+              bookmarkedIds={card.bookmarkedIds}
               isFlex
             />
           ))}
@@ -98,9 +106,12 @@ const SearchCarousel = ({ cards }: SearchCarouselProps) => {
           {cards.map((card, index) => (
             <HotelCard
               key={index}
+              id={card.id}
               image={card.image}
               title={card.title}
               address={card.address}
+              desc={card.description}
+              bookmarkedIds={card.bookmarkedIds}
             />
           ))}
         </Carousel>

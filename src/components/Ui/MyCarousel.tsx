@@ -3,7 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
 import { Hostel } from "../../types/Hostel";
 import { useNavigate } from "react-router";
-import { IoIosHeartEmpty } from "react-icons/io";
+import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import { updateBookmark } from "../../lib/bookmarkHostel";
 import { useState } from "react";
 
@@ -14,10 +14,12 @@ interface HostelCardProps {
   desc?: string;
   isFlex?: boolean;
   id: string;
+  liked?: boolean;
 }
 
 interface CarouselProps {
   hostels: Hostel[];
+  bookmarkedIds: string[];
 }
 
 const HotelCard = ({
@@ -26,20 +28,15 @@ const HotelCard = ({
   address,
   desc,
   isFlex,
+  liked: initiallyLiked = false,
   id,
 }: HostelCardProps) => {
   const navigate = useNavigate();
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(initiallyLiked);
 
   const handleBookmark = async (hostelId: string, action: string) => {
-    let response;
     setLiked((prev) => !prev);
-    if (liked) {
-      response = await updateBookmark(hostelId, action);
-    }
-    response = await updateBookmark(hostelId, action);
-
-    return response;
+    await updateBookmark(hostelId, action);
   };
 
   return (
@@ -60,10 +57,11 @@ const HotelCard = ({
           onClick={() => handleBookmark(id, `${liked ? "remove" : "add"}`)}
           className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md"
         >
-          <IoIosHeartEmpty
-            color={liked ? "#C80F0F" : "transparent"}
-            className="size-5"
-          />
+          {liked ? (
+            <VscHeartFilled color="#C80F0F" className="size-5" />
+          ) : (
+            <VscHeart color="#C80F0F" className="size-5" />
+          )}
         </button>
       </div>
       <div className="py-3">
@@ -93,7 +91,7 @@ const HotelCard = ({
   );
 };
 
-const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
+const MyCarousel: React.FC<CarouselProps> = ({ hostels, bookmarkedIds }) => {
   return (
     <>
       <div>
@@ -113,6 +111,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
                 image={hostel?.images[0]}
                 title={hostel?.hostelName}
                 address={hostel?.location}
+                liked={bookmarkedIds.includes(hostel._id)}
               />
             ))}
         </Carousel>
@@ -142,6 +141,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels }) => {
                 title={hostel?.hostelName}
                 address={hostel?.location}
                 desc={hostel?.description}
+                liked={bookmarkedIds.includes(hostel._id)}
                 isFlex
               />
             ))}

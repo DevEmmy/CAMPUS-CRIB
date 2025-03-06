@@ -2,12 +2,16 @@ import profilePic from "/icons/profile.png";
 import { convertToNormalTime } from "../../utils/ConvertToNormalTime";
 import { fetchUserById } from "../../lib/fetchUser";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const ChatComponent = ({ item }: any) => {
   const { data: user } = useQuery({
     queryKey: ["user"],
     queryFn: () => fetchUserById(item.participants[0]),
   });
+  useEffect(() => {
+    console.log(user)
+  }, [])
 
   return (
     <div className="border-b py-4 flex justify-between items-center">
@@ -16,12 +20,15 @@ const ChatComponent = ({ item }: any) => {
           <img src={profilePic} className="w-full rounded-xl " />
         </div>
         <div className="flex-row grow">
-          <p className="font-semibold">
-            {user?.firstname} {user?.lastname}{" "}
-            {user?.userType === "AGENT" && (
-              <span className="font-normal text-sm text-[#1B85A6]">Agent</span>
-            )}
-          </p>
+        {!user ? <p>Loading...</p> : (
+  <p className="font-semibold">
+    {user?.user?.firstName} {user?.user?.lastName}{" "}
+    {user?.user?.userType === "AGENT" && (
+      <span className="font-normal text-sm text-[#1B85A6]">Agent</span>
+    )}
+  </p>
+)}
+
           <p>{item?.lastMessage}</p>
         </div>
       </div>

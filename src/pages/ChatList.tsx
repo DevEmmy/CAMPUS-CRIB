@@ -14,14 +14,15 @@ const ChatList = () => {
     queryFn: fetchUser,
   });
 
-  const { data: conversations } = useQuery({
+  const { data: conversations, isLoading } = useQuery({
     queryKey: ["conversations"],
     queryFn: fetchConversations,
   });
 
   useEffect(() => {
     if (conversations) console.log(conversations);
-  }, [conversations]);
+    if (user) console.log(user);
+  }, [conversations, user]);
 
   return (
     <main>
@@ -37,6 +38,11 @@ const ChatList = () => {
       </div>
 
       <section className="p-5 py-16 bg-white">
+        {isLoading && (
+          <div className="flex justify-center items-center h-full mt-10">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        </div>
+        )}
         <div>
           {conversations?.length === 0 ? (
             <div className="text-center text-gray-500 my-10">
@@ -44,7 +50,7 @@ const ChatList = () => {
             </div>
           ) : (
             conversations?.map((item: any, i: number) => (
-              <Link key={i} to={`/chat/${user?._id}`}>
+              <Link key={i} to={`/chat/${user?.user?._id}`}>
                 <ChatComponent item={item} />
               </Link>
             ))

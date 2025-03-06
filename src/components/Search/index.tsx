@@ -11,6 +11,8 @@ import Filter from "./Filter";
 import { RiCloseFill } from "react-icons/ri";
 import { axiosConfig } from "../../utils/axiosConfig";
 import { Hostel } from "../../types/Hostel";
+import { fetchBookmarks } from "../../lib/bookmarkHostel";
+import { useQuery } from "@tanstack/react-query";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -26,19 +28,29 @@ const Search = () => {
 
   const location = useLocation();
 
+
+  // Fetch bookmarks
+  const { data: bookmarks = [], } = useQuery({
+    queryKey: ["bookmarks"],
+    queryFn: fetchBookmarks,
+  });
+
+  // Extract bookmarked hostel IDs
+  const bookmarkedIds = bookmarks.map((b: { _id: string }) => b._id);
+
   // Debounced search function
   const debouncedSearch = debounce(async (query: string) => {
     try {
-      const response = await axiosConfig.get("/hostels/", {
+      const response = await axiosConfig.get("/hostels", {
         params: {
-          hostelName: query,
-          location: filters.location || query,
-          hostelType: filters.hostelType,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
+          hostelName: query || undefined,
+          // location: haveSearch ? filters.location : undefined, // Apply filters only after search
+          // hostelType: haveSearch ? filters.hostelType : undefined,
+          // minPrice: haveSearch ? filters.minPrice : 0,
+          // maxPrice: haveSearch ? filters.maxPrice : 1000000,
         },
       });
-      console.log(response);
+      console.log("API Response:", response.data);
       setFilteredResults(response.data.data);
       setHaveSearched(true);
     } catch (error) {
@@ -47,6 +59,9 @@ const Search = () => {
       setHaveSearched(true);
     }
   }, 500);
+  
+  
+  
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -60,11 +75,11 @@ const Search = () => {
     }
   };
 
-  const handleClearSearch = () => {
-    setSearchQuery("");
-    setHaveSearched(false);
-    setFilteredResults([]);
-  };
+  // const handleClearSearch = () => {
+  //   setSearchQuery("");
+  //   setHaveSearched(false);
+  //   setFilteredResults([]);
+  // };
 
   // Handle filter changes
   const handleApplyFilters = (newFilters: {
@@ -81,16 +96,16 @@ const Search = () => {
       maxPrice: newFilters.priceRange[1],
       hostelType: newFilters.roomTypes,
     });
-    debouncedSearch(searchQuery);
+    setHaveSearched(true); // Indicate filters are applied
+    debouncedSearch(searchQuery); // Search again with updated filters
   };
-
+  
+  
   // Fetch hostels when filters or search query change
   useEffect(() => {
-    if (searchQuery) {
-      debouncedSearch(searchQuery);
-    }
-  }, [filters]);
-
+    debouncedSearch(searchQuery);
+  }, [filters, searchQuery]);
+  
   // Initialize search from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -108,26 +123,26 @@ const Search = () => {
       <TitleHead title="Search" />
       <section className="p-5 my-10">
         <div className="flex gap-2 my-5">
-          <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3">
+          <div className="flex items-center border gap-1 border-variant-400 rounded-lg p-3 flex-1 relative">
             <img src={search} className="size-7" />
             <input
-              type="search"
+              type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              className="outline-none grow h-full"
+              className="outline-none h-full bg-transparent"
               placeholder="Search for Hostels, locations"
             />
-            {searchQuery && (
+            {/* {searchQuery && (
               <img
                 src={cancelCircle}
                 alt="clear search"
                 className="cursor-pointer"
                 onClick={handleClearSearch}
               />
-            )}
+            )} */}
           </div>
           <button
-            className="bg-primary rounded-xl p-3"
+            className="bg-primary rounded-xl py-1 px-3 flex-1"
             onClick={() => setIsFilter(true)}
           >
             <img src={filter} />
@@ -171,10 +186,14 @@ const Search = () => {
             </div>
 
             <SearchCarousel
+       
               cards={filteredResults.map((hostel) => ({
                 image: hostel.images[0],
                 title: hostel.hostelName,
                 address: hostel.location,
+                id: hostel._id,
+                description: hostel.description,
+                bookmarkedIds:bookmarkedIds
               }))}
             />
           </div>

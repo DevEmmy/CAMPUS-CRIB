@@ -68,24 +68,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const accountType = localStorage.getItem("accountType");
 
     if (location.pathname === "/login" && isLoggedIn) {
-      navigate("/", {replace: true});
-    }
-
-    if (location.pathname === "/" && !isLoggedIn) {
-      navigate("/login", {replace: true});
-    }
-    if (location.pathname === "/" && !isLoggedIn && !accountType) {
-      navigate("/account-type", {replace: true});
-    }
-    if (location.pathname === "/login" && !accountType) {
-      navigate("/account-type", {replace: true});
-    }
-    if (location.pathname === "/signup" && !accountType) {
-      navigate("/account-type", {replace: true});
-    }
-
-    if (!accountType && location.pathname === "/") {
-      navigate("/account-type", {replace: true});
+      navigate("/", { replace: true });
+    } else if (!isLoggedIn) {
+      if (location.pathname !== "/login" && location.pathname !== "/signup") {
+        navigate("/login", { replace: true });
+      }
+    } else if (!accountType) {
+      if (location.pathname !== "/account-type") {
+        navigate("/account-type", { replace: true });
+      }
     }
   }, [location.pathname, navigate]);
 
