@@ -124,7 +124,7 @@ const Wishlist: React.FC = () => {
           ) : ( 
             filteredFavorites.map((hostel: Hostel) => (
               <div key={hostel._id} className='flex gap-3 items-start mb-4 w-full'>
-                <img className='size-28' src={hostel.images[0]} alt="hostel" />
+                <img className='size-28 object-cover' src={hostel.images[0]} alt="hostel" />
                 <div className='space-y-2 flex-1'>
                   <h2 className='text-dark font-bold leading-5'>{hostel.hostelName}</h2>
                   <div className='flex items-center justify-start gap-2'>
