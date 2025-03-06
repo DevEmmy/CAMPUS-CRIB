@@ -10,9 +10,8 @@ import { sendReview } from "../../utils/reviews";
 const Review = () => {
   const navigate = useNavigate();
   const {hostelId} = useParams()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [comment, setComment] = useState("");
+  const [review, serReview] = useState("");
   const [rating, setRating] = useState<number>()
 
   const handleRatingChange = (rating: any) => {
@@ -22,14 +21,15 @@ const Review = () => {
 
   const mutation = useMutation({
     mutationKey: ["review"],
-    mutationFn: async () => sendReview(comment, rating as number, hostelId as string),
+    mutationFn: async () => sendReview(review, rating as number, hostelId as string),
   });
 
   const handleSubmit = () => {
     setIsSubmitted(true);
     mutation.mutate();
-    setComment("");
+    serReview("");
   };
+
   return (
     <div className="p-5">
       <button className="border border-primary rounded-lg">
@@ -65,8 +65,8 @@ const Review = () => {
           <div>
             <input
               type="text"
-              onChange={(e) => setComment(e.target.value)}
-              className="border border-primary p-2 rounded-lg my-5 w-full"
+              onChange={(e) => serReview(e.target.value)}
+              className="border border-primary p-3 rounded-lg my-5 w-full"
               placeholder="Type a review"
             />
           </div>

@@ -68,6 +68,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("accountType");
     navigate("/account-type", { replace: true });
   };
 

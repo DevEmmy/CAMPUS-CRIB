@@ -1,6 +1,6 @@
 import React from "react";
 import TitleHead from "../Ui/TitleHead";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { IoLocationOutline } from "react-icons/io5";
@@ -15,6 +15,7 @@ import Loader from "../Ui/Loader";
 
 const HostelDetails: React.FC = () => {
   const { hostelId } = useParams();
+  const navigate = useNavigate()
   console.log(hostelId);
 
   const { data: hostel, isLoading } = useQuery({
@@ -40,8 +41,8 @@ const HostelDetails: React.FC = () => {
           {hostel &&
             hostel.images.map(
               (image: string, index: number ) => (
-                <div key={index} className="w-full rounded-2xl">
-                  <img src={image} alt="image" className="rounded-xl" />
+                <div key={index} className="w-full h-[300px] rounded-2xl">
+                  <img src={image} alt="image" className="rounded-xl object-cover h-full w-full" />
                 </div>
               )
             )}
@@ -79,8 +80,8 @@ const HostelDetails: React.FC = () => {
 
         <div className="flex items-center gap-3 border-y border-[#E5E5E5] py-3 ">
           <p className="text-dark text-xl font-bold">{formatPrice(hostel?.price)}</p>
-          <button className="grow bg-[#E5E5E54D] text-variant-500 p-2.5 rounded-xl">
-            Negotiable
+          <button onClick={() => navigate(`/review/${hostelId}`)} className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl">
+            Review
           </button>
         </div>
 

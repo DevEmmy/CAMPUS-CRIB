@@ -124,6 +124,7 @@ const Signup: React.FC = () => {
             Join us to find the perfect hostel for your campus life
           </p>
         </div>
+       
 
         <form onSubmit={handleSignup} className="space-y-5">
           {/* First Name */}

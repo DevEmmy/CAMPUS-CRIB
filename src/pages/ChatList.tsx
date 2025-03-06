@@ -9,7 +9,7 @@ import { VscChevronLeft } from "react-icons/vsc";
 
 const ChatList = () => {
   const navigate = useNavigate()
-  const { data: user } = useQuery({
+  const { data: user, isLoading: isUserLoading } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
   });
@@ -38,7 +38,7 @@ const ChatList = () => {
       </div>
 
       <section className="p-5 py-16 bg-white">
-        {isLoading && (
+        {isLoading || isUserLoading && (
           <div className="flex justify-center items-center h-full mt-10">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
         </div>
