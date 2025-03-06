@@ -67,7 +67,7 @@ const CreateHostel = () => {
       const response = await createHostel(formState)
       console.log('Success:', response);
       if(response.status == 200){
-        navigate('/agent')
+        navigate('/')
       }
       return
     } catch (error) {

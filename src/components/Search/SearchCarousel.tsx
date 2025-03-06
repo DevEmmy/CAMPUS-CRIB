@@ -1,16 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import mapMarker from "/icons/location.svg";
-import { IoIosHeartEmpty } from "react-icons/io";
 import { mockSearchResults } from "./__mock__/SearchResult";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { updateBookmark } from "../../lib/bookmarkHostel";
+import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 
 interface HostelCardProps {
   image: string;
+  id: string;
   title: string;
   address: string;
   desc?: string;
   isFlex?: boolean;
+  bookmarkedIds: string[];
 }
 
 interface SearchCarouselProps {
@@ -19,11 +23,29 @@ interface SearchCarouselProps {
 
 const HotelCard = ({
   image,
+  id,
   title,
   address,
   desc,
   isFlex,
+  bookmarkedIds = [],
 }: HostelCardProps) => {
+  const navigate = useNavigate();
+  const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds); // Track liked hostel IDs
+
+  const handleBookmark = async (hostelId: string) => {
+    const isLiked = likedHostels.includes(hostelId);
+    const action = isLiked ? "remove" : "add";
+
+    // Optimistically update state
+    setLikedHostels((prev) =>
+      isLiked ? prev.filter((id) => id !== hostelId) : [...prev, hostelId]
+    );
+
+    await updateBookmark(hostelId, action);
+  };
+
+  const isLiked = likedHostels.includes(id);
   return (
     <div
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm pb-7 ${
@@ -32,16 +54,23 @@ const HotelCard = ({
     >
       <div className="relative">
         <img
+          onClick={() => navigate(`/hostel/${id}`)}
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
           className="w-full h-48 object-cover rounded-xl"
         />
-        <div className="absolute top-2 right-2 bg-white/80 rounded-full p-2 shadow-md">
-          {/* <i className="fas fa-heart text-gray-500"></i> */}
-          <IoIosHeartEmpty className="size-5" />
-        </div>
+         <button
+                            onClick={() => handleBookmark(id)}
+                            className="absolute top-2 right-2 bg-white/80 bg-opacity-25 rounded-xl p-2 shadow-md"
+                          >
+                            {isLiked ? (
+                              <VscHeartFilled color="#C80F0F" className="size-5" />
+                            ) : (
+                              <VscHeart color="#C80F0F" className="size-5" />
+                            )}
+                          </button>
       </div>
-      <div className="py-3">
+      <div   onClick={() => navigate(`/hostel/${id}`)} className="py-3">
         <h2 className="text-lg font-semibold text-left">{title}</h2>
         <div className=" text-dark flex items-center text-left gap-1 justify-start mt-2 ">
           <div>
@@ -58,8 +87,6 @@ const HotelCard = ({
 };
 
 const SearchCarousel = ({ cards }: SearchCarouselProps) => {
-
-
   return (
     <>
       <div>
@@ -75,14 +102,15 @@ const SearchCarousel = ({ cards }: SearchCarouselProps) => {
           {cards.map((card, index) => (
             <HotelCard
               key={index}
+              id={card.id}
               image={card.image}
               title={card.title}
               address={card.address}
-              desc="Lorem ipsum dolor sit aro rem non dolore pariatur aliquid quae. Repellat, ipsa placeat temporibus libero in eum, at minus culpa cumque odit reprehenderit!"
+              desc={card.description}
+              bookmarkedIds={card.bookmarkedIds}
               isFlex
             />
           ))}
-          
         </Carousel>
       </div>
 
@@ -98,9 +126,12 @@ const SearchCarousel = ({ cards }: SearchCarouselProps) => {
           {cards.map((card, index) => (
             <HotelCard
               key={index}
+              id={card.id}
               image={card.image}
               title={card.title}
               address={card.address}
+              desc={card.description}
+              bookmarkedIds={card.bookmarkedIds}
             />
           ))}
         </Carousel>

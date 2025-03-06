@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import { useLocation } from "react-router";
 import TitleHead from "../Ui/TitleHead";
 import filter from "/icons/filter-horizontal.svg";
-import keyboard from "/icons/keyboard.svg";
+// import keyboard from "/icons/keyboard.svg";
 import search from "/icons/search.svg";
 import cancelCircle from "/icons/cancel-circle.svg";
 import SearchCarousel from "./SearchCarousel";
@@ -11,8 +11,11 @@ import Filter from "./Filter";
 import { RiCloseFill } from "react-icons/ri";
 import { axiosConfig } from "../../utils/axiosConfig";
 import { Hostel } from "../../types/Hostel";
+import { fetchBookmarks } from "../../lib/bookmarkHostel";
+import { useQuery } from "@tanstack/react-query";
 
 const Search = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [haveSearch, setHaveSearched] = useState<boolean>(false);
   const [isFilter, setIsFilter] = useState<boolean>(false);
@@ -26,25 +29,38 @@ const Search = () => {
 
   const location = useLocation();
 
+  // Fetch bookmarks
+  const { data: bookmarks = [] } = useQuery({
+    queryKey: ["bookmarks"],
+    queryFn: fetchBookmarks,
+  });
+
+  // Extract bookmarked hostel IDs
+  const bookmarkedIds = bookmarks.map((b: { _id: string }) => b._id);
+
   // Debounced search function
   const debouncedSearch = debounce(async (query: string) => {
+    setIsLoading(true);
     try {
-      const response = await axiosConfig.get("/hostels/", {
+      const response = await axiosConfig.get("/hostels", {
         params: {
-          hostelName: query,
-          location: filters.location || query,
-          hostelType: filters.hostelType,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
+          hostelName: query || undefined,
+          // location: haveSearch ? filters.location : undefined, // Apply filters only after search
+          // hostelType: haveSearch ? filters.hostelType : undefined,
+          // minPrice: haveSearch ? filters.minPrice : 0,
+          // maxPrice: haveSearch ? filters.maxPrice : 1000000,
         },
       });
-      console.log(response);
+      console.log("API Response:", response.data);
       setFilteredResults(response.data.data);
       setHaveSearched(true);
     } catch (error) {
       console.error("Error fetching hostels:", error);
       setFilteredResults([]);
       setHaveSearched(true);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   }, 500);
 
@@ -60,11 +76,11 @@ const Search = () => {
     }
   };
 
-  const handleClearSearch = () => {
-    setSearchQuery("");
-    setHaveSearched(false);
-    setFilteredResults([]);
-  };
+  // const handleClearSearch = () => {
+  //   setSearchQuery("");
+  //   setHaveSearched(false);
+  //   setFilteredResults([]);
+  // };
 
   // Handle filter changes
   const handleApplyFilters = (newFilters: {
@@ -81,15 +97,14 @@ const Search = () => {
       maxPrice: newFilters.priceRange[1],
       hostelType: newFilters.roomTypes,
     });
-    debouncedSearch(searchQuery); // Trigger search with updated filters
+    setHaveSearched(true); // Indicate filters are applied
+    debouncedSearch(searchQuery); // Search again with updated filters
   };
 
   // Fetch hostels when filters or search query change
   useEffect(() => {
-    if (searchQuery) {
-      debouncedSearch(searchQuery);
-    }
-  }, [filters]);
+    debouncedSearch(searchQuery);
+  }, [filters, searchQuery]);
 
   // Initialize search from URL query params
   useEffect(() => {
@@ -108,48 +123,50 @@ const Search = () => {
       <TitleHead title="Search" />
       <section className="p-5 my-10">
         <div className="flex gap-2 my-5">
-          <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3">
+          <div className="flex items-center border gap-1 border-variant-400 rounded-lg p-3 flex-1 relative">
             <img src={search} className="size-7" />
             <input
-              type="search"
+              type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              className="outline-none grow h-full"
+              className="outline-none h-full bg-transparent"
               placeholder="Search for Hostels, locations"
             />
-            {searchQuery && (
+            {/* {searchQuery && (
               <img
                 src={cancelCircle}
                 alt="clear search"
                 className="cursor-pointer"
                 onClick={handleClearSearch}
               />
-            )}
+            )} */}
           </div>
           <button
-            className="bg-primary rounded-xl p-3"
+            className="bg-primary rounded-xl py-1 px-3 flex-1"
             onClick={() => setIsFilter(true)}
           >
             <img src={filter} />
           </button>
         </div>
+        {/* 
+        {isLoading && (
+          <div className="flex justify-center items-center h-full mt-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        </div>
+        )} */}
 
-        {!haveSearch ? (
-          <div className="min-h-[70vh] text-center grid place-items-center">
-            <div>
-              <img src={keyboard} className="mx-auto" />
-              <p className="text-[#7D8A9E]">
-                Start typing to search for hostels!
-              </p>
+        {isLoading ? (
+          <div className="min-h-[70vh] flex justify-center items-center">
+            <div className="flex justify-center items-center h-full mt-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
             </div>
           </div>
-        ) : filteredResults.length === 0 ? (
+        ) : haveSearch && filteredResults.length === 0 ? (
           <div className="min-h-[70vh] text-center grid place-items-center">
-            <p className="text-[#7D8A9E]">
-            No results found for "{searchQuery}" in hostels or locations.
-            </p>
+            <p className="text-[#7D8A9E]">No hostels found...</p>
           </div>
         ) : (
+          // Render search results
           <div className="flex-row">
             <div className="my-3 flex-row gap-1">
               <div className="flex justify-between items-center">
@@ -174,6 +191,9 @@ const Search = () => {
                 image: hostel.images[0],
                 title: hostel.hostelName,
                 address: hostel.location,
+                id: hostel._id,
+                description: hostel.description,
+                bookmarkedIds: bookmarkedIds,
               }))}
             />
           </div>

@@ -20,6 +20,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { TbReportAnalytics } from "react-icons/tb";
 import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
+import { useEffect } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -114,8 +115,13 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("accountType");
     navigate("/account-type", { replace: true });
   };
+
+  useEffect(() => {
+    console.log(user)
+  }, [])
 
   return (
     <main>

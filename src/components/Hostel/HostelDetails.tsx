@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TitleHead from "../Ui/TitleHead";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { IoLocationOutline } from "react-icons/io5";
@@ -19,7 +19,7 @@ const HostelDetails: React.FC = () => {
   const [activeTabs, setActiveTabs] = useState<number>(0);
   const { userType } = useUserContext();
   const { hostelId } = useParams();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   console.log(hostelId);
 
 
@@ -31,7 +31,6 @@ const HostelDetails: React.FC = () => {
   if (isLoading) {
     // return <div className="h-screen w-full flex items-center justify-center"><Loader/></div>;
   }
-
   const navTabs = [
     {
       id: 0,
@@ -162,6 +161,10 @@ const HostelDetails: React.FC = () => {
             30 booked
           </div>
         </div>
+        <div className="flex items-center gap-3 border-y border-[#E5E5E5] py-3 ">
+          <p className="text-dark text-xl font-bold">{formatPrice(hostel?.price)}</p>
+          <button onClick={() => navigate(`/review/${hostelId}`)} className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl">
+            Review
 
         <div className="py-3">
           <h3 className="my-1.5">Upcoming Bokkings</h3>

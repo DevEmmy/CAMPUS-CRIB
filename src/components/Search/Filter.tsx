@@ -2,14 +2,20 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
-const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilters: (newFilters: {
-  location: string;
-  priceRange: number[];
-  roomTypes: string;
-  amenities: string[];
-  availability: string;
-  availableDate: Date | null;
-}) => void; }) => {
+const Filter = ({
+  onClose,
+  onApplyFilters,
+}: {
+  onClose: () => void;
+  onApplyFilters: (newFilters: {
+    location: string;
+    priceRange: number[];
+    roomTypes: string;
+    amenities: string[];
+    availability: string;
+    availableDate: Date | null;
+  }) => void;
+}) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">(
     "single"
@@ -31,8 +37,8 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value);
     const isMin = e.target.dataset.thumb === "min";
-    console.log(isDragging)
-    console.log(activeThumb)
+    console.log(isDragging);
+    console.log(activeThumb);
 
     if (isMin) {
       if (value <= priceRange[1]) {
@@ -46,19 +52,26 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
   };
 
   const handleInputChange = (index: number, value: string) => {
-    // Remove leading zeros and parse the value as a number
-    const newValue = parseInt(value.replace(/^0+/, ""), 10) || 0;
-
-    const newRange = [...priceRange];
-
-    if (index === 0 && newValue <= priceRange[1]) {
-      newRange[0] = newValue;
-    } else if (index === 1 && newValue >= priceRange[0]) {
-      newRange[1] = newValue;
+    // Remove non-numeric characters
+    const newValue = value.replace(/\D/g, "");
+  
+    // Allow empty input for controlled input behavior
+    if (newValue === "") {
+      setPriceRange((prev) => (index === 0 ? [0, prev[1]] : [prev[0], 0]));
+      return;
     }
-
-    setPriceRange(newRange);
+  
+    const parsedValue = parseInt(newValue, 10);
+  
+    // Ensure min is always <= max and max is within allowed range
+    if (index === 0) {
+      setPriceRange([Math.min(parsedValue, priceRange[1]), priceRange[1]]);
+    } else {
+      setPriceRange([priceRange[0], Math.max(0, Math.min(parsedValue, maxPrice))]);
+    }
+    console.log("Updated Price Range:", priceRange);
   };
+  
 
   // Handle room type selection
   const handleRoomTypeSelect = (type: "single" | "shared") => {
@@ -83,30 +96,42 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
       setAvailableDate(null); // Reset date if not "Available in"
     }
   };
-
   const handleApplyFilters = () => {
     const filters = {
       location: selectedLocation,
-      priceRange,
+      priceRange: priceRange, // No need to spread, use directly
       roomTypes: selectedRoom,  
       amenities: selectedAmenities,
       availability,
       availableDate,
     };
+    console.log("Applied Filters:", filters); // Debugging log
     onApplyFilters(filters);
     onClose();
   };
+  
   
 
   // Handle filter reset
   const handleResetFilters = () => {
     setSelectedLocation("");
-    setPriceRange([0, 500]);
-    setSelectedRoom("single");
-    setSelectedAmenities([]);
-    setAvailability("Available Now");
-    setAvailableDate(null);
+    setPriceRange([0, 1000000]); // Reset to default price range
+    setSelectedRoom("single"); // Reset room type
+    setSelectedAmenities([]); // Clear all selected amenities
+    setAvailability("Available Now"); // Reset availability filter
+    setAvailableDate(null); // Reset available date
+  
+    // Apply the reset filters
+    onApplyFilters({
+      location: "",
+      priceRange: [0, 1000000],
+      roomTypes: "",
+      amenities: [],
+      availability: "Available Now",
+      availableDate: null,
+    });
   };
+  
 
   return (
     <div className="pb-20">
@@ -200,24 +225,21 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
 
           {/* Input Fields */}
           <div className="flex gap-4">
-            <input
-              type="text"
-              value={formatPrice(priceRange[0])}
-              onChange={(e) => handleInputChange(0, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="₦0"
-              min={0}
-              max={priceRange[1]}
-            />
-            <input
-              type="text"
-              value={formatPrice(priceRange[1])}
-              onChange={(e) => handleInputChange(1, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="₦500"
-              min={priceRange[0]}
-              max={maxPrice}
-            />
+          <input
+  type="text"
+  value={priceRange[0]}
+  onChange={(e) => handleInputChange(0, e.target.value)}
+  className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+  placeholder="₦0"
+/>
+<input
+  type="text"
+  value={priceRange[1]}
+  onChange={(e) => handleInputChange(1, e.target.value)}
+  className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+  placeholder="₦1,000,000"
+/>
+
           </div>
         </div>
         <style>{`
@@ -280,9 +302,7 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
         <div className="flex space-x-2 flex-wrap">
           <button
             className={`px-3 py-2 border rounded-md ${
-              selectedAmenities.includes("Wi-Fi")
-                ? "bg-primary text-white"
-                : ""
+              selectedAmenities.includes("Wi-Fi") ? "bg-primary text-white" : ""
             }`}
             onClick={() => handleAmenitySelect("Wi-Fi")}
           >
@@ -318,9 +338,7 @@ const Filter = ({ onClose, onApplyFilters }: { onClose: () => void, onApplyFilte
           <div className="flex items-center justify-between space-x-2 p-3">
             <button
               className={`w-1/2 px-3 py-2 border rounded-md text-nowrap ${
-                availability === "Available Now"
-                  ? "bg-primary text-white"
-                  : ""
+                availability === "Available Now" ? "bg-primary text-white" : ""
               }`}
               onClick={() => handleAvailabilitySelect("Available Now")}
             >

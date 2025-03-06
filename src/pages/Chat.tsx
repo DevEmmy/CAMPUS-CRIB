@@ -1,174 +1,173 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
-import { Link, useParams } from "react-router";
-
+import { useNavigate, useParams } from "react-router";
 import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
 import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
-// import { useSocket } from "../hooks/useSocket";
 import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messaging } from "../utils/messageRequest";
-import Loader from "../components/Reuseables/Loader";
+import { convertToNormalTime } from "../utils/ConvertToNormalTime";
 
 const Chat = () => {
+  const navigate = useNavigate()
   const { userId } = useParams();
-  // const {socket, isConnected} = useSocket()
-  console.log(userId);
   const [content, setContent] = useState("");
-
+  const [isTexted, setIsTexted] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
+  // Fetch messages
   const {
-    data: messages,
+    data: messages = [],
     isError,
-    isFetching,
+    isLoading,
   } = useQuery({
-    queryKey: ["messages"],
+    queryKey: ["messages", userId],
     queryFn: () => fetchMessages(userId as string),
+    enabled: !!userId,
+    refetchInterval: 5000, // Poll for new messages every 5 seconds
   });
 
-  queryClient.invalidateQueries({ queryKey: ["messages"] });
+  // Set isTexted to true if we have messages
+  useEffect(() => {
+    if (Array.isArray(messages) && messages.length > 0) {
+      setIsTexted(true);
+      console.log(messages);
+    }
+  }, [messages]);
 
+  // Setup mutation for sending messages
   const mutation = useMutation({
-    mutationKey: ["messages"],
-    mutationFn: () => messaging(messageData),
+    mutationFn: (messageData: { recipient: string; message: string }) =>
+      messaging(messageData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["messages"] });
+      // Invalidate and refetch messages after sending
+      queryClient.invalidateQueries({ queryKey: ["messages", userId] });
     },
   });
 
-  const messageData = {
-    recipient: userId,
-    message: content,
-  };
-
+  // Handle sending a message
   const sendMessage = () => {
     if (content.trim() === "") {
       return;
     }
-    console.log(setIsTexted(true))
 
-    mutation.mutate();
+    const messageData = {
+      recipient: userId as string,
+      message: content,
+    };
+
+    // Send the message
+    mutation.mutate(messageData);
+
+    // Clear the input field
     setContent("");
+
+    // Ensure the chat header shows
+    setIsTexted(true);
   };
 
-  // const sendMessage = () => {
-  //   if (socket && content.trim() !== "") {
-
-  //     socket.emit("sendMessage", messageData);
-
-  //     setContent("");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.on('receiveMessage', (messageData) => {
-  //       console.log('New message received:', messageData);
-  //       // toast({
-  //       //   title: 'New message',
-  //       //   description: messageData.message,
-  //       //   status: 'info',
-  //       //   duration: 5000,
-  //       //   isClosable: true,
-  //       // });
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (socket) {
-  //       socket.off('receiveMessage');
-  //     }
-  //   };
-  // }, [socket]);
-
-  const [isTexted, setIsTexted] = useState<boolean>(true);
-
-  const convertToNormalTime = (timestamp: any) => {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
+  // Handle pressing Enter to send message
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
   };
 
-  if(isError){
-    return <div>Error fetching messages</div>
+  // Convert timestamp to readable time
+  // const convertToNormalTime = (timestamp: any) => {
+  //   const date = new Date(timestamp)
+  //   return date.toLocaleTimeString([], {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     hour12: true,
+  //   })
+  // }
+
+  if (isError) {
+    return (
+      <div className="p-5 text-center text-red-500">
+        Error fetching messages
+      </div>
+    );
   }
+
   return (
-    <main className="">
-      <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white">
-        <Link
-          to={"/"}
+    <main className="h-screen flex flex-col">
+      {/* Header */}
+      <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white z-10 border-b">
+        <button
+          onClick={() => navigate(-1)}
           className="rounded-full bg-primary size-7 flex items-center justify-center"
         >
-          <img src={back} alt="back" className="size-3.5" />
-        </Link>
+          <img
+            src={back || "/placeholder.svg"}
+            alt="back"
+            className="size-3.5"
+          />
+        </button>
         {isTexted && (
           <div className="flex justify-between grow">
             <div className="flex gap-2 items-center">
-              <img src={agentPic} className="size-11 rounded-xl" />
+              <img
+                src={agentPic || "/placeholder.svg"}
+                className="size-11 rounded-xl"
+                alt="Agent profile"
+              />
               <div>
                 <h2 className="text-dark font-semibold">Aremu</h2>
               </div>
             </div>
 
-            <button className="border border-primary rounded-xl  p-2">
+            <button className="border border-primary rounded-xl p-2">
               <LuPhone className="size-5 text-primary" />
             </button>
           </div>
         )}
       </div>
 
-      <section className="p-5 py-16 bg-[#f7f7f7]">
-        {isFetching && <Loader />}
-        {messages.length > 0 ? (
-          <div>
-            {messages?.map((message: any, i: number) => (
+      {/* Messages Section */}
+      <section className="p-5 py-16 bg-[#f7f7f7] flex-1 overflow-y-auto mt-14 mb-16">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        ) : Array.isArray(messages) && messages.length > 0 ? (
+          <div className="flex flex-col gap-3">
+            {messages.map((message: any, i: number) => (
               <div
                 key={i}
                 className={`flex my-3 ${
-                  message?.sender == userId && "justify-end"
+                  message?._id === userId ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
-                  className={` max-w-[76%] w-fit p-3 rounded-xl ${
-                    message?.sender == userId
+                  className={`max-w-[76%] w-fit p-3 rounded-xl ${
+                    message?._id === userId
                       ? "bg-primary text-white"
                       : "bg-white text-dark"
                   }`}
                 >
-                  {message?.message}
+                  {message?.lastMessage}
                   <p className="!text-[10px] text-right mt-1">
-                    {convertToNormalTime(message.timestamp)}{" "}
-                    {message?.senderId == userId && "read"}
+                    {convertToNormalTime(message.createdAt)}{" "}
+                    {message?._id === userId && "read"}
                   </p>
                 </div>
               </div>
             ))}
-            <div className="bg-white rounded-xl max-w-[90%] p-2">
-              <img
-                src="https://placehold.co/600x400/png"
-                className="rounded-xl"
-              />
-              <p className="text-dark text-lg font-semibold mb-1">
-                Campus Haven Lodge
-              </p>
-              <p className="">
-                Campus Haven Hostel is a serene and well-equipped living space
-                design...
-              </p>
+
+            {/* Hostel information card */}
+            {/* <div className="bg-white rounded-xl max-w-[90%] p-2 mt-4">
+              <img src="https://placehold.co/600x400/png" className="rounded-xl w-full" alt="Campus Haven Lodge" />
+              <p className="text-dark text-lg font-semibold mb-1">Campus Haven Lodge</p>
+              <p className="">Campus Haven Hostel is a serene and well-equipped living space design...</p>
               <Link to={"/checkout"} className="w-full">
-                <button className="bg-primary p-3 mt-1.5 w-full rounded-xl text-white">
-                  Pay now
-                </button>
+                <button className="bg-primary p-3 mt-1.5 w-full rounded-xl text-white">Pay now</button>
               </Link>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="grid place-items-center">
@@ -186,23 +185,28 @@ const Chat = () => {
         )}
       </section>
 
-      <div className="w-full py-2.5 px-5 flex rounded-t-xl bg-white items-center justify-between bottom-0 fixed">
-        {/* <div> */}
-        <HiPlus className="text-variant-400 size-6" />
-        {/* </div> */}
+      {/* Message Input */}
+      <div className="w-full py-2.5 px-5 flex rounded-t-xl bg-white items-center justify-between bottom-0 fixed border-t">
+        <button className="p-2">
+          <HiPlus className="text-variant-400 size-6" />
+        </button>
         <div className="grow px-2">
           <input
             type="text"
             className="w-full bg-[#E5E5E54D] p-2 outline-none rounded-lg"
             placeholder="Type something..."
+            value={content}
             onChange={(e) => setContent(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
-        {/* <div> */}
-        <button onClick={() => sendMessage()}>
+        <button
+          onClick={sendMessage}
+          disabled={!content.trim()}
+          className={`p-2 ${!content.trim() ? "opacity-50" : ""}`}
+        >
           <MdSend className="text-primary size-6" />
         </button>
-        {/* </div> */}
       </div>
     </main>
   );

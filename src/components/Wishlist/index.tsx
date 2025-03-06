@@ -5,30 +5,32 @@ import { TiHeartFullOutline } from "react-icons/ti";
 import SearchInputs from '../Reuseables/SearchInputs';
 import CustomReturn from '../Reuseables/CustomReturn';
 import { fetchBookmarks, updateBookmark } from '../../lib/bookmarkHostel';
-
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Hostel } from '../../types/Hostel';
 
 const Wishlist: React.FC = () => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [favorites, setFavorites] = useState<any[]>([]);
-  const [filteredFavorites, setFilteredFavorites] = useState<any[]>([]);
-  const [query, setQuery] = useState<string>(''); // Track the search query
-  const [debouncedQuery, setDebouncedQuery] = useState<string>(''); // For debounced search
+  const [query, setQuery] = useState<string>('');
+  const [debouncedQuery, setDebouncedQuery] = useState<string>('');  
+  const debounceTimeout = 500;
+  
+  const queryClient = useQueryClient();
 
-  const debounceTimeout = 500; // Set debounce delay in milliseconds
+  // Fetch bookmarks using React Query
+  const { data: favorites = [], isLoading, isError } = useQuery({
+    queryKey: ['bookmarks'],
+    queryFn: fetchBookmarks,
+  });
 
-  // Fetch bookmarks from the API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const bookmarks = await fetchBookmarks();
-        setFavorites(bookmarks);
-        setFilteredFavorites(bookmarks); // Initialize filtered favorites
-      } catch (error) {
-        console.error('Error fetching bookmarks:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // Bookmark mutation
+  const bookmarkMutation = useMutation({
+    mutationFn: async ({ hostelId, action }: { hostelId: string, action: string }) => {
+      await updateBookmark(hostelId, action);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] }); // Refetch bookmarks after mutation
+    },
+  });
 
   // Load search history from localStorage
   useEffect(() => {
@@ -46,53 +48,38 @@ const Wishlist: React.FC = () => {
   // Debounce effect
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(query); // Update debounced query after delay
+      setDebouncedQuery(query);
     }, debounceTimeout);
 
-    return () => {
-      clearTimeout(timer); // Clean up the previous timeout on each change
-    };
+    return () => clearTimeout(timer);
   }, [query]);
 
   // Handle search logic
   const handleSearch = (query: string) => {
-    setQuery(query); // Update query immediately on button click
+    setQuery(query);
     if (!searchHistory.includes(query)) {
-      const updatedHistory = [...searchHistory, query];
-      setSearchHistory(updatedHistory); // Add to search history
+      setSearchHistory([...searchHistory, query]);
     }
   };
 
   // Filter based on debounced query
-  useEffect(() => {
-    if (debouncedQuery) {
-      const filtered = favorites.filter((hostel) =>
-        hostel.name.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+  const filteredFavorites = debouncedQuery
+    ? favorites.filter((hostel: Hostel) =>
+        hostel.hostelName.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
         hostel.location.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
         hostel.description.toLowerCase().includes(debouncedQuery.toLowerCase())
-      );
-      setFilteredFavorites(filtered); // Update the filtered list
-    } else {
-      setFilteredFavorites(favorites); // Reset to original list if query is empty
-    }
-  }, [debouncedQuery, favorites]);
+      )
+    : favorites;
 
   // Handle search history item click
   const handleHistoryClick = (historyItem: string) => {
-    setQuery(historyItem); // Set query to the clicked history item
-    setDebouncedQuery(historyItem); // Trigger debounced search for the clicked history item
+    setQuery(historyItem);
+    setDebouncedQuery(historyItem);
   };
 
   // Handle bookmark update
   const handleBookmark = async (hostelId: string, action: string) => {
-    try {
-      await updateBookmark(hostelId, action);
-      const updatedFavorites = await fetchBookmarks(); // Refresh the favorites list
-      setFavorites(updatedFavorites);
-      setFilteredFavorites(updatedFavorites);
-    } catch (error) {
-      console.error('Error updating bookmark:', error);
-    }
+    bookmarkMutation.mutate({ hostelId, action });
   };
 
   return (
@@ -104,7 +91,7 @@ const Wishlist: React.FC = () => {
         <SearchInputs query={query} setQuery={setQuery} onSearch={handleSearch} />
 
         {/* Search history */}
-        <div className='my-8'>
+        {/* <div className='my-8'>
           <h2 className='font-semibold text-[22px] leading-7'>Search History</h2>
           <div className='flex items-center gap-5 flex-wrap my-5'>
             {searchHistory.map((search, idx) => (
@@ -117,24 +104,27 @@ const Wishlist: React.FC = () => {
               </small>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Favourites */}
       <div>
         <div className='flex items-center justify-between w-full my-2'>
           <h2 className='font-semibold text-[22px] leading-7'>Favorites</h2>
-          <button className='text-[14px] leading-5 text-[#525252] font-normal hidden'>View all</button>
         </div>
         <div className='p-2'>
-          {favorites.length === 0 ? ( // No bookmarks at all
+          {isLoading ? ( 
+            <p>Loading bookmarks...</p>
+          ) : isError ? ( 
+            <p>Error fetching bookmarks.</p>
+          ) : favorites.length === 0 ? ( 
             <p>No bookmarked hostel available.</p>
-          ) : filteredFavorites.length === 0 ? ( // No results after search
+          ) : filteredFavorites.length === 0 ? ( 
             <p>No results found for "{debouncedQuery}".</p>
-          ) : ( // Display filtered favorites
-            filteredFavorites.map((hostel) => (
-              <div key={hostel.id} className='flex gap-3 items-start mb-4 w-full'>
-                <img className='size-28' src={hostel.images[0]} alt="hostel" />
+          ) : ( 
+            filteredFavorites.map((hostel: Hostel) => (
+              <div key={hostel._id} className='flex gap-3 items-start mb-4 w-full'>
+                <img className='size-28 object-cover' src={hostel.images[0]} alt="hostel" />
                 <div className='space-y-2 flex-1'>
                   <h2 className='text-dark font-bold leading-5'>{hostel.hostelName}</h2>
                   <div className='flex items-center justify-start gap-2'>
@@ -145,16 +135,14 @@ const Wishlist: React.FC = () => {
                   <div className='flex items-center justify-between w-full'>
                     <div className='flex items-center gap-1'>
                       <FiEye color='#7D8A9E' size={25} />
-                      {/* <small className='text-[#525252] text-[12px] leading-4'>{hostel.views.toLocaleString()}</small> */}
                     </div>
                     <div className='flex items-center gap-1'>
                       <TiHeartFullOutline
                         color='#C80F0F'
                         size={25}
-                        onClick={() => handleBookmark(hostel._id, 'remove')} // Toggle bookmark
+                        onClick={() => handleBookmark(hostel._id, 'remove')}
                         style={{ cursor: 'pointer' }}
                       />
-                      {/* <small className='text-[#525252] text-[12px] leading-4'>{hostel.likes}</small> */}
                     </div>
                   </div>
                 </div>

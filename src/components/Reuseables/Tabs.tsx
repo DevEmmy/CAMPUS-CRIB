@@ -21,36 +21,36 @@ const Tabs = ({ isAgent }: tabsProps) => {
   const tabList = [
     {
       title: "Home",
-      icon: <Home size="28" />,
+      icon: <Home size="26" />,
       route: "",
     },
     {
       title: "search",
-      icon: <SearchNormal size="28" />,
+      icon: <SearchNormal size="26" />,
       route: "search",
     },
     {
       title: "chats",
-      icon:<Messenger size="32"/>,
+      icon:<Messenger size="26"/>,
       route: "chat",
     },
     {
       title: "favourite",
-      icon: <MessageSquare size="28" />,
+      icon: <MessageSquare size="26" />,
       route: "wishlist",
     },
     {
       title: "user",
-      icon: <Profile size="28" />,
+      icon: <Profile size="26" />,
       route: "profile",
     },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: <Home size="28" />, route: "" },
+    { title: "Home", icon: <Home size="26" />, route: "" },
     {
       title: "Comments",
-      icon: <MessageText1 size="28" />,
+      icon: <MessageText1 size="26" />,
       route: "comments",
     },
     {
@@ -60,13 +60,13 @@ const Tabs = ({ isAgent }: tabsProps) => {
     },
     {
       title: "user",
-      icon: <Profile size="28" />,
+      icon: <Profile size="26" />,
       route: "profile",
     },
   ];
 
   useEffect(() => {
-    const currentPath = location.pathname.split('/')[1]; // Get the route without the leading slash
+    const currentPath = location.pathname.split('/')[1]; 
     const currentList = isAgent ? agentTabList : tabList;
     const activeIndex = currentList.findIndex(item => item.route === currentPath);
     setActiveTab(activeIndex !== -1 ? activeIndex : 0);
@@ -79,7 +79,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
           to={`/${item.route}`}
           key={i}
           onClick={() => setActiveTab(i)}
-          className={`p-3 capitalize ${
+          className={`p-[10px] capitalize ${
             activeTab === i &&
             "bg-primary flex items-center gap-x-1 text-white rounded-xl"
           }`}
