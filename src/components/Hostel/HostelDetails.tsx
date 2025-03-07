@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 // import TitleHead from "../Ui/TitleHead";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "../../utils/formatPrice";
 import { Link, useNavigate, useParams } from "react-router";
 import TitleHead from "../Ui/TitleHead";
-import { getReviews } from "../../utils/reviews";
+// import { getReviews } from "../../utils/reviews";
 // import Loader from "../Ui/Loader";
 // import { useUserContext } from "../../contexts/UserContext";
 // import profile from "/icons/profile.png";
@@ -24,24 +24,24 @@ const HostelDetails: React.FC = () => {
   console.log(hostelId);
 
 
-  const { data: hostel, isLoading } = useQuery({
+  const { data: hostel } = useQuery({
     queryKey: ["hostel"],
     queryFn: () => fetchHostelById(hostelId as string),
   });
 
-  const {data:review} = useQuery({
-    queryKey: ['reviews'],
-    queryFn: () => getReviews(hostelId as string)
-  })
+  // const {data:review} = useQuery({
+  //   queryKey: ['reviews'],
+  //   queryFn: () => getReviews(hostelId as string)
+  // })
 
-  const {data} = useQuery({
-    queryKey: ['user'],
-    queryFn: () => getReviews(hostelId as string)
-  })
+  // const {data} = useQuery({
+  //   queryKey: ['user'],
+  //   queryFn: () => getReviews(hostelId as string)
+  // })
 
-  useEffect(() => {
-    console.log(review)
-  }, [])
+  // useEffect(() => {
+  //   console.log(review)
+  // }, [])
  
   
     return (

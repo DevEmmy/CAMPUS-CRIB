@@ -72,10 +72,10 @@ const Wishlist: React.FC = () => {
     : favorites;
 
   // Handle search history item click
-  const handleHistoryClick = (historyItem: string) => {
-    setQuery(historyItem);
-    setDebouncedQuery(historyItem);
-  };
+  // const handleHistoryClick = (historyItem: string) => {
+  //   setQuery(historyItem);
+  //   setDebouncedQuery(historyItem);
+  // };
 
   // Handle bookmark update
   const handleBookmark = async (hostelId: string, action: string) => {
