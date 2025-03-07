@@ -50,7 +50,7 @@ const ChatList = () => {
             </div>
           ) : (
             conversations?.map((item: any, i: number) => (
-              <Link key={i} to={`/chat/${user?.user?._id}`}>
+              <Link key={i} to={`/chat/${item._id}`}>
                 <ChatComponent item={item} />
               </Link>
             ))

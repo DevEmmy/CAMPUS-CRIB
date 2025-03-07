@@ -1,21 +1,19 @@
-import { AxiosResponse } from "axios";
-import { User } from "../types/user";
+import axios, { AxiosResponse } from "axios";
 import { axiosConfig } from "./axiosConfig";
 import { errorToast, successToast } from "oasis-toast";
 
-export const signup = async (data: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  userType: string | null;
-}): Promise<AxiosResponse<User> | undefined> => {
+interface User {
+  token: string;
+  user: any;
+}
+
+export const signup = async (data: { email: string; password: string }): Promise<AxiosResponse<User> | undefined> => {
   try {
     const response = await axiosConfig.post("auth/sign-up", data);
 
     // If response exists and is valid, handle it
-    if (response && response.data && response.data) {
-      successToast("Authentication successful", "Welcome to Campus Crib")
+    if (response && response.data && response.data.data) {
+      successToast("Authentication successful", "Welcome to Campus Crib");
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       return response;
@@ -23,16 +21,22 @@ export const signup = async (data: {
 
     // If no valid response, handle the case and return undefined
     console.log("No valid response data");
-    errorToast("An error occured", "Please try again")
+    errorToast("An error occurred", "Invalid form data");
     return undefined;
   } catch (error) {
-    errorToast("An error occured", "Please try again")
-    // Catch and log the error, then return undefined
-    console.error("Signup failed:", error);
+    if (axios.isAxiosError(error)) {
+      // Axios error
+      const errorMessage = error.response?.data?.message || error.message;
+      errorToast("An error occurred", errorMessage);
+      console.error("Signup failed:", errorMessage);
+    } else {
+      // Non-Axios error
+      errorToast("An error occurred", `${error}`);
+      console.error("Signup failed:", error);
+    }
     return undefined;
   }
 };
-
 
 export const login = async (data: { email: string; password: string }): Promise<AxiosResponse<User> | undefined> => {
   try {
@@ -40,7 +44,7 @@ export const login = async (data: { email: string; password: string }): Promise<
 
     // If response exists and is valid, handle it
     if (response && response.data && response.data.data) {
-      successToast("Authentication successful", "Welcome to Campus Crib")
+      successToast("Login successful", "Welcome back to Campus Crib");
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       return response;
@@ -48,13 +52,19 @@ export const login = async (data: { email: string; password: string }): Promise<
 
     // If no valid response, handle the case and return undefined
     console.log("No valid response data");
-    errorToast("An error occured", "Please try again")
+    errorToast("An error occurred", "Invalid login data");
     return undefined;
   } catch (error) {
-    errorToast("An error occured", "Please try again")
-    // Catch and log the error, then return undefined
-    console.error("Login failed:", error);
+    if (axios.isAxiosError(error)) {
+      // Axios error
+      const errorMessage = error.response?.data?.message || error.message;
+      errorToast("An error occurred", errorMessage);
+      console.error("Login failed:", errorMessage);
+    } else {
+      // Non-Axios error
+      errorToast("An error occurred", `${error}`);
+      console.error("Login failed:", error);
+    }
     return undefined;
   }
 };
-

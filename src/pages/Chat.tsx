@@ -86,13 +86,6 @@ const Chat = () => {
   //   })
   // }
 
-  if (isError) {
-    return (
-      <div className="p-5 text-center text-red-500">
-        Error fetching messages
-      </div>
-    );
-  }
 
   return (
     <main className="h-screen flex flex-col">
@@ -130,6 +123,9 @@ const Chat = () => {
 
       {/* Messages Section */}
       <section className="p-5 py-16 bg-[#f7f7f7] flex-1 overflow-y-auto mt-14 mb-16">
+        {isError && (
+          <div className="p-5 text-center text-red-500">Error fetching messages</div>
+        )}
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
@@ -140,20 +136,20 @@ const Chat = () => {
               <div
                 key={i}
                 className={`flex my-3 ${
-                  message?._id === userId ? "justify-end" : "justify-start"
+                  message?.user === userId ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-[76%] w-fit p-3 rounded-xl ${
-                    message?._id === userId
+                    message?.user === userId
                       ? "bg-primary text-white"
                       : "bg-white text-dark"
                   }`}
                 >
-                  {message?.lastMessage}
+                  {message?.message}
                   <p className="!text-[10px] text-right mt-1">
-                    {convertToNormalTime(message.createdAt)}{" "}
-                    {message?._id === userId && "read"}
+                    {convertToNormalTime(message.timestamp)}{" "}
+                    {message?.user === userId && "read"}
                   </p>
                 </div>
               </div>
