@@ -1,7 +1,24 @@
 import React from "react";
 import { VscChevronLeft } from "react-icons/vsc";
 
-const NotificationCard: React.FC = () => {
+interface NotificationProps {
+  notification: {
+    _id: string;
+    title: string;
+    message: string;
+    actionLink: string;
+    createdAt: string;
+  };
+}
+
+const NotificationCard: React.FC<NotificationProps>  = ({notification}) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+    });
+  };
   return (
     <div>
       <div className="my-2 p-2">
@@ -11,18 +28,17 @@ const NotificationCard: React.FC = () => {
             <VscChevronLeft size={30} />
           </button>
           <h2 className="text-dark font-semibold leading-5 text-[14px] flex-1">
-            Payment Confirmed
+          {notification.title}
           </h2>
           <small className="text-dark font-semibold leading-5 text-[12px] flex-1">
-            1 DEC
+          {formatDate(notification.createdAt)}
           </small>
         </div>
       </div>
       <div className="w-full flex items-center justify-center my-2">
         {/* implment the function to truncate the text */}
         <p className="text-[#7D8A9E] text-[14px] leading-5 font-normal">
-          Transaction ID: 123456789 completed successfully for ₦250,000. Go
-          ahead.........
+        {notification.message}
         </p>
       </div>
     </div>

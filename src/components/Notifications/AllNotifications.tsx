@@ -2,29 +2,38 @@ import React, { useEffect } from "react";
 import EmptyNotifications from "../Reuseables/EmptyNotifications";
 import { useQuery } from "@tanstack/react-query";
 import { getAllNotifications } from "../../lib/getNotifications";
-import { useUserContext } from "../../contexts/UserContext";
+// import { useUserContext } from "../../contexts/UserContext";
 import Loader from "../Ui/Loader";
+import NotificationCard from "./NotificationCard";
 
 const AllNotifications: React.FC = () => {
- const {fetchedUser: user} = useUserContext()
+//  const {fetchedUser: user} = useUserContext()
 
-  const { data: notifications, isLoading } = useQuery({
-    queryKey: ["notifications"],
-    queryFn: () => getAllNotifications(user?._id),
-  });
+const { data: notifications, isLoading } = useQuery({
+  queryKey: ["notifications"],
+  queryFn: getAllNotifications,
+});
 
-  useEffect(() => {
-    if (notifications) {
-      console.log(notifications);
-    }
-  }, []);
+useEffect(() => {
+  if (notifications) {
+    console.log(notifications.data);
+  }
+}, [notifications]);
 
-  if(isLoading) <div className="h-screen w-full flex items-center justify-center"><Loader/></div>
+if (isLoading)
+  return (
+    <div className="h-screen w-full flex items-center justify-center">
+      <Loader />
+    </div>
+  );
+
+if (!notifications?.data.data.length) return <EmptyNotifications />;
 
   return (
     <div className="h-full w-full">
-      {/* Fetch notification from the backend and display them */}
-      <EmptyNotifications />
+     {notifications?.data.data.map((notification: any) => (
+      <NotificationCard key={notification.id} notification={notification} />
+     ))}
     </div>
   );
 };
