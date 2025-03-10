@@ -73,7 +73,7 @@ const PersonalDetails = () => {
   const handleSubmit = async () => {
     if (!isEdited) return;
 
-    try {
+    try { 
       setIsSubmitting(true);
       
       // Create the update data object with the latest form data
