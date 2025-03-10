@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const ChatComponent = ({ item }: any) => {
   const { data: user } = useQuery({
     queryKey: ["user"],
-    queryFn: () => fetchUserById(item.participants[0]),
+    queryFn: () => fetchUserById(item.participants[1]),
   });
   useEffect(() => {
     console.log(user)

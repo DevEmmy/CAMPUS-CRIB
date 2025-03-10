@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RatingSystem from "../Reuseables/RatingSystem";
 import { useNavigate, useParams } from "react-router";
 
@@ -9,10 +9,19 @@ import { sendReview } from "../../utils/reviews";
 
 const Review = () => {
   const navigate = useNavigate();
-  const {hostelId} = useParams()
+  const {hostelId: hostel} = useParams()
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [review, serReview] = useState("");
+  const [comment, setComment] = useState<string>("");
   const [rating, setRating] = useState<number>()
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (comment && rating !== null) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [comment, rating]);
 
   const handleRatingChange = (rating: any) => {
     console.log(`Selected rating: ${rating}`);
@@ -21,18 +30,19 @@ const Review = () => {
 
   const mutation = useMutation({
     mutationKey: ["review"],
-    mutationFn: async () => sendReview(review, rating as number, hostelId as string),
+    mutationFn: async () => sendReview(comment, rating as number, hostel as string),
   });
 
   const handleSubmit = () => {
     setIsSubmitted(true);
     mutation.mutate();
-    serReview("");
+    // setComment("");
+    // setRating(null);
   };
 
   return (
     <div className="p-5">
-      <button className="border border-primary rounded-lg">
+      <button onClick={() => navigate(-1)} className="border border-primary rounded-lg">
         <RiCloseLine className="size-8  text-primary" />
       </button>
       <div className="grid place-items-center text-center h-[90vh]">
@@ -65,14 +75,15 @@ const Review = () => {
           <div>
             <input
               type="text"
-              onChange={(e) => serReview(e.target.value)}
+              onChange={(e) => setComment(e.target.value)}
               className="border border-primary p-3 rounded-lg my-5 w-full"
               placeholder="Type a review"
             />
           </div>
           <button
             onClick={() => (!isSubmitted ? handleSubmit() : navigate(-1))}
-            className="w-full p-4 bg-primary text-white text-sm rounded-lg"
+            disabled={isButtonDisabled}
+            className={`w-full p-4 text-sm rounded-lg ${isButtonDisabled ? "bg-gray-300" : "bg-primary text-white"}`}
           >
             {isSubmitted ? "Back to home." : "Submit"}
           </button>

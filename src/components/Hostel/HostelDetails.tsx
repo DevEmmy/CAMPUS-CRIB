@@ -9,7 +9,9 @@ import { LuPhone } from "react-icons/lu";
 import { fetchHostelById } from "../../lib/fetchHostels";
 import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "../../utils/formatPrice";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
+import TitleHead from "../Ui/TitleHead";
+// import { getReviews } from "../../utils/reviews";
 // import Loader from "../Ui/Loader";
 // import { useUserContext } from "../../contexts/UserContext";
 // import profile from "/icons/profile.png";
@@ -18,22 +20,33 @@ const HostelDetails: React.FC = () => {
   // const [activeTabs, setActiveTabs] = useState<number>(0);
   // const { userType } = useUserContext();
   const { hostelId } = useParams();
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   console.log(hostelId);
 
 
-  const { data: hostel, isLoading } = useQuery({
+  const { data: hostel } = useQuery({
     queryKey: ["hostel"],
     queryFn: () => fetchHostelById(hostelId as string),
   });
 
-  if (isLoading) {
-    // return <div className="h-screen w-full flex items-center justify-center"><Loader/></div>;
-  }
+  // const {data:review} = useQuery({
+  //   queryKey: ['reviews'],
+  //   queryFn: () => getReviews(hostelId as string)
+  // })
+
+  // const {data} = useQuery({
+  //   queryKey: ['user'],
+  //   queryFn: () => getReviews(hostelId as string)
+  // })
+
+  // useEffect(() => {
+  //   console.log(review)
+  // }, [])
  
   
     return (
       <div>
+        <TitleHead title="Room Details" />
         <section className="p-5 mt-14">
           <Carousel
             autoPlay={true}
@@ -44,8 +57,8 @@ const HostelDetails: React.FC = () => {
           >
             {hostel &&
               hostel.images.map((image: string, index: number) => (
-                <div key={index} className="w-full rounded-2xl">
-                  <img src={image} alt="image" className="rounded-xl" />
+                <div key={index} className="w-full rounded-2xl h-[300px]">
+                  <img src={image} alt="image" className="rounded-xl h-full object-cover" />
                 </div>
               ))}
           </Carousel>
@@ -94,8 +107,8 @@ const HostelDetails: React.FC = () => {
             <p className="text-dark text-xl font-bold">
               {formatPrice(hostel?.price)}
             </p>
-            <button className="grow bg-[#E5E5E54D] text-variant-500 p-2.5 rounded-xl">
-              Negotiable
+            <button onClick={() => navigate(`/review/${hostel?._id}`)} className="grow bg-[#E5E5E54D] text-variant-500 p-2.5 rounded-xl">
+              Review
             </button>
           </div>
 
