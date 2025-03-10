@@ -1,4 +1,9 @@
 export interface User {
+  profilePicture: string;
+  phoneNumber: string;
+  phone: string;
+  address: string;
+  profileImage: string;
   firstName: string;
   lastName: string;
   email: string;
