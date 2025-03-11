@@ -99,9 +99,9 @@ function App() {
 
             {/* Hostel details */}
             {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
-            <Route path="hostel">
-              <Route path="/hostel/:hostelId" element={<HostelDetails />} />
-              <Route path="/hostel/create" element={<CreateHostel />} />
+            <Route path="hostels">
+              <Route path="/hostels/:hostelId" element={<HostelDetails />} />
+              <Route path="/hostels/create" element={<CreateHostel />} />
             </Route>
             {/* Chat */}
 

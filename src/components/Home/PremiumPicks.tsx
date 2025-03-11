@@ -44,7 +44,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
                     src={hostel.images[0]}
                     alt="Modern building with trees"
                     className="rounded-xl w-full h-full object-cover"
-                    onClick={() => navigate(`/hostel/${hostel._id}`)}
+                    onClick={() => navigate(`/hostels/${hostel._id}`)}
                   />
                   <button
                     onClick={() => handleBookmark(hostel._id)}
@@ -58,20 +58,20 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
                   </button>
                 </div>
                 <h3
-                  onClick={() => navigate(`/hostel/${hostel._id}`)}
+                  onClick={() => navigate(`/hostels/${hostel._id}`)}
                   className="font-semibold mt-4 text-dark"
                 >
                   {hostel.hostelName}
                 </h3>
                 <div
-                  onClick={() => navigate(`/hostel/${hostel._id}`)}
+                  onClick={() => navigate(`/hostels/${hostel._id}`)}
                   className="text-gray-500 flex mt-1 items-center"
                 >
                   <img src={mapMarker} className="size-5 mr-1" />
                   <span>{hostel.location}</span>
                 </div>
                 <p
-                  onClick={() => navigate(`/hostel/${hostel._id}`)}
+                  onClick={() => navigate(`/hostels/${hostel._id}`)}
                   className="text-gray-500 mt-2 text-sm text-[#64748B]"
                 >
                   {hostel.description}

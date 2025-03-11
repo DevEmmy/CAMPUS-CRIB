@@ -55,7 +55,7 @@ const AgentHome: React.FC = () => {
                 You haven't added any hostels yet. Posting your first listing is
                 easy and takes just a few minutes!
               </p>
-              <Link to={'/hostel/create'} className="bg-primary p-2 px-3 text-white rounded-lg">
+              <Link to={'/hostels/create'} className="bg-primary p-2 px-3 text-white rounded-lg">
                 Post a hostel now
               </Link>
             </div>
