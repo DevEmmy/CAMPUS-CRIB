@@ -1,13 +1,14 @@
 export interface User {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  userType: "BASIC" | "AGENT";
   bookmarkedHostels: string[];
   createdAt: string;
   updatedAt: string;
-  userType: "BASIC" | "AGENT";
-  _id: string;
   __v: number;
+  phoneNumber: string;
+  profilePicture: string;
 }

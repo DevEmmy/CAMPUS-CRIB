@@ -4,15 +4,11 @@ import ChatComponent from "../components/Ui/ChatComponent";
 import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { fetchUser } from "../lib/fetchUser";
 import { VscChevronLeft } from "react-icons/vsc";
 
 const ChatList = () => {
   const navigate = useNavigate()
-  const { data: user, isLoading: isUserLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUser,
-  });
+ 
 
   const { data: conversations, isLoading } = useQuery({
     queryKey: ["conversations"],
@@ -21,8 +17,7 @@ const ChatList = () => {
 
   useEffect(() => {
     if (conversations) console.log(conversations);
-    if (user) console.log(user);
-  }, [conversations, user]);
+  }, [conversations]);
 
   return (
     <main>
@@ -38,7 +33,7 @@ const ChatList = () => {
       </div>
 
       <section className="p-5 py-16 bg-white">
-        {isLoading && isUserLoading && (
+        {isLoading && (
           <div className="flex justify-center items-center h-full mt-10">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
         </div>

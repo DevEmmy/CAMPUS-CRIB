@@ -48,7 +48,7 @@ const HotelCard = ({
     >
       <div className="relative w-4/5 h-[230px]">
         <img
-          onClick={() => navigate(`/hostel/${id}`)}
+          onClick={() => navigate(`/hostels/${id}`)}
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
           className="w-full h-48 object-cover rounded-xl"
@@ -66,13 +66,13 @@ const HotelCard = ({
       </div>
       <div className="py-3">
         <h2
-          onClick={() => navigate(`/hostel/${id}`)}
+          onClick={() => navigate(`/hostels/${id}`)}
           className="text-lg font-semibold text-left"
         >
           {title}
         </h2>
         <div
-          onClick={() => navigate(`/hostel/${id}`)}
+          onClick={() => navigate(`/hostels/${id}`)}
           className=" text-dark flex items-center text-left gap-1 justify-start mt-2 "
         >
           <div>
@@ -81,7 +81,7 @@ const HotelCard = ({
           <p className="text-left text-[15px]">{address}</p>
         </div>
         <p
-          onClick={() => navigate(`/hostel/${id}`)}
+          onClick={() => navigate(`/hostels/${id}`)}
           className="text-sm text-variant-500 text-left"
         >
           {desc && desc.slice(0, 30)}
