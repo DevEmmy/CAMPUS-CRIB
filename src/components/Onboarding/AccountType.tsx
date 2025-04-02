@@ -42,10 +42,10 @@ const AccountType: React.FC = () => {
           How Would You Like to Get Started?
         </h1>
       </div>
-      <div className="flex items-center justify-around gap-5">
+      <div className="flex flex-col items-center justify-around gap-5 p-3">
         <Link
           onClick={() => handleChoice("BASIC")}
-          className="border border-dark rounded-lg py-8 px-2 flex items-center justify-center flex-col gap-2"
+          className="border w-full border-dark rounded-lg py-8 px-2 flex items-center justify-center flex-col gap-2"
           to={"/student/onboarding"}
         >
           <img src={cap} alt="Cap" />
@@ -55,7 +55,7 @@ const AccountType: React.FC = () => {
         </Link>
         <Link
           onClick={() => handleChoice("AGENT")}
-          className=" rounded-lg py-8 px-2 flex items-center justify-center flex-col bg-primary gap-2"
+          className=" w-full  rounded-lg py-8 px-2 flex items-center justify-center flex-col bg-primary gap-2"
           to={"/agent/onboarding"}
         >
           <img src={mentoring} alt="mentoring" />

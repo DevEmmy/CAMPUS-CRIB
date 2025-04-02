@@ -1,8 +1,5 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/:path*",
-        "destination": "https://campus-crip-kappa.vercel.app/:path*"
-      }
-    ]
-  }
+  "rewrites": [
+      {"source": "/(.*)", "destination": "/"}
+  ]
+}
