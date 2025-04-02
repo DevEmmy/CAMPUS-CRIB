@@ -4,6 +4,7 @@ import google from "/onboarding/google.svg";
 import { Link } from "react-router";
 import { signup } from "../../utils/authRequest";
 import { useNavigate } from "react-router";
+import { EyeSlash, Eye } from "iconsax-react";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const Signup: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   // Handle form field change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +104,7 @@ const Signup: React.FC = () => {
 
     try {
       setIsSubmitting(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...userData } = formData;
       const response = await signup(userData);
       if (response?.status === 200) {
@@ -128,14 +132,14 @@ const Signup: React.FC = () => {
 
         <form onSubmit={handleSignup} className="space-y-5">
           {/* First Name */}
-          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+          <div className="flex flex-col gap-3 bg-white p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
             <input
               type="text"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               placeholder="First Name"
-              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+              className="flex-1  text-[14px] focus:outline-none bg-white "
             />
             {errors.firstName && (
               <span className="text-red-500 text-sm">{errors.firstName}</span>
@@ -143,14 +147,14 @@ const Signup: React.FC = () => {
           </div>
 
           {/* Last Name */}
-          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+          <div className="flex flex-col bg-white gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
             <input
               type="text"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Last Name"
-              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+              className="flex-1  text-[14px] focus:outline-none bg-white "
             />
             {errors.lastName && (
               <span className="text-red-500 text-sm">{errors.lastName}</span>
@@ -158,14 +162,14 @@ const Signup: React.FC = () => {
           </div>
 
           {/* Email */}
-          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+          <div className="flex flex-col gap-3 bg-white p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
-              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+              className="flex-1  text-[14px] focus:outline-none bg-white "
             />
             {errors.email && (
               <span className="text-red-500 text-sm">{errors.email}</span>
@@ -173,29 +177,48 @@ const Signup: React.FC = () => {
           </div>
 
           {/* Password */}
-          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
-            />
+          <div className="flex flex-col gap-3 bg-white p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+            <div className="flex items-center gap-1">
+              <input
+                type={isPasswordVisible ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
+                className=" grow  text-[14px] focus:outline-none bg-white "
+              />
+
+              {isPasswordVisible ? (
+                <EyeSlash
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  size="22"
+                  color="#a64e1b"
+                  variant="Broken"
+                />
+              ) : (
+                <Eye
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  size="22"
+                  color="#a64e1b"
+                  variant="Broken"
+                />
+              )}
+            </div>
+
             {errors.password && (
               <span className="text-red-500 text-sm">{errors.password}</span>
             )}
           </div>
 
           {/* Confirm Password */}
-          <div className="flex items-center gap-3 p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
+          <div className="flex flex-col  gap-3 bg-white p-4 w-full md:max-w-[600px] border border-primary rounded-lg my-2">
             <input
-              type="password"
+              type={isPasswordVisible ? 'text' : 'password'}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Confirm Password"
-              className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+              className="flex-1  text-[14px] focus:outline-none bg-white "
             />
             {errors.confirmPassword && (
               <span className="text-red-500 text-sm">

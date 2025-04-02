@@ -4,6 +4,7 @@ import line from "/onboarding/Line.svg";
 import google from "/onboarding/google.svg";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
+import { Eye, EyeSlash } from "iconsax-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const Login = () => {
 
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
 
   // Handle change of form input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,20 +82,28 @@ const Login = () => {
               className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
               placeholder="Email Address"
             />
+
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">{errors.email}</p>
             )}
           </div>
 
           <div className="w-full">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
-              placeholder="Password"
-            />
+            <div className="flex items-center border border-primary rounded-lg pr-2 bg-white ">
+              <input
+                type={isPasswordVisible ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-4 grow rounded-lg text-[14px] focus:outline-none"
+                placeholder="Password"
+              />
+
+              {
+                isPasswordVisible ? <EyeSlash onClick={() => setIsPasswordVisible(!isPasswordVisible)} size="22" color="#a64e1b" variant="Broken" /> : <Eye onClick={() => setIsPasswordVisible(!isPasswordVisible)} size="22" color="#a64e1b" variant="Broken" />
+              }
+
+            </div>
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">{errors.password}</p>
             )}
