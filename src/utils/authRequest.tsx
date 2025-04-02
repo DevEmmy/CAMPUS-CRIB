@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { axiosConfig } from "./axiosConfig";
 import { errorToast, successToast } from "oasis-toast";
 
+
 interface User {
   token: string;
   user: any;
