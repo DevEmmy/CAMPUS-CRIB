@@ -5,8 +5,10 @@ import google from "/onboarding/google.svg";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { Eye, EyeSlash } from "iconsax-react";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Login = () => {
+  const { setUserData } = useUserStore();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -42,6 +44,7 @@ const Login = () => {
 
   // Handle form submit
   const handleLogin = async (e: React.FormEvent) => {
+    // const {setUserData} = useUserStore();
     e.preventDefault();
     if (!validate()) return;
 
@@ -50,6 +53,10 @@ const Login = () => {
       const response = await login(formData);
       // Ensure that response is valid
       if (response?.status === 200) {
+        const data = response?.data?.data?.user;
+        // console.log("Login response", response)
+        setUserData(data);
+        console.log("data", data)
         navigate("/");
       }
       setFormData({ email: "", password: "" });

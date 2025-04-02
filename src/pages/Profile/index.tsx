@@ -22,9 +22,17 @@ import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { useEffect } from "react";
 
+import { useUserStore } from "../../store/UseUserStore";
+
 const Profile = () => {
   const navigate = useNavigate();
-  const { fetchedUser: user, userType } = useUserContext();
+  const {  userType } = useUserContext();
+
+  const { user, setUserData } = useUserStore();
+
+
+
+
   const profileItems = [
     {
       title: "Personal Details",

@@ -5,8 +5,10 @@ import { Link } from "react-router";
 import { signup } from "../../utils/authRequest";
 import { useNavigate } from "react-router";
 import { EyeSlash, Eye } from "iconsax-react";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Signup: React.FC = () => {
+  const { setUserData } = useUserStore();
   const navigate = useNavigate();
   const accountType = localStorage.getItem("accountType");
   // console.log(accountType)
@@ -108,7 +110,11 @@ const Signup: React.FC = () => {
       const { confirmPassword, ...userData } = formData;
       const response = await signup(userData);
       if (response?.status === 200) {
+        const data = response?.data?.data?.user;
+        setUserData(data);
+        console.log("data", data)
         navigate("/");
+
       }
     } catch (error) {
       console.error("Signup error:", error);

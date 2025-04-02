@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axiosConfig } from "../utils/axiosConfig"
 
-export const fetchUserById = async (id: string) => {
+export const fetchUserById = async (id: string | any) => {
     const response = await axiosConfig.get(`auth/agent/${id}`)
     return response.data.data
 }

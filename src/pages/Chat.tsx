@@ -14,6 +14,11 @@ import { convertToNormalTime } from "../utils/ConvertToNormalTime";
 const Chat = () => {
   const navigate = useNavigate()
   const { userId } = useParams();
+  const [otherUser, setOtherUser] = useState<any | null>(null);
+  // const [localMessages, setLocalMessages] = useState([]);
+  // const {socket, isConnected} = useSocket()
+  // console.log(userId);
+
   const [content, setContent] = useState("");
   const [isTexted, setIsTexted] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -102,7 +107,9 @@ const Chat = () => {
                 alt="Agent profile"
               />
               <div>
-                <h2 className="text-dark font-semibold">Aremu</h2>
+                <h2 className="text-dark font-semibold">
+                  {otherUser?.firstName}
+                </h2>
               </div>
             </div>
 
@@ -164,7 +171,10 @@ const Chat = () => {
               alt="back"
               className="size-36  rounded-xl object-cover"
             />
-            <h2 className="text-dark font-semibold text-xl">Aremu Davies</h2>
+            <h2 className="text-dark font-semibold text-xl">
+            {messages[0]?.otherUser?.firstName} {" "}
+            {messages[0]?.otherUser?.lastName}
+            </h2>
             <div className="text-variant-500 flex gap-2 items-center">
               <span>Verified Agent</span>{" "}
               <img src={verifiedId} className="size-5" />

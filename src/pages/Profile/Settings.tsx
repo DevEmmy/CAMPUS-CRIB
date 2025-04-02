@@ -10,7 +10,7 @@ const NotificationSettings = () => {
   const [isToggled, setIsToggled] = useState({
     mail: false,
     push: false,
-  });
+  });    
 
   const handleToggle = (key: keyof typeof isToggled) => {
     setIsToggled((prev) => ({
