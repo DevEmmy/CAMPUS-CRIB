@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
 // import PremiumPicks from "../components/Home/PremiumPicks";
@@ -7,22 +7,21 @@ import Head from "../components/Home/Head";
 import home from "/icons/home-13.svg";
 // import { useQuery } from "@tanstack/react-query";
 // import { fetchAllHostels } from "../lib/fetchHostels";
-import { useUserStore } from "../store/UseUserStore";
 import { Link } from "react-router";
 
-const AgentHome: React.FC = () => {
-  const [userProfile, setUserProfile] = useState<any | null>(null);
-  const { user } = useUserStore();
+const AgentHome  = ( {user} : {user: any}) => {
+  const [userProfile ] = useState<any | null>(user);
+  // const { user } = useUserStore();
   // const { data: hostels } = useQuery({
   //   queryKey: ["hostels"],
   //   queryFn: fetchAllHostels,
   // });
 
-  const localUser = localStorage.getItem("user");
+  // const localUser = localStorage.getItem("user");
 
-  useEffect(() => {
-    setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
-  }, []);
+  // useEffect(() => {
+  //   setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
+  // }, []);
 
   return (
     <main className="">

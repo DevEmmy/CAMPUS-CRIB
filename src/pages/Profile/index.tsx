@@ -20,7 +20,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { TbReportAnalytics } from "react-icons/tb";
 import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useUserStore } from "../../store/UseUserStore";
 
@@ -29,7 +29,7 @@ const Profile = () => {
   const { userType } = useUserContext();
   const [userProfile, setUserProfile] = useState<any | null>(null);
 
-  const { user, setUserData } = useUserStore();
+  const { user } = useUserStore();
 
   const localUser = localStorage.getItem("user");
 
