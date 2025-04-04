@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router";
 import search from "/icons/search-01.svg";
 import ChatComponent from "../components/Ui/ChatComponent";
@@ -5,6 +6,7 @@ import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { VscChevronLeft } from "react-icons/vsc";
+
 
 const ChatList = () => {
   const navigate = useNavigate()
@@ -17,17 +19,20 @@ const ChatList = () => {
 
   useEffect(() => {
     if (conversations) console.log(conversations);
-  }, [conversations]);
 
+  }, [conversations]);
   return (
     <main>
       <div className="flex items-center justify-between gap-2 px-5 py-5 top-0 fixed w-full bg-white">
-      <div className="flex items-center justify-between w-full gap-2">
-        <button onClick={() => navigate(-1)} className="text-primary border border-primary p-1 rounded-lg cursor-pointer">
-          <VscChevronLeft size={25} />
-        </button>
-        <h2 className="text-dark font-bold leading-6 flex-1">Messages</h2>
-      </div>
+        <div className="flex items-center justify-between w-full gap-2">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-primary border border-primary p-1 rounded-lg cursor-pointer"
+          >
+            <VscChevronLeft size={25} />
+          </button>
+          <h2 className="text-dark font-bold leading-6 flex-1">Messages</h2>
+        </div>
 
         <img src={search} alt="search" className="size-6" />
       </div>

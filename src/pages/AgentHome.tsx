@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
 import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
 // import PremiumPicks from "../components/Home/PremiumPicks";
@@ -10,16 +11,27 @@ import { useUserStore } from "../store/UseUserStore";
 import { Link } from "react-router";
 
 const AgentHome: React.FC = () => {
+  const [userProfile, setUserProfile] = useState<any | null>(null);
   const { user } = useUserStore();
   // const { data: hostels } = useQuery({
   //   queryKey: ["hostels"],
   //   queryFn: fetchAllHostels,
   // });
 
+  const localUser = localStorage.getItem("user");
+
+  useEffect(() => {
+    setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
+  }, []);
+
   return (
     <main className="">
       {/* Pass the User name and his profile picture into the component */}
-      <Head name={user?.firstName as string} profilePic={profile} isAgent />
+      <Head
+        name={userProfile?.firstName as string}
+        profilePic={profile}
+        isAgent
+      />
 
       <section className="bg p-5 pb-20 ">
         {/* Check if the agent has hostels then render it */}

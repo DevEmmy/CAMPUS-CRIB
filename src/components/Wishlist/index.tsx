@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import location from '/wishlist/location.svg';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect } from "react";
+import location from "/wishlist/location.svg";
 import { FiEye } from "react-icons/fi";
 import { TiHeartFullOutline } from "react-icons/ti";
 import SearchInputs from '../Reuseables/SearchInputs';
@@ -34,7 +35,7 @@ const Wishlist: React.FC = () => {
 
   // Load search history from localStorage
   useEffect(() => {
-    const savedHistory = localStorage.getItem('searchHistory');
+    const savedHistory = localStorage.getItem("searchHistory");
     if (savedHistory) {
       setSearchHistory(JSON.parse(savedHistory));
     }
@@ -42,7 +43,7 @@ const Wishlist: React.FC = () => {
 
   // Save search history to localStorage
   useEffect(() => {
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
 
   // Debounce effect
@@ -83,12 +84,18 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <section className='w-full p-2'>
+    <section className="w-full p-2">
       <CustomReturn title='Favourites' />
+      {/* <TitleHead title={"profile"} /> */}
 
-      {/* Search input */}
-      <div className='my-10'>
-        <SearchInputs query={query} setQuery={setQuery} onSearch={handleSearch} />
+      {/* <section className="p-5 py-20"> */}
+        {/* Search input */}
+        <div className="my-10">
+          <SearchInputs
+            query={query}
+            setQuery={setQuery}
+            onSearch={handleSearch}
+          />
 
         {/* Search history */}
         {/* <div className='my-8'>
