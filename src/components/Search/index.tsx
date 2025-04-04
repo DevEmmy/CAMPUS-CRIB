@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { useLocation } from "react-router";
 import TitleHead from "../Ui/TitleHead";
-import filter from "/icons/filter-horizontal.svg";
+// import filter from "/icons/filter-horizontal.svg";
 // import keyboard from "/icons/keyboard.svg";
 import search from "/icons/search.svg";
-import cancelCircle from "/icons/cancel-circle.svg";
+// import cancelCircle from "/icons/cancel-circle.svg";
 import SearchCarousel from "./SearchCarousel";
 import Filter from "./Filter";
 import { RiCloseFill } from "react-icons/ri";
@@ -13,6 +13,7 @@ import { axiosConfig } from "../../utils/axiosConfig";
 import { Hostel } from "../../types/Hostel";
 import { fetchBookmarks } from "../../lib/bookmarkHostel";
 import { useQuery } from "@tanstack/react-query";
+import { IoFilterOutline } from "react-icons/io5";
 
 const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -122,8 +123,8 @@ const Search = () => {
     <main className="">
       <TitleHead title="Search" />
       <section className="p-5 my-10">
-        <div className="flex gap-2 my-5">
-          <div className="flex items-center border gap-1 border-variant-400 rounded-lg p-3 flex-1 relative">
+        {/* <div className="flex gap-2 my-5 overflow-hidden w-full">
+          <div className="flex items-center border gap-1 border-variant-400 rounded-lg p-3 relative">
             <img src={search} className="size-7" />
             <input
               type="text"
@@ -132,22 +133,34 @@ const Search = () => {
               className="outline-none h-full bg-transparent"
               placeholder="Search for Hostels, locations"
             />
-            {/* {searchQuery && (
-              <img
-                src={cancelCircle}
-                alt="clear search"
-                className="cursor-pointer"
-                onClick={handleClearSearch}
-              />
-            )} */}
           </div>
           <button
-            className="bg-primary rounded-xl py-1 px-3 flex-1"
+            className="bg-primary rounded-xl py-1 px-3 "
             onClick={() => setIsFilter(true)}
           >
-            <img src={filter} />
+            <IoFilterOutline className=" text-white size-6" />
+          </button>
+        </div> */}
+
+        <div className="flex gap-2 my-5 overflow-hidden w-full min-w-0">
+          <div className="flex items-center justify-between border gap-1 border-variant-400 rounded-lg p-3 relative flex-1 min-w-0">
+            <img src={search} className="size-7" alt="search icon" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="outline-none h-full bg-transparent flex-1"
+              placeholder="Search for Hostels, locations"
+            />
+          </div>
+          <button
+            className="bg-primary rounded-xl py-1 px-2"
+            onClick={() => setIsFilter(true)}
+          >
+            <IoFilterOutline className="text-white size-6" />
           </button>
         </div>
+
         {/* 
         {isLoading && (
           <div className="flex justify-center items-center h-full mt-20">
@@ -171,16 +184,16 @@ const Search = () => {
             <div className="my-3 flex-row gap-1">
               <div className="flex justify-between items-center">
                 <p className="text-dark">Search Results</p>
-                <img src={cancelCircle} />
+                {/* <img src={cancelCircle} /> */}
               </div>
-              <div className="flex overflow-x-scroll gap-x-3 w-full mt-1.5">
+              <div className="flex overflow-x-scroll gap-x-2 w-full my-1.5 scroll-m-0">
                 {filteredResults.map((result, index) => (
                   <div key={index} className="text-center justify-center">
                     <img
                       src={result.images[0]}
-                      className="min-w-14 h-14 object-cover rounded-lg"
+                      className="min-w-14 h-14 object-cover rounded-lg border"
                     />
-                    <p className="text-xs">{result.hostelName}</p>
+                    <p className="!text-[13px] line-clamp-1">{result.hostelName}</p>
                   </div>
                 ))}
               </div>

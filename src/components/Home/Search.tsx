@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Award, Briefcase, Like1, Location, SearchNormal } from "iconsax-react";
 import { useNavigate } from "react-router";
@@ -37,9 +38,9 @@ const Search = () => {
   return (
     <div className="mt-6">
       <div className="flex gap-1.5">
-        <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3">
+        <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3 min-w-0">
           <input
-            type="search"
+            type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="outline-0 grow h-full"
@@ -47,7 +48,7 @@ const Search = () => {
           />
         </div>
         <button onClick={handleSearch} className="bg-primary rounded-xl p-3">
-          <SearchNormal className="text-white" size="26" />
+          <SearchNormal className="text-white" size="24" />
         </button>
       </div>
 

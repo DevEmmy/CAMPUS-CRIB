@@ -4,13 +4,9 @@ import notification from '/icons/notification.svg';
 import { useNavigate } from 'react-router';
 
 
-interface HeadProps { 
-  name: string,
-  profilePic?: any,
-  isAgent: boolean
-}
 
-const Head = ({name, profilePic, isAgent} : HeadProps) => {
+
+const Head = ( {user, isAgent} : { user: any, isAgent: boolean}) => {
   const navigate = useNavigate()
   const [hasShadow, setHasShadow] = useState<boolean>(false);
 
@@ -26,9 +22,9 @@ const Head = ({name, profilePic, isAgent} : HeadProps) => {
   return (
     <div className={`flex items-center justify-between px-5 pt-4 pb-3 top-0 fixed w-full bg-white z-20  transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
         <div className="flex gap-2 items-center">
-            <img src={profilePic} className='size-12 rounded-xl'/>
+            <img src={user?.profilePicture} className='size-12 rounded-xl'/>
             <div className='flex-row gap-0'>
-                <p className='font-bold text-dark'>{isAgent ? "Welcome " : "Hello "}{name}</p>
+                <p className='font-bold text-dark'>{isAgent ? "Welcome " : "Hello "}{user?.firstName}</p>
                 <p className='text-sm text-[#64748B]'>
                   {
                     isAgent ? `Let's connect` : 'explore the best hostel!'

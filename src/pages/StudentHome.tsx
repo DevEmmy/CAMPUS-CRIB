@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import profile from "/icons/profile.png";
+// import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
 import Search from "../components/Home/Search";
 import PremiumPicks from "../components/Home/PremiumPicks";
@@ -53,7 +53,7 @@ const StudentHome = ({ user }: { user: any }) => {
   return (
     <main>
       {/* User profile */}
-      <Head name={user?.firstName || ""} profilePic={profile} isAgent={false} />
+      <Head user={user} isAgent={false} />
 
       <section className="p-5 py-16 overflow-hidden">
         <Search />

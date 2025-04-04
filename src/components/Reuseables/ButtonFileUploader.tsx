@@ -1,16 +1,19 @@
 import React, { ChangeEvent, useId, useState } from "react";
 import ControlledButton from "./ControlledButton";
+import { Camera } from "iconsax-react";
 
 interface ButtonFileUploaderProps {
   title: string;
   onUploadComplete?: (uploadUrls?: string[]) => void;
   multiple?: boolean;
+  isProfilePic?: boolean;
 }
 
 const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
   title,
   onUploadComplete,
   multiple,
+  isProfilePic,
 }) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
@@ -23,7 +26,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
         file.type.startsWith("image") ? URL.createObjectURL(file) : file.name
       );
       setFilePreviews((prev) => [...prev, ...preview]);
-      console.log(filePreviews)
+      console.log(filePreviews);
       setUploading(true);
 
       try {
@@ -66,7 +69,23 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
   return (
     <div className="flex flex-col items-center gap-2">
       {/* Button to trigger file input */}
-      <ControlledButton title={title} uploading={uploading} handleButtonClick={handleButtonClick} />
+
+      {isProfilePic ? (
+        <button
+          onClick={handleButtonClick}
+          disabled={uploading}
+          className="bg-[#f5f5f5] absolute rounded-lg right-0 bottom-0 p-1.5"
+        >
+          <Camera size="16" color="#1B85A6" />
+        </button>
+      ) : (
+        <ControlledButton
+          title={title}
+          uploading={uploading}
+          handleButtonClick={handleButtonClick}
+        />
+      )}
+
       {/* Hidden file input */}
       <input
         type="file"

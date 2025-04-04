@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import TitleHead from "../../components/Ui/TitleHead";
-import profile from "/icons/profile.png";
 import {
   // ArchiveBook,
   ArrowRight2,
@@ -140,13 +139,13 @@ const Profile = () => {
       <TitleHead title={"profile"} />
 
       <section className="p-5 py-20">
-        <div className="flex items-center gap-x-3 mb-3">
-          <img src={profile} className="size-16 rounded-xl" />
+        <div className="flex items-center gap-x-2 mb-3">
+          <img src={userProfile?.profilePicture} className="size-16 rounded-full" />
           <div className="flex-row gap-0 justify-center">
             <h2 className="text-dark font-semibold text-lg">
               {userProfile?.firstName as string} {userProfile?.lastName as string}
             </h2>
-            <span className="text-variant-500 text-sm">
+            <span className="text-variant-500 text-sm -mt-4">
               {userProfile?.email as string}
             </span>
           </div>

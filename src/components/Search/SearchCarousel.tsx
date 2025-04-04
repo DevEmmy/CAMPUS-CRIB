@@ -49,7 +49,7 @@ const HotelCard = ({
   return (
     <div
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm pb-7 ${
-        isFlex && "grid grid-cols-2 gap-x-1 items-center"
+        isFlex && "grid grid-cols-2 gap-x-2 items-center"
       }`}
     >
       <div className="relative">
@@ -59,26 +59,26 @@ const HotelCard = ({
           alt="Aerial view of a large hotel complex surrounded by greenery"
           className="w-full h-48 object-cover rounded-xl"
         />
-         <button
-                            onClick={() => handleBookmark(id)}
-                            className="absolute top-2 right-2 bg-white/80 bg-opacity-25 rounded-xl p-2 shadow-md"
-                          >
-                            {isLiked ? (
-                              <VscHeartFilled color="#C80F0F" className="size-5" />
-                            ) : (
-                              <VscHeart color="#C80F0F" className="size-5" />
-                            )}
-                          </button>
+        <button
+          onClick={() => handleBookmark(id)}
+          className="absolute top-2 right-2 bg-white/80 bg-opacity-25 rounded-xl p-2 shadow-md"
+        >
+          {isLiked ? (
+            <VscHeartFilled color="#C80F0F" className="size-5" />
+          ) : (
+            <VscHeart color="#C80F0F" className="size-5" />
+          )}
+        </button>
       </div>
-      <div   onClick={() => navigate(`/hostel/${id}`)} className="py-3">
+      <div onClick={() => navigate(`/hostel/${id}`)} className="py-3">
         <h2 className="text-lg font-semibold text-left">{title}</h2>
         <div className=" text-dark flex items-center text-left gap-1 justify-start mt-2 ">
-          <div>
-            <img src={mapMarker} className="size-5" />
+          <div className="-mb-1">
+            <img src={mapMarker} className="size-4" />
           </div>
-          <p className="text-left text-[15px]">{address}</p>
+          <p className="text-left text-[15px] text-medium">{address}</p>
         </div>
-        <p className="text-sm text-variant-500 text-left">
+        <p className="text-sm text-variant-400 text-semibold text-left">
           {desc && desc.slice(0, 30)}
         </p>
       </div>
@@ -89,7 +89,7 @@ const HotelCard = ({
 const SearchCarousel = ({ cards }: SearchCarouselProps) => {
   return (
     <>
-      <div>
+      <div className="py-3">
         <h2 className="font-semibold text-base">Popular</h2>
 
         <Carousel

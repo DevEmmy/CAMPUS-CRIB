@@ -39,11 +39,11 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
 
             return (
               <div className="bg-white min-w-[80vw]" key={hostel._id}>
-                <div className="relative w-[90%] h-[230px]">
+                <div className="relative w-[98%] h-[230px]">
                   <img
                     src={hostel.images[0]}
                     alt="Modern building with trees"
-                    className="rounded-xl w-full h-full object-cover"
+                    className="rounded-xl w-full h-full object-cover border shadow"
                     onClick={() => navigate(`/hostels/${hostel._id}`)}
                   />
                   <button
@@ -72,7 +72,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
                 </div>
                 <p
                   onClick={() => navigate(`/hostels/${hostel._id}`)}
-                  className="text-gray-500 mt-2 text-sm text-[#64748B]"
+                  className="line-clamp-2 mt-2 text-sm text-[#64748B]"
                 >
                   {hostel.description}
                 </p>

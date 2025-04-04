@@ -3,33 +3,43 @@ import React, { useState, useEffect } from "react";
 import location from "/wishlist/location.svg";
 import { FiEye } from "react-icons/fi";
 import { TiHeartFullOutline } from "react-icons/ti";
-import SearchInputs from '../Reuseables/SearchInputs';
-import CustomReturn from '../Reuseables/CustomReturn';
-import { fetchBookmarks, updateBookmark } from '../../lib/bookmarkHostel';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Hostel } from '../../types/Hostel';
+import SearchInputs from "../Reuseables/SearchInputs";
+import { fetchBookmarks, updateBookmark } from "../../lib/bookmarkHostel";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Hostel } from "../../types/Hostel";
+import TitleHead from "../Ui/TitleHead";
 
 const Wishlist: React.FC = () => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [query, setQuery] = useState<string>('');
-  const [debouncedQuery, setDebouncedQuery] = useState<string>('');  
+  const [query, setQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const debounceTimeout = 500;
-  
+
   const queryClient = useQueryClient();
 
   // Fetch bookmarks using React Query
-  const { data: favorites = [], isLoading, isError } = useQuery({
-    queryKey: ['bookmarks'],
+  const {
+    data: favorites = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["bookmarks"],
     queryFn: fetchBookmarks,
   });
 
   // Bookmark mutation
   const bookmarkMutation = useMutation({
-    mutationFn: async ({ hostelId, action }: { hostelId: string, action: string }) => {
+    mutationFn: async ({
+      hostelId,
+      action,
+    }: {
+      hostelId: string;
+      action: string;
+    }) => {
       await updateBookmark(hostelId, action);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bookmarks'] }); // Refetch bookmarks after mutation
+      queryClient.invalidateQueries({ queryKey: ["bookmarks"] }); // Refetch bookmarks after mutation
     },
   });
 
@@ -65,10 +75,17 @@ const Wishlist: React.FC = () => {
 
   // Filter based on debounced query
   const filteredFavorites = debouncedQuery
-    ? favorites.filter((hostel: Hostel) =>
-        hostel.hostelName.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
-        hostel.location.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
-        hostel.description.toLowerCase().includes(debouncedQuery.toLowerCase())
+    ? favorites.filter(
+        (hostel: Hostel) =>
+          hostel.hostelName
+            .toLowerCase()
+            .includes(debouncedQuery.toLowerCase()) ||
+          hostel.location
+            .toLowerCase()
+            .includes(debouncedQuery.toLowerCase()) ||
+          hostel.description
+            .toLowerCase()
+            .includes(debouncedQuery.toLowerCase())
       )
     : favorites;
 
@@ -84,21 +101,21 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <section className="w-full p-2">
-      <CustomReturn title='Favourites' />
-      {/* <TitleHead title={"profile"} /> */}
+    <main className="w-full ">
+      {/* <CustomReturn title='Favourites' /> */}
+      <TitleHead title={"Favourites"} />
 
-      {/* <section className="p-5 py-20"> */}
+      <section className="p-5 py-20">
         {/* Search input */}
-        <div className="my-10">
+        <div className="">
           <SearchInputs
             query={query}
             setQuery={setQuery}
             onSearch={handleSearch}
           />
 
-        {/* Search history */}
-        {/* <div className='my-8'>
+          {/* Search history */}
+          {/* <div className='my-8'>
           <h2 className='font-semibold text-[22px] leading-7'>Search History</h2>
           <div className='flex items-center gap-5 flex-wrap my-5'>
             {searchHistory.map((search, idx) => (
@@ -112,53 +129,67 @@ const Wishlist: React.FC = () => {
             ))}
           </div>
         </div> */}
-      </div>
-
-      {/* Favourites */}
-      <div>
-        <div className='flex items-center justify-between w-full my-2'>
-          <h2 className='font-semibold text-[22px] leading-7'>Favorites</h2>
         </div>
-        <div className='p-2'>
-          {isLoading ? ( 
-            <p>Loading bookmarks...</p>
-          ) : isError ? ( 
-            <p>Error fetching bookmarks.</p>
-          ) : favorites.length === 0 ? ( 
-            <p>No bookmarked hostel available.</p>
-          ) : filteredFavorites.length === 0 ? ( 
-            <p>No results found for "{debouncedQuery}".</p>
-          ) : ( 
-            filteredFavorites.map((hostel: Hostel) => (
-              <div key={hostel._id} className='flex gap-3 items-start mb-4 w-full'>
-                <img className='size-28 object-cover' src={hostel.images[0]} alt="hostel" />
-                <div className='space-y-2 flex-1'>
-                  <h2 className='text-dark font-bold leading-5'>{hostel.hostelName}</h2>
-                  <div className='flex items-center justify-start gap-2'>
-                    <img src={location} alt="location icon" />
-                    <p className='text-dark text-[12px] leading-4'>{hostel.location}</p>
-                  </div>
-                  <p className='text-[#64748B] text-[10px] leading-4'>{hostel.description}</p>
-                  <div className='flex items-center justify-between w-full'>
-                    <div className='flex items-center gap-1'>
-                      <FiEye color='#7D8A9E' size={25} />
+
+        {/* Favourites */}
+        <div>
+          <div className="flex items-center justify-between w-full my-2">
+            <h2 className="font-semibold text-[22px] leading-7">Favorites</h2>
+          </div>
+          <div className="p-2">
+            {isLoading ? (
+              <p>Loading bookmarks...</p>
+            ) : isError ? (
+              <p>Error fetching bookmarks.</p>
+            ) : favorites.length === 0 ? (
+              <p>No bookmarked hostel available.</p>
+            ) : filteredFavorites.length === 0 ? (
+              <p>No results found for "{debouncedQuery}".</p>
+            ) : (
+              filteredFavorites.map((hostel: Hostel) => (
+                <div
+                  key={hostel._id}
+                  className="flex gap-3 items-start mb-4 w-full"
+                >
+                  <img
+                    className="size-28 object-cover border rounded-lg"
+                    src={hostel.images[0]}
+                    alt="hostel"
+                  />
+                  <div className="space-y-2 flex-1">
+                    <h2 className="text-dark font-bold leading-5">
+                      {hostel.hostelName}
+                    </h2>
+                    <div className="flex items-center justify-start gap-2">
+                      <img src={location} alt="location icon" className="" />
+                      <p className="text-dark text-[12px] leading-4">
+                        {hostel.location}
+                      </p>
                     </div>
-                    <div className='flex items-center gap-1'>
-                      <TiHeartFullOutline
-                        color='#C80F0F'
-                        size={25}
-                        onClick={() => handleBookmark(hostel._id, 'remove')}
-                        style={{ cursor: 'pointer' }}
-                      />
+                    <p className="text-[#64748B] text-[10px] leading-4">
+                      {hostel.description}
+                    </p>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-1">
+                        <FiEye color="#7D8A9E" size={22} />
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <TiHeartFullOutline
+                          color="#C80F0F"
+                          size={25}
+                          onClick={() => handleBookmark(hostel._id, "remove")}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 };
 
