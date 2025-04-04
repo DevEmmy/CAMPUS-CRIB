@@ -4,23 +4,37 @@ import search from "/icons/search-01.svg";
 import ChatComponent from "../components/Ui/ChatComponent";
 import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { VscChevronLeft } from "react-icons/vsc";
-
+import { ConversationType, useConversationStore } from "../store/useConversationStore";
 
 const ChatList = () => {
-  const navigate = useNavigate()
- 
+  const navigate = useNavigate();
 
-  const { data: conversations, isLoading } = useQuery({
+  const { storedConversations, setStoredConversations } = useConversationStore();
+
+  const [conversationList, setConversationList] = useState<ConversationType[] | null>(null);
+  
+  const { data: fetchedConversations, isLoading } = useQuery({
     queryKey: ["conversations"],
     queryFn: fetchConversations,
   });
-
   useEffect(() => {
-    if (conversations) console.log(conversations);
+    if (
+      fetchedConversations &&
+      JSON.stringify(fetchedConversations) !==
+        JSON.stringify(storedConversations)
+    ) {
+      setStoredConversations(fetchedConversations);
+    }
 
-  }, [conversations]);
+    console.log("savedconvo", storedConversations);
+
+    console.log("fetch", fetchedConversations);
+    const convoData = fetchedConversations || storedConversations;
+
+    setConversationList(convoData);
+  }, [fetchedConversations, storedConversations, setStoredConversations]);
   return (
     <main>
       <div className="flex items-center justify-between gap-2 px-5 py-5 top-0 fixed w-full bg-white">
@@ -40,16 +54,16 @@ const ChatList = () => {
       <section className="p-5 py-16 bg-white">
         {isLoading && (
           <div className="flex justify-center items-center h-full mt-10">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-        </div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+          </div>
         )}
         <div>
-          {conversations?.length === 0 ? (
+          {conversationList?.length === 0 ? (
             <div className="text-center text-gray-500 my-10">
               <p>You don't have any conversations yet.</p>
             </div>
           ) : (
-            conversations?.map((item: any, i: number) => (
+            conversationList?.map((item: any, i: number) => (
               <Link key={i} to={`/chat/${item._id}`}>
                 <ChatComponent item={item} />
               </Link>
