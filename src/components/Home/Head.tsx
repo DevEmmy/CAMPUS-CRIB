@@ -24,7 +24,7 @@ const Head = ({name, profilePic, isAgent} : HeadProps) => {
   }, []);
 
   return (
-    <div className={`flex items-center justify-between px-5 py-5 top-0 fixed w-full bg-white z-20  transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
+    <div className={`flex items-center justify-between px-5 pt-4 pb-3 top-0 fixed w-full bg-white z-20  transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
         <div className="flex gap-2 items-center">
             <img src={profilePic} className='size-12 rounded-xl'/>
             <div className='flex-row gap-0'>

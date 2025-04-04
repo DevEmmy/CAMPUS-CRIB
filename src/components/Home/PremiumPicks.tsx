@@ -32,6 +32,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
   return (
     <div className="mb-6 w-full">
       <h2 className="text-dark font-semibold my-4">Premium Picks</h2>
+<<<<<<< HEAD
       <div className="flex flex-1 w-full overflow-x-scroll gap-x-1.5 mb-2 no-scrollbar">
         {hostels.length > 0 ? (
           hostels.map((hostel) => {
@@ -82,6 +83,35 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
         ) : (
           <div className="text-center w-full flex items-center justify-center py-10">
             No hostels available
+=======
+      <div className="flex flex-1 w-full overflow-x-scroll gap-x-2.5 mb-2 no-scrollbar">
+        {hostels && hostels?.map((hostel: Hostel) => (
+          <div onClick={() => navigate(`/hostel/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
+            <div className="relative w-full h-[230px]">
+              <img
+                src={hostel.images[0]}
+                alt="Modern building with trees"
+                className="rounded-xl w-full h-full object-cover border shadow"
+                onClick={() => navigate(`/hostel/${hostel._id}`)}
+              />
+              <button onClick={() => handleBookmark(hostel._id, 'add')} className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md">
+                {/* <RiHeart2Line /> */}
+                <IoIosHeartEmpty className="size-5" />
+              </button>
+            </div>
+            <h3
+              className="font-semibold mt-4 text-dark"
+            >
+              {hostel.hostelName}
+            </h3>
+            <div className="text-gray-500 flex mt-1 items-center">
+              <img src={mapMarker} className="size-5 mr-1" />
+              <span>{hostel.location}</span>
+            </div>
+            <p className=" mt-2 text-sm text-[#64748B]">
+              {hostel.description}
+            </p>
+>>>>>>> b8630cc (Fixed carousel issues)
           </div>
         )}
       </div>

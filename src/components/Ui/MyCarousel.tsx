@@ -46,12 +46,12 @@ const HotelCard = ({
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
     >
-      <div className="relative w-4/5 h-[230px]">
+      <div className="relative h-[230px]">
         <img
           onClick={() => navigate(`/hostels/${id}`)}
           src={image}
           alt="Aerial view of a large hotel complex surrounded by greenery"
-          className="w-full h-48 object-cover rounded-xl"
+          className="w-full h-full object-cover rounded-xl border shadow"
         />
         <button
           onClick={() => handleBookmark(id, `${liked ? "remove" : "add"}`)}
