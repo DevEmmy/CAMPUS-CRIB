@@ -26,12 +26,17 @@ import { useUserStore } from "../../store/UseUserStore";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const {  userType } = useUserContext();
+  const { userType } = useUserContext();
+  const [userProfile, setUserProfile] = useState<any | null>(null);
 
   const { user, setUserData } = useUserStore();
 
+  const localUser = localStorage.getItem("user");
 
-
+  useEffect(() => {
+    console.log("User details" , localUser)
+    setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
+  }, []);
 
   const profileItems = [
     {
@@ -119,7 +124,6 @@ const Profile = () => {
     // },
   ];
 
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -140,10 +144,10 @@ const Profile = () => {
           <img src={profile} className="size-16 rounded-xl" />
           <div className="flex-row gap-0 justify-center">
             <h2 className="text-dark font-semibold text-lg">
-              {user?.firstName as string} {user?.lastName as string}
+              {userProfile?.firstName as string} {userProfile?.lastName as string}
             </h2>
             <span className="text-variant-500 text-sm">
-              {user?.email as string}
+              {userProfile?.email as string}
             </span>
           </div>
           {userType == "AGENT" && (
@@ -172,44 +176,49 @@ const Profile = () => {
           </div>
         )}
         <div className="flex flex-col gap-1 mt-4">
-          {userType == "AGENT" ?  agentProfileItems?.map((item: any, i: number) => {
-            return (
-              <Link key={i} to={item?.link} className="">
-                <div className="flex items-center justify-between gap-x-2 my-3">
-                  <span className="bg-[#F5F5F5] rounded-xl p-2">
-                    {item?.image}
-                  </span>
+          {userType == "AGENT"
+            ? agentProfileItems?.map((item: any, i: number) => {
+                return (
+                  <Link key={i} to={item?.link} className="">
+                    <div className="flex items-center justify-between gap-x-2 my-3">
+                      <span className="bg-[#F5F5F5] rounded-xl p-2">
+                        {item?.image}
+                      </span>
 
-                  <div
-                    className={`grow font-medium ${i > 6 && "text-[#B90000]"}`}
-                  >
-                    {item?.title}
-                  </div>
+                      <div
+                        className={`grow font-medium ${
+                          i > 6 && "text-[#B90000]"
+                        }`}
+                      >
+                        {item?.title}
+                      </div>
 
-                  {i < 7 && <ArrowRight2 size={20} />}
-                </div>
-              </Link>
-            )
-          }) :
-          profileItems?.map((item: any, i: number) => {
-            return (
-              <Link key={i} to={item?.link} className="my-3">
-                <div className="flex items-center justify-between gap-x-2 my-3">
-                  <span className="bg-[#F5F5F5] rounded-xl p-2">
-                    {item?.image}
-                  </span>
+                      {i < 7 && <ArrowRight2 size={20} />}
+                    </div>
+                  </Link>
+                );
+              })
+            : profileItems?.map((item: any, i: number) => {
+                return (
+                  <Link key={i} to={item?.link} className="my-3">
+                    <div className="flex items-center justify-between gap-x-2 my-3">
+                      <span className="bg-[#F5F5F5] rounded-xl p-2">
+                        {item?.image}
+                      </span>
 
-                  <div
-                    className={`grow font-medium ${i > 6 && "text-[#B90000]"}`}
-                  >
-                    {item?.title}
-                  </div>
+                      <div
+                        className={`grow font-medium ${
+                          i > 6 && "text-[#B90000]"
+                        }`}
+                      >
+                        {item?.title}
+                      </div>
 
-                  {i < 7 && <ArrowRight2 size={20} />}
-                </div>
-              </Link>
-            );
-          })}
+                      {i < 7 && <ArrowRight2 size={20} />}
+                    </div>
+                  </Link>
+                );
+              })}
           <div
             onClick={handleLogout}
             className="flex items-center justify-between gap-x-2 my-3"

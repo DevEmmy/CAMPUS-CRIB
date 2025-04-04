@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import profilePic from "/icons/profile.png";
 import { convertToNormalTime } from "../../utils/ConvertToNormalTime";
 

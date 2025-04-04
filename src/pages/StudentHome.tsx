@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
 import profile from "/icons/profile.png";
 import Head from "../components/Home/Head";
 import Search from "../components/Home/Search";
