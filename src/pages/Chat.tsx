@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
@@ -28,6 +30,7 @@ const Chat = () => {
     data: messages = [],
     isError,
     isLoading,
+    isFetchedAfterMount
   } = useQuery({
     queryKey: ["messages", userId],
     queryFn: () => fetchMessages(userId as string),
@@ -41,7 +44,12 @@ const Chat = () => {
       setIsTexted(true);
       console.log(messages);
     }
-  }, [messages]);
+
+    if (isFetchedAfterMount) {
+      console.log("first other user", messages)
+      setOtherUser(messages.otherUser); // Save the first fetch result
+    }
+  }, [messages, isLoading, isFetchedAfterMount]);
 
   // Setup mutation for sending messages
   const mutation = useMutation({
@@ -98,7 +106,7 @@ const Chat = () => {
             className="size-3.5"
           />
         </button>
-        {isTexted && (
+        {/* {isTexted && ( */}
           <div className="flex justify-between grow">
             <div className="flex gap-2 items-center">
               <img
@@ -117,7 +125,7 @@ const Chat = () => {
               <LuPhone className="size-5 text-primary" />
             </button>
           </div>
-        )}
+        {/* )} */}
       </div>
 
       {/* Messages Section */}
@@ -172,8 +180,8 @@ const Chat = () => {
               className="size-36  rounded-xl object-cover"
             />
             <h2 className="text-dark font-semibold text-xl">
-            {messages[0]?.otherUser?.firstName} {" "}
-            {messages[0]?.otherUser?.lastName}
+            {otherUser?.firstName} {" "}
+            {otherUser?.lastName}
             </h2>
             <div className="text-variant-500 flex gap-2 items-center">
               <span>Verified Agent</span>{" "}
