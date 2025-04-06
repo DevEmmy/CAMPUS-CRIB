@@ -21,14 +21,19 @@ import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
+import { useHostelStore } from "../../store/useHostelsStore";
 import { useUserStore } from "../../store/UseUserStore";
+import { useConversationStore } from "../../store/useConversationStore";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { userType } = useUserContext();
   const [userProfile, setUserProfile] = useState<any | null>(null);
 
-  const { user } = useUserStore();
+  const { user ,setUserData } = useUserStore();
+  const { setStoredConversations ,clearConversations } = useConversationStore();
+  const { setStoredHostels ,clearHostels } = useHostelStore();
+
 
   const localUser = localStorage.getItem("user");
 
@@ -123,10 +128,19 @@ const Profile = () => {
     // },
   ];
 
-  const handleLogout = () => {
+  const handleLogout =  async () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("accountType");
+
+    // await setUserData(null);
+    await clearConversations();
+    await clearHostels();
+    setUserData(null)
+    await setStoredConversations([]);
+    await setStoredHostels([])
+
+    
     navigate("/account-type", { replace: true });
   };
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
@@ -14,12 +14,14 @@ import { messaging } from "../utils/messageRequest";
 import { convertToNormalTime } from "../utils/ConvertToNormalTime";
 
 const Chat = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { userId } = useParams();
   const [otherUser, setOtherUser] = useState<any | null>(null);
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
   // const [localMessages, setLocalMessages] = useState([]);
   // const {socket, isConnected} = useSocket()
-  // console.log(userId);
+  console.log(userId);
 
   const [content, setContent] = useState("");
   const [isTexted, setIsTexted] = useState<boolean>(false);
@@ -27,10 +29,10 @@ const Chat = () => {
 
   // Fetch messages
   const {
-    data: messages = [],
+    data: messagesList = [],
     isError,
     isLoading,
-    isFetchedAfterMount
+    isFetchedAfterMount,
   } = useQuery({
     queryKey: ["messages", userId],
     queryFn: () => fetchMessages(userId as string),
@@ -40,16 +42,26 @@ const Chat = () => {
 
   // Set isTexted to true if we have messages
   useEffect(() => {
-    if (Array.isArray(messages) && messages.length > 0) {
+    // const lastMessage = messagesList?.messages[messagesList?.messages.length - 1];
+    // console.log("last message", lastMessage);
+
+    if (Array.isArray(messagesList) && messagesList.length > 0) {
       setIsTexted(true);
-      console.log(messages);
+      console.log(messagesList);
     }
 
     if (isFetchedAfterMount) {
-      console.log("first other user", messages)
-      setOtherUser(messages.otherUser); // Save the first fetch result
+      const messages = messagesList.messages;
+      console.log("first other user", messages[messages?.length - 1]);
+      setOtherUser(messagesList.otherUser); // Save the first fetch result
     }
-  }, [messages, isLoading, isFetchedAfterMount]);
+
+    // Scroll to the last message
+    // setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "instant" });
+    // }, 100); // slight delay to allow render
+
+  }, [messagesList, isLoading, isFetchedAfterMount]);
 
   // Setup mutation for sending messages
   const mutation = useMutation({
@@ -68,7 +80,7 @@ const Chat = () => {
     }
 
     const messageData = {
-      recipient: userId as string,
+      recipient: otherUser?._id,
       message: content,
     };
 
@@ -89,9 +101,6 @@ const Chat = () => {
     }
   };
 
-
-
-
   return (
     <main className="h-screen flex flex-col">
       {/* Header */}
@@ -107,60 +116,70 @@ const Chat = () => {
           />
         </button>
         {/* {isTexted && ( */}
-          <div className="flex justify-between grow">
-            <div className="flex gap-2 items-center">
-              <img
-                src={agentPic || "/placeholder.svg"}
-                className="size-11 rounded-xl"
-                alt="Agent profile"
-              />
-              <div>
-                <h2 className="text-dark font-semibold">
-                  {otherUser?.firstName}
-                </h2>
-              </div>
+        <div className="flex justify-between grow">
+          <div className="flex gap-2 items-center">
+            <img
+              src={agentPic || "/placeholder.svg"}
+              className="size-11 rounded-xl"
+              alt="Agent profile"
+            />
+            <div>
+              <h2 className="text-dark font-semibold">
+                {otherUser?.firstName}
+              </h2>
             </div>
-
-            <button className="border border-primary rounded-xl p-2">
-              <LuPhone className="size-5 text-primary" />
-            </button>
           </div>
+
+          <button className="border border-primary rounded-xl p-2">
+            <LuPhone className="size-5 text-primary" />
+          </button>
+        </div>
         {/* )} */}
       </div>
 
       {/* Messages Section */}
-      <section className="p-5 py-16 bg-[#f7f7f7] flex-1 overflow-y-auto mt-14 mb-16">
+      <section className="p-5 bg-[#f7f7f7] flex-1 overflow-y-auto mt-16 mb-16">
         {isError && (
-          <div className="p-5 text-center text-red-500">Error fetching messages</div>
+          <div className="p-5 text-center text-red-500">
+            Error fetching messages
+          </div>
         )}
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
           </div>
-        ) : Array.isArray(messages) && messages.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {messages.map((message: any, i: number) => (
-              <div
-                key={i}
-                className={`flex my-3 ${
-                  message?.user === userId ? "justify-end" : "justify-start"
-                }`}
-              >
+        ) : messagesList?.messages.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            {messagesList?.messages?.map((message: any, i: number) => {
+
+              return (
                 <div
-                  className={`max-w-[76%] w-fit p-3 rounded-xl ${
-                    message?.user === userId
-                      ? "bg-primary text-white"
-                      : "bg-white text-dark"
+                  key={i}
+                  className={`flex ${
+                    message?.sender != otherUser?._id
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
+
+                  // to scroll down to last chat upon fetch
+                  ref={i === messagesList?.messages.length - 1 ? lastMessageRef : null}
                 >
-                  {message?.message}
-                  <p className="!text-[10px] text-right mt-1">
-                    {convertToNormalTime(message.timestamp)}{" "}
-                    {message?.user === userId && "read"}
-                  </p>
+                  <div
+                    className={`max-w-[76%] w-fit p-3 rounded-xl ${
+                      message?.sender != otherUser?._id
+                        ? "bg-primary text-white"
+                        : "bg-white text-dark"
+                    }`}
+                  >
+                    {message?.message}
+                    <p className="!text-[10px] text-right mt-1">
+                      {convertToNormalTime(message.timestamp)}{" "}
+                      {message?.user != userId && "read"}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Hostel information card */}
             {/* <div className="bg-white rounded-xl max-w-[90%] p-2 mt-4">
@@ -180,8 +199,7 @@ const Chat = () => {
               className="size-36  rounded-xl object-cover"
             />
             <h2 className="text-dark font-semibold text-xl">
-            {otherUser?.firstName} {" "}
-            {otherUser?.lastName}
+              {otherUser?.firstName} {otherUser?.lastName}
             </h2>
             <div className="text-variant-500 flex gap-2 items-center">
               <span>Verified Agent</span>{" "}
@@ -189,6 +207,8 @@ const Chat = () => {
             </div>
           </div>
         )}
+
+        {/* <div                   ref={isLastMessage ? lastMessageRef : null}></div> */}
       </section>
 
       {/* Message Input */}

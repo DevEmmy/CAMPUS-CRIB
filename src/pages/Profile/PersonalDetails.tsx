@@ -2,7 +2,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import CustomInput from "../../components/Reuseables/CustomInput";
-import profile from "/icons/profile.png";
+// import profile from "/icons/profile.png";
 import ControlledButton from "../../components/Reuseables/ControlledButton";
 import { updateUser } from "../../utils/authRequest";
 import ButtonFileUploader from "../../components/Reuseables/ButtonFileUploader";

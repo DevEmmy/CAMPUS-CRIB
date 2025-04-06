@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand';
 
 // Hostel Data Types
@@ -20,10 +21,11 @@ interface Hostel {
 
 interface HostelStore {
     storedHostels: Hostel[];
-    setStoredHostels: (hostels: Hostel[]) => void;
+    setStoredHostels: (hostels: Hostel[]  ) => void;
     addHostel: (hostel: Hostel) => void;
     updateHostel: (id: string, data: Partial<Hostel>) => void;
     removeHostel: (id: string) => void;
+    clearHostels: () => void
 }
 
 // Hostel data Store
@@ -44,4 +46,5 @@ export const useHostelStore = create<HostelStore>((set) => ({
         set((state) => ({
             storedHostels: state.storedHostels.filter((hostel) => hostel._id !== id),
         })),
+    clearHostels: () => set({ storedHostels: [] }),
 }));

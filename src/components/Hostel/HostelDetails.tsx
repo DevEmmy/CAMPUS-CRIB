@@ -25,7 +25,7 @@ const HostelDetails: React.FC = () => {
   const navigate = useNavigate();
   console.log(hostelId);
 
-  const { data: hostel } = useQuery({
+  const { data: hostel, isLoading } = useQuery({
     queryKey: ["hostel"],
     queryFn: () => fetchHostelById(hostelId as string),
   });
@@ -65,6 +65,14 @@ const HostelDetails: React.FC = () => {
     ) / totalReviews
   ).toFixed(1);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen mt-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <TitleHead title="Room Details" />
@@ -82,7 +90,7 @@ const HostelDetails: React.FC = () => {
                 <img
                   src={image}
                   alt="image"
-                  className="rounded-xl h-full object-cover"
+                  className="rounded-xl h-full object-cover border shadow"
                 />
               </div>
             ))}
