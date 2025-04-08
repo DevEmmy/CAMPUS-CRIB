@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
-import profile from "/icons/profile.png";
+import  { useState } from "react";
 import Head from "../components/Home/Head";
 // import PremiumPicks from "../components/Home/PremiumPicks";
 // import MyCarousel from "../components/Ui/MyCarousel";
@@ -27,8 +26,9 @@ const AgentHome  = ( {user} : {user: any}) => {
     <main className="">
       {/* Pass the User name and his profile picture into the component */}
       <Head
-        name={userProfile?.firstName as string}
-        profilePic={profile}
+        // name={userProfile?.firstName as string}
+        // profilePic={profile}
+        user = { userProfile}
         isAgent
       />
 

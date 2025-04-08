@@ -50,6 +50,8 @@ const Chat = () => {
       console.log(messagesList);
     }
 
+    console.log(isTexted);
+
     if (isFetchedAfterMount) {
       const messages = messagesList.messages;
       console.log("first other user", messages[messages?.length - 1]);

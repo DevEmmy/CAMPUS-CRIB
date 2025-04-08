@@ -1,7 +1,8 @@
 import { axiosConfig } from "../utils/axiosConfig";
 
 
-const notifications = await axiosConfig.get('notifications/user')
+
 export const getAllNotifications = async () => {
+   const notifications =  await axiosConfig.get('notifications/user');
    return notifications
 }

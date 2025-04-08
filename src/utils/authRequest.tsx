@@ -8,6 +8,7 @@ import { errorToast, successToast } from "oasis-toast";
 
 
 interface User {
+  data: any;
   token: string;
   user: any;
 }
