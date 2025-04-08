@@ -6,20 +6,20 @@ import ReactQueryProvider from "./Providers/ReactQueryProvider.tsx";
 import { SocketProvider } from "./Providers/SocketProvider.tsx";
 import { UserProvider } from "./contexts/UserContext.tsx";
 import { BrowserRouter } from "react-router";
-import {ToastProvider} from "oasis-toast"
+import { ToastProvider } from "oasis-toast";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ToastProvider>
-    <ReactQueryProvider>
-      <BrowserRouter>
-        <UserProvider>
-          <SocketProvider>
-            <App />
-          </SocketProvider>
-        </UserProvider>
-      </BrowserRouter>
-    </ReactQueryProvider>
+      <ReactQueryProvider>
+        <BrowserRouter>
+          <UserProvider>
+            <SocketProvider>
+              <App />
+            </SocketProvider>
+          </UserProvider>
+        </BrowserRouter>
+      </ReactQueryProvider>
     </ToastProvider>
   </StrictMode>
 );
