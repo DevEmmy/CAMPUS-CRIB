@@ -8,7 +8,6 @@ import { Eye, EyeSlash } from "iconsax-react";
 import { useUserStore } from "../../store/UseUserStore";
 
 const Login = () => {
-  
   const { setUserData } = useUserStore();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,7 +18,6 @@ const Login = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-
 
   // Handle change of form input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +55,7 @@ const Login = () => {
         const data = response?.data?.data?.user;
         // console.log("Login response", response)
         setUserData(data);
-        console.log("data", data)
+        console.log("data", data);
         navigate("/");
       }
       setFormData({ email: "", password: "" });
@@ -69,93 +67,109 @@ const Login = () => {
   };
 
   return (
-    <section className="h-full w-full p-5">
-      <div className="bg-[#E6CDBF4D] p-5 rounded-xl my-5">
-        <div>
-          <h2 className="text-primary text-[24px] font-bold leading-7">
-            Welcome Back
-          </h2>
-          <p className="text-dark text-[14px] leading-5 font-normal my-2">
-            Log in to continue
-          </p>
-        </div>
-
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div className="w-full">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
-              placeholder="Email Address"
-            />
-
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-            )}
+    <section className="min-h-[100vh] w-full p-5 grid place-items-center">
+      {/* bg-[#E6CDBF4D] */}
+      <div className="">
+        <div className=" p-5 rounded-xl my-5">
+          <div>
+            <h2 className="text-primary text-[24px] font-bold leading-7">
+              Welcome Back
+            </h2>
+            <p className="text-dark text-[14px] leading-5 font-normal my-2">
+              Log in to continue
+            </p>
           </div>
 
-          <div className="w-full">
-            <div className="flex items-center border border-primary rounded-lg pr-2 bg-white ">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="w-full">
               <input
-                type={isPasswordVisible ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                className="w-full p-4 grow rounded-lg text-[14px] focus:outline-none"
-                placeholder="Password"
+                className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
+                placeholder="Email Address"
               />
 
-              {
-                isPasswordVisible ? <EyeSlash onClick={() => setIsPasswordVisible(!isPasswordVisible)} size="22" color="#a64e1b" variant="Broken" /> : <Eye onClick={() => setIsPasswordVisible(!isPasswordVisible)} size="22" color="#a64e1b" variant="Broken" />
-              }
-
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              )}
             </div>
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-            )}
-            <small className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
-              Forget password
-            </small>
-          </div>
 
-          <div>
-            <button
-              className="bg-primary text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5"
-              disabled={isSubmitting}
-              type="submit"
-            >
-              {isSubmitting ? "logging in" : "Log In"}
-            </button>
-          </div>
+            <div className="w-full">
+              <div className="flex items-center border border-primary rounded-lg pr-2 bg-white ">
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full p-4 grow rounded-lg text-[14px] focus:outline-none"
+                  placeholder="Password"
+                />
 
-          <div className="flex items-center justify-around gap-2 w-full">
-            <img width={80} src={line} alt="line" />
-            <small className="text-nowrap text-primary leading-[14px] text-[12px]">
-              or register with
-            </small>
-            <img width={80} src={line} alt="line" />
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
-              <img src={google} alt="" />
-              <p className="text-dark text-[14px] leading-5 font-normal">
-                Continue with Google
-              </p>
+                {isPasswordVisible ? (
+                  <EyeSlash
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    size="22"
+                    color="#a64e1b"
+                    variant="Broken"
+                  />
+                ) : (
+                  <Eye
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    size="22"
+                    color="#a64e1b"
+                    variant="Broken"
+                  />
+                )}
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
+              <small className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
+                Forget password
+              </small>
             </div>
-          </div>
-        </form>
-      </div>
 
-      <div className="flex items-center justify-center my-10">
-        <small className="text-dark text-[14px] leading-5 text-center">
-          Don't have an account?{" "}
-          <Link className="text-primary" to={"/signup"}>
-            Sign Up
-          </Link>
-        </small>
+            <div>
+              <button
+                className={` ${
+                  isSubmitting ? "bg-primary/60" : "bg-primary"
+                } text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5`}
+                disabled={isSubmitting}
+                type="submit"
+              >
+                {isSubmitting ? "logging in" : "Log In"}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-around gap-2 w-full">
+              <img width={80} src={line} alt="line" />
+              <small className="text-nowrap text-primary leading-[14px] text-[12px]">
+                or register with
+              </small>
+              <img width={80} src={line} alt="line" />
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
+                <img src={google} alt="" />
+                <p className="text-dark text-[14px] leading-5 font-normal">
+                  Continue with Google
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div className="flex items-center justify-center my-10">
+          <small className="text-dark text-[14px] leading-5 text-center">
+            Don't have an account?{" "}
+            <Link className="text-primary" to={"/signup"}>
+              Sign Up
+            </Link>
+          </small>
+        </div>
       </div>
     </section>
   );

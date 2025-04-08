@@ -30,8 +30,11 @@ const ChatList = () => {
 
     console.log("savedconvo", storedConversations);
 
+
     console.log("fetch", fetchedConversations);
     const convoData = fetchedConversations || storedConversations;
+
+    console.log("convo", convoData);
 
     setConversationList(convoData);
   }, [fetchedConversations, storedConversations, setStoredConversations]);

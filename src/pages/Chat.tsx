@@ -12,12 +12,17 @@ import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messaging } from "../utils/messageRequest";
 import { convertToNormalTime } from "../utils/ConvertToNormalTime";
+import { useUserStore } from "../store/UseUserStore";
 
 const Chat = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [otherUser, setOtherUser] = useState<any | null>(null);
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
+  const { user } = useUserStore();
+
+  const [messagesList, setMessagesList] = useState<any | null>(null);
 
   // const [localMessages, setLocalMessages] = useState([]);
   // const {socket, isConnected} = useSocket()
@@ -29,7 +34,7 @@ const Chat = () => {
 
   // Fetch messages
   const {
-    data: messagesList = [],
+    data: fetchedMessages = [],
     isError,
     isLoading,
     isFetchedAfterMount,
@@ -42,28 +47,30 @@ const Chat = () => {
 
   // Set isTexted to true if we have messages
   useEffect(() => {
-    // const lastMessage = messagesList?.messages[messagesList?.messages.length - 1];
+    // const lastMessage = fetchedMessages?.messages[fetchedMessages?.messages.length - 1];
     // console.log("last message", lastMessage);
 
-    if (Array.isArray(messagesList) && messagesList.length > 0) {
+    if (Array.isArray(fetchedMessages) && fetchedMessages.length > 0) {
       setIsTexted(true);
-      console.log(messagesList);
+      console.log(fetchedMessages);
     }
 
     console.log(isTexted);
 
     if (isFetchedAfterMount) {
-      const messages = messagesList.messages;
+      const messages = fetchedMessages.messages;
+      console.log("all messages", messages);
       console.log("first other user", messages[messages?.length - 1]);
-      setOtherUser(messagesList.otherUser); // Save the first fetch result
+      setOtherUser(fetchedMessages.otherUser); // Save the first fetch result
     }
+
+    setMessagesList(fetchedMessages?.messages);
 
     // Scroll to the last message
     // setTimeout(() => {
-      lastMessageRef.current?.scrollIntoView({ behavior: "instant" });
+    lastMessageRef.current?.scrollIntoView({ behavior: "instant" });
     // }, 100); // slight delay to allow render
-
-  }, [messagesList, isLoading, isFetchedAfterMount]);
+  }, [fetchedMessages, isLoading, isFetchedAfterMount]);
 
   // Setup mutation for sending messages
   const mutation = useMutation({
@@ -80,6 +87,18 @@ const Chat = () => {
     if (content.trim() === "") {
       return;
     }
+
+    const newMessage = {
+      _id: Date.now().toString(), // temporary unique ID
+      sender: user?._id,
+      recipient: otherUser?._id,
+      message: `${content}`,
+      conversationId: userId,
+      timestamp: new Date().toISOString(),
+      __v: 0,
+    };
+
+    setMessagesList((prev: any) => [...prev, newMessage]);
 
     const messageData = {
       recipient: otherUser?._id,
@@ -150,10 +169,9 @@ const Chat = () => {
           <div className="flex justify-center items-center h-full">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
           </div>
-        ) : messagesList?.messages.length > 0 ? (
+        ) : messagesList?.length > 0 ? (
           <div className="flex flex-col gap-2">
-            {messagesList?.messages?.map((message: any, i: number) => {
-
+            {messagesList?.map((message: any, i: number) => {
               return (
                 <div
                   key={i}
@@ -162,9 +180,12 @@ const Chat = () => {
                       ? "justify-end"
                       : "justify-start"
                   }`}
-
                   // to scroll down to last chat upon fetch
-                  ref={i === messagesList?.messages.length - 1 ? lastMessageRef : null}
+                  ref={
+                    i === fetchedMessages?.messages.length - 1
+                      ? lastMessageRef
+                      : null
+                  }
                 >
                   <div
                     className={`max-w-[76%] w-fit p-3 rounded-xl ${

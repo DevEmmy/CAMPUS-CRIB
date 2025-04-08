@@ -37,6 +37,8 @@ const AccountType: React.FC = () => {
   };
   return (
     <main className="flex justify-center gap-10 flex-col h-dvh w-full">
+
+      {/* <img src="/onboarding/bg-1.png" className="size-7" /> */}
       <div>
         <h1 className="text-[22px] leading-7 p-3 font-medium">
           How Would You Like to Get Started?
