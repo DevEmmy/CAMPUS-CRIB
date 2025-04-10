@@ -189,7 +189,7 @@ const Profile = () => {
           </div>
         )}
         <div className="flex flex-col gap-1 mt-4">
-          {userType == "AGENT"
+          {userProfile?.userType == "AGENT"
             ? agentProfileItems?.map((item: any, i: number) => {
                 return (
                   <Link key={i} to={item?.link} className="">

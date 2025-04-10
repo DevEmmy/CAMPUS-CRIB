@@ -1,36 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AgentHome from "../pages/AgentHome";
 import StudentHome from "../pages/StudentHome";
 // import { useNavigate } from 'react-router';
-import Loader from "../components/Ui/Loader";
+// import Loader from "../components/Ui/Loader";
 import { useUserStore } from "../store/UseUserStore";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 
 const HomepageLayout: React.FC = () => {
-  const navigate = useNavigate();
+  const [loggedUser, setLoggedUser] = useState<any | null>(null);
+  // const navigate = useNavigate();
   const { user } = useUserStore();
+  const localUser = localStorage.getItem("user");
+
   useEffect(() => {
-    if (user?.userType === null) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
 
-  if (!user) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <Loader />
-      </div>
-    );
-  }
-
+    console.log("User details" , user)
+    setLoggedUser(user || (localUser ? JSON.parse(localUser) : null));
+  }, []);
+  
   return (
     <div>
-      {user?.userType === "AGENT" ? (
-        <AgentHome user={user} />
+      {loggedUser?.userType === "AGENT" ? (
+        <AgentHome user={loggedUser} />
       ) : (
-        <StudentHome user={user} />
-      )}
+        <StudentHome user={loggedUser} />
+      ) }
     </div>
   );
 };
