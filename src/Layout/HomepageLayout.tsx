@@ -15,9 +15,17 @@ const HomepageLayout: React.FC = () => {
 
   useEffect(() => {
 
-    console.log("User details" , user)
-    setLoggedUser(user || (localUser ? JSON.parse(localUser) : null));
+    const localUserDetails = localUser ?  JSON.parse(localUser) : null
+
+    console.log("local User details typr" , typeof localUserDetails  )
+    console.log("use store type", typeof user)
+    setLoggedUser(user || localUserDetails);
   }, []);
+
+
+  useEffect(() => {
+    console.log("logged User details" , loggedUser)
+  }, [loggedUser]);
   
   return (
     <div>

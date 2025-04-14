@@ -15,14 +15,15 @@ const Home: React.FC = () => {
     const localUser = localStorage.getItem("user");
 
     useEffect(() => {
-      setAccountType(accountType);
       setLoggedUser(user || (localUser ? JSON.parse(localUser) : null));
     }, [user, localUser, accountType])
+
+    useEffect(() => {},[loggedUser])
 
     // const user = useQuery({ queryKey: ['todos'], queryFn: fetchUser })
   return (
     <section>
-      {accountType === "AGENT" ? <AgentHome user={loggedUser} /> : <StudentHome user={loggedUser} />}
+      {loggedUser?.userType === "AGENT" ? <AgentHome user={loggedUser} /> : <StudentHome user={loggedUser} />}
     </section>
   );
 };
