@@ -15,7 +15,7 @@ import {
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
-import { useUserContext } from "../../contexts/UserContext";
+// import { useUserContext } from "../../contexts/UserContext";
 import { TbReportAnalytics } from "react-icons/tb";
 import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
@@ -27,18 +27,17 @@ import { useConversationStore } from "../../store/useConversationStore";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { userType } = useUserContext();
+  // const { userType } = useUserContext();
   const [userProfile, setUserProfile] = useState<any | null>(null);
 
-  const { user ,setUserData } = useUserStore();
-  const { setStoredConversations ,clearConversations } = useConversationStore();
-  const { setStoredHostels ,clearHostels } = useHostelStore();
-
+  const { user, setUserData } = useUserStore();
+  const { setStoredConversations, clearConversations } = useConversationStore();
+  const { setStoredHostels, clearHostels } = useHostelStore();
 
   const localUser = localStorage.getItem("user");
 
   useEffect(() => {
-    console.log("User details" , localUser)
+    console.log("User details", localUser);
     setUserProfile(user || (localUser ? JSON.parse(localUser) : null));
   }, []);
 
@@ -128,7 +127,7 @@ const Profile = () => {
     // },
   ];
 
-  const handleLogout =  async () => {
+  const handleLogout = async () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("accountType");
@@ -136,17 +135,16 @@ const Profile = () => {
     // await setUserData(null);
     await clearConversations();
     await clearHostels();
-    setUserData(null)
+    setUserData(null);
     await setStoredConversations([]);
-    await setStoredHostels([])
+    await setStoredHostels([]);
 
-    
     navigate("/account-type", { replace: true });
   };
 
   useEffect(() => {
-    console.log(user)
-  }, [])
+    console.log(user);
+  }, []);
 
   return (
     <main>
@@ -154,22 +152,28 @@ const Profile = () => {
 
       <section className="p-5 py-20">
         <div className="flex items-center gap-x-2 mb-3">
-          <img src={userProfile?.profilePicture} className="size-16 rounded-full" />
-          <div className="flex-row gap-0 justify-center">
-            <h2 className="text-dark font-semibold text-lg">
-              {userProfile?.firstName as string} {userProfile?.lastName as string}
-            </h2>
-            <span className="text-variant-500 text-sm -mt-4">
-              {userProfile?.email as string}
-            </span>
+          <img
+            src={userProfile?.profilePicture}
+            className="size-16 rounded-full"
+          />
+          <div className="flex flex-row justify-between items-center grow">
+            <div className="flex-row gap-0 justify-center">
+              <h2 className="text-dark font-semibold text-lg">
+                {userProfile?.firstName as string}{" "}
+                {userProfile?.lastName as string}
+              </h2>
+              <span className="text-variant-500 text-sm -mt-4">
+                {userProfile?.email as string}
+              </span>
+            </div>
+            {userProfile?.userType == "AGENT" && (
+              <p className=" text-blue-300 text-xs">Verified Agent</p>
+            )}
           </div>
-          {userType == "AGENT" && (
-            <p className=" text-blue-300 text-xs">Verified Agent</p>
-          )}
         </div>
 
         {/* <hr /> */}
-        {userType == "AGENT" && (
+        {userProfile?.userType == "AGENT" && (
           <div className="bg-[#A64E1B] p-3 my-3 rounded-3xl flex flex-col gap-2">
             <div className="text-center flex flex-col gap-1.5">
               <h4 className="text-xs text-white">Wallet balance</h4>

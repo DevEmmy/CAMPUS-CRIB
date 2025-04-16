@@ -7,7 +7,7 @@ import { useUserStore } from "../../store/UseUserStore";
 // import { fetchUser } from "../../lib/fetchUser";
 
 const Home: React.FC = () => {
-    const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
+    // const [accountType, setAccountType] = useState<"AGENT" | "BASIC">("BASIC");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [loggedUser, setLoggedUser] = useState<any | null>(null);
 
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
 
     useEffect(() => {
       setLoggedUser(user || (localUser ? JSON.parse(localUser) : null));
-    }, [user, localUser, accountType])
+    }, [user, localUser]);
 
     useEffect(() => {},[loggedUser])
 

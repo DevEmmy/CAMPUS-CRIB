@@ -37,6 +37,7 @@ const HostelDetails: React.FC = () => {
 
   useEffect(() => {
     console.log(reviews);
+    console.log("hostels",hostel);
   }, [reviews, hostelId]);
 
   function formatDate(dateString: string): string {

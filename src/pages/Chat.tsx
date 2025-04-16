@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messaging } from "../utils/messageRequest";
 import { convertToNormalTime } from "../utils/ConvertToNormalTime";
 import { useUserStore } from "../store/UseUserStore";
+import { fetchUserById } from "../lib/fetchUser";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -24,9 +25,20 @@ const Chat = () => {
 
   const [messagesList, setMessagesList] = useState<any | null>(null);
 
+  const { data: recipientDetails } = useQuery({
+    queryKey: ["recipientDetails", `recipient ${userId}`],
+    queryFn: () => fetchUserById(userId),
+  });
+
+  useEffect(() => {
+    // const firstOtherUser = recipientDetails?.hostels?.user;
+    console.log("recipient details", recipientDetails?.user);
+    setOtherUser(recipientDetails?.user);
+  }, [recipientDetails]);
+
   // const [localMessages, setLocalMessages] = useState([]);
   // const {socket, isConnected} = useSocket()
-  console.log(userId);
+  // console.log(userId);
 
   const [content, setContent] = useState("");
   const [isTexted, setIsTexted] = useState<boolean>(false);
@@ -50,6 +62,8 @@ const Chat = () => {
     // const lastMessage = fetchedMessages?.messages[fetchedMessages?.messages.length - 1];
     // console.log("last message", lastMessage);
 
+    console.log(fetchedMessages)
+
     if (Array.isArray(fetchedMessages) && fetchedMessages.length > 0) {
       setIsTexted(true);
       console.log(fetchedMessages);
@@ -61,7 +75,7 @@ const Chat = () => {
       const messages = fetchedMessages.messages;
       console.log("all messages", messages);
       console.log("first other user", messages[messages?.length - 1]);
-      setOtherUser(fetchedMessages.otherUser); // Save the first fetch result
+      if (fetchedMessages?.otherUser) setOtherUser(fetchedMessages.otherUser);
     }
 
     setMessagesList(fetchedMessages?.messages);
@@ -91,7 +105,7 @@ const Chat = () => {
     const newMessage = {
       _id: Date.now().toString(), // temporary unique ID
       sender: user?._id,
-      recipient: otherUser?._id,
+      recipient: otherUser?._id || userId,
       message: `${content}`,
       conversationId: userId,
       timestamp: new Date().toISOString(),
@@ -101,7 +115,7 @@ const Chat = () => {
     setMessagesList((prev: any) => [...prev, newMessage]);
 
     const messageData = {
-      recipient: otherUser?._id,
+      recipient: otherUser?._id || userId,
       message: content,
     };
 
@@ -121,6 +135,10 @@ const Chat = () => {
       sendMessage();
     }
   };
+
+  useEffect(() => {
+    console.log("Other user data", otherUser);
+  }, [otherUser]);
 
   return (
     <main className="h-screen flex flex-col">

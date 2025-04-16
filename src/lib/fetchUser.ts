@@ -2,7 +2,7 @@
 import { axiosConfig } from "../utils/axiosConfig"
 
 export const fetchUserById = async (id: string | any) => {
-    const response = await axiosConfig.get(`auth/agent/${id}`)
+    const response = await axiosConfig.get(`auth/${id}`)
     return response.data.data
 }
 
