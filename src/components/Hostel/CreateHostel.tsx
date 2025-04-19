@@ -10,9 +10,12 @@ import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
 import { createHostel } from "../../lib/fetchHostels";
 import { HiX } from "react-icons/hi";
 import { useNavigate } from "react-router";
+import { WhiteLoader } from "../Ui/Loader";
+import { errorToast, successToast } from "oasis-toast";
 
 const CreateHostel = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const [formState, setFormState] = useState({
     hostelName: "",
@@ -22,8 +25,8 @@ const CreateHostel = () => {
     roomTypes: "",
     roomPrice: "",
     availability: true,
-    amenities: [''],
-    images: [''],
+    amenities: [""],
+    images: [""],
   });
 
   // Handle form field change
@@ -37,7 +40,6 @@ const CreateHostel = () => {
     }));
   };
 
-
   const removeItem = (index: number) => {
     setFormState((prevState) => {
       // Create a new array without the item at the specified index
@@ -45,7 +47,7 @@ const CreateHostel = () => {
         ...prevState.images.slice(0, index),
         ...prevState.images.slice(index + 1),
       ];
-      
+
       // Return the updated state with the new images array
       return {
         ...prevState,
@@ -62,18 +64,28 @@ const CreateHostel = () => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       // createPostFn(postData);
-      const response = await createHostel(formState)
-      console.log('Success:', response);
-      if(response.status == 200){
-        navigate('/')
+
+      const response = await createHostel(formState);
+      console.log("Success:", response);
+      if (response.status == 200) {
+        successToast("Hostel created successfully",'');
+        navigate("/");
+      } else { 
+        errorToast("An error occurred", "Invalid form data");
       }
-      return
+      return;
+
     } catch (error) {
-      console.error('Error:', error);
+      errorToast("An error occurred", "Invalid form data");
+      console.error("Error:", error);
+      
     }
-  }
+
+    setIsLoading(false);
+  };
 
   // const [images, setImages] = useState([]);
   // const maxNumber = 69;
@@ -138,6 +150,7 @@ const CreateHostel = () => {
                 value={item?.value}
                 options={item?.options} // Only applicable for select inputs
                 handleChange={item?.handleChange}
+                
               />
             ))}
           </div>
@@ -172,7 +185,12 @@ const CreateHostel = () => {
               name="availability"
               type="toggle"
               placeholder="Availability"
-              handleChecked={() => setFormState({...formState,availability: !formState?.availability})}
+              handleChecked={() =>
+                setFormState({
+                  ...formState,
+                  availability: !formState?.availability,
+                })
+              }
               notBordered
             />
             <div>
@@ -257,25 +275,31 @@ const CreateHostel = () => {
               )}
             </ImageUploading> */}
 
-            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} multiple />
+            <ButtonFileUploader
+              title="Upload"
+              onUploadComplete={handleUploadComplete}
+              multiple
+            />
             <small className="text-dark text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>
 
             <div className="flex gap-3 overflow-scroll py-4">
-            {
-              formState?.images && formState?.images?.map((item, idx) => (
-                <div key={idx} className="relative">
-                   <button
-                          className="absolute -top-3 -right-2 p-1 rounded-full bg-red-500 text-white"
-                          onClick={() => removeItem(idx)}
-                        >
-                          <HiX />
-                        </button>
-                <img className="min-w-[150px] h-[150px] rounded-lg object-cover" src={item} />
-                </div>
-              ))
-            }
+              {formState?.images &&
+                formState?.images?.map((item, idx) => (
+                  <div key={idx} className="relative">
+                    <button
+                      className="absolute -top-3 -right-2 p-1 rounded-full bg-red-500 text-white"
+                      onClick={() => removeItem(idx)}
+                    >
+                      <HiX />
+                    </button>
+                    <img
+                      className="min-w-[150px] h-[150px] rounded-lg object-cover"
+                      src={item}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         );
@@ -300,12 +324,22 @@ const CreateHostel = () => {
           )}
           {step < 3 && (
             <button
-              onClick={step < 2 ? () => setStep((prev) => prev + 1) : handleSubmit}
+              disabled={isLoading}
+              onClick={
+                step < 2
+                  ? () => {
+                      // setIsLoading(true);
+                      setStep((prev) => prev + 1);
+                    }
+                  : () => {
+                      setIsLoading(true);
+
+                      handleSubmit();
+                    }
+              }
               className="w-1/2 p-3 bg-primary text-white text-xs rounded-lg"
             >
-              {
-                step < 2 ? 'Next' : 'Submit'
-              }
+              {step < 2 ? "Next" : isLoading ? <WhiteLoader /> : "Submit"}
             </button>
           )}
         </div>

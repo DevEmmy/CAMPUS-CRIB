@@ -94,6 +94,7 @@ const AgentHome = ({ user }: { user: any }) => {
               Your Listings
             </h3>
 
+            <div className="flex flex-col gap-4">
             {hostels?.map((item: any, i: number) => (
               <div key={i} className="flex flex-col gap-1">
                 <img
@@ -139,13 +140,14 @@ const AgentHome = ({ user }: { user: any }) => {
                 </Link>
               </div>
             ))}
+            </div>
 
             {/* <PremiumPicks hostels={hostels} bookmarkedIds={[]} />
             <MyCarousel hostels={hostels} bookmarkedIds={[]} /> */}
 
             <Link
               to={"/hostels/create"}
-              className=" bg-blue-400 size-10 grid place-items-center text-white rounded-lg absolute bottom-20 right-4"
+              className=" bg-blue-400 size-10 grid place-items-center text-white rounded-lg fixed bottom-20 right-4"
             >
               <FaPlus size={20} />
             </Link>
