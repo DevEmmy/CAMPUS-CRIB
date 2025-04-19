@@ -4,7 +4,7 @@ import {
   // ArchiveBook,
   ArrowRight2,
   CardPos,
-  Headphone,
+  // Headphone,
   // Calendar1,
   // CardPos,
   // Headphone,
@@ -115,11 +115,11 @@ const Profile = () => {
       link: "/setting/app",
       image: <Setting3 size="22" color="#0E0F1D" />,
     },
-    {
-      title: "Contact Support",
-      link: "/contact-support",
-      image: <Headphone size="22" color="#0E0F1D" />,
-    },
+    // {
+    //   title: "Contact Support",
+    //   link: "",
+    //   image: <Headphone size="22" color="#0E0F1D" />,
+    // },
     // {
     //   title: "Log Out",
     //   link: "/log-out",
