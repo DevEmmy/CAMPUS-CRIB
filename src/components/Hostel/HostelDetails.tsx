@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import TitleHead from "../Ui/TitleHead";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { IoLocationOutline } from "react-icons/io5";
+import { IoCopyOutline, IoLocationOutline } from "react-icons/io5";
 import agentPic from "/icons/profile.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
@@ -14,6 +14,8 @@ import TitleHead from "../Ui/TitleHead";
 import { getReviews } from "../../utils/reviews";
 import { IoStar } from "react-icons/io5";
 import { Review } from "../../types/review";
+
+import Modal from "../Reuseables/Modal";
 // import Loader from "../Ui/Loader";
 // import { useUserContext } from "../../contexts/UserContext";
 // import profile from "/icons/profile.png";
@@ -37,7 +39,7 @@ const HostelDetails: React.FC = () => {
 
   useEffect(() => {
     console.log(reviews);
-    console.log("hostels",hostel);
+    console.log("hostels", hostel);
   }, [reviews, hostelId]);
 
   function formatDate(dateString: string): string {
@@ -65,6 +67,8 @@ const HostelDetails: React.FC = () => {
       0
     ) / totalReviews
   ).toFixed(1);
+
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   if (isLoading) {
     return (
@@ -138,6 +142,13 @@ const HostelDetails: React.FC = () => {
             className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl"
           >
             Review
+          </button>
+
+          <button
+            onClick={() => setModalOpen(true)}
+            className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl"
+          >
+            Pay
           </button>
         </div>
 
@@ -261,6 +272,49 @@ const HostelDetails: React.FC = () => {
           {/* <LuPhone /> */}
         </div>
       </section>
+
+      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+        <div className="">
+          <p className="text-center mb-4">
+            Transfer{" "}
+            <span className="text-primary font-bold">
+              {" "}
+              {formatPrice(hostel?.price)}{" "}
+            </span>
+          </p>
+          <div className="border-2 border-dashed border-primary text-dark p-4 rounded-md mb-4">
+            <div className="mb-2">
+              <p className="font-bold">BANK NAME</p>
+              <p className="text-sm">Access Bank</p>
+            </div>
+            <div className="mb-2">
+              <p className="font-bold">ACCOUNT NAME</p>
+              <p className="text-sm">
+                {hostel?.user?.firstName} {hostel?.user?.lastName}
+              </p>
+            </div>
+            <div className="mb-2 flex justify-between items-center">
+              <div>
+                <p className="font-bold">Account Number</p>
+                <p className="text-sm">26781908734</p>
+              </div>
+              <IoCopyOutline size={16} className="text-primary" />
+            </div>
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-bold">Amount</p>
+                <p className="text-sm"> {formatPrice(hostel?.price)} </p>
+              </div>
+              {/* <i className="fas fa-copy text-primary"></i> */}
+              <IoCopyOutline size={16} className="text-primary" />
+            </div>
+          </div>
+          <button className="bg-primary text-white py-2 px-4 rounded-md w-full mb-4">
+            i've sent the money
+          </button>
+          <p className="text-dark text-sm text-center">Change Payment Method</p>
+        </div>
+      </Modal>
     </div>
   );
 };

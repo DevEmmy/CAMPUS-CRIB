@@ -16,8 +16,8 @@ import {
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 // import { useUserContext } from "../../contexts/UserContext";
-import { TbReportAnalytics } from "react-icons/tb";
-import { PiHandWithdrawBold } from "react-icons/pi";
+// import { TbReportAnalytics } from "react-icons/tb";
+// import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
@@ -173,7 +173,7 @@ const Profile = () => {
         </div>
 
         {/* <hr /> */}
-        {userProfile?.userType == "AGENT" && (
+        {/* {userProfile?.userType == "AGENT" && (
           <div className="bg-[#A64E1B] p-3 my-3 rounded-3xl flex flex-col gap-2">
             <div className="text-center flex flex-col gap-1.5">
               <h4 className="text-xs text-white">Wallet balance</h4>
@@ -191,7 +191,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
         <div className="flex flex-col gap-1 mt-4">
           {userProfile?.userType == "AGENT"
             ? agentProfileItems?.map((item: any, i: number) => {

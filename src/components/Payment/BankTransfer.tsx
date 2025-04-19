@@ -1,20 +1,19 @@
-import back from "/icons/back.svg";
-import { Link } from "react-router";
+import {  useNavigate, } from "react-router";
 import { IoCopyOutline } from "react-icons/io5";
+import { RiCloseLine } from "react-icons/ri";
 
 const BankTransfer = () => {
+  const navigate = useNavigate();
+  
   return (
     <section className="size-full p-5">
-      <div className="flex items-center justify-between mb-4 pt-5 pb-3">
-        <Link
-          to={"/payment"}
-          className="rounded-full bg-primary size-7 flex items-center justify-center"
-        >
-          <img src={back} alt="back" className="size-3.5" />
-        </Link>
-        <h1 className="text-xl font-bold">Bank Transfer</h1>
-        <div className="w-6"></div>
-      </div>
+      <button
+        onClick={() => navigate(-1)}
+        className="border border-primary rounded-lg"
+      >
+        <RiCloseLine className="size-8  text-primary" />
+      </button>
+
 
       <div className="p-4">
         <p className="text-center mb-4">
@@ -42,7 +41,7 @@ const BankTransfer = () => {
               <p className="text-sm">₦ 120,000</p>
             </div>
             {/* <i className="fas fa-copy text-primary"></i> */}
-            <IoCopyOutline size={16} className="text-primary"/>
+            <IoCopyOutline size={16} className="text-primary" />
           </div>
         </div>
         <button className="bg-primary text-white py-2 px-4 rounded-md w-full mb-4">
