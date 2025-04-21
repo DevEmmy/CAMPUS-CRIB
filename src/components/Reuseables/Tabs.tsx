@@ -49,9 +49,9 @@ const Tabs = ({ isAgent }: tabsProps) => {
   const agentTabList = [
     { title: "Home", icon: <Home size="26" />, route: "" },
     {
-      title: "Comments",
+      title: "messages",
       icon: <MessageText1 size="26" />,
-      route: "comments",
+      route: "chat",
     },
     {
       title: "bookings",

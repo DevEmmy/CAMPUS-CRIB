@@ -48,6 +48,7 @@ function App() {
             <Route path="/" element={<HomepageLayout/>} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/chat" element={<ChatList />} />
+            {/* <Route path="/comment" element={<ChatList />} /> */}
             <Route path="/wishlist" element={<WishlistOrBookmark />} />
             <Route path="/profile" element={<Profile />} />
             </Route>

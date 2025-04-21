@@ -285,18 +285,16 @@ const HostelDetails: React.FC = () => {
           <div className="border-2 border-dashed border-primary text-dark p-4 rounded-md mb-4">
             <div className="mb-2">
               <p className="font-bold">BANK NAME</p>
-              <p className="text-sm">Access Bank</p>
+              <p className="text-sm">{hostel?.user?.bankName}</p>
             </div>
             <div className="mb-2">
               <p className="font-bold">ACCOUNT NAME</p>
-              <p className="text-sm">
-                {hostel?.user?.firstName} {hostel?.user?.lastName}
-              </p>
+              <p className="text-sm">{hostel?.user?.accountName}</p>
             </div>
             <div className="mb-2 flex justify-between items-center">
               <div>
                 <p className="font-bold">Account Number</p>
-                <p className="text-sm">26781908734</p>
+                <p className="text-sm">{hostel?.user?.accountNumber}</p>
               </div>
               <IoCopyOutline size={16} className="text-primary" />
             </div>
@@ -305,7 +303,6 @@ const HostelDetails: React.FC = () => {
                 <p className="font-bold">Amount</p>
                 <p className="text-sm"> {formatPrice(hostel?.price)} </p>
               </div>
-              {/* <i className="fas fa-copy text-primary"></i> */}
               <IoCopyOutline size={16} className="text-primary" />
             </div>
           </div>

@@ -6,19 +6,31 @@ import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { VscChevronLeft } from "react-icons/vsc";
-import { ConversationType, useConversationStore } from "../store/useConversationStore";
+import {
+  ConversationType,
+  useConversationStore,
+} from "../store/useConversationStore";
 
 const ChatList = () => {
   const navigate = useNavigate();
 
-  const { storedConversations, setStoredConversations } = useConversationStore();
+  const { storedConversations, setStoredConversations } =
+    useConversationStore();
 
-  const [conversationList, setConversationList] = useState<ConversationType[] | null>(null);
-  
+  const [conversationList, setConversationList] = useState<
+    ConversationType[] | null
+  >(null);
+
   const { data: fetchedConversations, isLoading } = useQuery({
     queryKey: ["conversations"],
     queryFn: fetchConversations,
   });
+
+  useEffect(() => {
+    if (!isLoading) {
+      console.log("fetched convo",fetchedConversations);
+    }
+  }, [isLoading, fetchedConversations]);
   useEffect(() => {
     if (
       fetchedConversations &&
@@ -29,7 +41,6 @@ const ChatList = () => {
     }
 
     console.log("savedconvo", storedConversations);
-
 
     console.log("fetch", fetchedConversations);
     const convoData = fetchedConversations || storedConversations;

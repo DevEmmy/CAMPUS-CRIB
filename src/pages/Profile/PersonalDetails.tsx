@@ -6,8 +6,9 @@ import CustomInput from "../../components/Reuseables/CustomInput";
 import ControlledButton from "../../components/Reuseables/ControlledButton";
 import { updateUser } from "../../utils/authRequest";
 import ButtonFileUploader from "../../components/Reuseables/ButtonFileUploader";
-import { fetchUser } from "../../lib/fetchUser";
+import { fetchUser, fetchUserById } from "../../lib/fetchUser";
 import { useUserStore } from "../../store/UseUserStore";
+import { useQuery } from "@tanstack/react-query";
 // import { Camera } from "iconsax-react";
 
 interface UserUpdateData {
@@ -17,12 +18,24 @@ interface UserUpdateData {
   phoneNumber: string;
   address: string;
   profilePicture?: string | null;
+  accountNumber?: string;
+  bankName?: string;
+  accountName?: string;
 }
 
 const PersonalDetails = () => {
   const [loggedUser, setLoggedUser] = useState<any | null>(null);
 
-  const { user } = useUserStore();
+  const { user, setUserData } = useUserStore();
+  const { data: userDet } = useQuery({
+    queryKey: ["userDetails", user?._id],
+    queryFn: () => fetchUserById(user?._id),
+  });
+
+  useEffect(() => {
+    console.log("User det", userDet);
+    // setHostels(userDet?.hostels);
+  }, [userDet]);
 
   const localUser = localStorage.getItem("user");
 
@@ -38,6 +51,9 @@ const PersonalDetails = () => {
     phoneNumber: "",
     address: "",
     profilePicture: null,
+    accountNumber: "",
+    bankName: "",
+    accountName: "",
   });
   const [isEdited, setIsEdited] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,6 +69,9 @@ const PersonalDetails = () => {
         phoneNumber: loggedUser?.phoneNumber || "",
         address: loggedUser?.address || "",
         profilePicture: loggedUser?.profilePicture || null,
+        accountNumber: loggedUser?.accountNumber || userDet?.accountNumber,
+        bankName: loggedUser?.bankName || userDet?.bankName,
+        accountName: loggedUser?.accountName || userDet?.accountName,
       });
       setPreviewImage(loggedUser?.profilePicture || "");
     }
@@ -98,13 +117,22 @@ const PersonalDetails = () => {
         phoneNumber: formData.phoneNumber,
         address: formData.address,
         profilePicture: uploadedImageUrl || formData.profilePicture,
+        accountNumber: formData?.accountNumber,
+        bankName: formData?.bankName,
+        accountName: formData?.accountName,
       };
 
       const response = await updateUser(updateData);
 
+      console.log("response data", response);
+
       if (response?.status === 200) {
         setIsEdited(false);
         // Refresh user data after successful update
+
+        console.log("response data",response?.data.data)
+
+        setUserData(response?.data.data);
         if (user) {
           fetchUser();
         }
@@ -119,8 +147,6 @@ const PersonalDetails = () => {
   return (
     <div className="w-full">
       <TitleHead title="Personal Details" />
-
-      
 
       <div className="bg-white rounded-lg p-5 py-20 mt-4">
         <div className="flex flex-col md:flex-row gap-6">
@@ -165,7 +191,7 @@ const PersonalDetails = () => {
                 htmlFor="lastName"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Last Name 
+                Last Name
               </label>
               <CustomInput
                 type="text"
@@ -207,6 +233,58 @@ const PersonalDetails = () => {
                 handleChange={handleInputChange}
               />
             </div>
+
+            {loggedUser?.userType == "AGENT" && (
+              <>
+                <div>
+                  <label
+                    htmlFor="accountNumber"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Account Number
+                  </label>
+                  <CustomInput
+                    type="text"
+                    name="accountNumber"
+                    placeholder="Account Number"
+                    value={formData?.accountNumber}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="bankName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Bank Name
+                  </label>
+                  <CustomInput
+                    type="text"
+                    name="bankName"
+                    placeholder="Bank Name"
+                    value={formData?.bankName}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="accountName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Account Name
+                  </label>
+                  <CustomInput
+                    type="text"
+                    name="accountName"
+                    placeholder="Account Name"
+                    value={formData?.accountName}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
