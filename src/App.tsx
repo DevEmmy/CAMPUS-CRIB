@@ -39,107 +39,111 @@ import ViewInvoice from "./pages/Invoice/ViewInvoice.tsx";
 import BookingsList from "./pages/Bookings/Bookings.tsx";
 import BookingsDetails from "./pages/Bookings/BookingsDetails.tsx";
 import RecentTransactions from "./pages/Profile/RecentTransactions.tsx";
+import CreateRoommate from "./components/Hostel/CreateRoommate.tsx";
+import RoommateRequestDetails from "./components/Hostel/RoommateRequestDetails.tsx";
+import FindRoommate from "./pages/Roommate/index.tsx";
 
 function App() {
   return (
     <>
-          <Routes>
-            <Route element={<ScreenLayout />}>
-            <Route path="/" element={<HomepageLayout/>} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/chat" element={<ChatList />} />
-            {/* <Route path="/comment" element={<ChatList />} /> */}
-            <Route path="/wishlist" element={<WishlistOrBookmark />} />
-            <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route path="/account-type" element={<AccountType />} /> 
+      <Routes>
+        <Route element={<ScreenLayout />}>
+          <Route path="/" element={<HomepageLayout />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/chat" element={<ChatList />} />
+          {/* <Route path="/comment" element={<ChatList />} /> */}
+          <Route path="/wishlist" element={<WishlistOrBookmark />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+        <Route path="/account-type" element={<AccountType />} />
 
-            {/* Student Onboarding */}
-            <Route path="student">
-              <Route
-                path="/student/onboarding"
-                element={<StudentOnboarding />}
-              />
-              {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
-            </Route>
+        {/* Student Onboarding */}
+        <Route path="student">
+          <Route path="/student/onboarding" element={<StudentOnboarding />} />
+          {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
+        </Route>
 
-            {/* Agent Onboarding */}
-            <Route path="agent">
-              <Route path="/agent/onboarding" element={<AgentOnboarding />} />
-              <Route path="/agent/verification" element={<VerifyAgent />} />
-            </Route>
+        {/* Agent Onboarding */}
+        <Route path="agent">
+          <Route path="/agent/onboarding" element={<AgentOnboarding />} />
+          <Route path="/agent/verification" element={<VerifyAgent />} />
+        </Route>
 
-            {/* Authentication */}
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+        {/* Authentication */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
 
-            {/* Notification Alerts */}
-            <Route path="/notifications" element={<NotificationsAlert />}/>
-              
-        
-            {/* Email Verification */}
-            {/* Implement protected routes logic */}
-            <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/email-confirmed" element={<EmailConfirmed />} />
+        {/* Notification Alerts */}
+        <Route path="/notifications" element={<NotificationsAlert />} />
 
-            {/* checkout */}
-            <Route path="/checkout" element={<Checkout />} />
+        {/* Email Verification */}
+        {/* Implement protected routes logic */}
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/email-confirmed" element={<EmailConfirmed />} />
 
+        {/* checkout */}
+        <Route path="/checkout" element={<Checkout />} />
 
-            <Route path="/create/invoice" element={<CreateInvoice />} />
-            <Route path="/successful/invoice" element={<SuccessfulInvoice />} />
-            <Route path="/invoice/:invoiceType"  element={<ViewInvoice />} />
+        <Route path="/create/invoice" element={<CreateInvoice />} />
+        <Route path="/successful/invoice" element={<SuccessfulInvoice />} />
+        <Route path="/invoice/:invoiceType" element={<ViewInvoice />} />
 
+        {/* Payment route */}
 
-            {/* Payment route */}
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/add-new-card" element={<AddNewCard />} />
+        <Route path="/payment/bank-transfer" element={<BankTransfer />} />
+        <Route path="/payment/successful" element={<SuccessfulPayment />} />
 
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/payment/add-new-card" element={<AddNewCard />} />
-            <Route path="/payment/bank-transfer" element={<BankTransfer />} />
-            <Route path="/payment/successful" element={<SuccessfulPayment />} />
+        {/* Hostel details */}
+        {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
+        <Route path="hostels">
+          <Route path="/hostels/:hostelId" element={<HostelDetails />} />
+          <Route path="/hostels/create" element={<CreateHostel />} />
+        </Route>
 
-            {/* Hostel details */}
-            {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
-            <Route path="hostels">
-              <Route path="/hostels/:hostelId" element={<HostelDetails />} />
-              <Route path="/hostels/create" element={<CreateHostel />} />
-            </Route>
-            {/* Chat */}
+        {/* Feeds - find roommate */}
+        <Route path="/find-roommate" element={<FindRoommate />} />
+        <Route path="/find-roommate/create" element={<CreateRoommate />} />
+        <Route path="/find-roommate/:id" element={<RoommateRequestDetails />} />
 
-            <Route path="chat">
-              
-              <Route path="/chat/:userId" element={<Chat />} />
-            </Route>
+        {/* Chat */}
 
-            {/* Wishlist & Bookmark */}
-            <Route path="/wishlist" element={<WishlistOrBookmark />} />
+        <Route path="chat">
+          <Route path="/chat/:userId" element={<Chat />} />
+        </Route>
 
-            <Route path="/review/:hostelId" element={<Review />} />
+        {/* Wishlist & Bookmark */}
+        <Route path="/wishlist" element={<WishlistOrBookmark />} />
 
-            {/* Report */}
-            <Route path="/report" element={<Report />} />
+        <Route path="/review/:hostelId" element={<Review />} />
 
-            {/* Withdraw */}
-            <Route path="/withdraw" element={<Withdraw />} />
-            <Route path="/withdrawal-status/:isSuccess/:price" element={<WithdrawalStatus />} />
+        {/* Report */}
+        <Route path="/report" element={<Report />} />
 
-           
-            <Route path="/personal-details" element={<PersonalDetails />} />
+        {/* Withdraw */}
+        <Route path="/withdraw" element={<Withdraw />} />
+        <Route
+          path="/withdrawal-status/:isSuccess/:price"
+          element={<WithdrawalStatus />}
+        />
 
-            <Route path="/my-bookings" element={<MyBookings />} />
-            <Route path="/bookings" element={<BookingsList />} />
-            <Route path="/bookings/:bookingId" element={<BookingsDetails />} />
+        <Route path="/personal-details" element={<PersonalDetails />} />
 
-            <Route path="/setting/:settingsType" element={<Settings />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/bookings" element={<BookingsList />} />
+        <Route path="/bookings/:bookingId" element={<BookingsDetails />} />
 
-            <Route path="/saved-hostels" element={<SavedHostels />} />
+        <Route path="/setting/:settingsType" element={<Settings />} />
 
-            <Route path="/payment-history" element={<PaymentHistory />} />
+        <Route path="/saved-hostels" element={<SavedHostels />} />
 
-            <Route path="/payment-details" element={<PaymentDetails />} />
+        <Route path="/payment-history" element={<PaymentHistory />} />
 
-            <Route path='/recent-transactions' element={<RecentTransactions />} />
-          </Routes>
+        <Route path="/payment-details" element={<PaymentDetails />} />
+
+        <Route path="/recent-transactions" element={<RecentTransactions />} />
+      </Routes>
     </>
   );
 }
