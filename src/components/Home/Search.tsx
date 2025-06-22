@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Award, Briefcase, Like1, Location, SearchNormal } from "iconsax-react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Search = () => {
   const [type, setType] = useState<number>(0);
@@ -51,6 +51,10 @@ const Search = () => {
           <SearchNormal className="text-white" size="24" />
         </button>
       </div>
+
+<div className="flex flex-col gap-2 my-2">
+      <Link to={'/find-roommate'} className="bg-primary p-2 text-white my-2 w-full rounded-md text-center font-medium capitalize text-[17px]">find roommates</Link>
+</div>
 
       {/* Search Type Filters */}
       <div className="flex overflow-scroll gap-2 py-5 no-scrollbar">

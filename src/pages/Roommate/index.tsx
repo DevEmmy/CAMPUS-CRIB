@@ -6,8 +6,10 @@ import Loader from '../../components/Ui/Loader';
 const FindRoommate: React.FC = () => {
      const { data: roommateRequests, isLoading, error } = useRoommateRequests();
 
-  if (isLoading) return <Loader />;
-  if (error) return <div>Error loading roommate requests</div>;
+  if (isLoading) return <div className='flex items-center justify-center min-h-screen'>
+    <Loader />
+    </div>;
+  if (!isLoading && error) return <div>Error loading roommate requests</div>;
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
     {/* Header */}
@@ -49,7 +51,7 @@ const FindRoommate: React.FC = () => {
     </header>
 
     {/* Filters */}
-    <div className="px-4 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
+    {/* <div className="px-4 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
       <span className="px-3 py-1.5 bg-primary text-white text-xs rounded-full whitespace-nowrap">All</span>
       <span className="px-3 py-1.5 border border-gray-200 text-gray-700 text-xs rounded-full whitespace-nowrap">
         Male
@@ -66,17 +68,17 @@ const FindRoommate: React.FC = () => {
       <span className="px-3 py-1.5 border border-gray-200 text-gray-700 text-xs rounded-full whitespace-nowrap">
         Medicine
       </span>
-    </div>
+    </div> */}
 
     {/* Roommate Requests Feed */}
     <main className="flex-1 p-4 space-y-4">
     {roommateRequests?.map((request) => (
-          <div key={request.id} className="bg-white rounded-lg shadow overflow-hidden p-2 my-3">
+          <div key={request._id} className="bg-white rounded-lg shadow overflow-hidden p-2 my-3">
             <div className="p-4">
               <div className="flex gap-3">
                 <div className="w-12 h-12 rounded-full border-2 border-gray-100 overflow-hidden flex-shrink-0">
                   <img
-                    src={request.picture || "https://placehold.co/40x40"}
+                    src={request.picture}
                     alt={request.name}
                     className="w-full h-full object-cover"
                   />
@@ -112,7 +114,7 @@ const FindRoommate: React.FC = () => {
               </div>
             </div>
             <div className="flex justify-between items-center px-4 py-2 bg-gray-50 border-t border-gray-100">
-              <Link to={`/find-roommate/${request.id}`} className="flex items-center gap-1 text-gray-500 text-sm">
+              <Link to={`/find-roommate/${request._id}`} className="flex items-center gap-1 text-gray-500 text-sm">
                 {/* Comment icon */}
                 {request.comments.length} Comments
               </Link>

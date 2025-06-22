@@ -248,7 +248,7 @@ const HostelDetails: React.FC = () => {
 
       <section className="flex items-center justify-between bottom-0 fixed bg-white w-full shadow px-5 py-2.5">
         <div className="flex gap-2">
-          <img src={agentPic} className="size-12 rounded-xl" />
+          <img src={hostel?.user?.profilePicture} className="size-12 rounded-xl" />
           <div>
             <p className="text-[#A3A3A3] text-sm">Agent</p>
             <h2 className="text-dark font-semibold">

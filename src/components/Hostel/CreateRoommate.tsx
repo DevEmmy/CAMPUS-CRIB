@@ -7,6 +7,9 @@ import ButtonFileUploader from '../Reuseables/ButtonFileUploader';
 import { errorToast, successToast } from 'oasis-toast';
 import Loader from '../Ui/Loader';
 import { useCreateRoommateRequest } from '../../utils/roommateRequestApi';
+import { Hostel } from '../../types/Hostel';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllHostels } from '../../lib/fetchHostels';
 
 const CreateRoommate: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +24,10 @@ const CreateRoommate: React.FC = () => {
   });
   const [images, setImages] = useState<string[]>([]);
   const createMutation = useCreateRoommateRequest();
+   const { data: hostels = [], isLoading: isHostelsLoading } = useQuery<Hostel[]>({
+    queryKey: ['hostels'],
+    queryFn: fetchAllHostels,
+  });
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -49,7 +56,7 @@ const CreateRoommate: React.FC = () => {
     const requestData = {
       ...formData,
       hobbies: formData.hobbies.split(',').map(h => h.trim()).filter(h => h),
-      picture: images[0] || undefined, // Using first image as profile picture
+      picture: images[0] || undefined, 
       hostelId: formData.hostelId || undefined,
     };
 
@@ -212,24 +219,31 @@ const CreateRoommate: React.FC = () => {
             </div>
 
             {/* Hostel Field */}
-            <div>
-              <label htmlFor="hostelId" className="block text-sm font-medium mb-1">
-                Hostel Preference
-              </label>
-              <select
-                id="hostelId"
-                name="hostelId"
-                value={formData.hostelId}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-              >
-                <option value="">Select your hostel preference</option>
-                <option value="modern-building">Modern building with trees</option>
-                <option value="ocampus">ocampus</option>
-                <option value="looking">Looking for options</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+        <div>
+  <label htmlFor="hostelId" className="block text-sm font-medium mb-1">
+    Hostel Preference
+  </label>
+  {isHostelsLoading ? (
+    <div className="w-full p-2.5 border border-gray-300 rounded-md text-sm bg-gray-100 animate-pulse">
+      Loading hostels...
+    </div>
+  ) : (
+    <select
+      id="hostelId"
+      name="hostelId"
+      value={formData.hostelId}
+      onChange={handleChange}
+      className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
+    >
+      <option value="">Select your hostel preference</option>
+      {hostels.map((hostel) => (
+        <option key={hostel._id} value={hostel._id}>
+          {hostel.hostelName} - {hostel.location}
+        </option>
+      ))}
+    </select>
+  )}
+</div>
 
             {/* Profile Picture Field */}
             <div>

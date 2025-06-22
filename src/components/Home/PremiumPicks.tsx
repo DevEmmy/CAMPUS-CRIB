@@ -15,13 +15,13 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
   bookmarkedIds = [],
 }) => {
   const navigate = useNavigate();
-  const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds); // Track liked hostel IDs
+  const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds); 
 
   const handleBookmark = async (hostelId: string) => {
     const isLiked = likedHostels.includes(hostelId);
     const action = isLiked ? "remove" : "add";
 
-    // Optimistically update state
+
     setLikedHostels((prev) =>
       isLiked ? prev.filter((id) => id !== hostelId) : [...prev, hostelId]
     );
@@ -38,7 +38,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
             const isLiked = likedHostels.includes(hostel._id);
 
             return (
-              <div className="bg-white min-w-[80vw]" key={hostel._id}>
+              <div  onClick={() => navigate(`/hostels/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
                 <div className="relative w-[98%] h-[230px]">
                   <img
                     src={hostel.images[0]}

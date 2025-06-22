@@ -3,7 +3,6 @@ import {
   Home,
   MessageSquare,
   MessageText1,
-  Messenger,
   Profile,
   SearchNormal,
   Shop,
@@ -31,7 +30,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
     },
     {
       title: "chats",
-      icon:<Messenger size="26"/>,
+      icon:<MessageText1 size="26" />,
       route: "chat",
     },
     {

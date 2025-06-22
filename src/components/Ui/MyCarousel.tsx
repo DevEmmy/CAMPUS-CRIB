@@ -41,6 +41,7 @@ const HotelCard = ({
 
   return (
     <div
+      onClick={() => navigate(`/hostels/${id}`)}
       key={id}
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
         isFlex && "grid grid-cols-1 gap-x-1 items-center"

@@ -1,55 +1,67 @@
-import React, { useState } from 'react';
-
-import { formatDistanceToNow } from 'date-fns';
-import { useAddComment, useRoommateRequest } from '../../utils/roommateRequestApi';
-import { Link, useParams } from 'react-router';
-import Loader from '../Ui/Loader';
-
-interface CommentUser {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-}
-
-interface ExtendedComment {
-  userId: string | CommentUser;
-  content: string;
-  createdAt: Date;
-}
+// components/RoommateRequestDetails.tsx
+import React, { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import {
+  useAddComment,
+  useRoommateRequest,
+} from "../../utils/roommateRequestApi";
+import { Link, useParams } from "react-router";
+import Loader from "../Ui/Loader";
+import { RoommateRequest, User } from "../../types/roommate";
 
 const RoommateRequestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: request, isLoading, error } = useRoommateRequest(id || '');
-  const [comment, setComment] = useState('');
+  const { data: response, isLoading, error } = useRoommateRequest(id || "");
+  const [comment, setComment] = useState("");
   const addCommentMutation = useAddComment();
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!id || !comment.trim()) return;
-    
+
     try {
       await addCommentMutation.mutateAsync({ id, data: { content: comment } });
-      setComment('');
+      setComment("");
     } catch (error) {
-      console.error('Failed to add comment:', error);
+      console.error("Failed to add comment:", error);
     }
   };
 
   if (isLoading) return <Loader />;
-  if (error) return <div className="p-4 text-red-500">Error loading roommate request</div>;
-  if (!request) return <div className="p-4">Roommate request not found</div>;
+  if (error)
+    return (
+      <div className="p-4 text-red-500">Error loading roommate request</div>
+    );
+  if (!response) return <div className="p-4">Roommate request not found</div>;
 
-  // Helper function to get user info from comment
-  const getCommentUser = (comment: ExtendedComment): CommentUser => {
-    if (typeof comment.userId === 'string') {
+  const request: RoommateRequest = response;
+
+  // Helper function to get user info
+  const getUserInfo = (user: User | string): User => {
+    if (typeof user === "string") {
       return {
-        id: comment.userId,
-        name: 'Unknown User',
-        email: '',
+        _id: user,
+        firstName: "Unknown",
+        lastName: "User",
+        email: "",
+        userType: "BASIC",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
     }
-    return comment.userId;
+    return user;
+  };
+
+  // Helper function to get user display name
+  const getUserName = (user: User | string): string => {
+    const userInfo = getUserInfo(user);
+    return `${userInfo.firstName} ${userInfo.lastName}`;
+  };
+
+  // Helper function to get user profile picture
+  const getUserAvatar = (user: User | string): string | undefined => {
+    const userInfo = getUserInfo(user);
+    return userInfo.profilePicture;
   };
 
   return (
@@ -93,7 +105,9 @@ const RoommateRequestDetails: React.FC = () => {
                   <h3 className="font-semibold">{request.name}</h3>
                   <span
                     className={`px-2 py-0.5 text-xs rounded-full ${
-                      request.sex === "Male" ? "bg-blue-100 text-blue-600" : "bg-pink-100 text-pink-600"
+                      request.sex === "Male"
+                        ? "bg-blue-100 text-blue-600"
+                        : "bg-pink-100 text-pink-600"
                     }`}
                   >
                     {request.sex}
@@ -107,33 +121,27 @@ const RoommateRequestDetails: React.FC = () => {
 
             <div className="mt-3 flex flex-col gap-2 text-sm">
               <div>
-                <span className="font-medium">Religion:</span> {request.religion}
+                <span className="font-medium">Religion:</span>{" "}
+                {request.religion}
               </div>
-              {request.hostelId && typeof request.hostelId === 'object' && (
+              {request.hostelId && typeof request.hostelId === "object" && (
                 <div>
-                  <span className="font-medium">Hostel:</span> {request.hostelId.name}
+                  <span className="font-medium">Hostel:</span>{" "}
+                  {request.hostelId.name}
                 </div>
               )}
               <div>
-                <span className="font-medium">Hobbies:</span> {request.hobbies.join(", ")}
+                <span className="font-medium">Hobbies:</span>{" "}
+                {request.hobbies.join(", ")}
               </div>
             </div>
-
-            {/* Hostel Image - Only show if hostel info exists */}
-            {request.hostelId && typeof request.hostelId === 'object' && (
-              <div className="mt-4 border rounded-lg overflow-hidden">
-                <div className="relative h-40 bg-gray-100">
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                    Hostel Image
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="flex justify-between items-center px-4 py-2 bg-gray-50 border-t border-gray-100">
             <Link
-              to={`/messages/new?user=${typeof request.userId === 'string' ? request.userId : request.userId.id}`}
+              to={`/chat/new?user=${
+                typeof request.userId === "string" ? request.userId : request.userId._id
+              }`}
               className="bg-primary text-white p-3 rounded-lg text-base font-semibold w-full text-center"
             >
               Send DM
@@ -143,7 +151,9 @@ const RoommateRequestDetails: React.FC = () => {
 
         {/* Comments Section */}
         <div>
-          <h2 className="text-lg font-semibold mb-4">Comments ({request.comments.length})</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            Comments ({request.comments.length})
+          </h2>
 
           {/* Comment Form */}
           <form onSubmit={handleSubmitComment} className="flex gap-2 mb-4">
@@ -158,13 +168,13 @@ const RoommateRequestDetails: React.FC = () => {
                 className="flex-1 p-2.5 border border-gray-300 rounded-md text-sm min-h-[60px] resize-none"
                 disabled={addCommentMutation.isPending}
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="bg-primary text-white p-5 rounded-md flex items-center justify-center"
                 disabled={!comment.trim() || addCommentMutation.isPending}
               >
                 {addCommentMutation.isPending ? (
-                  <span className="loading-spinner"></span>
+                  <Loader/>
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -187,34 +197,39 @@ const RoommateRequestDetails: React.FC = () => {
 
           {/* Comments List */}
           <div className="space-y-3">
-            {request.comments.map((comment, index) => {
-              const user = getCommentUser(comment);
+            {request.comments.map((comment) => {
+              const user = getUserInfo(comment.userId);
+              const userAvatar = getUserAvatar(comment.userId);
+              const userName = getUserName(comment.userId);
+              
               return (
-                <div key={`${user.id}-${index}`} className="flex gap-2">
+                <div key={comment._id} className="flex gap-2">
                   <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
-                    {user.avatar ? (
+                    {userAvatar ? (
                       <img
-                        src={user.avatar}
-                        alt={user.name}
+                        src={userAvatar}
+                        alt={userName}
                         className="w-full h-full object-cover"
                       />
                     ) : (
                       <span className="w-full h-full flex items-center justify-center text-xs">
-                        {user.name.charAt(0).toUpperCase()}
+                        {userName.charAt(0).toUpperCase()}
                       </span>
                     )}
                   </div>
                   <div className="flex-1 bg-white p-3 rounded-lg">
                     <div className="flex justify-between items-start">
-                      <span className="font-medium">{user.name}</span>
+                      <span className="font-medium">{userName}</span>
                       <span className="text-xs text-gray-500">
-                        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(comment.createdAt), {
+                          addSuffix: true,
+                        })}
                       </span>
                     </div>
                     <p className="text-sm mt-1">{comment.content}</p>
                     <div className="mt-2 flex justify-end">
                       <Link
-                        to={`/messages/new?user=${user.id}`}
+                        to={`/chat/${user._id}`}
                         className="bg-primary text-white text-xs p-2 font-medium rounded flex items-center gap-1"
                       >
                         <svg
