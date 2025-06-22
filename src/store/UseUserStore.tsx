@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { User } from '../types/user'
 
 interface UserStore {
@@ -7,16 +8,24 @@ interface UserStore {
     setUserData: (userData: User | null) => void;
 }
 
-export const useUserStore = create<UserStore>((set) => ({
-    user: null,
-    setUser: (key, value) =>
-        set((state) => ({
-            user: state.user
-                ? {
-                    ...state.user,
-                    [key]: value,
-                }
-                : null, // Ensure null state doesn't break spreading
-        })),
-    setUserData: (userData) => set({ user: userData }),
-}))
+export const useUserStore = create<UserStore>()(
+    persist(
+        (set, _get) => ({
+            user: null,
+            setUser: (key, value) =>
+                set((state) => ({
+                    user: state.user
+                        ? {
+                              ...state.user,
+                              [key]: value,
+                          }
+                        : null,
+                })),
+            setUserData: (userData) => set({ user: userData }),
+        }),
+        {
+            name: 'user-storage', 
+            partialize: (state) => ({ user: state.user }), 
+        }
+    )
+)
