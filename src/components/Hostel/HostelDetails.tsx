@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { IoCopyOutline, IoLocationOutline } from "react-icons/io5";
-import agentPic from "/icons/profile.png";
+// import agentPic from "/icons/profile.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
 import { fetchHostelById } from "../../lib/fetchHostels";
