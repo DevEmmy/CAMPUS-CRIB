@@ -9,8 +9,6 @@ const FindRoommate: React.FC = () => {
   const navigate = useNavigate();
   const { data: roommateRequests, isLoading, error } = useRoommateRequests();
 
- 
-
   if (isLoading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -20,7 +18,6 @@ const FindRoommate: React.FC = () => {
   if (!isLoading && error) return <div>Error loading roommate requests</div>;
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="sticky top-0 z-10 flex items-center justify-between gap-5 p-4 bg-white border-b border-gray-200">
         <button
           onClick={() => navigate(-1)}
@@ -52,15 +49,17 @@ const FindRoommate: React.FC = () => {
       </header>
 
       {/* Roommate Requests Feed */}
-     <main className="flex-1 p-4 space-y-4">
+      <main className="flex-1 p-4 space-y-4">
         {roommateRequests?.map((request: RoommateRequest) => {
           // Extract user information
-          const user = typeof request.userId === 'object' ? request.userId : null;
-          const userId = user?._id || request.userId as string;
+          const user =
+            typeof request.userId === "object" ? request.userId : null;
+          const userId = user?._id || (request.userId as string);
           const userProfilePic = user?.profilePicture;
 
           // Extract hostel information
-          const hostel = typeof request.hostelId === 'object' ? request.hostelId : null;
+          const hostel =
+            typeof request.hostelId === "object" ? request.hostelId : null;
           // const hostelId = hostel?._id || request.hostelId as string;
 
           return (
@@ -72,7 +71,11 @@ const FindRoommate: React.FC = () => {
                 <div className="flex gap-3">
                   <div className="w-12 h-12 rounded-full border-2 border-gray-100 overflow-hidden flex-shrink-0">
                     <img
-                      src={request.picture || userProfilePic || "https://via.placeholder.com/150"}
+                      src={
+                        request.picture ||
+                        userProfilePic ||
+                        "https://via.placeholder.com/150"
+                      }
                       alt={request.name}
                       className="w-full h-full object-cover"
                     />
@@ -107,13 +110,16 @@ const FindRoommate: React.FC = () => {
                   {hostel && (
                     <>
                       <div>
-                        <span className="font-medium">Hostel:</span> {hostel.hostelName}
+                        <span className="font-medium">Hostel:</span>{" "}
+                        {hostel.hostelName}
                       </div>
                       <div>
-                        <span className="font-medium">Location:</span> {hostel.location}
+                        <span className="font-medium">Location:</span>{" "}
+                        {hostel.location}
                       </div>
                       <div>
-                        <span className="font-medium">Price:</span> ₦{hostel.price.toLocaleString()}
+                        <span className="font-medium">Price:</span> ₦
+                        {hostel.price.toLocaleString()}
                       </div>
                       {hostel.images?.length > 0 && (
                         <div className="mt-2">

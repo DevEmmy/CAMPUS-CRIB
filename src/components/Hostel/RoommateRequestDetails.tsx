@@ -5,12 +5,14 @@ import {
   useAddComment,
   useRoommateRequest,
 } from "../../utils/roommateRequestApi";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import Loader from "../Ui/Loader";
 import { RoommateRequest, User } from "../../types/roommate";
+import { VscChevronLeft } from "react-icons/vsc";
 
 const RoommateRequestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { data: response, isLoading, error } = useRoommateRequest(id || "");
   const [comment, setComment] = useState("");
   const addCommentMutation = useAddComment();
@@ -46,7 +48,7 @@ const RoommateRequestDetails: React.FC = () => {
         email: "",
         userType: "BASIC",
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
     }
     return user;
@@ -68,22 +70,12 @@ const RoommateRequestDetails: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
       <header className="sticky top-0 z-10 flex items-center p-4 bg-white border-b border-gray-200">
-        <Link to="/find-roommate" className="mr-4 text-gray-700">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m12 19-7-7 7-7" />
-            <path d="M19 12H5" />
-          </svg>
-        </Link>
+        <button
+          onClick={() => navigate(-1)}
+          className="text-primary border border-primary p-1 rounded-lg cursor-pointer"
+        >
+          <VscChevronLeft size={25} />
+        </button>
         <h1 className="text-lg font-bold">Roommate Request</h1>
       </header>
 
@@ -140,7 +132,9 @@ const RoommateRequestDetails: React.FC = () => {
           <div className="flex justify-between items-center px-4 py-2 bg-gray-50 border-t border-gray-100">
             <Link
               to={`/chat/new?user=${
-                typeof request.userId === "string" ? request.userId : request.userId._id
+                typeof request.userId === "string"
+                  ? request.userId
+                  : request.userId._id
               }`}
               className="bg-primary text-white p-3 rounded-lg text-base font-semibold w-full text-center"
             >
@@ -174,7 +168,7 @@ const RoommateRequestDetails: React.FC = () => {
                 disabled={!comment.trim() || addCommentMutation.isPending}
               >
                 {addCommentMutation.isPending ? (
-                  <Loader/>
+                  <Loader />
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +195,7 @@ const RoommateRequestDetails: React.FC = () => {
               const user = getUserInfo(comment.userId);
               const userAvatar = getUserAvatar(comment.userId);
               const userName = getUserName(comment.userId);
-              
+
               return (
                 <div key={comment._id} className="flex gap-2">
                   <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
