@@ -24,9 +24,9 @@ const TitleHead = ({title, handleClick} : TitleHeadProps) => {
 
   const handleGoBack = () => {
     if (typeof handleClick === "function") {
-      handleClick(); // Call the function if it exists
+      handleClick(); 
     } else {
-      navigate(-1); // Fallback to navigate if handleClick is not provided
+      navigate(-1); 
     }
   };
   

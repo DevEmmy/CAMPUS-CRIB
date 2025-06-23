@@ -1,3 +1,5 @@
+import { Hostel } from "./Hostel";
+
 // types/roommate.ts
 export interface User {
   _id: string;
@@ -20,18 +22,19 @@ export interface Comment {
 
 export interface RoommateRequest {
   _id: string;
+  userId: User | string;
   name: string;
   department: string;
   level: string;
   religion: string;
-  sex: "Male" | "Female";
+  sex: string;
   hobbies: string[];
-  picture?: string;
-  hostelId?: string | { _id: string; name: string };
-  userId: User | string;
+  hostelId: Hostel | string;
   comments: Comment[];
+  picture?: string;
   createdAt: string;
   updatedAt: string;
+  __v: number;
 }
 
 export interface CreateRoommateRequestData {

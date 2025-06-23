@@ -95,7 +95,7 @@ const RoommateRequestDetails: React.FC = () => {
             <div className="flex gap-3">
               <div className="w-12 h-12 rounded-full border-2 border-gray-100 overflow-hidden flex-shrink-0">
                 <img
-                  src={request.picture || "https://placehold.co/40x40"}
+                  src={request.picture || getUserAvatar(request.userId)}
                   alt={request.name}
                   className="w-full h-full object-cover"
                 />
@@ -127,7 +127,7 @@ const RoommateRequestDetails: React.FC = () => {
               {request.hostelId && typeof request.hostelId === "object" && (
                 <div>
                   <span className="font-medium">Hostel:</span>{" "}
-                  {request.hostelId.name}
+                  {request.hostelId.hostelName}
                 </div>
               )}
               <div>
