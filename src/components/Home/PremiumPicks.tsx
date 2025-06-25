@@ -38,7 +38,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
             const isLiked = likedHostels.includes(hostel._id);
 
             return (
-              <div  onClick={() => navigate(`/hostels/${hostel._id}`)} className="bg-white min-w-[80vw]" key={hostel._id}>
+              <div className="bg-white min-w-[80vw]" key={hostel._id}>
                 <div className="relative w-[98%] h-[230px]">
                   <img
                     src={hostel.images[0]}

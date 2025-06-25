@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { useLocation } from "react-router";
 import TitleHead from "../Ui/TitleHead";
-// import filter from "/icons/filter-horizontal.svg";
-// import keyboard from "/icons/keyboard.svg";
 import search from "/icons/search.svg";
-// import cancelCircle from "/icons/cancel-circle.svg";
 import SearchCarousel from "./SearchCarousel";
 import Filter from "./Filter";
 import { RiCloseFill } from "react-icons/ri";
@@ -30,26 +27,23 @@ const Search = () => {
 
   const location = useLocation();
 
-  // Fetch bookmarks
   const { data: bookmarks = [] } = useQuery({
     queryKey: ["bookmarks"],
     queryFn: fetchBookmarks,
   });
 
-  // Extract bookmarked hostel IDs
   const bookmarkedIds = bookmarks.map((b: { _id: string }) => b._id);
 
-  // Debounced search function
   const debouncedSearch = debounce(async (query: string) => {
     setIsLoading(true);
     try {
       const response = await axiosConfig.get("/hostels", {
         params: {
           hostelName: query || undefined,
-          // location: haveSearch ? filters.location : undefined, // Apply filters only after search
-          // hostelType: haveSearch ? filters.hostelType : undefined,
-          // minPrice: haveSearch ? filters.minPrice : 0,
-          // maxPrice: haveSearch ? filters.maxPrice : 1000000,
+          location: haveSearch ? filters.location : undefined,
+          hostelType: haveSearch ? filters.hostelType : undefined,
+          minPrice: haveSearch ? filters.minPrice : 0,
+          maxPrice: haveSearch ? filters.maxPrice : 1000000,
         },
       });
       console.log("API Response:", response.data);
@@ -83,7 +77,6 @@ const Search = () => {
   //   setFilteredResults([]);
   // };
 
-  // Handle filter changes
   const handleApplyFilters = (newFilters: {
     location: string;
     priceRange: number[];
@@ -98,16 +91,14 @@ const Search = () => {
       maxPrice: newFilters.priceRange[1],
       hostelType: newFilters.roomTypes,
     });
-    setHaveSearched(true); // Indicate filters are applied
-    debouncedSearch(searchQuery); // Search again with updated filters
+    setHaveSearched(true);
+    debouncedSearch(searchQuery);
   };
 
-  // Fetch hostels when filters or search query change
   useEffect(() => {
     debouncedSearch(searchQuery);
   }, [filters, searchQuery]);
 
-  // Initialize search from URL query params
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get("query");
@@ -123,25 +114,6 @@ const Search = () => {
     <main className="">
       <TitleHead title="Search" />
       <section className="p-5 my-10">
-        {/* <div className="flex gap-2 my-5 overflow-hidden w-full">
-          <div className="flex items-center border gap-1 border-variant-400 rounded-lg p-3 relative">
-            <img src={search} className="size-7" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="outline-none h-full bg-transparent"
-              placeholder="Search for Hostels, locations"
-            />
-          </div>
-          <button
-            className="bg-primary rounded-xl py-1 px-3 "
-            onClick={() => setIsFilter(true)}
-          >
-            <IoFilterOutline className=" text-white size-6" />
-          </button>
-        </div> */}
-
         <div className="flex gap-2 my-5 overflow-hidden w-full min-w-0">
           <div className="flex items-center justify-between border gap-1 border-variant-400 rounded-lg p-3 relative flex-1 min-w-0">
             <img src={search} className="size-7" alt="search icon" />
@@ -161,13 +133,6 @@ const Search = () => {
           </button>
         </div>
 
-        {/* 
-        {isLoading && (
-          <div className="flex justify-center items-center h-full mt-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-        </div>
-        )} */}
-
         {isLoading ? (
           <div className="min-h-[70vh] flex justify-center items-center">
             <div className="flex justify-center items-center h-full mt-20">
@@ -179,12 +144,10 @@ const Search = () => {
             <p className="text-[#7D8A9E]">No hostels found...</p>
           </div>
         ) : (
-          // Render search results
           <div className="flex-row">
             <div className="my-3 flex-row gap-1">
               <div className="flex justify-between items-center">
                 <p className="text-dark">Search Results</p>
-                {/* <img src={cancelCircle} /> */}
               </div>
               <div className="flex overflow-x-scroll gap-x-2 w-full my-1.5 scroll-m-0">
                 {filteredResults.map((result, index) => (
@@ -193,7 +156,9 @@ const Search = () => {
                       src={result.images[0]}
                       className="min-w-14 h-14 object-cover rounded-lg border"
                     />
-                    <p className="!text-[13px] line-clamp-1">{result.hostelName}</p>
+                    <p className="!text-[13px] line-clamp-1">
+                      {result.hostelName}
+                    </p>
                   </div>
                 ))}
               </div>

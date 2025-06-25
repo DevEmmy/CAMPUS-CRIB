@@ -9,7 +9,7 @@ interface TitleHeadProps {
 
 }
 
-const TitleHead = ({title, handleClick} : TitleHeadProps) => {
+const TitleHead = ({title} : TitleHeadProps) => {
   const navigate = useNavigate();
   const [hasShadow, setHasShadow] = useState<boolean>(false);
 
@@ -22,17 +22,17 @@ const TitleHead = ({title, handleClick} : TitleHeadProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleGoBack = () => {
-    if (typeof handleClick === "function") {
-      handleClick(); 
-    } else {
-      navigate(-1); 
-    }
-  };
+  // const handleGoBack = () => {
+  //   if (typeof handleClick === "function") {
+  //     handleClick(); 
+  //   } else {
+  //     navigate(-1); 
+  //   }
+  // };
   
   return (
     <div className={`flex items-center gap-3 mb-4 pt-5 px-5 pb-3  top-0 fixed z-[9999] bg-white w-full transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
-      <button onClick={handleGoBack} className="text-primary border border-primary p-1 rounded-lg cursor-pointer">
+      <button onClick={() =>  navigate(-1)} className="text-primary border border-primary p-1 rounded-lg cursor-pointer">
           <VscChevronLeft size={25} />
         </button>
       <h1 className="font-semibold text-[18px] text-[#0E0F1D] leading-6 capitalize">

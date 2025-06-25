@@ -69,7 +69,7 @@ const RoommateRequestDetails: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-10 flex items-center p-4 bg-white border-b border-gray-200">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-white border-b border-gray-200 gap-3">
         <button
           onClick={() => navigate(-1)}
           className="text-primary border border-primary p-1 rounded-lg cursor-pointer"

@@ -41,7 +41,6 @@ const HotelCard = ({
 
   return (
     <div
-      onClick={() => navigate(`/hostels/${id}`)}
       key={id}
       className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
@@ -123,7 +122,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels, bookmarkedIds }) => {
         )}
       </div>
 
-      <div>
+      {/* <div>
         <h2 className="font-semibold text-base">Top Amenities</h2>
 
         <Carousel
@@ -152,7 +151,7 @@ const MyCarousel: React.FC<CarouselProps> = ({ hostels, bookmarkedIds }) => {
             No hostels available
           </div>
         )}
-      </div>
+      </div> */}
     </>
   );
 };

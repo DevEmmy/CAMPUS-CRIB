@@ -64,7 +64,7 @@ const Search = () => {
             key={i}
             className={`flex gap-1 min-w-fit items-center rounded-lg capitalize justify-center text-[14px] py-2 px-3 border ${
               type == i
-                ? "bg-[#1B85A6] text-white"
+                ? "bg-primary text-white"
                 : "border-variant-500 text-variant-500"
             }`}
           >

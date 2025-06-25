@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-// import TitleHead from "../Ui/TitleHead";
+import React, { useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { IoCopyOutline, IoLocationOutline } from "react-icons/io5";
-// import agentPic from "/icons/profile.png";
+import { IoLocationOutline } from "react-icons/io5";
 import { BiCommentDetail } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
 import { fetchHostelById } from "../../lib/fetchHostels";
@@ -15,14 +13,7 @@ import { getReviews } from "../../utils/reviews";
 import { IoStar } from "react-icons/io5";
 import { Review } from "../../types/review";
 
-import Modal from "../Reuseables/Modal";
-// import Loader from "../Ui/Loader";
-// import { useUserContext } from "../../contexts/UserContext";
-// import profile from "/icons/profile.png";
-
 const HostelDetails: React.FC = () => {
-  // const [activeTabs, setActiveTabs] = useState<number>(0);
-  // const { userType } = useUserContext();
   const { hostelId } = useParams();
   const navigate = useNavigate();
   console.log(hostelId);
@@ -50,25 +41,33 @@ const HostelDetails: React.FC = () => {
 
     return `${day}/${month}/${year}`;
   }
+  const calculateRatingStats = () => {
+    if (!reviews?.data?.data || reviews.data.data.length === 0) {
+      return {
+        ratingCounts: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
+        totalReviews: 0,
+        averageRating: "0.0",
+        hasReviews: false,
+      };
+    }
 
-  const ratingCounts = {
-    5: 36,
-    4: 4,
-    3: 2,
-    2: 0,
-    1: 1,
+    const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    
+    reviews.data.data.forEach((review: Review) => {
+      ratingCounts[review.rating as keyof typeof ratingCounts]++;
+    });
+
+    const totalReviews = reviews.data.data.length;
+    const averageRating = (
+      reviews.data.data.reduce((sum: number, review: Review) => sum + review.rating, 0) / 
+      totalReviews
+    ).toFixed(1);
+
+    return { ratingCounts, totalReviews, averageRating };
   };
 
-  const totalReviews = Object.values(ratingCounts).reduce((a, b) => a + b, 0);
+  const { ratingCounts, totalReviews, averageRating } = calculateRatingStats();
 
-  const averageRating = (
-    Object.entries(ratingCounts).reduce(
-      (sum, [rating, count]) => sum + Number(rating) * count,
-      0
-    ) / totalReviews
-  ).toFixed(1);
-
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   if (isLoading) {
     return (
@@ -144,12 +143,12 @@ const HostelDetails: React.FC = () => {
             Review
           </button>
 
-          <button
+          {/* <button
             onClick={() => setModalOpen(true)}
             className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl"
           >
             Pay
-          </button>
+          </button> */}
         </div>
 
         <div className="text-variant-500 py-3 text-[15px]">
@@ -181,7 +180,7 @@ const HostelDetails: React.FC = () => {
         </div>
 
         {/* Rating Distribution */}
-        <div className="space-y-2 mb-8">
+       <div className="space-y-2 mb-8">
           {[5, 4, 3, 2, 1].map((rating) => (
             <div key={rating} className="flex items-center">
               <div className="flex items-center w-24">
@@ -201,9 +200,11 @@ const HostelDetails: React.FC = () => {
                   className="h-4 bg-amber-700"
                   style={{
                     width: `${
-                      (ratingCounts[rating as keyof typeof ratingCounts] /
-                        totalReviews) *
-                      100
+                      totalReviews > 0
+                        ? (ratingCounts[rating as keyof typeof ratingCounts] /
+                            totalReviews) *
+                          100
+                        : 0
                     }%`,
                   }}
                 ></div>
@@ -214,6 +215,7 @@ const HostelDetails: React.FC = () => {
             </div>
           ))}
         </div>
+
 
         {/* Individual Reviews */}
         <div className="border-t border-gray-200 pt-6 space-y-6 mb-6">
@@ -273,7 +275,7 @@ const HostelDetails: React.FC = () => {
         </div>
       </section>
 
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+      {/* <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="">
           <p className="text-center mb-4">
             Transfer{" "}
@@ -311,7 +313,7 @@ const HostelDetails: React.FC = () => {
           </button>
           <p className="text-dark text-sm text-center">Change Payment Method</p>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
