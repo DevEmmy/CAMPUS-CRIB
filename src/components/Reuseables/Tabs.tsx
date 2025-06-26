@@ -20,36 +20,36 @@ const Tabs = ({ isAgent }: tabsProps) => {
   const tabList = [
     {
       title: "Home",
-      icon: <Home size="26" />,
+      icon: <Home size="22" />,
       route: "",
     },
     {
       title: "search",
-      icon: <SearchNormal size="26" />,
+      icon: <SearchNormal size="22" />,
       route: "search",
     },
     {
       title: "chats",
-      icon:<MessageText1 size="26" />,
+      icon:<MessageText1 size="22" />,
       route: "chat",
     },
     {
       title: "favourite",
-      icon: <MessageSquare size="26" />,
+      icon: <MessageSquare size="22" />,
       route: "wishlist",
     },
     {
       title: "user",
-      icon: <Profile size="26" />,
+      icon: <Profile size="22" />,
       route: "profile",
     },
   ];
 
   const agentTabList = [
-    { title: "Home", icon: <Home size="26" />, route: "" },
+    { title: "Home", icon: <Home size="22" />, route: "" },
     {
       title: "messages",
-      icon: <MessageText1 size="26" />,
+      icon: <MessageText1 size="22" />,
       route: "chat",
     },
     {
@@ -59,7 +59,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
     },
     {
       title: "user",
-      icon: <Profile size="26" />,
+      icon: <Profile size="22" />,
       route: "profile",
     },
   ];
@@ -84,7 +84,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
           }`}
         >
           {item.icon}
-          {activeTab === i && <p>{item.title}</p>}
+          {activeTab === i && <p className="text-[14px]">{item.title}</p>}
         </NavLink>
       ))}
     </div>

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
-import agentPic from "/icons/profile.png";
+// import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
-import back from "/icons/back.svg";
+// import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
 import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -149,7 +149,7 @@ const Chat = () => {
           className="rounded-full bg-primary size-7 flex items-center justify-center"
         >
           <img
-            src={back || "/placeholder.svg"}
+            src={"https://placehold.co/400"}
             alt="back"
             className="size-3.5"
           />
@@ -158,7 +158,7 @@ const Chat = () => {
         <div className="flex justify-between grow">
           <div className="flex gap-2 items-center">
             <img
-              src={agentPic || "/placeholder.svg"}
+              src={"https://placehold.co/400"}
               className="size-11 rounded-xl"
               alt="Agent profile"
             />
