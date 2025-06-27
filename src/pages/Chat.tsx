@@ -6,7 +6,7 @@ import { LuPhone } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
-// import back from "/icons/back.svg";
+import back from "/icons/back.svg";
 import verifiedId from "/icons/id-verified.svg";
 import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -149,21 +149,21 @@ const Chat = () => {
           className="rounded-full bg-primary size-7 flex items-center justify-center"
         >
           <img
-            src={"https://placehold.co/400"}
+            src={back}
             alt="back"
-            className="size-3.5"
+            className="size-4"
           />
         </button>
         {/* {isTexted && ( */}
         <div className="flex justify-between grow">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-3 items-center">
             <img
-              src={"https://placehold.co/400"}
-              className="size-11 rounded-xl"
+              src={"https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"}
+              className="size-11 rounded-full"
               alt="Agent profile"
             />
             <div>
-              <h2 className="text-dark font-semibold">
+              <h2 className="text-dark font-semibold capitalize">
                 {otherUser?.firstName}
               </h2>
             </div>

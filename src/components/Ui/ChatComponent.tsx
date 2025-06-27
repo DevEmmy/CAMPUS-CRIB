@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import profilePic from "/icons/profile.png";
 import { convertToNormalTime } from "../../utils/ConvertToNormalTime";
 
 const ChatComponent = ({ item }: any) => {
@@ -8,21 +6,23 @@ const ChatComponent = ({ item }: any) => {
       <div className="flex grow items-center gap-x-2">
         <div className="min-w-12">
           <img
-            src={item?.otherUser.profilePicture || profilePic}
-            className="w-full h-[50px] object-cover rounded-xl "
+            src={
+              item?.otherUser.profilePicture ||
+              "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+            }
+            className="w-full h-[50px] object-contain rounded-full "
           />
         </div>
         <div className="flex-col grow">
-          <p className="font-semibold">
+          <p className="font-semibold capitalize">
             {item?.otherUser.firstName} {item?.otherUser.lastName}{" "}
-            {item?.otherUser.userType === "AGENT" && (
+            {/* {item?.otherUser.userType === "AGENT" && (
               <span className="font-normal text-sm text-[#1B85A6]">Agent</span>
-            )}
+            )} */}
           </p>
 
           <p className="line-clamp-1">{item?.lastMessage}</p>
         </div>
-
       </div>
       <div className="flex-row grid place-items-center">
         <p className="text-sm">{convertToNormalTime(item?.lastMessageAt)}</p>
