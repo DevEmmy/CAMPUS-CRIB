@@ -32,7 +32,7 @@ const HomepageLayout: React.FC = () => {
       {loggedUser?.userType === "AGENT" ? (
         <AgentHome user={loggedUser} />
       ) : (
-        <StudentHome user={loggedUser} />
+        <StudentHome />
       ) }
     </div>
   );

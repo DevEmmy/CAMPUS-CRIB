@@ -42,6 +42,8 @@ import RecentTransactions from "./pages/Profile/RecentTransactions.tsx";
 import CreateRoommate from "./components/Hostel/CreateRoommate.tsx";
 import RoommateRequestDetails from "./components/Hostel/RoommateRequestDetails.tsx";
 import FindRoommate from "./pages/Roommate/index.tsx";
+import ForgotPassword from "./components/Auth/ForgotPassword.tsx";
+import ResetPassword from "./components/Auth/ResetPassword.tsx";
 
 function App() {
   return (
@@ -51,7 +53,6 @@ function App() {
           <Route path="/" element={<HomepageLayout />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/chat" element={<ChatList />} />
-          {/* <Route path="/comment" element={<ChatList />} /> */}
           <Route path="/wishlist" element={<WishlistOrBookmark />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
@@ -72,6 +73,9 @@ function App() {
         {/* Authentication */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/reset-password" element={<ResetPassword/>} />
+        
 
         {/* Notification Alerts */}
         <Route path="/notifications" element={<NotificationsAlert />} />

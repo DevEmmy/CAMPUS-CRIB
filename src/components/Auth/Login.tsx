@@ -19,7 +19,7 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  // Handle change of form input
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -28,7 +28,7 @@ const Login = () => {
     }));
   };
 
-  // Validate form inputs
+  
   const validate = () => {
     const newErrors = { email: "", password: "" };
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -41,19 +41,18 @@ const Login = () => {
     return !newErrors.email && !newErrors.password;
   };
 
-  // Handle form submit
+  
   const handleLogin = async (e: React.FormEvent) => {
-    // const {setUserData} = useUserStore();
+  
     e.preventDefault();
     if (!validate()) return;
 
     try {
       setIsSubmitting(true);
       const response = await login(formData);
-      // Ensure that response is valid
       if (response?.status === 200) {
         const data = response?.data?.data?.user;
-        // console.log("Login response", response)
+        
         setUserData(data);
         console.log("data", data);
         navigate("/");
@@ -68,7 +67,6 @@ const Login = () => {
 
   return (
     <section className="min-h-[100vh] w-full p-5 grid place-items-center">
-      {/* bg-[#E6CDBF4D] */}
       <div className="">
         <div className=" p-5 rounded-xl my-5">
           <div>
@@ -126,9 +124,9 @@ const Login = () => {
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
               )}
-              <small className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
+              <Link to={"/forgot-password"} className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
                 Forget password
-              </small>
+              </Link>
             </div>
 
             <div>

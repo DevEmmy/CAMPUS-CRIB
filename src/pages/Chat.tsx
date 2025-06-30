@@ -62,7 +62,7 @@ const Chat = () => {
     // const lastMessage = fetchedMessages?.messages[fetchedMessages?.messages.length - 1];
     // console.log("last message", lastMessage);
 
-    console.log(fetchedMessages)
+    console.log(fetchedMessages);
 
     if (Array.isArray(fetchedMessages) && fetchedMessages.length > 0) {
       setIsTexted(true);
@@ -142,23 +142,19 @@ const Chat = () => {
 
   return (
     <main className="h-screen flex flex-col">
-      {/* Header */}
       <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white z-10 border-b">
         <button
           onClick={() => navigate(-1)}
           className="rounded-full bg-primary size-7 flex items-center justify-center"
         >
-          <img
-            src={back}
-            alt="back"
-            className="size-4"
-          />
+          <img src={back} alt="back" className="size-4" />
         </button>
-        {/* {isTexted && ( */}
         <div className="flex justify-between grow">
           <div className="flex gap-3 items-center">
             <img
-              src={"https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"}
+              src={
+                "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+              }
               className="size-11 rounded-full"
               alt="Agent profile"
             />
@@ -173,7 +169,6 @@ const Chat = () => {
             <LuPhone className="size-5 text-primary" />
           </button>
         </div>
-        {/* )} */}
       </div>
 
       {/* Messages Section */}
@@ -198,7 +193,6 @@ const Chat = () => {
                       ? "justify-end"
                       : "justify-start"
                   }`}
-                  // to scroll down to last chat upon fetch
                   ref={
                     i === fetchedMessages?.messages.length - 1
                       ? lastMessageRef
@@ -221,16 +215,6 @@ const Chat = () => {
                 </div>
               );
             })}
-
-            {/* Hostel information card */}
-            {/* <div className="bg-white rounded-xl max-w-[90%] p-2 mt-4">
-              <img src="https://placehold.co/600x400/png" className="rounded-xl w-full" alt="Campus Haven Lodge" />
-              <p className="text-dark text-lg font-semibold mb-1">Campus Haven Lodge</p>
-              <p className="">Campus Haven Hostel is a serene and well-equipped living space design...</p>
-              <Link to={"/checkout"} className="w-full">
-                <button className="bg-primary p-3 mt-1.5 w-full rounded-xl text-white">Pay now</button>
-              </Link>
-            </div> */}
           </div>
         ) : (
           <div className="grid place-items-center">
@@ -243,16 +227,12 @@ const Chat = () => {
               {otherUser?.firstName} {otherUser?.lastName}
             </h2>
             <div className="text-variant-500 flex gap-2 items-center">
-              <span>Verified Agent</span>{" "}
               <img src={verifiedId} className="size-5" />
             </div>
           </div>
         )}
-
-        {/* <div                   ref={isLastMessage ? lastMessageRef : null}></div> */}
       </section>
 
-      {/* Message Input */}
       <div className="w-full py-2.5 px-5 flex rounded-t-xl bg-white items-center justify-between bottom-0 fixed border-t">
         <button className="p-2">
           <HiPlus className="text-variant-400 size-6" />

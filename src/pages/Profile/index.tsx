@@ -30,9 +30,9 @@ const Profile = () => {
   // const { userType } = useUserContext();
   const [userProfile, setUserProfile] = useState<any | null>(null);
 
-  const { user, setUserData } = useUserStore();
-  const { setStoredConversations, clearConversations } = useConversationStore();
-  const { setStoredHostels, clearHostels } = useHostelStore();
+  const { user } = useUserStore();
+  const { clearConversations } = useConversationStore();
+  const { clearHostels } = useHostelStore();
 
   const localUser = localStorage.getItem("user");
 
@@ -132,13 +132,9 @@ const Profile = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("accountType");
 
-    // await setUserData(null);
-    await clearConversations();
-    await clearHostels();
-    setUserData(null);
-    await setStoredConversations([]);
-    await setStoredHostels([]);
-
+    useUserStore.getState().clearUser();
+    clearConversations();
+    clearHostels();
     navigate("/account-type", { replace: true });
   };
 

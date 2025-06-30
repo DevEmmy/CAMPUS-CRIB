@@ -6,6 +6,7 @@ interface UserStore {
     user: User | null;
     setUser: <K extends keyof User>(key: K, value: User[K]) => void;
     setUserData: (userData: User | null) => void;
+    clearUser: () => void; 
 }
 
 export const useUserStore = create<UserStore>()(
@@ -22,10 +23,11 @@ export const useUserStore = create<UserStore>()(
                         : null,
                 })),
             setUserData: (userData) => set({ user: userData }),
+            clearUser: () => set({ user: null }),
         }),
         {
-            name: 'user-storage', 
-            partialize: (state) => ({ user: state.user }), 
+            name: 'user-storage',
+            partialize: (state) => ({ user: state.user }),
         }
     )
-)
+);
