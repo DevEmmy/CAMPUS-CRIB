@@ -116,7 +116,7 @@ export const forgotPassword = async (
   email: string
 ): Promise<AxiosResponse<ForgotPasswordResponse> | undefined> => {
   try {
-    const response = await axiosConfig.post("api/users/forgot-password", { email });
+    const response = await axiosConfig.post("auth/forgot-password", { email });
 
     if (response && response.data) {
       successToast(
@@ -147,7 +147,7 @@ export const resetPassword = async (
   newPassword: string
 ): Promise<AxiosResponse<ResetPasswordResponse> | undefined> => {
   try {
-    const response = await axiosConfig.post("users/reset-password", {
+    const response = await axiosConfig.post("auth/reset-password", {
       resetToken,
       newPassword,
     });
