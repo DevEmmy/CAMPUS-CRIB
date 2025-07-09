@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Check, Zap, Crown, Users, BarChart3, Shield, Headphones } from "lucide-react"
 import { Link } from "react-router"
+import TitleHead from "../../components/Ui/TitleHead"
 
 interface PricingPlan {
   id: string
@@ -93,7 +94,10 @@ const Pricing = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <>
+        <TitleHead title={"Pricing"} />
+    <div className="min-h-screen bg-gray-50 py-12 px-4 mt-8">
+        
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -269,6 +273,7 @@ const Pricing = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

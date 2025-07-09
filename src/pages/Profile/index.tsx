@@ -1,11 +1,8 @@
 import TitleHead from "../../components/Ui/TitleHead";
 import {
   ArrowRight2,
-  CardPos,
   Logout,
-
   Notification,
-  Setting3,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
@@ -85,11 +82,11 @@ const Profile = () => {
     //   link: "/my-bookings",
     //   image: <Calendar1 size="22" color="#0E0F1D" />,
     // },
-    {
-      title: "Recent Transactions",
-      link: "/recent-transactions",
-      image: <CardPos size="22" color="#0E0F1D" />,
-    },
+    // {
+    //   title: "Recent Transactions",
+    //   link: "/recent-transactions",
+    //   image: <CardPos size="22" color="#0E0F1D" />,
+    // },
     // {
     //   title: "Saved Hostels",
     //   link: "/saved-hostels",
@@ -100,11 +97,11 @@ const Profile = () => {
       link: "/setting/notification",
       image: <Notification size="22" color="#0E0F1D" />,
     },
-    {
-      title: "App Settings",
-      link: "/setting/app",
-      image: <Setting3 size="22" color="#0E0F1D" />,
-    },
+    // {
+    //   title: "App Settings",
+    //   link: "/setting/app",
+    //   image: <Setting3 size="22" color="#0E0F1D" />,
+    // },
     // {
     //   title: "Contact Support",
     //   link: "",
