@@ -44,6 +44,7 @@ import RoommateRequestDetails from "./components/Hostel/RoommateRequestDetails.t
 import FindRoommate from "./pages/Roommate/index.tsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.tsx";
 import ResetPassword from "./components/Auth/ResetPassword.tsx";
+import Pricing from "./pages/Pricing/index.tsx";
 
 function App() {
   return (
@@ -98,6 +99,11 @@ function App() {
         <Route path="/payment/add-new-card" element={<AddNewCard />} />
         <Route path="/payment/bank-transfer" element={<BankTransfer />} />
         <Route path="/payment/successful" element={<SuccessfulPayment />} />
+
+        {/* Pricing */}
+        <Route path="/pricing" element={<Pricing />} />
+
+
 
         {/* Hostel details */}
         {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}

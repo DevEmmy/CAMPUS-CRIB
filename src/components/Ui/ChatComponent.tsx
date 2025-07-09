@@ -4,21 +4,19 @@ const ChatComponent = ({ item }: any) => {
   return (
     <div className="border-b py-4 flex justify-between items-center">
       <div className="flex grow items-center gap-x-2">
-        <div className="min-w-12">
+        <div className="w-[50px] h-[50px] bg-gray-300 rounded-full object-cover">
           <img
             src={
               item?.otherUser.profilePicture ||
               "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
             }
-            className="w-full h-[50px] object-contain rounded-full "
+            className="w-full h-full object-cover rounded-full "
           />
         </div>
         <div className="flex-col grow">
           <p className="font-semibold capitalize">
             {item?.otherUser.firstName} {item?.otherUser.lastName}{" "}
-            {/* {item?.otherUser.userType === "AGENT" && (
-              <span className="font-normal text-sm text-[#1B85A6]">Agent</span>
-            )} */}
+        
           </p>
 
           <p className="line-clamp-1">{item?.lastMessage}</p>

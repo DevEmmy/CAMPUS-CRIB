@@ -39,8 +39,8 @@ const Search = () => {
     try {
       const response = await axiosConfig.get("/hostels", {
         params: {
-          hostelName: query || undefined,
-          location: haveSearch ? filters.location : undefined,
+          // hostelName: query || undefined,
+          location: query || (haveSearch ? filters.location : undefined),
           hostelType: haveSearch ? filters.hostelType : undefined,
           minPrice: haveSearch ? filters.minPrice : 0,
           maxPrice: haveSearch ? filters.maxPrice : 1000000,

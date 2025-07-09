@@ -1,23 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import TitleHead from "../../components/Ui/TitleHead";
 import {
-  // ArchiveBook,
   ArrowRight2,
   CardPos,
-  // Headphone,
-  // Calendar1,
-  // CardPos,
-  // Headphone,
   Logout,
-  // Setting3,
+
   Notification,
   Setting3,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
-// import { useUserContext } from "../../contexts/UserContext";
-// import { TbReportAnalytics } from "react-icons/tb";
-// import { PiHandWithdrawBold } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
@@ -27,7 +18,6 @@ import { useConversationStore } from "../../store/useConversationStore";
 
 const Profile = () => {
   const navigate = useNavigate();
-  // const { userType } = useUserContext();
   const [userProfile, setUserProfile] = useState<any | null>(null);
 
   const { user } = useUserStore();
@@ -163,7 +153,7 @@ const Profile = () => {
               </span>
             </div>
             {userProfile?.userType == "AGENT" && (
-              <p className=" text-blue-300 text-xs">Verified Agent</p>
+             <Link to={"/pricing"} className="border border-primary p-2 text-sm font-medium text-primary rounded">Upgrade</Link>
             )}
           </div>
         </div>
