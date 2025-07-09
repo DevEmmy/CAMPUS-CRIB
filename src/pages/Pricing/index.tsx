@@ -232,7 +232,7 @@ const Pricing = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/https://www.instagram.com/campus_crib?igsh=aGh5a2lycHU5ZHg2"
+                to="https://www.instagram.com/campus_crib?igsh=aGh5a2lycHU5ZHg2"
                 className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors"
               >
                 Contact Sales
