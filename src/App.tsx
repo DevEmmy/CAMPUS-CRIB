@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AccountType from "./components/Onboarding/AccountType";
 import StudentOnboarding from "./pages/studentOnboarding";
 import AgentOnboarding from "./pages/agentOnboarding";
@@ -58,10 +58,11 @@ function App() {
     }
   }, []);
 
-  const handleSplashComplete = () => {
+  const handleSplashComplete = useCallback(() => {
+    console.log('Splash complete called');
     setShowSplash(false);
     localStorage.setItem('hasSeenSplash', 'true');
-  };
+  }, []);
 
   if (showSplash) {
     return <SplashScreen onComplete={handleSplashComplete} />;
