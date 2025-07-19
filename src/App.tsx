@@ -50,13 +50,13 @@ import SplashScreen from "./components/Ui/SplashScreen.tsx";
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(() => {
-    // Check if user has seen splash before
-    const hasSeenSplash = localStorage.getItem('hasSeenSplash');
-    if (hasSeenSplash) {
-      setShowSplash(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check if user has seen splash before
+  //   const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+  //   if (hasSeenSplash) {
+  //     setShowSplash(false);
+  //   }
+  // }, []);
 
   const handleSplashComplete = useCallback(() => {
     console.log('Splash complete called');
