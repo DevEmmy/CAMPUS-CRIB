@@ -1,6 +1,6 @@
 import React from 'react'
-import indicator from '/onboarding/indicator.svg'
 import { Link } from 'react-router';
+import { ArrowRight2, Home2, SearchNormal, Calendar1 } from 'iconsax-react';
 
 interface Props {
   handleNextStep: () => void;  
@@ -8,19 +8,64 @@ interface Props {
 
 const StudentStep1: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='h-dvh w-full flex items-center justify-end flex-col p-4'>
-        <div className='bg-primary rounded-xl p-6 flex flex-col items-center justify-between gap-5 text-white'>
-            <img src={indicator} alt="indicator" />
-            <div className='flex flex-col items-center justify-center gap-2'>
-                <h2 className='text-center text-[24px] font-bold leading-7 p-2'>Welcome to Hostel!</h2>
-                <p className='text-[14px] font-normal leading-5 text-center p-2'> Your go-to platform for finding the best hostels near your campus.
-                Simplify your search, compare options, and book with ease.</p>
-            </div>
-            <div className='flex flex-col items-center justify-center gap-5'>
-                <button onClick={handleNextStep} className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
-                <Link to={'/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
-            </div>
+    <section className='min-h-dvh w-full  flex items-center justify-center p-6'>
+      <div className='w-full max-w-md'>
+        {/* Header */}
+        <div className='text-center mb-8'>
+          <div className='inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-6 shadow-lg'>
+            <Home2 size={40} className="text-white" />
+          </div>
+          <h1 className='text-3xl font-bold text-dark mb-4'>
+            Welcome to Campus Crib!
+          </h1>
+          <p className='text-gray-600 text-lg leading-relaxed'>
+            Your go-to platform for finding the best hostels near your campus.
+          </p>
         </div>
+
+        {/* Features */}
+        <div className='bg-white rounded-2xl border-2 border-primary/30 px-4 py-8 mb-8'>
+          <div className='space-y-6'>
+            <div className='flex items-center gap-4'>
+              <div className='w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center'>
+                <SearchNormal size={24} className="text-blue-600" />
+              </div>
+              <div>
+                <h3 className='font-semibold text-dark mb-1'>Smart Search</h3>
+                <p className='text-gray-600 text-sm'>Find hostels based on location, price, and amenities</p>
+              </div>
+            </div>
+
+            <div className='flex items-center gap-4'>
+              <div className='w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center'>
+                <Calendar1 size={24} className="text-green-600" />
+              </div>
+              <div>
+                <h3 className='font-semibold text-dark mb-1'>Easy Booking</h3>
+                <p className='text-gray-600 text-sm'>Book your perfect accommodation with just a few clicks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className='space-y-4'>
+          <button 
+            onClick={handleNextStep} 
+            className='w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl'
+          >
+            Continue
+            <ArrowRight2 size={20} />
+          </button>
+          
+          <Link 
+            to='/signup' 
+            className='block text-center text-gray-600 hover:text-primary transition-colors duration-200 font-medium'
+          >
+            Skip for now
+          </Link>
+        </div>
+      </div>
     </section>
   )
 }

@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { login } from "../../utils/authRequest"; // Assuming login function exists in your authRequest file
-import line from "/onboarding/Line.svg";
-import google from "/onboarding/google.svg";
+import { login } from "../../utils/authRequest";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
-import { Eye, EyeSlash } from "iconsax-react";
+import { Eye, EyeSlash, User, Sms, Lock, ArrowRight2, Google } from "iconsax-react";
 import { useUserStore } from "../../store/UseUserStore";
 
 const Login = () => {
@@ -19,7 +17,6 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -28,7 +25,6 @@ const Login = () => {
     }));
   };
 
-  
   const validate = () => {
     const newErrors = { email: "", password: "" };
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -41,9 +37,7 @@ const Login = () => {
     return !newErrors.email && !newErrors.password;
   };
 
-  
   const handleLogin = async (e: React.FormEvent) => {
-  
     e.preventDefault();
     if (!validate()) return;
 
@@ -66,107 +60,140 @@ const Login = () => {
   };
 
   return (
-    <section className="min-h-[100vh] w-full p-5 grid place-items-center">
-      <div className="">
-        <div className=" p-5 rounded-xl my-5">
-          <div>
-            <h2 className="text-primary text-[24px] font-bold leading-7">
-              Welcome Back
-            </h2>
-            <p className="text-dark text-[14px] leading-5 font-normal my-2">
-              Log in to continue
-            </p>
+    <section className="min-h-dvh w-full flex items-center justify-center p-6">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-4 shadow-lg">
+            <User size={32} className="text-white" />
           </div>
+          <h1 className="text-2xl font-bold text-dark mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600 text-sm">
+            Sign in to your Campus Crib account
+          </p>
+        </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="w-full">
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-4 border border-primary rounded-lg text-[14px] focus:outline-none"
-                placeholder="Email Address"
-              />
-
+        {/* Form */}
+        <div className="">
+          <form onSubmit={handleLogin} className="space-y-6">
+            {/* Email */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <div className="relative">
+                <Sms size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="john.doe@example.com"
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                    errors.email ? "border-red-300" : "border-gray-200"
+                  }`}
+                />
+              </div>
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                <span className="text-red-500 text-xs">{errors.email}</span>
               )}
             </div>
 
-            <div className="w-full">
-              <div className="flex items-center border border-primary rounded-lg pr-2 bg-white ">
+            {/* Password */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <Lock size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type={isPasswordVisible ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full p-4 grow rounded-lg text-[14px] focus:outline-none"
-                  placeholder="Password"
+                  placeholder="Enter your password"
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                    errors.password ? "border-red-300" : "border-gray-200"
+                  }`}
                 />
-
-                {isPasswordVisible ? (
-                  <EyeSlash
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    size="22"
-                    color="#a64e1b"
-                    variant="Broken"
-                  />
-                ) : (
-                  <Eye
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    size="22"
-                    color="#a64e1b"
-                    variant="Broken"
-                  />
-                )}
+                <button
+                  type="button"
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                >
+                  {isPasswordVisible ? (
+                    <EyeSlash size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
+                </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                <span className="text-red-500 text-xs">{errors.password}</span>
               )}
-              <Link to={"/forgot-password"} className="capitalize text-right text-primary text-[12px] leading-5 font-normal">
-                Forget password
-              </Link>
-            </div>
-
-            <div>
-              <button
-                className={` ${
-                  isSubmitting ? "bg-primary/60" : "bg-primary"
-                } text-white p-3 w-full font-bold rounded-lg text-[16px] text-center leading-5`}
-                disabled={isSubmitting}
-                type="submit"
-              >
-                {isSubmitting ? "logging in" : "Log In"}
-              </button>
-            </div>
-
-            <div className="flex items-center justify-around gap-2 w-full">
-              <img width={80} src={line} alt="line" />
-              <small className="text-nowrap text-primary leading-[14px] text-[12px]">
-                or register with
-              </small>
-              <img width={80} src={line} alt="line" />
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 border border-primary rounded-lg p-3 w-full">
-                <img src={google} alt="" />
-                <p className="text-dark text-[14px] leading-5 font-normal">
-                  Continue with Google
-                </p>
+              
+              {/* Forgot Password Link */}
+              <div className="text-right">
+                <Link 
+                  to="/forgot-password" 
+                  className="text-sm text-primary hover:text-primary/80 transition-colors duration-200"
+                >
+                  Forgot password?
+                </Link>
               </div>
             </div>
+
+            {/* Submit Button */}
+            <button
+              className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all duration-200 flex items-center justify-center gap-2 ${
+                isSubmitting 
+                  ? "bg-primary/60 cursor-not-allowed" 
+                  : "bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl"
+              }`}
+              disabled={isSubmitting}
+              type="submit"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight2 size={18} />
+                </>
+              )}
+            </button>
           </form>
+
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <div className="flex-1 h-px bg-gray-200"></div>
+            <span className="px-4 text-sm text-gray-500">or continue with</span>
+            <div className="flex-1 h-px bg-gray-200"></div>
+          </div>
+
+          {/* Google Login */}
+          <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <Google size={26} variant="Bulk" className="text-gray-600" />
+            <span className="text-gray-700 font-medium">Continue with Google</span>
+          </button>
         </div>
 
-        <div className="flex items-center justify-center my-10">
-          <small className="text-dark text-[14px] leading-5 text-center">
+        {/* Signup Link */}
+        <div className="text-center mt-6">
+          <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link className="text-primary" to={"/signup"}>
+            <Link 
+              to="/signup" 
+              className="text-primary font-medium hover:text-primary/80 transition-colors duration-200"
+            >
               Sign Up
             </Link>
-          </small>
+          </p>
         </div>
       </div>
     </section>
