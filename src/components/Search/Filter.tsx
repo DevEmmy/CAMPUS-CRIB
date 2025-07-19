@@ -2,6 +2,8 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
+import { Location, Wifi, Shield, Calendar } from "iconsax-react";
+
 const Filter = ({
   onClose,
   onApplyFilters,
@@ -17,13 +19,9 @@ const Filter = ({
   }) => void;
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
-  const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">(
-    "single"
-  );
+  const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">("single");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [availability, setAvailability] = useState<
-    "Available Now" | "Available in"
-  >("Available Now");
+  const [availability, setAvailability] = useState<"Available Now" | "Available in">("Available Now");
   const [availableDate, setAvailableDate] = useState<Date | null>(null);
   const [priceRange, setPriceRange] = useState([0, 500000]);
   const [isDragging, setIsDragging] = useState(false);
@@ -37,8 +35,6 @@ const Filter = ({
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value);
     const isMin = e.target.dataset.thumb === "min";
-    console.log(isDragging);
-    console.log(activeThumb);
 
     if (isMin) {
       if (value <= priceRange[1]) {
@@ -69,7 +65,6 @@ const Filter = ({
         Math.max(0, Math.min(parsedValue, maxPrice)),
       ]);
     }
-    console.log("Updated Price Range:", priceRange);
   };
 
   const handleRoomTypeSelect = (type: "single" | "shared") => {
@@ -84,14 +79,13 @@ const Filter = ({
     }
   };
 
-  const handleAvailabilitySelect = (
-    option: "Available Now" | "Available in"
-  ) => {
+  const handleAvailabilitySelect = (option: "Available Now" | "Available in") => {
     setAvailability(option);
     if (option !== "Available in") {
       setAvailableDate(null);
     }
   };
+
   const handleApplyFilters = () => {
     const filters = {
       location: selectedLocation,
@@ -101,12 +95,10 @@ const Filter = ({
       availability,
       availableDate,
     };
-    console.log("Applied Filters:", filters);
     onApplyFilters(filters);
     onClose();
   };
 
-  // Handle filter reset
   const handleResetFilters = () => {
     setSelectedLocation("");
     setPriceRange([0, 1000000]);
@@ -115,7 +107,6 @@ const Filter = ({
     setAvailability("Available Now");
     setAvailableDate(null);
 
-    // Apply the reset filters
     onApplyFilters({
       location: "",
       priceRange: [0, 1000000],
@@ -127,251 +118,267 @@ const Filter = ({
   };
 
   return (
-    <div className="pb-20">
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+    <div className="space-y-6 pb-16">
+      {/* Location */}
+      <div className="space-y-3">
+        <label className="block text-sm font-semibold text-dark">
           Location
         </label>
         <div className="relative">
+          <Location size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Your Location"
+            placeholder="Enter location..."
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1B85A6]"
+            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
           />
-          <i className="fas fa-chevron-down absolute right-3 top-3 text-gray-500"></i>
         </div>
       </div>
 
-      <div className="w-full p-4">
-        <div className="space-y-6">
-          <h2 className="text-lg font-medium">Price Range</h2>
+      {/* Price Range */}
+      <div className="space-y-4">
+        <label className="block text-sm font-semibold text-dark">
+          Price Range
+        </label>
 
-          <div className="relative pt-8">
+        <div className="relative pt-6">
+          <div
+            className="absolute -top-2 transform -translate-x-1/2 z-10"
+            style={{ left: `${calculatePercentage(priceRange[1])}%` }}
+          >
+            <div className="bg-primary text-white px-3 py-1 rounded-lg text-sm font-medium shadow-lg">
+              {formatPrice(priceRange[1])}
+            </div>
+          </div>
+
+          <div className="relative h-2 bg-gray-200 rounded-full">
             <div
-              className="absolute -top-2 transform -translate-x-1/2 z-10"
-              style={{ left: `${calculatePercentage(priceRange[1])}%` }}
-            >
-              <div className="bg-primary text-white px-3 py-1 rounded text-sm">
-                {formatPrice(priceRange[1])}
-              </div>
-            </div>
-
-            <div className="relative h-2 bg-gray-200 rounded-full">
-              <div
-                className="absolute h-full bg-primary rounded-full"
-                style={{
-                  left: `${calculatePercentage(priceRange[0])}%`,
-                  right: `${100 - calculatePercentage(priceRange[1])}%`,
-                }}
-              />
-
-              <input
-                type="range"
-                min={0}
-                max={maxPrice}
-                value={priceRange[0]}
-                data-thumb="min"
-                onChange={handleSliderChange}
-                onMouseDown={() => {
-                  setIsDragging(true);
-                  setActiveThumb("min");
-                }}
-                onMouseUp={() => {
-                  setIsDragging(false);
-                  setActiveThumb(null);
-                }}
-                className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
-                style={{
-                  WebkitAppearance: "none",
-                }}
-              />
-
-              <input
-                type="range"
-                min={0}
-                max={maxPrice}
-                value={priceRange[1]}
-                data-thumb="max"
-                onChange={handleSliderChange}
-                onMouseDown={() => {
-                  setIsDragging(true);
-                  setActiveThumb("max");
-                }}
-                onMouseUp={() => {
-                  setIsDragging(false);
-                  setActiveThumb(null);
-                }}
-                className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
-                style={{
-                  WebkitAppearance: "none",
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <input
-              type="text"
-              value={priceRange[0]}
-              onChange={(e) => handleInputChange(0, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="₦0"
+              className="absolute h-full bg-primary rounded-full"
+              style={{
+                left: `${calculatePercentage(priceRange[0])}%`,
+                right: `${100 - calculatePercentage(priceRange[1])}%`,
+              }}
             />
+
             <input
-              type="text"
+              type="range"
+              min={0}
+              max={maxPrice}
+              value={priceRange[0]}
+              data-thumb="min"
+              onChange={handleSliderChange}
+              onMouseDown={() => {
+                setIsDragging(true);
+                setActiveThumb("min");
+              }}
+              onMouseUp={() => {
+                setIsDragging(false);
+                setActiveThumb(null);
+              }}
+              className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
+              style={{ WebkitAppearance: "none" }}
+            />
+
+            <input
+              type="range"
+              min={0}
+              max={maxPrice}
               value={priceRange[1]}
-              onChange={(e) => handleInputChange(1, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="₦1,000,000"
+              data-thumb="max"
+              onChange={handleSliderChange}
+              onMouseDown={() => {
+                setIsDragging(true);
+                setActiveThumb("max");
+              }}
+              onMouseUp={() => {
+                setIsDragging(false);
+                setActiveThumb(null);
+              }}
+              className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
+              style={{ WebkitAppearance: "none" }}
             />
           </div>
         </div>
-        <style>{`
-        input[type='range']::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 16px;
-          height: 16px;
-          background: white;
-          border: 2px solid #A64E1B;
-          border-radius: 50%;
-          cursor: pointer;
-          pointer-events: auto;
-          margin-top: -7px;
-        }
-        
-        input[type='range']::-moz-range-thumb {
-          width: 16px;
-          height: 16px;
-          background: white;
-          border: 2px solid #A64E1B;
-          border-radius: 50%;
-          cursor: pointer;
-          pointer-events: auto;
-        }
-      `}</style>
+
+        {/* <div className="flex gap-3">
+          <input
+            type="text"
+            value={priceRange[0]}
+            onChange={(e) => handleInputChange(0, e.target.value)}
+            className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+            placeholder="₦0"
+          />
+          <input
+            type="text"
+            value={priceRange[1]}
+            onChange={(e) => handleInputChange(1, e.target.value)}
+            className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+            placeholder="₦1,000,000"
+          />
+        </div> */}
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+      {/* Room Type */}
+      {/* <div className="space-y-3">
+        <label className="block text-sm font-semibold text-dark">
           Room Type
         </label>
-        <div className="flex space-x-2">
+        <div className="flex gap-3">
           <button
-            className={`w-1/2 px-3 py-2 rounded-md ${
+            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
               selectedRoom === "single"
-                ? "bg-primary text-white"
-                : "bg-white border"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
             onClick={() => handleRoomTypeSelect("single")}
           >
             Single Room
           </button>
           <button
-            className={`w-1/2 px-3 py-2 rounded-md ${
+            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
               selectedRoom === "shared"
-                ? "bg-primary text-white"
-                : "bg-white border"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
             onClick={() => handleRoomTypeSelect("shared")}
           >
             Shared Room
           </button>
         </div>
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+      </div> */}
+
+      {/* Amenities */}
+      <div className="space-y-3">
+        <label className="block text-sm font-semibold text-dark">
           Amenities
         </label>
-        <div className="flex space-x-2 flex-wrap">
+        <div className="flex flex-wrap gap-2">
           <button
-            className={`px-3 py-2 border rounded-md ${
-              selectedAmenities.includes("Wi-Fi") ? "bg-primary text-white" : ""
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
+              selectedAmenities.includes("Wi-Fi") 
+                ? "bg-primary border-primary text-white" 
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
             onClick={() => handleAmenitySelect("Wi-Fi")}
           >
-            Wi-Fi
+            <Wifi size={16} />
+            <span className="text-sm font-medium">Wi-Fi</span>
           </button>
           <button
-            className={`px-3 py-2 border rounded-md ${
-              selectedAmenities.includes("Laundry")
-                ? "bg-primary text-white"
-                : ""
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
+              selectedAmenities.includes("Laundry") 
+                ? "bg-primary border-primary text-white" 
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
             onClick={() => handleAmenitySelect("Laundry")}
           >
-            Laundry
+            <span className="text-sm font-medium">Laundry</span>
           </button>
           <button
-            className={`px-3 py-2 border rounded-md ${
-              selectedAmenities.includes("24/7 Security")
-                ? "bg-primary text-white"
-                : ""
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
+              selectedAmenities.includes("24/7 Security") 
+                ? "bg-primary border-primary text-white" 
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
             onClick={() => handleAmenitySelect("24/7 Security")}
           >
-            24/7 Security
+            <Shield size={16} />
+            <span className="text-sm font-medium">24/7 Security</span>
           </button>
         </div>
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+
+      {/* Availability */}
+      <div className="space-y-3">
+        <label className="block text-sm font-semibold text-dark">
           Availability
         </label>
-        <div className="flex space-x-2">
-          <div className="flex items-center justify-between space-x-2 p-3">
-            <button
-              className={`w-1/2 px-3 py-2 border rounded-md text-nowrap ${
-                availability === "Available Now" ? "bg-primary text-white" : ""
-              }`}
-              onClick={() => handleAvailabilitySelect("Available Now")}
-            >
-              Available Now
-            </button>
-            <button
-              className={`w-1/2 px-3 py-2 border rounded-md text-nowrap ${
-                availability === "Available in" ? "bg-primary text-white" : ""
-              }`}
-              onClick={() => handleAvailabilitySelect("Available in")}
-            >
-              Available in
-            </button>
-          </div>
+        <div className="flex gap-3">
+          <button
+            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
+              availability === "Available Now" 
+                ? "bg-primary border-primary text-white shadow-lg" 
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleAvailabilitySelect("Available Now")}
+          >
+            Available Now
+          </button>
+          <button
+            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
+              availability === "Available in" 
+                ? "bg-primary border-primary text-white shadow-lg" 
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleAvailabilitySelect("Available in")}
+          >
+            Available in
+          </button>
         </div>
-        <div className="p-3">
-          {/* Show Date Picker only if "Available in" is selected */}
-          {availability === "Available in" && (
-            <div className="mt-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Select a Date
-              </label>
+
+        {availability === "Available in" && (
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-600">
+              Select Date
+            </label>
+            <div className="relative">
+              <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <DatePicker
                 selected={availableDate}
-                onChange={(date: Date | null) => setAvailableDate(date)} // Update date when user picks one
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                onChange={(date: Date | null) => setAvailableDate(date)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                 placeholderText="Select a date"
-                dateFormat="yyyy/MM/dd"
+                dateFormat="MMM dd, yyyy"
+                minDate={new Date()}
               />
             </div>
-          )}
-        </div>
-        <div className="flex space-x-2">
-          <button
-            onClick={handleResetFilters}
-            className="w-1/2 p-3 bg-[#E6CDBF] text-primary font-semibold leading-5 text-[14px] rounded-md"
-          >
-            Reset Filters
-          </button>
-          <button
-            onClick={handleApplyFilters}
-            className="w-1/2 p-3 bg-primary text-white font-semibold leading-5 text-[14px] rounded-md"
-          >
-            Apply Filter
-          </button>
-        </div>
+          </div>
+        )}
       </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-3 pt-4">
+        <button
+          onClick={handleResetFilters}
+          className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-200"
+        >
+          Reset Filters
+        </button>
+        <button
+          onClick={handleApplyFilters}
+          className="flex-1 px-4 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+        >
+          Apply Filters
+        </button>
+      </div>
+
+      <style>{`
+        input[type='range']::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          background: white;
+          border: 3px solid #A64E1B;
+          border-radius: 50%;
+          cursor: pointer;
+          pointer-events: auto;
+          margin-top: -9px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        input[type='range']::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          background: white;
+          border: 3px solid #A64E1B;
+          border-radius: 50%;
+          cursor: pointer;
+          pointer-events: auto;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+      `}</style>
     </div>
   );
 };

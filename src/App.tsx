@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { useState, useEffect } from "react";
 import AccountType from "./components/Onboarding/AccountType";
 import StudentOnboarding from "./pages/studentOnboarding";
 import AgentOnboarding from "./pages/agentOnboarding";
@@ -34,7 +35,6 @@ import Withdraw from "./pages/Withdraw/Withdraw.tsx";
 import WithdrawalStatus from "./pages/Withdraw/WithdrawalStatus.tsx";
 import CreateInvoice from "./pages/Invoice/CreateInvoice.tsx";
 import SuccessfulInvoice from "./pages/Invoice/SuccessfulInvoice.tsx";
-
 import ViewInvoice from "./pages/Invoice/ViewInvoice.tsx";
 import BookingsList from "./pages/Bookings/Bookings.tsx";
 import BookingsDetails from "./pages/Bookings/BookingsDetails.tsx";
@@ -45,8 +45,28 @@ import FindRoommate from "./pages/Roommate/index.tsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.tsx";
 import ResetPassword from "./components/Auth/ResetPassword.tsx";
 import Pricing from "./pages/Pricing/index.tsx";
+import SplashScreen from "./components/Ui/SplashScreen.tsx";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    // Check if user has seen splash before
+    const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+    if (hasSeenSplash) {
+      setShowSplash(false);
+    }
+  }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    localStorage.setItem('hasSeenSplash', 'true');
+  };
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
   return (
     <>
       <Routes>

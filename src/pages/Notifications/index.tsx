@@ -1,63 +1,105 @@
 import React, { useState } from "react";
-import CustomReturn from "../../components/Reuseables/CustomReturn";
+import TitleHead from "../../components/Ui/TitleHead";
 import AllNotifications from "../../components/Notifications/AllNotifications";
 import BiddingResultNotifications from "../../components/Notifications/BiddingResultNotifications";
 import NewListingNotifications from "../../components/Notifications/NewListingNotifications";
 import PaymentNotifications from "../../components/Notifications/PaymentNotifications";
+import { Notification, Star, Home, Wallet, Filter } from "iconsax-react";
 
 const NotificationsAlert: React.FC = () => {
   const notificationRoutes = [
-    { type: "All", component: <AllNotifications /> },
-    { type: "Bidding Result", component: <BiddingResultNotifications /> },
-    { type: "New Listing", component: <NewListingNotifications /> },
-    { type: "Payments", component: <PaymentNotifications /> },
+    { 
+      type: "All", 
+      component: <AllNotifications />,
+      icon: <Notification size={20} />,
+      count: 12
+    },
+    // { 
+    //   type: "Bidding Result", 
+    //   component: <BiddingResultNotifications />,
+    //   icon: <Star size={20} />,
+    //   count: 3
+    // },
+    { 
+      type: "New Listing", 
+      component: <NewListingNotifications />,
+      icon: <Home size={20} />,
+      count: 5
+    },
+    // { 
+    //   type: "Payments", 
+    //   component: <PaymentNotifications />,
+    //   icon: <Wallet size={20} />,
+    //   count: 4
+    // },
   ];
 
   const [selectedTab, setSelectedTab] = useState("All");
 
-  const activeTab =
-    "bg-primary py-2 px-5 rounded-md text-white text-[14px] leading-5 font-normal text-nowrap capitalize";
-  const normalTab =
-    "text-[#7D8A9E] text-[14px] leading-5 font-normal text-nowrap capitalize";
+  const handleTabChange = (tab: string) => {
+    setSelectedTab(tab);
+  };
 
-
-    const handleTabChange = (tab: string) => {
-      setSelectedTab(tab);
-    };
   return (
-    <section className="h-dvh w-full p-2">
-      <CustomReturn title="Notification Alerts" />
+    <div className="min-h-dvh bg-gray-50">
+      <TitleHead title="Notifications" />
+      
+      <section className="p-6 pb-20">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-2xl font-bold text-dark mb-2">Notifications</h1>
+                <p className="text-gray-600">Stay updated with your latest activities</p>
+              </div>
+              {/* <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
+                <Filter size={16} />
+                Filter
+              </button> */}
+            </div>
+          </div>
 
-      <div className="p-2">
-        <p className="leading-6 text-[16px] font-normal text-black">
-          Stay updated on new listing, bidding result and payment confirmation
-        </p>
-
-        <div className="my-5">
-          {/* <SearchInputs /> */}
-          <div className="h-full">
-            <div className="flex items-center gap-5 p-2 justify-center">
-            {notificationRoutes.map((route) => (
-                <button
-                  key={route.type}
-                  className={
-                    selectedTab === route.type ? activeTab : normalTab
-                  }
-                  onClick={() => handleTabChange(route.type)}
-                >
-                  {route.type}
-                </button>
-              ))}
+          {/* Tabs */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="border-b border-gray-100">
+              <div className="flex">
+                {notificationRoutes.map((route) => (
+                  <button
+                    key={route.type}
+                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 font-medium transition-all relative ${
+                      selectedTab === route.type
+                        ? "text-primary border-b-2 border-primary bg-primary/5"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                    onClick={() => handleTabChange(route.type)}
+                  >
+                    <div className={selectedTab === route.type ? "text-primary" : "text-gray-500"}>
+                      {route.icon}
+                    </div>
+                    <span>{route.type}</span>
+                    {route.count > 0 && (
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        selectedTab === route.type 
+                          ? "bg-primary text-white" 
+                          : "bg-gray-200 text-gray-600"
+                      }`}>
+                        {route.count}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="h-full w-full mt-5">
-              {notificationRoutes.find((route) => route.type === selectedTab)
-                ?.component}
+            {/* Content */}
+            <div className="p-6">
+              {notificationRoutes.find((route) => route.type === selectedTab)?.component}
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

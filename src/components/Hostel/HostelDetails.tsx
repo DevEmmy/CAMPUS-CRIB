@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { IoLocationOutline } from "react-icons/io5";
-import { BiCommentDetail } from "react-icons/bi";
-import { LuPhone } from "react-icons/lu";
 import { fetchHostelById } from "../../lib/fetchHostels";
 import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "../../utils/formatPrice";
@@ -12,11 +9,11 @@ import TitleHead from "../Ui/TitleHead";
 import { getReviews } from "../../utils/reviews";
 import { IoStar } from "react-icons/io5";
 import { Review } from "../../types/review";
+import { Location, Star, Wifi, Car, Shield, Message, Call } from "iconsax-react";
 
 const HostelDetails: React.FC = () => {
   const { hostelId } = useParams();
   const navigate = useNavigate();
-  console.log(hostelId);
 
   const { data: hostel, isLoading } = useQuery({
     queryKey: ["hostel"],
@@ -36,11 +33,11 @@ const HostelDetails: React.FC = () => {
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-
     return `${day}/${month}/${year}`;
   }
+
   const calculateRatingStats = () => {
     if (!reviews?.data?.data || reviews.data.data.length === 0) {
       return {
@@ -68,252 +65,253 @@ const HostelDetails: React.FC = () => {
 
   const { ratingCounts, totalReviews, averageRating } = calculateRatingStats();
 
+  const getFeatureIcon = (feature: string) => {
+    const featureLower = feature.toLowerCase();
+    if (featureLower.includes('wifi') || featureLower.includes('internet')) return <Wifi size={16} />;
+    if (featureLower.includes('parking') || featureLower.includes('car')) return <Car size={16} />;
+    if (featureLower.includes('security') || featureLower.includes('guard')) return <Shield size={16} />;
+    return <Star size={16} />;
+  };
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen mt-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      <div className="min-h-dvh bg-gray-50">
+        <TitleHead title="Hostel Details" />
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center space-y-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-gray-600 font-medium">Loading hostel details...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <TitleHead title="Room Details" />
-      <section className="p-5 mt-14">
-        <Carousel
-          autoPlay={true}
-          infiniteLoop={true}
-          showThumbs={false}
-          centerMode={false}
-          className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-2"
-        >
-          {hostel &&
-            hostel.images.map((image: string, index: number) => (
-              <div key={index} className="w-full rounded-2xl h-[300px]">
+    <div className="min-h-dvh bg-gray-50">
+      <TitleHead title="Hostel Details" />
+      
+      <section className="p-6 pb-32">
+        {/* Image Carousel */}
+        <div className="mb-6">
+          <Carousel
+            autoPlay={true}
+            infiniteLoop={true}
+            showThumbs={false}
+            centerMode={false}
+            showStatus={false}
+            showIndicators={true}
+            className="rounded-2xl overflow-hidden shadow-lg"
+          >
+            {hostel?.images.map((image: string, index: number) => (
+              <div key={index} className="h-64 md:h-80">
                 <img
                   src={image}
-                  alt="image"
-                  className="rounded-xl h-full object-cover border shadow"
+                  alt={`Hostel image ${index + 1}`}
+                  className="w-full h-full object-cover"
                 />
               </div>
             ))}
-        </Carousel>
+          </Carousel>
+        </div>
 
-        <div className="bg-white  overflow-hidden">
-          <div className="py-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-lg font-semibold">{hostel?.hostelName}</h2>
-                <p className="text-[#64748B] flex items-center">
-                  <IoLocationOutline size={20} />
-                  {hostel?.location}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between mt-4">
-                <span className="text-lg font-bold">
-                  {formatPrice(hostel?.price)}
-                </span>
+        {/* Hostel Info */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-dark mb-2">
+                {hostel?.hostelName}
+              </h1>
+              <div className="flex items-center gap-2 text-gray-600 mb-3">
+                <Location size={18} className="text-gray-400" />
+                <span className="text-sm">{hostel?.location}</span>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-between my-5 gap-2 text-[#64748B]">
-              {hostel?.features.map(
-                ({ feature, index }: { feature: string[]; index: number }) => (
+            <div className="text-right">
+              <div className="text-2xl font-bold text-primary">
+                {formatPrice(hostel?.price)}
+              </div>
+              <div className="text-sm text-gray-500">per month</div>
+            </div>
+          </div>
+
+          {/* Availability Badge */}
+          <div className="mb-4">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+              hostel?.isAvailable 
+                ? "bg-green-100 text-green-700" 
+                : "bg-red-100 text-red-700"
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${
+                hostel?.isAvailable ? "bg-green-500" : "bg-red-500"
+              }`}></div>
+              {hostel?.isAvailable ? "Available" : "Full"}
+            </div>
+          </div>
+
+          {/* Features */}
+          {hostel?.features && hostel.features.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-dark mb-3">Features</h3>
+              <div className="flex flex-wrap gap-2">
+                {hostel.features.map((feature: string, index: number) => (
                   <div
                     key={index}
-                    className="flex items-center space-x-2 bg-[#E5E5E54D] rounded-lg p-2 px-3"
+                    className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg"
                   >
-                    <span className="text-gray-500">{feature}</span>
+                    {getFeatureIcon(feature)}
+                    <span className="text-sm text-gray-700">{feature}</span>
                   </div>
-                )
-              )}
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* Description */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-dark mb-3">Description</h3>
+            <p className="text-gray-600 leading-relaxed">
+              {hostel?.description}
+            </p>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate(`/review/${hostel?._id}`)}
+              className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200"
+            >
+              Write Review
+            </button>
+            <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-xl font-semibold transition-all duration-200">
+              Book Now
+            </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 border-y border-[#E5E5E5] py-3 ">
-          <p className="text-dark text-xl font-bold">
-            {formatPrice(hostel?.price)}
-          </p>
-          <button
-            onClick={() => navigate(`/review/${hostel?._id}`)}
-            className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl"
-          >
-            Review
-          </button>
+        {/* Reviews Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 className="text-xl font-bold text-dark mb-6">Reviews</h2>
 
-          {/* <button
-            onClick={() => setModalOpen(true)}
-            className="grow bg-[#E5E5E54D] text-primary p-2.5 rounded-xl"
-          >
-            Pay
-          </button> */}
-        </div>
-
-        <div className="text-variant-500 py-3 text-[15px]">
-          {hostel?.description}
-        </div>
-      </section>
-
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg border-t">
-        <h2 className="text-xl font-medium text-gray-900 mb-4">Reviews</h2>
-
-        {/* Overall Rating */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-gray-900">
-              {averageRating}
-            </span>
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <IoStar
-                  key={i}
-                  className="w-5 h-5 fill-amber-600 text-amber-600"
-                />
-              ))}
-            </div>
-          </div>
-          <p className="text-sm text-gray-600 mt-1">
-            Based on {totalReviews} reviews
-          </p>
-        </div>
-
-        {/* Rating Distribution */}
-       <div className="space-y-2 mb-8">
-          {[5, 4, 3, 2, 1].map((rating) => (
-            <div key={rating} className="flex items-center">
-              <div className="flex items-center w-24">
+          {/* Overall Rating */}
+          <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-xl">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-dark">{averageRating}</div>
+              <div className="flex justify-center mt-1">
                 {[...Array(5)].map((_, i) => (
                   <IoStar
                     key={i}
-                    className={`w-4 h-4 ${
-                      i < rating
-                        ? "fill-amber-600 text-amber-600"
-                        : "fill-gray-200 text-gray-200"
-                    }`}
+                    className="w-4 h-4 fill-amber-500 text-amber-500"
                   />
                 ))}
               </div>
-              <div className="w-full ml-4 h-4 bg-[#E6CDBF]">
-                <div
-                  className="h-4 bg-amber-700"
-                  style={{
-                    width: `${
-                      totalReviews > 0
-                        ? (ratingCounts[rating as keyof typeof ratingCounts] /
-                            totalReviews) *
-                          100
-                        : 0
-                    }%`,
-                  }}
-                ></div>
+              <div className="text-sm text-gray-600 mt-1">
+                {totalReviews} reviews
               </div>
-              <span className="ml-2 text-sm text-gray-600">
-                ({ratingCounts[rating as keyof typeof ratingCounts]})
-              </span>
             </div>
-          ))}
-        </div>
-
-
-        {/* Individual Reviews */}
-        <div className="border-t border-gray-200 pt-6 space-y-6 mb-6">
-          {reviews?.data.data.length &&
-            reviews?.data.data.map((review: Review) => (
-              <div key={review._id} className="pb-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-base font-medium text-gray-900">
-                    {review.user.firstName}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {formatDate(review.createdAt)}
+            
+            {/* Rating Distribution */}
+            <div className="flex-1 space-y-2">
+              {[5, 4, 3, 2, 1].map((rating) => (
+                <div key={rating} className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600 w-8">{rating}★</span>
+                  <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-amber-500 rounded-full"
+                      style={{
+                        width: `${
+                          totalReviews > 0
+                            ? (ratingCounts[rating as keyof typeof ratingCounts] /
+                                totalReviews) *
+                              100
+                            : 0
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                  <span className="text-xs text-gray-500 w-8">
+                    {ratingCounts[rating as keyof typeof ratingCounts]}
                   </span>
                 </div>
-                <div className="flex mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <IoStar
-                      key={i}
-                      className={`w-4 h-4 ${
-                        i < review.rating
-                          ? "fill-amber-600 text-amber-600"
-                          : "fill-gray-200 text-gray-200"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="text-sm text-gray-600">{review.comment}</p>
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <section className="flex items-center justify-between bottom-0 fixed bg-white w-full shadow px-5 py-2.5">
-        <div className="flex gap-2">
-          <img src={hostel?.user?.profilePicture} className="size-12 rounded-xl" />
-          <div>
-            <p className="text-[#A3A3A3] text-sm">Agent</p>
-            <h2 className="text-dark font-semibold">
-              {hostel?.user?.firstName} {hostel?.user?.lastName}
-            </h2>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-1.5">
-          <Link
-            to={`/chat/${hostel?.user?._id}`}
-            className="border border-primary rounded-2xl p-3"
-          >
-            <BiCommentDetail className="size-6 text-primary" />
-          </Link>
-
-          <button className="border border-primary rounded-2xl p-3">
-            <LuPhone className="size-6 text-primary" />
-          </button>
-
-          {/* <LuPhone /> */}
+          {/* Individual Reviews */}
+          <div className="space-y-4">
+            {reviews?.data?.data && reviews.data.data.length > 0 ? (
+              reviews.data.data.map((review: Review) => (
+                <div key={review._id} className="border-b border-gray-100 pb-4 last:border-b-0">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-dark">
+                      {review.user.firstName} {review.user.lastName}
+                    </h3>
+                    <span className="text-sm text-gray-500">
+                      {formatDate(review.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <IoStar
+                        key={i}
+                        className={`w-4 h-4 ${
+                          i < review.rating
+                            ? "fill-amber-500 text-amber-500"
+                            : "fill-gray-200 text-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {review.comment}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Star size={24} className="text-gray-400" />
+                </div>
+                <p className="text-gray-500">No reviews yet</p>
+                <p className="text-sm text-gray-400">Be the first to review this hostel</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-        <div className="">
-          <p className="text-center mb-4">
-            Transfer{" "}
-            <span className="text-primary font-bold">
-              {" "}
-              {formatPrice(hostel?.price)}{" "}
-            </span>
-          </p>
-          <div className="border-2 border-dashed border-primary text-dark p-4 rounded-md mb-4">
-            <div className="mb-2">
-              <p className="font-bold">BANK NAME</p>
-              <p className="text-sm">{hostel?.user?.bankName}</p>
+      {/* Fixed Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 shadow-lg p-4">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+              <img 
+                src={hostel?.user?.profilePicture || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"} 
+                alt="Agent" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="mb-2">
-              <p className="font-bold">ACCOUNT NAME</p>
-              <p className="text-sm">{hostel?.user?.accountName}</p>
-            </div>
-            <div className="mb-2 flex justify-between items-center">
-              <div>
-                <p className="font-bold">Account Number</p>
-                <p className="text-sm">{hostel?.user?.accountNumber}</p>
-              </div>
-              <IoCopyOutline size={16} className="text-primary" />
-            </div>
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-bold">Amount</p>
-                <p className="text-sm"> {formatPrice(hostel?.price)} </p>
-              </div>
-              <IoCopyOutline size={16} className="text-primary" />
+            <div>
+              <p className="text-sm text-gray-500">Agent</p>
+              <h3 className="font-semibold text-dark">
+                {hostel?.user?.firstName} {hostel?.user?.lastName}
+              </h3>
             </div>
           </div>
-          <button className="bg-primary text-white py-2 px-4 rounded-md w-full mb-4">
-            i've sent the money
-          </button>
-          <p className="text-dark text-sm text-center">Change Payment Method</p>
+
+          <div className="flex gap-3">
+            <Link
+              to={`/chat/${hostel?.user?._id}`}
+              className="flex items-center justify-center w-12 h-12 bg-primary hover:bg-primary/90 text-white rounded-xl transition-all duration-200"
+            >
+              <Message size={20} />
+            </Link>
+            <button className="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200">
+              <Call size={20} />
+            </button>
+          </div>
         </div>
-      </Modal> */}
+      </div>
     </div>
   );
 };

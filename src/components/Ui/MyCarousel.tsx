@@ -1,9 +1,8 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import mapMarker from "/icons/location.svg";
 import { Hostel } from "../../types/Hostel";
 import { useNavigate } from "react-router";
-import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+import { Heart, Location, Star } from "iconsax-react";
 import { updateBookmark } from "../../lib/bookmarkHostel";
 import { useState } from "react";
 
@@ -12,6 +11,8 @@ interface HostelCardProps {
   title: string;
   address: string;
   desc?: string;
+  price?: string;
+  rating?: number;
   isFlex?: boolean;
   id: string;
   liked?: boolean;
@@ -27,6 +28,8 @@ const HotelCard = ({
   title,
   address,
   desc,
+  price,
+  rating,
   isFlex,
   liked: initiallyLiked = false,
   id,
@@ -42,50 +45,73 @@ const HotelCard = ({
   return (
     <div
       key={id}
-      className={`bg-white rounded-2xl py-3 overflow-hidden max-w-sm ${
+      className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer ${
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
+      onClick={() => navigate(`/hostels/${id}`)}
     >
-      <div className="relative h-[230px]">
+      <div className="relative h-56">
         <img
-          onClick={() => navigate(`/hostels/${id}`)}
           src={image}
-          alt="Aerial view of a large hotel complex surrounded by greenery"
-          className="w-full h-full object-cover rounded-xl border shadow"
+          alt={title}
+          className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        
+        {/* Bookmark Button */}
         <button
-          onClick={() => handleBookmark(id, `${liked ? "remove" : "add"}`)}
-          className="absolute top-2 right-2 bg-white/80 bg-opacity-25  rounded-xl p-2 shadow-md"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBookmark(id, `${liked ? "remove" : "add"}`);
+          }}
+          className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
         >
-          {liked ? (
-            <VscHeartFilled color="#C80F0F" className="size-5" />
-          ) : (
-            <VscHeart color="#C80F0F" className="size-5" />
-          )}
+          <Heart 
+            size={20} 
+            className={liked ? "text-red-500 fill-current" : "text-gray-600"} 
+          />
         </button>
+        
+        {/* Price Badge */}
+        {price && (
+          <div className="absolute bottom-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+            ₦{price}
+          </div>
+        )}
+        
+        {/* Rating Badge */}
+        {rating && (
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1">
+            <Star size={14} className="text-yellow-500 fill-current" />
+            <span className="text-xs font-medium text-gray-700">{rating}</span>
+          </div>
+        )}
       </div>
-      <div className="py-3">
-        <h2
-          onClick={() => navigate(`/hostels/${id}`)}
-          className="text-lg font-semibold text-left"
-        >
+      
+      <div className="p-4 space-y-3">
+        <h2 className="text-lg font-bold text-dark line-clamp-1">
           {title}
         </h2>
-        <div
-          onClick={() => navigate(`/hostels/${id}`)}
-          className=" text-dark flex items-center text-left gap-1 justify-start mt-2 "
-        >
-          <div>
-            <img src={mapMarker} className="size-5" />
-          </div>
-          <p className="text-left text-[15px]">{address}</p>
+        
+        <div className="flex items-center gap-2 text-gray-600">
+          <Location size={16} className="text-gray-400" />
+          <span className="text-sm">{address}</span>
         </div>
-        <p
-          onClick={() => navigate(`/hostels/${id}`)}
-          className="text-sm text-variant-500 text-left"
-        >
-          {desc && desc.slice(0, 30)}
-        </p>
+        
+        {desc && (
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+            {desc}
+          </p>
+        )}
+        
+        {/* Quick Info */}
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-xs text-green-600 font-medium">Available</span>
+          </div>
+          <span className="text-xs text-gray-500">View Details</span>
+        </div>
       </div>
     </div>
   );
@@ -93,66 +119,52 @@ const HotelCard = ({
 
 const MyCarousel: React.FC<CarouselProps> = ({ hostels, bookmarkedIds }) => {
   return (
-    <>
-      <div>
-        <h2 className="font-semibold text-base">Best deals</h2>
-        <Carousel
-          autoPlay={true}
-          infiniteLoop={true}
-          showThumbs={false}
-          centerMode={false}
-          className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
-        >
-          {hostels &&
-            hostels?.map((hostel: Hostel) => (
-              <HotelCard
-                key={hostel?._id}
-                id={hostel?._id}
-                image={hostel?.images[0]}
-                title={hostel?.hostelName}
-                address={hostel?.location}
-                liked={bookmarkedIds.includes(hostel._id)}
-              />
-            ))}
-        </Carousel>
-        {hostels?.length == 0 && (
-          <div className="text-center w-full flex items-center justify-center py-10">
-            No hostels available
-          </div>
-        )}
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-dark">Best Deals</h2>
+        <div className="flex items-center gap-2 text-primary text-sm font-medium">
+          <span>Special offers</span>
+        </div>
       </div>
-
-      {/* <div>
-        <h2 className="font-semibold text-base">Top Amenities</h2>
-
+      
+      {hostels && hostels.length > 0 ? (
         <Carousel
           autoPlay={true}
           infiniteLoop={true}
           showThumbs={false}
+          showStatus={false}
+          showIndicators={true}
           centerMode={false}
-          className="items-start justify-start h-fit lg:w-4/5 mx-auto pb-10"
+          className="custom-carousel"
+          interval={5000}
+          stopOnHover={true}
         >
-          {hostels &&
-            hostels?.map((hostel: Hostel) => (
+          {hostels.map((hostel: Hostel) => (
+            <div key={hostel._id} className="px-2">
               <HotelCard
-                key={hostel?._id}
-                id={hostel?._id}
-                image={hostel?.images[0]}
-                title={hostel?.hostelName}
-                address={hostel?.location}
-                desc={hostel?.description}
+                id={hostel._id}
+                image={hostel.images[0]}
+                title={hostel.hostelName}
+                address={hostel.location}
+                desc={hostel.description}
+                price={hostel.price}
                 liked={bookmarkedIds.includes(hostel._id)}
-                isFlex
               />
-            ))}
+            </div>
+          ))}
         </Carousel>
-        {hostels?.length == 0 && (
-          <div className="text-center w-full flex items-center justify-center py-10">
-            No hostels available
+      ) : (
+        <div className="w-full flex items-center justify-center py-12">
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+              <Star size={24} className="text-gray-400" />
+            </div>
+            <p className="text-gray-500 font-medium">No deals available</p>
+            <p className="text-sm text-gray-400">Check back later for special offers</p>
           </div>
-        )}
-      </div> */}
-    </>
+        </div>
+      )}
+    </div>
   );
 };
 

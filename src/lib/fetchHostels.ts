@@ -1,8 +1,9 @@
 import { CreateHostel } from "../types/Hostel"
 import { axiosConfig } from "../utils/axiosConfig"
 
-export const fetchAllHostels = async () => {
-   const response = await axiosConfig.get('hostels')
+export const fetchAllHostels = async (route?: string) => {
+   const endpoint = route ? `/hostels/${route}` : '/hostels'
+   const response = await axiosConfig.get(endpoint)
    const allHostels = response.data.data
    return allHostels
 }

@@ -1,31 +1,75 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import { Award, Briefcase, Like1, Location, SearchNormal } from "iconsax-react";
+import { useState, useEffect } from "react";
+import { Award, Briefcase, Like1, Location, SearchNormal, Filter } from "iconsax-react";
 import { Link, useNavigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { axiosConfig } from "../../utils/axiosConfig";
 
-const Search = () => {
+interface SearchProps {
+  onFilterChange: (hostels: any[], filterType: string, route: string) => void;
+}
+
+const Search = ({ onFilterChange }: SearchProps) => {
   const [type, setType] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
   const searchType = [
     {
-      title: "recommended",
-      source: <Like1 size="20" />,
+      title: "All Listings",
+      source: <SearchNormal size="18" />,
+      description: "All listings",
+      route: ""
     },
     {
-      title: "featured",
-      source: <Award size="20" />,
+      title: "Recommended",
+      source: <Like1 size="18" />,
+      description: "Top picks for you",
+      route: "/hostels/recommended"
     },
     {
-      title: "nearby",
-      source: <Location size="20" />,
+      title: "Premium Picks",
+      source: <Award size="18" />,
+      description: "Premium listings",
+      route: "/hostels/premium-picks"
+    },
+    {
+      title: "Nearby",
+      source: <Location size="18" />,
+      description: "Close to campus",
+      route: "/hostels/nearby"
     },
     {
       title: "Affordable",
-      source: <Briefcase size="20" />,
+      source: <Briefcase size="18" />,
+      description: "Budget friendly",
+      route: "/hostels/affordable"
     },
   ];
+
+  // Fetch data based on selected filter
+  const { data: filteredHostels = [], isLoading } = useQuery({
+    queryKey: ["filteredHostels", type],
+    queryFn: async () => {
+      const selectedFilter = searchType[type];
+      try {
+        const response = await axiosConfig.get(selectedFilter.route);
+        return response.data.data;
+      } catch (error) {
+        console.error('Error fetching filtered hostels:', error);
+        return [];
+      }
+    },
+    enabled: true,
+  });
+
+  // Update parent component when filter changes
+  useEffect(() => {
+    console.log(filteredHostels)
+    if (filteredHostels) {
+      onFilterChange(filteredHostels, searchType[type].title.toLowerCase(), searchType[type].route);
+    }
+  }, [filteredHostels, type, onFilterChange]);
 
   // Handle search button click
   const handleSearch = () => {
@@ -33,45 +77,74 @@ const Search = () => {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}&type=${type}`);
     }
   };
-  
+
+  // Handle filter change
+  const handleFilterChange = (index: number) => {
+    setType(index);
+  };
 
   return (
-    <div className="mt-6">
-      <div className="flex gap-1.5">
-        <div className="flex items-center border gap-1 border-variant-400 grow rounded-lg p-3 min-w-0">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="outline-0 grow h-full"
-            placeholder="Search for Hostels, locations"
-          />
+    <div className="mt-8 space-y-6">
+      {/* Search Bar */}
+      <div className="relative">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 relative">
+            <SearchNormal 
+              size={20} 
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" 
+            />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+              placeholder="Search for hostels, locations..."
+            />
+          </div>
+          <button 
+            onClick={handleSearch} 
+            className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+          >
+            <SearchNormal size={20} />
+          </button>
         </div>
-        <button onClick={handleSearch} className="bg-primary rounded-xl p-3">
-          <SearchNormal className="text-white" size="24" />
-        </button>
       </div>
 
-<div className="flex flex-col gap-2 my-2">
-      <Link to={'/find-roommate'} className="bg-primary p-2 text-white my-2 w-full rounded-md text-center font-medium capitalize text-[17px]">find roommates</Link>
-</div>
+      {/* Find Roommate Button */}
+      <Link 
+        to="/find-roommate" 
+        className="block w-full bg-gradient-to-r from-primary to-orange-600 text-white py-4 px-6 rounded-xl text-center font-semibold text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+      >
+        Find Roommates
+      </Link>
 
       {/* Search Type Filters */}
-      <div className="flex overflow-scroll gap-2 py-5 no-scrollbar">
-        {searchType?.map((item: any, i: number) => (
-          <button
-            onClick={() => setType(i)}
-            key={i}
-            className={`flex gap-1 min-w-fit items-center rounded-lg capitalize justify-center text-[14px] py-2 px-3 border ${
-              type == i
-                ? "bg-primary text-white"
-                : "border-variant-500 text-variant-500"
-            }`}
-          >
-            <span>{item?.title}</span>
-            {item?.source}
-          </button>
-        ))}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-dark">Quick Filters</h3>
+          <Filter size={20} className="text-gray-500" />
+        </div>
+        
+        <div className="flex gap-3 overflow-x-auto no-scrollbar">
+          {searchType?.map((item: any, i: number) => (
+            <button
+              onClick={() => handleFilterChange(i)}
+              key={i}
+              disabled={isLoading}
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-200 whitespace-nowrap ${
+                type === i
+                  ? "bg-primary border-primary text-white shadow-lg"
+                  : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+              } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {item?.source}
+              <span className="font-medium text-sm">{item?.title}</span>
+              {isLoading && type === i && (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import location from "/wishlist/location.svg";
-import { FiEye } from "react-icons/fi";
-import { TiHeartFullOutline } from "react-icons/ti";
-import SearchInputs from "../Reuseables/SearchInputs";
+import { SearchNormal, Heart, Location } from "iconsax-react";
 import { fetchBookmarks, updateBookmark } from "../../lib/bookmarkHostel";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Hostel } from "../../types/Hostel";
 import TitleHead from "../Ui/TitleHead";
+import HostelCard from "../Reuseables/HostelCard";
 
 const Wishlist: React.FC = () => {
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [query, setQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const debounceTimeout = 500;
 
@@ -39,39 +36,18 @@ const Wishlist: React.FC = () => {
       await updateBookmark(hostelId, action);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookmarks"] }); // Refetch bookmarks after mutation
+      queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
     },
   });
-
-  // Load search history from localStorage
-  useEffect(() => {
-    const savedHistory = localStorage.getItem("searchHistory");
-    if (savedHistory) {
-      setSearchHistory(JSON.parse(savedHistory));
-    }
-  }, []);
-
-  // Save search history to localStorage
-  useEffect(() => {
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-  }, [searchHistory]);
 
   // Debounce effect
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(query);
+      setDebouncedQuery(searchQuery);
     }, debounceTimeout);
 
     return () => clearTimeout(timer);
-  }, [query]);
-
-  // Handle search logic
-  const handleSearch = (query: string) => {
-    setQuery(query);
-    if (!searchHistory.includes(query)) {
-      setSearchHistory([...searchHistory, query]);
-    }
-  };
+  }, [searchQuery]);
 
   // Filter based on debounced query
   const filteredFavorites = debouncedQuery
@@ -89,105 +65,114 @@ const Wishlist: React.FC = () => {
       )
     : favorites;
 
-  // Handle search history item click
-  // const handleHistoryClick = (historyItem: string) => {
-  //   setQuery(historyItem);
-  //   setDebouncedQuery(historyItem);
-  // };
-
-  // Handle bookmark update
-  const handleBookmark = async (hostelId: string, action: string) => {
-    bookmarkMutation.mutate({ hostelId, action });
-  };
-
   return (
-    <main className="w-full ">
-      {/* <CustomReturn title='Favourites' /> */}
-      <TitleHead title={"Favourites"} />
+    <main className="min-h-dvh bg-gray-50">
+      <TitleHead title="Favorites" />
 
-      <section className="p-5 py-20">
-        {/* Search input */}
-        <div className="">
-          <SearchInputs
-            query={query}
-            setQuery={setQuery}
-            onSearch={handleSearch}
-          />
-
-          {/* Search history */}
-          {/* <div className='my-8'>
-          <h2 className='font-semibold text-[22px] leading-7'>Search History</h2>
-          <div className='flex items-center gap-5 flex-wrap my-5'>
-            {searchHistory.map((search, idx) => (
-              <small
-                className='bg-white shadow shadow-[#00000017] p-3 rounded-xl text-[14px] leading-5 text-[#96A0B0] font-normal cursor-pointer'
-                key={idx}
-                onClick={() => handleHistoryClick(search)}
-              >
-                {search}
-              </small>
-            ))}
+      <section className="p-6 pb-20">
+        {/* Search Section */}
+        <div className="space-y-6">
+          <div className="relative">
+            <SearchNormal 
+              size={20} 
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" 
+            />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 shadow-sm"
+              placeholder="Search your favorites..."
+            />
           </div>
-        </div> */}
-        </div>
 
-        {/* Favourites */}
-        <div>
-          <div className="flex items-center justify-between w-full my-2">
-            <h2 className="font-semibold text-[22px] leading-7">Favorites</h2>
-          </div>
-          <div className="p-2">
-            {isLoading ? (
-              <p>Loading bookmarks...</p>
-            ) : isError ? (
-              <p>Error fetching bookmarks.</p>
-            ) : favorites.length === 0 ? (
-              <p>No bookmarked hostel available.</p>
-            ) : filteredFavorites.length === 0 ? (
-              <p>No results found for "{debouncedQuery}".</p>
-            ) : (
-              filteredFavorites.map((hostel: Hostel) => (
-                <div
-                  key={hostel._id}
-                  className="flex gap-3 items-start mb-4 w-full"
-                >
-                  <img
-                    className="size-28 object-cover border rounded-lg"
-                    src={hostel.images[0]}
-                    alt="hostel"
-                  />
-                  <div className="space-y-2 flex-1">
-                    <h2 className="text-dark font-bold leading-5">
-                      {hostel.hostelName}
-                    </h2>
-                    <div className="flex items-center justify-start gap-2">
-                      <img src={location} alt="location icon" className="" />
-                      <p className="text-dark text-[12px] leading-4">
-                        {hostel.location}
-                      </p>
-                    </div>
-                    <p className="text-[#64748B] text-[10px] leading-4">
-                      {hostel.description}
-                    </p>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-1">
-                        <FiEye color="#7D8A9E" size={22} />
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <TiHeartFullOutline
-                          color="#C80F0F"
-                          size={25}
-                          onClick={() => handleBookmark(hostel._id, "remove")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
+          {/* Results Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-dark">Favorites</h2>
+              <p className="text-gray-600 mt-1">
+                {isLoading ? "Loading..." : `${filteredFavorites.length} saved hostels`}
+              </p>
+            </div>
+            {filteredFavorites.length > 0 && (
+              <div className="flex items-center gap-2 text-primary text-sm font-medium">
+                <span>{filteredFavorites.length} results</span>
+              </div>
             )}
           </div>
         </div>
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center space-y-4">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-gray-600 font-medium">Loading favorites...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {isError && (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4 max-w-md">
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                <Heart size={32} className="text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold text-dark">Error loading favorites</h3>
+              <p className="text-gray-600">
+                There was an error loading your saved hostels. Please try again.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !isError && favorites.length === 0 && (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4 max-w-md">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+                <Heart size={32} className="text-gray-400" />
+              </div>
+              <h3 className="text-xl font-bold text-dark">No favorites yet</h3>
+              <p className="text-gray-600">
+                Start saving hostels you like to see them here.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* No Search Results */}
+        {!isLoading && !isError && favorites.length > 0 && filteredFavorites.length === 0 && (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4 max-w-md">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+                <SearchNormal size={32} className="text-gray-400" />
+              </div>
+              <h3 className="text-xl font-bold text-dark">No results found</h3>
+              <p className="text-gray-600">
+                No favorites match "{debouncedQuery}". Try a different search term.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Favorites Grid */}
+        {!isLoading && !isError && filteredFavorites.length > 0 && (
+          <div className="mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredFavorites.map((hostel: Hostel) => (
+                <HostelCard 
+                  key={hostel._id}
+                  hostel={hostel}
+                  bookmarkedIds={favorites.map((f: any) => f._id)}
+                  variant="vertical"
+                  showFeatures={true}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </section>
     </main>
   );

@@ -3,12 +3,18 @@ import {
   ArrowRight2,
   Logout,
   Notification,
+  User,
+  Calendar,
+  CardPos,
+  ArchiveBook,
+  Setting3,
+  Headphone,
+  Wallet,
+  Crown,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
-import { FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
 import { useHostelStore } from "../../store/useHostelsStore";
 import { useUserStore } from "../../store/UseUserStore";
 import { useConversationStore } from "../../store/useConversationStore";
@@ -32,42 +38,44 @@ const Profile = () => {
     {
       title: "Personal Details",
       link: "/personal-details",
-      image: <FaRegUser size="22" color="#0E0F1D" />,
+      icon: <User size={20} />,
+      description: "Manage your account information",
     },
     // {
     //   title: "My Bookings",
     //   link: "/my-bookings",
-    //   image: <Calendar1 size="22" color="#0E0F1D" />,
+    //   icon: <Calendar size={20} />,
+    //   description: "View your booking history",
     // },
     // {
-    //   title: "Payment Details",
+    //   title: "Payment History",
     //   link: "/payment-history",
-    //   image: <CardPos size="22" color="#0E0F1D" />,
+    //   icon: <CardPos size={20} />,
+    //   description: "Track your transactions",
     // },
     // {
     //   title: "Saved Hostels",
     //   link: "/saved-hostels",
-    //   image: <ArchiveBook size="22" color="#0E0F1D" />,
+    //   icon: <ArchiveBook size={20} />,
+    //   description: "Your favorite hostels",
     // },
     {
       title: "Notifications",
       link: "/notifications",
-      image: <Notification size="22" color="#0E0F1D" />,
+      icon: <Notification size={20} />,
+      description: "Manage your notifications",
     },
     // {
     //   title: "App Settings",
     //   link: "/app-settings",
-    //   image: <Setting3 size="22" color="#0E0F1D" />,
+    //   icon: <Setting3 size={20} />,
+    //   description: "Customize your experience",
     // },
     // {
     //   title: "Contact Support",
     //   link: "/contact-support",
-    //   image: <Headphone size="22" color="#0E0F1D" />,
-    // },
-    // {
-    //   title: "Log Out",
-    //   link: "/log-out",
-    //   image: <Logout size="22" color="#B90000" />,
+    //   icon: <Headphone size={20} />,
+    //   description: "Get help when you need it",
     // },
   ];
 
@@ -75,43 +83,45 @@ const Profile = () => {
     {
       title: "Personal Details",
       link: "/personal-details",
-      image: <FaRegUser size="22" color="#0E0F1D" />,
+      icon: <User size={20} />,
+      description: "Manage your account information",
     },
-    // {
-    //   title: "My Bookings",
-    //   link: "/my-bookings",
-    //   image: <Calendar1 size="22" color="#0E0F1D" />,
-    // },
-    // {
-    //   title: "Recent Transactions",
-    //   link: "/recent-transactions",
-    //   image: <CardPos size="22" color="#0E0F1D" />,
-    // },
-    // {
-    //   title: "Saved Hostels",
-    //   link: "/saved-hostels",
-    //   image: <ArchiveBook size="22" color="#0E0F1D" />,
-    // },
     {
-      title: "Notifications settings",
-      link: "/setting/notification",
-      image: <Notification size="22" color="#0E0F1D" />,
+      title: "My Bookings",
+      link: "/my-bookings",
+      icon: <Calendar size={20} />,
+      description: "View your booking history",
     },
-    // {
-    //   title: "App Settings",
-    //   link: "/setting/app",
-    //   image: <Setting3 size="22" color="#0E0F1D" />,
-    // },
-    // {
-    //   title: "Contact Support",
-    //   link: "",
-    //   image: <Headphone size="22" color="#0E0F1D" />,
-    // },
-    // {
-    //   title: "Log Out",
-    //   link: "/log-out",
-    //   image: <Logout size="22" color="#B90000" />,
-    // },
+    {
+      title: "Recent Transactions",
+      link: "/recent-transactions",
+      icon: <CardPos size={20} />,
+      description: "Track your earnings",
+    },
+    {
+      title: "Saved Hostels",
+      link: "/saved-hostels",
+      icon: <ArchiveBook size={20} />,
+      description: "Your listed properties",
+    },
+    {
+      title: "Notifications",
+      link: "/setting/notification",
+      icon: <Notification size={20} />,
+      description: "Manage your notifications",
+    },
+    {
+      title: "App Settings",
+      link: "/setting/app",
+      icon: <Setting3 size={20} />,
+      description: "Customize your experience",
+    },
+    {
+      title: "Contact Support",
+      link: "/contact-support",
+      icon: <Headphone size={20} />,
+      description: "Get help when you need it",
+    },
   ];
 
   const handleLogout = async () => {
@@ -130,110 +140,116 @@ const Profile = () => {
   }, []);
 
   return (
-    <main>
-      <TitleHead title={"profile"} />
-
-      <section className="p-5 py-20">
-        <div className="flex items-center gap-x-2 mb-3">
-          <img
-            src={userProfile?.profilePicture}
-            className="size-16 rounded-full"
-          />
-          <div className="flex flex-row justify-between items-center grow">
-            <div className="flex-row gap-0 justify-center">
-              <h2 className="text-dark font-semibold text-lg">
-                {userProfile?.firstName as string}{" "}
-                {userProfile?.lastName as string}
-              </h2>
-              <span className="text-variant-500 text-sm -mt-4">
-                {userProfile?.email as string}
-              </span>
-            </div>
-            {userProfile?.userType == "AGENT" && (
-             <Link to={"/pricing"} className="border border-primary p-2 text-sm font-medium text-primary rounded">Upgrade</Link>
-            )}
-          </div>
-        </div>
-
-        {/* <hr /> */}
-        {/* {userProfile?.userType == "AGENT" && (
-          <div className="bg-[#A64E1B] p-3 my-3 rounded-3xl flex flex-col gap-2">
-            <div className="text-center flex flex-col gap-1.5">
-              <h4 className="text-xs text-white">Wallet balance</h4>
-              <h4 className="text-2xl font-semibold text-white">$ 58,000</h4>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-[#E6CDBF4D] gap-1 p-2 rounded-2xl flex items-center justify-center">
-                <h4 className="text-white">View Report</h4>{" "}
-                <TbReportAnalytics className="text-white" />
+    <div className="min-h-dvh bg-gray-50">
+      <TitleHead title="Profile" />
+      
+      <section className="p-6 pb-20">
+        <div className="max-w-2xl mx-auto space-y-6">
+          {/* Profile Header */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center gap-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                <img
+                  src={
+                    userProfile?.profilePicture ||
+                    "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                  }
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className="bg-white p-2  gap-1 rounded-2xl flex items-center justify-center text-primary">
-                <h4 className="font-medium">Withdraw</h4>{" "}
-                <PiHandWithdrawBold className="font-semibold" />
+              <div className="flex-1">
+                <h1 className="text-xl font-bold text-dark mb-1">
+                  {userProfile?.firstName} {userProfile?.lastName}
+                </h1>
+                <p className="text-gray-600 mb-2">{userProfile?.email}</p>
+                <div className="flex items-center gap-2">
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    userProfile?.userType === "AGENT" 
+                      ? "bg-purple-100 text-purple-700" 
+                      : "bg-blue-100 text-blue-700"
+                  }`}>
+                    {userProfile?.userType === "AGENT" ? "Agent" : "Student"}
+                  </div>
+                  {userProfile?.userType === "AGENT" && (
+                    <Link 
+                      to="/pricing" 
+                      className="flex items-center gap-1 px-3 py-1 bg-primary text-white rounded-full text-xs font-medium hover:bg-primary/90 transition-all"
+                    >
+                      <Crown size={12} />
+                      Upgrade
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        )} */}
-        <div className="flex flex-col gap-1 mt-4">
-          {userProfile?.userType == "AGENT"
-            ? agentProfileItems?.map((item: any, i: number) => {
-                return (
-                  <Link key={i} to={item?.link} className="">
-                    <div className="flex items-center justify-between gap-x-2 my-3">
-                      <span className="bg-[#F5F5F5] rounded-xl p-2">
-                        {item?.image}
-                      </span>
 
-                      <div
-                        className={`grow font-medium ${
-                          i > 6 && "text-[#B90000]"
-                        }`}
-                      >
-                        {item?.title}
+          {/* Menu Items */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="p-4">
+              <h2 className="text-lg font-semibold text-dark mb-4">Account</h2>
+              <div className="space-y-1">
+                {(userProfile?.userType === "AGENT" ? agentProfileItems : profileItems).map((item, index) => (
+                  <Link key={index} to={item.link} className="block">
+                    <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-all group">
+                      <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center group-hover:bg-primary/10 transition-all">
+                        <div className="text-gray-600 group-hover:text-primary transition-colors">
+                          {item.icon}
+                        </div>
                       </div>
-
-                      {i < 7 && <ArrowRight2 size={20} />}
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-dark group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-gray-500">{item.description}</p>
+                      </div>
+                      <ArrowRight2 size={20} className="text-gray-400 group-hover:text-primary transition-colors" />
                     </div>
                   </Link>
-                );
-              })
-            : profileItems?.map((item: any, i: number) => {
-                return (
-                  <Link key={i} to={item?.link} className="my-3">
-                    <div className="flex items-center justify-between gap-x-2 my-3">
-                      <span className="bg-[#F5F5F5] rounded-xl p-2">
-                        {item?.image}
-                      </span>
-
-                      <div
-                        className={`grow font-medium ${
-                          i > 6 && "text-[#B90000]"
-                        }`}
-                      >
-                        {item?.title}
-                      </div>
-
-                      {i < 7 && <ArrowRight2 size={20} />}
-                    </div>
-                  </Link>
-                );
-              })}
-          <div
-            onClick={handleLogout}
-            className="flex items-center justify-between gap-x-2 my-3"
-          >
-            <span className="bg-[#F5F5F5] rounded-xl p-2">
-              <Logout size="22" color="#B90000" />
-            </span>
-            <div className="grow font-medium text-[#B90000] flex-1">
-              Log Out
+                ))}
+              </div>
             </div>
-            <ArrowRight2 size={20} />
+
+            {/* Logout Section */}
+            <div className="border-t border-gray-100 p-4">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-red-50 transition-all group"
+              >
+                <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center group-hover:bg-red-200 transition-all">
+                  <Logout size={20} className="text-red-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h3 className="font-semibold text-red-600">Log Out</h3>
+                  <p className="text-sm text-gray-500">Sign out of your account</p>
+                </div>
+                <ArrowRight2 size={20} className="text-red-400" />
+              </button>
+            </div>
           </div>
+
+          {/* Agent Wallet Section (if agent) */}
+          {userProfile?.userType === "AGENT" && (
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Wallet Balance</h3>
+                <Wallet size={24} />
+              </div>
+              <div className="text-3xl font-bold mb-4">₦58,000</div>
+              <div className="grid grid-cols-2 gap-3">
+                <button className="bg-white/20 hover:bg-white/30 text-white py-3 px-4 rounded-xl font-medium transition-all">
+                  View Report
+                </button>
+                <button className="bg-white hover:bg-gray-100 text-orange-600 py-3 px-4 rounded-xl font-medium transition-all">
+                  Withdraw
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

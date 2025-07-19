@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
-// import agentPic from "/icons/profile.png";
 import { LuPhone } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { MdSend } from "react-icons/md";
 import { HiPlus } from "react-icons/hi";
-import back from "/icons/back.svg";
-import verifiedId from "/icons/id-verified.svg";
+import { ArrowLeft, Send, Add, Message } from "iconsax-react";
 import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messaging } from "../utils/messageRequest";
@@ -31,14 +29,9 @@ const Chat = () => {
   });
 
   useEffect(() => {
-    // const firstOtherUser = recipientDetails?.hostels?.user;
     console.log("recipient details", recipientDetails?.user);
     setOtherUser(recipientDetails?.user);
   }, [recipientDetails]);
-
-  // const [localMessages, setLocalMessages] = useState([]);
-  // const {socket, isConnected} = useSocket()
-  // console.log(userId);
 
   const [content, setContent] = useState("");
   const [isTexted, setIsTexted] = useState<boolean>(false);
@@ -59,9 +52,6 @@ const Chat = () => {
 
   // Set isTexted to true if we have messages
   useEffect(() => {
-    // const lastMessage = fetchedMessages?.messages[fetchedMessages?.messages.length - 1];
-    // console.log("last message", lastMessage);
-
     console.log(fetchedMessages);
 
     if (Array.isArray(fetchedMessages) && fetchedMessages.length > 0) {
@@ -81,9 +71,7 @@ const Chat = () => {
     setMessagesList(fetchedMessages?.messages);
 
     // Scroll to the last message
-    // setTimeout(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "instant" });
-    // }, 100); // slight delay to allow render
   }, [fetchedMessages, isLoading, isFetchedAfterMount]);
 
   // Setup mutation for sending messages
@@ -141,58 +129,73 @@ const Chat = () => {
   }, [otherUser]);
 
   return (
-    <main className="h-screen flex flex-col">
-      <div className="flex items-center gap-2 px-5 py-2.5 top-0 fixed w-full bg-white z-10 border-b">
-        <button
-          onClick={() => navigate(-1)}
-          className="rounded-full bg-primary size-7 flex items-center justify-center"
-        >
-          <img src={back} alt="back" className="size-4" />
-        </button>
-        <div className="flex justify-between grow">
-          <div className="flex gap-3 items-center">
-            <img
-              src={
-                "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-              }
-              className="size-11 rounded-full"
-              alt="Agent profile"
-            />
-            <div>
-              <h2 className="text-dark font-semibold capitalize">
-                {otherUser?.firstName}
+    <main className="h-screen flex flex-col bg-gray-50">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-100 shadow-sm">
+        <div className="flex items-center gap-3 px-4 py-5">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-8 h-8"
+          >
+            <ArrowLeft size={20} className="text-gray-900" />
+          </button>
+          
+          <div className="flex items-center gap-3 flex-1">
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+              <img
+                src={
+                  otherUser?.profilePicture ||
+                  "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                }
+                className="w-full h-full object-cover"
+                alt="Profile"
+              />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-base font-semibold text-gray-900">
+                {otherUser?.firstName} {otherUser?.lastName}
               </h2>
+              <p className="text-sm text-gray-500">
+                {isTexted ? "Active now" : "Start a conversation"}
+              </p>
             </div>
           </div>
 
-          <button className="border border-primary rounded-xl p-2">
-            <LuPhone className="size-5 text-primary" />
-          </button>
+          {/* <button className="flex items-center justify-center w-8 h-8">
+            <LuPhone size={18} className="text-gray-900" />
+          </button> */}
         </div>
       </div>
 
       {/* Messages Section */}
-      <section className="p-5 bg-[#f7f7f7] flex-1 overflow-y-auto mt-16 mb-16">
+      <div className="flex-1 overflow-y-auto px-4 py-6 min-h-[calc(100vh-10rem)]">
         {isError && (
-          <div className="p-5 text-center text-red-500">
-            Error fetching messages
+          <div className="flex justify-center items-center py-8">
+            <div className="text-center space-y-2">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                <Message size={24} className="text-red-500" />
+              </div>
+              <p className="text-sm text-red-500">Error loading messages</p>
+            </div>
           </div>
         )}
+        
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center space-y-3">
+              <div className="w-8 h-8 border-2 border-gray-300 border-t-primary rounded-full animate-spin mx-auto"></div>
+              <p className="text-sm text-gray-500">Loading messages...</p>
+            </div>
           </div>
         ) : messagesList?.length > 0 ? (
-          <div className="flex flex-col gap-2">
+          <div className="space-y-3">
             {messagesList?.map((message: any, i: number) => {
+              const isOwnMessage = message?.sender !== otherUser?._id;
+              
               return (
                 <div
                   key={i}
-                  className={`flex ${
-                    message?.sender != otherUser?._id
-                      ? "justify-end"
-                      : "justify-start"
-                  }`}
+                  className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}
                   ref={
                     i === fetchedMessages?.messages.length - 1
                       ? lastMessageRef
@@ -200,60 +203,75 @@ const Chat = () => {
                   }
                 >
                   <div
-                    className={`max-w-[76%] w-fit p-3 rounded-xl ${
-                      message?.sender != otherUser?._id
+                    className={`max-w-[75%] px-4 py-3 rounded-2xl ${
+                      isOwnMessage
                         ? "bg-primary text-white"
-                        : "bg-white text-dark"
+                        : "bg-white text-gray-900 shadow-sm border border-gray-100"
                     }`}
                   >
-                    {message?.message}
-                    <p className="!text-[10px] text-right mt-1">
-                      {convertToNormalTime(message.timestamp)}{" "}
-                      {message?.user != userId && "read"}
-                    </p>
+                    <p className="text-sm leading-relaxed">{message?.message}</p>
+                    <div className={`flex items-center justify-end gap-1 mt-2 ${
+                      isOwnMessage ? "text-white/70" : "text-gray-400"
+                    }`}>
+                      <span className="text-xs">
+                        {convertToNormalTime(message.timestamp)}
+                      </span>
+                      {isOwnMessage && (
+                        <span className="text-xs">• read</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
         ) : (
-          <div className="grid place-items-center">
-            <img
-              src="https://placehold.co/400"
-              alt="back"
-              className="size-36  rounded-xl object-cover"
-            />
-            <h2 className="text-dark font-semibold text-xl">
-              {otherUser?.firstName} {otherUser?.lastName}
-            </h2>
-            <div className="text-variant-500 flex gap-2 items-center">
-              <img src={verifiedId} className="size-5" />
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4 max-w-sm">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
+                <Message size={32} className="text-gray-400" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900">
+                Start a conversation
+              </h3>
+              <p className="text-sm text-gray-500">
+                Send a message to {otherUser?.firstName} to begin chatting.
+              </p>
             </div>
           </div>
         )}
-      </section>
+      </div>
 
-      <div className="w-full py-2.5 px-5 flex rounded-t-xl bg-white items-center justify-between bottom-0 fixed border-t">
-        <button className="p-2">
-          <HiPlus className="text-variant-400 size-6" />
-        </button>
-        <div className="grow px-2">
-          <input
-            type="text"
-            className="w-full bg-[#E5E5E54D] p-2 outline-none rounded-lg"
-            placeholder="Type something..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
+      {/* Input Section */}
+      <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4">
+        <div className="flex items-center gap-3">
+          <button className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200">
+            <Add size={20} className="text-gray-600" />
+          </button>
+          
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-200"
+              placeholder="Type a message..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+          
+          <button
+            onClick={sendMessage}
+            disabled={!content.trim()}
+            className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
+              content.trim()
+                ? "bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl"
+                : "bg-gray-100 text-gray-400"
+            }`}
+          >
+            <Send size={18} />
+          </button>
         </div>
-        <button
-          onClick={sendMessage}
-          disabled={!content.trim()}
-          className={`p-2 ${!content.trim() ? "opacity-50" : ""}`}
-        >
-          <MdSend className="text-primary size-6" />
-        </button>
       </div>
     </main>
   );
