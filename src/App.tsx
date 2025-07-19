@@ -81,16 +81,11 @@ function App() {
         <Route path="/account-type" element={<AccountType />} />
 
         {/* Student Onboarding */}
-        <Route path="student">
-          <Route path="/student/onboarding" element={<StudentOnboarding />} />
-          {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
-        </Route>
+        <Route path="/student/onboarding" element={<StudentOnboarding />} />
 
         {/* Agent Onboarding */}
-        <Route path="agent">
-          <Route path="/agent/onboarding" element={<AgentOnboarding />} />
-          <Route path="/agent/verification" element={<VerifyAgent />} />
-        </Route>
+        <Route path="/agent/onboarding" element={<AgentOnboarding />} />
+        <Route path="/agent/verification" element={<VerifyAgent />} />
 
         {/* Authentication */}
         <Route path="/signup" element={<Signup />} />
@@ -127,11 +122,8 @@ function App() {
 
 
         {/* Hostel details */}
-        {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
-        <Route path="hostels">
-          <Route path="/hostels/:hostelId" element={<HostelDetails />} />
-          <Route path="/hostels/create" element={<CreateHostel />} />
-        </Route>
+        <Route path="/hostels/:hostelId" element={<HostelDetails />} />
+        <Route path="/hostels/create" element={<CreateHostel />} />
 
         {/* Feeds - find roommate */}
         <Route path="/find-roommate" element={<FindRoommate />} />
@@ -139,14 +131,9 @@ function App() {
         <Route path="/find-roommate/:id" element={<RoommateRequestDetails />} />
 
         {/* Chat */}
-
-        <Route path="chat">
-          <Route path="/chat/:userId" element={<Chat />} />
-        </Route>
+        <Route path="/chat/:userId" element={<Chat />} />
 
         {/* Wishlist & Bookmark */}
-        <Route path="/wishlist" element={<WishlistOrBookmark />} />
-
         <Route path="/review/:hostelId" element={<Review />} />
 
         {/* Report */}

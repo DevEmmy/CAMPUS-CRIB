@@ -1,6 +1,5 @@
-import { useEffect, useState, useCallback, useRef } from "react";
-import { debounce } from "lodash";
-import { useLocation, useNavigate } from "react-router";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { useNavigate } from "react-router";
 import TitleHead from "../Ui/TitleHead";
 import { SearchNormal, Filter, Location, Heart, Star, Wifi, Car, Shield } from "iconsax-react";
 import { axiosConfig } from "../../utils/axiosConfig";
@@ -17,14 +16,14 @@ const Search = () => {
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [filteredResults, setFilteredResults] = useState<Hostel[]>([]);
   const [likedHostels, setLikedHostels] = useState<string[]>([]);
-  const [filters, setFilters] = useState({
-    location: "",
-    minPrice: 0,
-    maxPrice: 1000000,
-    hostelType: "",
-  });
+  // const [filters, setFilters] = useState({
+  //   location: "",
+  //   minPrice: 0,
+  //   maxPrice: 1000000,
+  //   hostelType: "",
+  // });
 
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
   const isMountedRef = useRef(true);
 
@@ -33,48 +32,67 @@ const Search = () => {
     queryFn: fetchBookmarks,
   });
 
-  const bookmarkedIds = bookmarks.map((b: { _id: string }) => b._id);
+  const bookmarkedIds = useMemo(() => 
+    bookmarks.map((b: { _id: string }) => b._id), 
+    [bookmarks]
+  );
 
   // Initialize liked hostels from bookmarks
   useEffect(() => {
     setLikedHostels(bookmarkedIds);
   }, [bookmarkedIds]);
 
-  // Create debounced search function with useCallback to prevent recreation
-  const debouncedSearch = useCallback(
-    debounce(async (query: string) => {
-      if (!isMountedRef.current) return;
+  // Use setTimeout instead of lodash debounce to avoid navigation issues
+  const searchTimeoutRef = useRef<number | null>(null);
+
+  const performSearch = useCallback(async (query: string) => {
+    console.log("performSearch called with:", query);
+    // if (!isMountedRef.current) return;
+    
+    setIsLoading(true);
+    try {
+      console.log("Making API request to /hostels with query:", query);
+      const response = await axiosConfig.get("/hostels", {
+        params: {
+          query: query || undefined,
+        },
+      });
       
-      setIsLoading(true);
-      try {
-        const response = await axiosConfig.get("/hostels", {
-          params: {
-            query: query || undefined,
-          },
-        });
-        
-        if (isMountedRef.current) {
-          console.log("API Response:", response.data);
-          setFilteredResults(response.data.data || []);
-          setHaveSearched(true);
-        }
-      } catch (error) {
-        console.error("Error fetching hostels:", error);
-        if (isMountedRef.current) {
-          setFilteredResults([]);
-          setHaveSearched(true);
-        }
-      } finally {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-        }
-      }
-    }, 500),
-    []
-  );
+      // if (isMountedRef.current) {
+        console.log("API Response:", response.data);
+        setFilteredResults(response.data.data || []);
+        setHaveSearched(true);
+      // }
+    } catch (error) {
+      console.error("Error fetching hostels:", error);
+      // if (isMountedRef.current) {
+        setFilteredResults([]);
+        setHaveSearched(true);
+      // }
+    } finally {
+      // if (isMountedRef.current) {
+        setIsLoading(false);
+      // }
+    }
+  }, []);
+
+  const debouncedSearch = useCallback((query: string) => {
+    console.log("debouncedSearch called with:", query);
+    // Clear existing timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Set new timeout
+    searchTimeoutRef.current = setTimeout(() => {
+      console.log("Executing search for:", query);
+      performSearch(query);
+    }, 500);
+  }, [performSearch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
+    console.log("handleSearchChange called with:", query);
     setSearchQuery(query);
 
     if (!query) {
@@ -110,52 +128,52 @@ const Search = () => {
     roomTypes: string;
     amenities: string[];
     availability: string;
-    availableDate: Date | null;
   }) => {
-    setFilters({
-      location: newFilters.location,
-      minPrice: newFilters.priceRange[0],
-      maxPrice: newFilters.priceRange[1],
-      hostelType: newFilters.roomTypes,
-    });
+    // setFilters({
+    //   location: newFilters.location,
+    //   minPrice: newFilters.priceRange[0],
+    //   maxPrice: newFilters.priceRange[1],
+    //   hostelType: newFilters.roomTypes,
+    // });
     setHaveSearched(true);
+
+    // console.log("searchQuery", searchQuery);
+    // console.log("newFilters.location", newFilters.location);
     // Only search if we have a query or location filter
-    if (searchQuery || newFilters.location) {
+    if (searchQuery || newFilters) {
       debouncedSearch(searchQuery || newFilters.location);
     }
   };
 
-  useEffect(() => {
-    // Only search if we have a query and filters have been applied
-    if (searchQuery && haveSearch) {
-      debouncedSearch(searchQuery);
-    }
-  }, [filters, searchQuery, haveSearch, debouncedSearch]);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const query = queryParams.get("query");
 
-    if (query) {
-      setSearchQuery(query);
-      debouncedSearch(query);
-      setHaveSearched(true);
-    }
-  }, [location.search, debouncedSearch]);
+  // useEffect(() => {
+  //   const queryParams = new URLSearchParams(location.search);
+  //   const query = queryParams.get("query");
+
+  //   if (query) {
+  //     setSearchQuery(query);
+  //     debouncedSearch(query);
+  //     setHaveSearched(true);
+  //   }
+  // }, [location.search]);
 
   // Cleanup effect
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
-      debouncedSearch.cancel();
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
     };
-  }, [debouncedSearch]);
+  }, []);
 
   return (
     <main className="min-h-dvh bg-gray-50">
       <TitleHead title="Search" />
       
       <section className="p-6 pb-20">
+
         {/* Search Bar */}
         <div className="space-y-6">
           <div className="relative">

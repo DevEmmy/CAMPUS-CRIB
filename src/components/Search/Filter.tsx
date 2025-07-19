@@ -1,8 +1,6 @@
 import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
-import { Location, Wifi, Shield, Calendar } from "iconsax-react";
+import { Location, Wifi, Shield } from "iconsax-react";
 
 const Filter = ({
   onClose,
@@ -15,14 +13,12 @@ const Filter = ({
     roomTypes: string;
     amenities: string[];
     availability: string;
-    availableDate: Date | null;
   }) => void;
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">("single");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [availability, setAvailability] = useState<"Available Now" | "Available in">("Available Now");
-  const [availableDate, setAvailableDate] = useState<Date | null>(null);
+  const [availability, setAvailability] = useState<"Available Now">("Available Now");
   const [priceRange, setPriceRange] = useState([0, 500000]);
   const maxPrice = 1000000;
 
@@ -57,12 +53,7 @@ const Filter = ({
     }
   };
 
-  const handleAvailabilitySelect = (option: "Available Now" | "Available in") => {
-    setAvailability(option);
-    if (option !== "Available in") {
-      setAvailableDate(null);
-    }
-  };
+
 
   const handleApplyFilters = () => {
     const filters = {
@@ -71,8 +62,8 @@ const Filter = ({
       roomTypes: selectedRoom,
       amenities: selectedAmenities,
       availability,
-      availableDate,
     };
+    console.log("filters", filters);
     onApplyFilters(filters);
     onClose();
   };
@@ -83,7 +74,6 @@ const Filter = ({
     setSelectedRoom("single");
     setSelectedAmenities([]);
     setAvailability("Available Now");
-    setAvailableDate(null);
 
     onApplyFilters({
       location: "",
@@ -91,7 +81,6 @@ const Filter = ({
       roomTypes: "",
       amenities: [],
       availability: "Available Now",
-      availableDate: null,
     });
   };
 
@@ -251,53 +240,7 @@ const Filter = ({
         </div>
       </div>
 
-      {/* Availability */}
-      <div className="space-y-3">
-        <label className="block text-sm font-semibold text-dark">
-          Availability
-        </label>
-        <div className="flex gap-3">
-          <button
-            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
-              availability === "Available Now" 
-                ? "bg-primary border-primary text-white shadow-lg" 
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
-            }`}
-            onClick={() => handleAvailabilitySelect("Available Now")}
-          >
-            Available Now
-          </button>
-          <button
-            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
-              availability === "Available in" 
-                ? "bg-primary border-primary text-white shadow-lg" 
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
-            }`}
-            onClick={() => handleAvailabilitySelect("Available in")}
-          >
-            Available in
-          </button>
-        </div>
 
-        {availability === "Available in" && (
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-600">
-              Select Date
-            </label>
-            <div className="relative">
-              <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <DatePicker
-                selected={availableDate}
-                onChange={(date: Date | null) => setAvailableDate(date)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
-                placeholderText="Select a date"
-                dateFormat="MMM dd, yyyy"
-                minDate={new Date()}
-              />
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3 pt-4">

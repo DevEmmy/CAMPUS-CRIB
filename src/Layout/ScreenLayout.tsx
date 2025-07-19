@@ -8,9 +8,10 @@ const ScreenLayout: React.FC = () => {
   const { user } = useUserStore();
   const localUser = localStorage.getItem("user");
   const parsedUser = user || (localUser ? JSON.parse(localUser) : null);
+  const accountType = localStorage.getItem("accountType");
 
-  if (parsedUser === null) {
-  
+  // Only redirect if user is null and we have an account type (meaning user should be logged in)
+  if (parsedUser === null && accountType) {
     return <Navigate to="/account-type" replace />;
   }
 

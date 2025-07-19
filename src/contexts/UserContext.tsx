@@ -178,21 +178,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [fetchedUser, setUserData]);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("user");
+    // const isLoggedIn = localStorage.getItem("user");
     const accountType = localStorage.getItem("accountType");
-    const publicRoutes = ["/login", "/signup", "/"];
-  
-    if (!isLoggedIn && !accountType && publicRoutes.includes(location.pathname)) {
+    
+    // Only redirect to account-type if we're on home page and missing account type
+    if (location.pathname === "/" && !accountType) {
       navigate("/account-type", { replace: true });
-      // If user is not logged in, allow access only to login and signup pages
-      // if (!publicRoutes.includes(location.pathname)) {
-      //   navigate("/account-type", { replace: true });
-      // }
-    } else {
-      // If accountType is missing and user is on login, signup, or home, redirect to /account-type
-      if (!accountType && publicRoutes.includes(location.pathname)) {
-        navigate("/account-type", { replace: true });
-      }
     }
   }, [location.pathname, navigate]);
   
