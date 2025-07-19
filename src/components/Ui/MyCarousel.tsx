@@ -45,7 +45,7 @@ const HotelCard = ({
   return (
     <div
       key={id}
-      className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer ${
+      className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer ${
         isFlex && "grid grid-cols-1 gap-x-1 items-center"
       }`}
       onClick={() => navigate(`/hostels/${id}`)}

@@ -265,7 +265,7 @@ const Chat = () => {
             disabled={!content.trim()}
             className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
               content.trim()
-                ? "bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl"
+                ? "bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-custom"
                 : "bg-gray-100 text-gray-400"
             }`}
           >

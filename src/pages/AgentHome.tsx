@@ -30,7 +30,7 @@ const AgentHome = ({ user }: { user: any }) => {
               </div>
               <Link
                 to="/hostels/create"
-                className="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+                className="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
               >
                 <Add size={20} />
               </Link>
@@ -143,7 +143,7 @@ const AgentHome = ({ user }: { user: any }) => {
               
               <Link
                 to="/hostels/create"
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-custom"
               >
                 <Add size={20} />
                 Post Your First Hostel
@@ -155,7 +155,7 @@ const AgentHome = ({ user }: { user: any }) => {
         {/* Floating Action Button */}
         <Link
           to="/hostels/create"
-          className="fixed bottom-20 right-6 bg-primary hover:bg-primary/90 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
+          className="fixed bottom-20 right-6 bg-primary hover:bg-primary/90 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:shadow-custom transition-all duration-200"
         >
           <Add size={24} />
         </Link>

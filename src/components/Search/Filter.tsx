@@ -347,7 +347,7 @@ const Filter = ({
         </button>
         <button
           onClick={handleApplyFilters}
-          className="flex-1 px-4 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="flex-1 px-4 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
         >
           Apply Filters
         </button>

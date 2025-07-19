@@ -175,7 +175,7 @@ const Search = () => {
               </div>
               <button 
                 onClick={() => setIsFilter(true)} 
-                className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+                className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
               >
                 <Filter size={20} />
               </button>
@@ -237,7 +237,7 @@ const Search = () => {
                 return (
                   <div 
                     key={hostel._id}
-                    className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group" 
+                    className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group" 
                     onClick={() => navigate(`/hostels/${hostel._id}`)}
                   >
                     <div className="relative h-48">

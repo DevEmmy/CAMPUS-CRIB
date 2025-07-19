@@ -59,7 +59,7 @@ const StudentHome = () => {
   const renderHostelCard = (hostel: Hostel) => (
     // <div 
     //   key={hostel._id}
-    //   className="bg-white w-[320px] rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group flex-shrink-0"
+    //   className="bg-white w-[320px] rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group flex-shrink-0"
     //   onClick={() => window.location.href = `/hostels/${hostel._id}`}
     // >
     //   <div className="relative h-48">

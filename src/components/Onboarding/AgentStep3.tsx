@@ -58,7 +58,7 @@ const AgentStep3: React.FC = () => {
         <div className="space-y-4">
           <Link 
             to="/signup" 
-            className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+            className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-custom"
           >
             Get Started
             <ArrowRight2 size={20} />

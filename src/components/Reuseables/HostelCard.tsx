@@ -46,7 +46,7 @@ const HostelCard: React.FC<HostelCardProps> = ({
   if (variant === "horizontal") {
     return (
       <div 
-        className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
+        className={`bg-white rounded-2xl shadow-custom border border-gray-100 overflow-hidden transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
         onClick={() => navigate(`/hostels/${hostel._id}`)}
       >
         <div className="flex">
@@ -121,7 +121,7 @@ const HostelCard: React.FC<HostelCardProps> = ({
 
   return (
     <div 
-      className={`bg-white w-full rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
+      className={`bg-white w-full rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
       onClick={() => navigate(`/hostels/${hostel._id}`)}
     >
       <div className="relative h-48">

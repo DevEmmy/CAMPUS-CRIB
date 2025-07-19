@@ -51,7 +51,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
 
             return (
               <div 
-                className="bg-white w-[320px] rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group flex-shrink-0" 
+                className="bg-white w-[320px] rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group flex-shrink-0" 
                 key={hostel._id}
                 onClick={() => navigate(`/hostels/${hostel._id}`)}
               >

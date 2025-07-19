@@ -150,7 +150,7 @@ const Login = () => {
               className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all duration-200 flex items-center justify-center gap-2 ${
                 isSubmitting 
                   ? "bg-primary/60 cursor-not-allowed" 
-                  : "bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl"
+                  : "bg-primary hover:bg-primary/90 shadow-lg hover:shadow-custom"
               }`}
               disabled={isSubmitting}
               type="submit"

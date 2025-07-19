@@ -103,7 +103,7 @@ const Search = ({ onFilterChange }: SearchProps) => {
           </div>
           <button 
             onClick={handleSearch} 
-            className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
           >
             <SearchNormal size={20} />
           </button>
@@ -113,7 +113,7 @@ const Search = ({ onFilterChange }: SearchProps) => {
       {/* Find Roommate Button */}
       <Link 
         to="/find-roommate" 
-        className="block w-full bg-primary text-white py-3 px-6 rounded-xl text-center font-semibold text-md transition-all duration-200 shadow-lg hover:shadow-xl"
+        className="block w-full bg-primary text-white py-3 px-6 rounded-xl text-center font-semibold text-md transition-all duration-200 shadow-lg hover:shadow-custom"
       >
         Find Roommates
       </Link>
