@@ -113,7 +113,7 @@ const Search = ({ onFilterChange }: SearchProps) => {
       {/* Find Roommate Button */}
       <Link 
         to="/find-roommate" 
-        className="block w-full bg-gradient-to-r from-primary to-orange-600 text-white py-4 px-6 rounded-xl text-center font-semibold text-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+        className="block w-full bg-primary text-white py-3 px-6 rounded-xl text-center font-semibold text-md transition-all duration-200 shadow-lg hover:shadow-xl"
       >
         Find Roommates
       </Link>
