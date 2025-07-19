@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import TitleHead from "../../components/Ui/TitleHead";
 import AllNotifications from "../../components/Notifications/AllNotifications";
-import BiddingResultNotifications from "../../components/Notifications/BiddingResultNotifications";
 import NewListingNotifications from "../../components/Notifications/NewListingNotifications";
-import PaymentNotifications from "../../components/Notifications/PaymentNotifications";
-import { Notification, Star, Home, Wallet, Filter } from "iconsax-react";
+import { Notification, Home } from "iconsax-react";
 
 const NotificationsAlert: React.FC = () => {
   const notificationRoutes = [

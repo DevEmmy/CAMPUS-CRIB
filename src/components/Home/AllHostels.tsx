@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Heart, Location, Star, Wifi, Car, Shield } from "iconsax-react";
-import { useNavigate } from "react-router";
+import React from "react";
+import {  Location } from "iconsax-react";
 import { Hostel } from "../../types/Hostel";
-import { updateBookmark } from "../../lib/bookmarkHostel";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllHostels } from "../../lib/fetchHostels";
 import HostelCard from "../Reuseables/HostelCard";
@@ -12,32 +10,31 @@ interface AllHostelsProps {
 }
 
 const AllHostels: React.FC<AllHostelsProps> = ({ bookmarkedIds = [] }) => {
-  const navigate = useNavigate();
-  const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds);
+  // const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds);
 
   const { data: hostels = [], isLoading } = useQuery({
     queryKey: ["allHostels"],
     queryFn: () => fetchAllHostels(),
   });
 
-  const handleBookmark = async (hostelId: string) => {
-    const isLiked = likedHostels.includes(hostelId);
-    const action = isLiked ? "remove" : "add";
+  // const handleBookmark = async (hostelId: string) => {
+  //   const isLiked = likedHostels.includes(hostelId);
+  //   const action = isLiked ? "remove" : "add";
 
-    setLikedHostels((prev) =>
-      isLiked ? prev.filter((id) => id !== hostelId) : [...prev, hostelId]
-    );
+  //   setLikedHostels((prev) =>
+  //     isLiked ? prev.filter((id) => id !== hostelId) : [...prev, hostelId]
+  //   );
 
-    await updateBookmark(hostelId, action);
-  };
+  //   await updateBookmark(hostelId, action);
+  // };
 
-  const getFeatureIcon = (feature: string) => {
-    const featureLower = feature.toLowerCase();
-    if (featureLower.includes('wifi') || featureLower.includes('internet')) return <Wifi size={12} />;
-    if (featureLower.includes('parking') || featureLower.includes('car')) return <Car size={12} />;
-    if (featureLower.includes('security') || featureLower.includes('guard')) return <Shield size={12} />;
-    return <Star size={12} />;
-  };
+  // const getFeatureIcon = (feature: string) => {
+  //   const featureLower = feature.toLowerCase();
+  //   if (featureLower.includes('wifi') || featureLower.includes('internet')) return <Wifi size={12} />;
+  //   if (featureLower.includes('parking') || featureLower.includes('car')) return <Car size={12} />;
+  //   if (featureLower.includes('security') || featureLower.includes('guard')) return <Shield size={12} />;
+  //   return <Star size={12} />;
+  // };
 
   if (isLoading) {
     return (

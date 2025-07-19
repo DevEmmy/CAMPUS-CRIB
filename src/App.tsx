@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import AccountType from "./components/Onboarding/AccountType";
 import StudentOnboarding from "./pages/studentOnboarding";
 import AgentOnboarding from "./pages/agentOnboarding";

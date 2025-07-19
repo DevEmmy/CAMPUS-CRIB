@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router";
-import { SearchNormal, ArrowLeft, Message, User, Filter } from "iconsax-react";
+import { SearchNormal, ArrowLeft, Message, Filter } from "iconsax-react";
 import ChatComponent from "../components/Ui/ChatComponent";
 import { fetchConversations } from "../lib/fetchConversations";
 import { useQuery } from "@tanstack/react-query";

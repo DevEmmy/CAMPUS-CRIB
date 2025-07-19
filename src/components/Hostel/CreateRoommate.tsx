@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { HiX } from 'react-icons/hi';
 import ButtonFileUploader from '../Reuseables/ButtonFileUploader';
 import { errorToast, successToast } from 'oasis-toast';
-import Loader from '../Ui/Loader';
 import { useCreateRoommateRequest } from '../../utils/roommateRequestApi';
 import { Hostel } from '../../types/Hostel';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllHostels } from '../../lib/fetchHostels';
 import TitleHead from '../Ui/TitleHead';
-import { User, Calendar, Heart, Camera } from 'iconsax-react';
+import { User, Camera, Heart } from 'iconsax-react';
 
 const CreateRoommate: React.FC = () => {
   const navigate = useNavigate();

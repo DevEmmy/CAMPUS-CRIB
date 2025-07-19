@@ -24,8 +24,6 @@ const Filter = ({
   const [availability, setAvailability] = useState<"Available Now" | "Available in">("Available Now");
   const [availableDate, setAvailableDate] = useState<Date | null>(null);
   const [priceRange, setPriceRange] = useState([0, 500000]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [activeThumb, setActiveThumb] = useState<"min" | "max" | null>(null);
   const maxPrice = 1000000;
 
   const calculatePercentage = (value: number) => {
@@ -47,29 +45,9 @@ const Filter = ({
     }
   };
 
-  const handleInputChange = (index: number, value: string) => {
-    const newValue = value.replace(/\D/g, "");
-
-    if (newValue === "") {
-      setPriceRange((prev) => (index === 0 ? [0, prev[1]] : [prev[0], 0]));
-      return;
-    }
-
-    const parsedValue = parseInt(newValue, 10);
-
-    if (index === 0) {
-      setPriceRange([Math.min(parsedValue, priceRange[1]), priceRange[1]]);
-    } else {
-      setPriceRange([
-        priceRange[0],
-        Math.max(0, Math.min(parsedValue, maxPrice)),
-      ]);
-    }
-  };
-
-  const handleRoomTypeSelect = (type: "single" | "shared") => {
-    setSelectedRoom(type);
-  };
+  // const handleRoomTypeSelect = (type: "single" | "shared") => {
+  //   setSelectedRoom(type);
+  // };
 
   const handleAmenitySelect = (amenity: string) => {
     if (selectedAmenities.includes(amenity)) {
@@ -168,14 +146,6 @@ const Filter = ({
               value={priceRange[0]}
               data-thumb="min"
               onChange={handleSliderChange}
-              onMouseDown={() => {
-                setIsDragging(true);
-                setActiveThumb("min");
-              }}
-              onMouseUp={() => {
-                setIsDragging(false);
-                setActiveThumb(null);
-              }}
               className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
               style={{ WebkitAppearance: "none" }}
             />
@@ -187,14 +157,6 @@ const Filter = ({
               value={priceRange[1]}
               data-thumb="max"
               onChange={handleSliderChange}
-              onMouseDown={() => {
-                setIsDragging(true);
-                setActiveThumb("max");
-              }}
-              onMouseUp={() => {
-                setIsDragging(false);
-                setActiveThumb(null);
-              }}
               className="absolute top-1 w-full h-2 appearance-none bg-transparent pointer-events-none"
               style={{ WebkitAppearance: "none" }}
             />

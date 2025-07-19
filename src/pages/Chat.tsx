@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
-import { LuPhone } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
-import { MdSend } from "react-icons/md";
-import { HiPlus } from "react-icons/hi";
 import { ArrowLeft, Send, Add, Message } from "iconsax-react";
 import { fetchMessages } from "../lib/fetchMessages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

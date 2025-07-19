@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useRoommateRequests } from "../../utils/roommateRequestApi";
-import Loader from "../../components/Ui/Loader";
-import { VscChevronLeft } from "react-icons/vsc";
 import { RoommateRequest } from "../../types/roommate";
-import { SearchNormal, Location, User, Message, Calendar, Heart, Filter } from "iconsax-react";
+import { SearchNormal, Location, User, Filter, Message } from "iconsax-react";
 import TitleHead from "../../components/Ui/TitleHead";
 
 const FindRoommate: React.FC = () => {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import { SearchNormal, Heart, Location } from "iconsax-react";
-import { fetchBookmarks, updateBookmark } from "../../lib/bookmarkHostel";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { SearchNormal, Heart } from "iconsax-react";
+import { fetchBookmarks } from "../../lib/bookmarkHostel";
+import { useQuery } from "@tanstack/react-query";
 import { Hostel } from "../../types/Hostel";
 import TitleHead from "../Ui/TitleHead";
 import HostelCard from "../Reuseables/HostelCard";
@@ -12,8 +12,6 @@ const Wishlist: React.FC = () => {
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const debounceTimeout = 500;
 
-  const queryClient = useQueryClient();
-
   // Fetch bookmarks using React Query
   const {
     data: favorites = [],
@@ -22,22 +20,6 @@ const Wishlist: React.FC = () => {
   } = useQuery({
     queryKey: ["bookmarks"],
     queryFn: fetchBookmarks,
-  });
-
-  // Bookmark mutation
-  const bookmarkMutation = useMutation({
-    mutationFn: async ({
-      hostelId,
-      action,
-    }: {
-      hostelId: string;
-      action: string;
-    }) => {
-      await updateBookmark(hostelId, action);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
-    },
   });
 
   // Debounce effect

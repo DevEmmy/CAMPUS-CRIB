@@ -16,7 +16,6 @@ const StudentHome = () => {
   const { storedHostels, setStoredHostels } = useHostelStore();
   const [filteredHostels, setFilteredHostels] = useState<Hostel[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>("");
-  const [currentRoute, setCurrentRoute] = useState<string>("");
 
   const { data: fetchedHostels = [], isLoading: isHostelLoading } = useQuery({
     queryKey: ["hostels"],
@@ -39,10 +38,9 @@ const StudentHome = () => {
   const hostelsToDisplay = Array.isArray(fetchedHostels) && fetchedHostels.length > 0 ? fetchedHostels : storedHostels;
 
   // Handle filter changes from Search component
-  const handleFilterChange = (hostels: Hostel[], filterType: string, route: string) => {
+  const handleFilterChange = (hostels: Hostel[], filterType: string) => {
     setFilteredHostels(hostels);
     setCurrentFilter(filterType);
-    setCurrentRoute(route);
   };
 
   // Determine which hostels to show based on filter

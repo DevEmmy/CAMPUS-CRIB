@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import EmptyNotifications from "../Reuseables/EmptyNotifications";
 import { useQuery } from "@tanstack/react-query";
 import { getAllNotifications } from "../../lib/getNotifications";
-import Loader from "../Ui/Loader";
 import NotificationCard from "./NotificationCard";
-import { Notification, Message, Star, Home, Wallet, Calendar } from "iconsax-react";
+import { Notification } from "iconsax-react";
 
 const AllNotifications: React.FC = () => {
   const { data: notifications, isLoading } = useQuery({

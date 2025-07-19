@@ -6,9 +6,7 @@ import {
   useRoommateRequest,
 } from "../../utils/roommateRequestApi";
 import { Link, useNavigate, useParams } from "react-router";
-import Loader from "../Ui/Loader";
 import { RoommateRequest, User } from "../../types/roommate";
-import { VscChevronLeft } from "react-icons/vsc";
 import TitleHead from "../Ui/TitleHead";
 import { User as UserIcon, Message, Calendar, Heart, Location, Send } from "iconsax-react";
 

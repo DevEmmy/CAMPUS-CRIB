@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { Message, Home, Wallet, Star, Calendar, Notification } from "iconsax-react";
+import { Message, Home, Wallet, Star, Calendar } from "iconsax-react";
 
 interface NotificationProps {
   notification: {
