@@ -14,7 +14,7 @@ export const fetchHostelById = async (id: string) => {
     return response.data.data
 }
 
-export const createHostel = async (data: CreateHostel) => {
+export const createHostel = async (data: any) => {
     const response = await axiosConfig.post('/hostels', data)
     console.log(response)
     return response
