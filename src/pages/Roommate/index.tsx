@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useRoommateRequests } from "../../utils/roommateRequestApi";
 import { RoommateRequest } from "../../types/roommate";
 import { SearchNormal, Location, User, Filter, Message } from "iconsax-react";
 import TitleHead from "../../components/Ui/TitleHead";
+import { formatPrice } from "../../utils/formatPrice";
+import ImageModal from "../../components/Ui/ImageModal";
 
 const FindRoommate: React.FC = () => {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: roommateRequests, isLoading, error } = useRoommateRequests();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
 
   const filteredRequests = roommateRequests?.filter((request: RoommateRequest) => {
     if (!searchQuery) return true;
@@ -113,7 +121,8 @@ const FindRoommate: React.FC = () => {
                             "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                           }
                           alt={request.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover cursor-pointer"
+                          onClick={() => handleImageClick(request.picture || userProfilePic || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")}
                         />
                       </div>
                       <div className="flex-1">
@@ -183,7 +192,7 @@ const FindRoommate: React.FC = () => {
                             <span className="text-sm text-gray-700">{hostel.location}</span>
                           </div>
                           <div className="text-sm">
-                            <span className="font-medium text-primary">₦{hostel.price.toLocaleString()}</span>
+                            <span className="font-medium text-primary">{formatPrice(hostel.price)}</span>
                             <span className="text-gray-500"></span>
                           </div>
                         </div>
@@ -191,7 +200,7 @@ const FindRoommate: React.FC = () => {
                         {hostel.images?.length > 0 && (
                           <div className="mt-3">
                             <img
-                              onClick={() => navigate(`/hostels/${hostel._id}`)}
+                              onClick={() => handleImageClick(hostel.images[0])}
                               src={hostel.images[0]}
                               alt={hostel.hostelName}
                               className="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
@@ -248,6 +257,13 @@ const FindRoommate: React.FC = () => {
             </div>
           )}
         </div>
+        {/* Image Modal */}
+        <ImageModal
+          isOpen={isImageModalOpen}
+          onClose={() => setIsImageModalOpen(false)}
+          imageSrc={selectedImage}
+          imageAlt="Image"
+        />
       </section>
     </div>
   );

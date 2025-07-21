@@ -11,8 +11,9 @@ interface Props {
 
 const Step1: React.FC<Props> = ({handleNextStep}) => {
   const handleUploadComplete = (uploadUrls?: string[]) => {
-    // Handle the uploaded file URLs if needed
-    console.log("Files uploaded:", uploadUrls);
+    if (uploadUrls) {
+      // Handle uploaded files if needed
+    }
   };
   return (
     <section className="p-5 h-full w-full">

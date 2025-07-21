@@ -1,104 +1,200 @@
-import React, { useState } from "react";
-import TitleHead from "../../components/Ui/TitleHead";
-import AllNotifications from "../../components/Notifications/AllNotifications";
-import NewListingNotifications from "../../components/Notifications/NewListingNotifications";
-import { Notification, Home } from "iconsax-react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getAllNotifications } from "../../lib/getNotifications";
+import { ArrowLeft, Notification, Check, Trash } from "iconsax-react";
+import { useNavigate } from "react-router";
+import { errorToast, successToast } from "oasis-toast";
 
-const NotificationsAlert: React.FC = () => {
-  const notificationRoutes = [
-    { 
-      type: "All", 
-      component: <AllNotifications />,
-      icon: <Notification size={20} />,
-      count: 12
-    },
-    // { 
-    //   type: "Bidding Result", 
-    //   component: <BiddingResultNotifications />,
-    //   icon: <Star size={20} />,
-    //   count: 3
-    // },
-    { 
-      type: "New Listing", 
-      component: <NewListingNotifications />,
-      icon: <Home size={20} />,
-      count: 5
-    },
-    // { 
-    //   type: "Payments", 
-    //   component: <PaymentNotifications />,
-    //   icon: <Wallet size={20} />,
-    //   count: 4
-    // },
-  ];
+const NotificationsPage: React.FC = () => {
+  const navigate = useNavigate();
+  
+  const { data: notifications, isLoading, refetch } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: getAllNotifications,
+  });
 
-  const [selectedTab, setSelectedTab] = useState("All");
-
-  const handleTabChange = (tab: string) => {
-    setSelectedTab(tab);
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) {
+      return "Just now";
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    } else {
+      return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+      });
+    }
   };
 
-  return (
-    <div className="min-h-dvh bg-gray-50">
-      <TitleHead title="Notifications" />
-      
-      <section className="p-6 pb-20">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-2xl font-bold text-dark mb-2">Notifications</h1>
-                <p className="text-gray-600">Stay updated with your latest activities</p>
-              </div>
-              {/* <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
-                <Filter size={16} />
-                Filter
-              </button> */}
-            </div>
-          </div>
+  const getNotificationIcon = (type?: string) => {
+    switch (type?.toLowerCase()) {
+      case "bidding":
+      case "result":
+        return <Notification size={18} className="text-amber-600" />;
+      case "listing":
+      case "new":
+        return <Notification size={18} className="text-blue-600" />;
+      case "payment":
+      case "transaction":
+        return <Notification size={18} className="text-emerald-600" />;
+      case "booking":
+      case "reservation":
+        return <Notification size={18} className="text-violet-600" />;
+      default:
+        return <Notification size={18} className="text-primary" />;
+    }
+  };
 
-          {/* Tabs */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="border-b border-gray-100">
-              <div className="flex">
-                {notificationRoutes.map((route) => (
-                  <button
-                    key={route.type}
-                    className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 font-medium transition-all relative ${
-                      selectedTab === route.type
-                        ? "text-primary border-b-2 border-primary bg-primary/5"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                    }`}
-                    onClick={() => handleTabChange(route.type)}
-                  >
-                    <div className={selectedTab === route.type ? "text-primary" : "text-gray-500"}>
-                      {route.icon}
-                    </div>
-                    <span>{route.type}</span>
-                    {route.count > 0 && (
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        selectedTab === route.type 
-                          ? "bg-primary text-white" 
-                          : "bg-gray-200 text-gray-600"
-                      }`}>
-                        {route.count}
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
+  const handleMarkAsRead = async () => {
+    try {
+      // TODO: Implement mark as read API call
+      successToast("Marked as read", "");
+      refetch();
+    } catch (error) {
+      errorToast("Failed to mark as read", "Please try again");
+    }
+  };
 
-            {/* Content */}
-            <div className="p-6">
-              {notificationRoutes.find((route) => route.type === selectedTab)?.component}
-            </div>
+  const handleDeleteNotification = async () => {
+    try {
+      // TODO: Implement delete notification API call
+      successToast("Notification deleted", "");
+      refetch();
+    } catch (error) {
+      errorToast("Failed to delete notification", "Please try again");
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <main className="min-h-dvh bg-gray-50">
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="flex items-center justify-between p-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            >
+              <ArrowLeft size={20} />
+              <span>Back</span>
+            </button>
+            
+            <h1 className="text-lg font-semibold text-dark">Notifications</h1>
+            
+            <div className="w-8"></div>
           </div>
         </div>
-      </section>
-    </div>
+
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <div className="text-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="text-gray-600">Loading notifications...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-dvh bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="flex items-center justify-between p-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+          >
+            <ArrowLeft size={20} />
+            <span>Back</span>
+          </button>
+          
+          <h1 className="text-lg font-semibold text-dark">Notifications</h1>
+          
+          <div className="w-8"></div>
+        </div>
+      </div>
+
+      <div className="p-4">
+        {!notifications?.data.data.length ? (
+          /* Empty State */
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Notification size={40} className="text-gray-400" />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-dark mb-3">
+              All caught up!
+            </h2>
+            
+            <p className="text-gray-600 mb-8 max-w-md">
+              You're up to date with all your notifications. New updates will appear here when they arrive.
+            </p>
+          </div>
+        ) : (
+          /* Notifications List */
+          <div className="max-w-2xl mx-auto space-y-3">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-dark">
+                Recent Notifications
+              </h2>
+              <span className="text-sm text-gray-500">
+                {notifications.data.data.length} {notifications.data.data.length === 1 ? 'notification' : 'notifications'}
+              </span>
+            </div>
+
+            {notifications.data.data.map((notification: any) => (
+              <div
+                key={notification._id}
+                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                      {getNotificationIcon(notification.type)}
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-dark text-sm mb-1">
+                      {notification.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed mb-2">
+                      {notification.message}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">
+                        {formatDate(notification.createdAt)}
+                      </span>
+                      
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleMarkAsRead()}
+                          className="p-1 text-gray-400 hover:text-green-600 transition-colors"
+                          title="Mark as read"
+                        >
+                          <Check size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteNotification()}
+                          className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                          title="Delete notification"
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
   );
 };
 
-export default NotificationsAlert;
+export default NotificationsPage;

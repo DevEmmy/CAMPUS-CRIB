@@ -6,6 +6,7 @@ import { BiTransfer } from "react-icons/bi";
 import { BsCreditCard2Front } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import { Link } from "react-router";
+import { formatPrice } from "../../utils/formatPrice";
 
 const Checkout = () => {
   return (
@@ -30,7 +31,7 @@ const Checkout = () => {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <span className="text-lg font-bold">₦ 120,000</span>
+                <span className="text-lg font-bold">{formatPrice(120000)}</span>
               </div>
             </div>
             <div className="flex items-center justify-between mt-2 text-[#64748B]">

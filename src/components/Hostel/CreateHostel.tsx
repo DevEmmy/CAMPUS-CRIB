@@ -66,6 +66,7 @@ const CreateHostel = () => {
       // Transform formState to match the expected interface
       const hostelData = {
         hostelName: formState.hostelName,
+        hostelType: formState.hostelType,
         address: formState.location, // Map location to address
         hostelDesc: formState.description, // Map description to hostelDesc
         roomTypes: formState.availableRooms, // Map availableRooms to roomTypes
@@ -76,7 +77,6 @@ const CreateHostel = () => {
       };
       
       const response = await createHostel(hostelData);
-      console.log("Success:", response);
       if (response.status == 200) {
         successToast("Hostel created successfully",'');
         navigate("/");
@@ -92,17 +92,12 @@ const CreateHostel = () => {
   };
 
   const canProceedToNextStep = () => {
-    console.log("Current formState:", formState);
-    console.log("Current step:", step);
-    
     switch (step) {
       case 0:
         const step0Valid = formState.hostelName && formState.location && formState.hostelType;
-        console.log("Step 0 validation:", { hostelName: formState.hostelName, location: formState.location, hostelType: formState.hostelType, isValid: step0Valid });
         return step0Valid;
       case 1:
         const step1Valid = formState.availableRooms && formState.price;
-        console.log("Step 1 validation:", { availableRooms: formState.availableRooms, price: formState.price, isValid: step1Valid });
         return step1Valid;
       case 2:
         return true; // Allow proceeding even without images
@@ -122,7 +117,6 @@ const CreateHostel = () => {
   const handleUploadComplete = (uploadUrls?: string[]) => {
     handleInputChange("images", uploadUrls);
     // Handle the uploaded file URLs if needed
-    console.log("Files uploaded:", uploadUrls);
   };
 
   const step1 = [
@@ -418,7 +412,6 @@ const CreateHostel = () => {
               onClick={
                 step < 2
                   ? () => {
-                      console.log("Proceeding to next step");
                       setStep((prev) => prev + 1);
                     }
                   : () => {

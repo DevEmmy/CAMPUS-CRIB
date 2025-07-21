@@ -28,7 +28,7 @@ const ChatList = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log("fetched convo", fetchedConversations);
+      // Conversations loaded
     }
   }, [isLoading, fetchedConversations]);
 
@@ -41,10 +41,7 @@ const ChatList = () => {
       setStoredConversations(fetchedConversations);
     }
 
-    console.log("savedconvo", storedConversations);
-    console.log("fetch", fetchedConversations);
     const convoData = fetchedConversations || storedConversations;
-    console.log("convo", convoData);
     setConversationList(convoData);
   }, [fetchedConversations, storedConversations, setStoredConversations]);
 

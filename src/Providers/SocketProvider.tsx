@@ -28,7 +28,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     });
 
     setSocket(socketInstance);
-    console.log(socketInstance);
 
     // return () => {
     //   socketInstance.disconnect();
@@ -38,12 +37,10 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Listen for notification events and chat messages
     const handleNotification = (notification: any) => {
-      console.log("New notification:", notification);
       infoToast("New Notification", notification.message || "No message");
     };
 
     const handleChatMessage = (messageData: any) => {
-      console.log("New chat message:", messageData);
       infoToast("New Message", messageData.content || "No content");
     };
 

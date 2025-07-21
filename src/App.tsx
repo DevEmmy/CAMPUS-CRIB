@@ -13,6 +13,8 @@ import Checkout from "./components/Payment/Checkout";
 import HostelDetails from "./components/Hostel/HostelDetails";
 import Chat from "./pages/Chat";
 import CreateHostel from "./components/Hostel/CreateHostel";
+import ViewHostel from "./pages/Hostel/ViewHostel";
+import EditHostel from "./pages/Hostel/EditHostel";
 import WishlistOrBookmark from "./pages/Wishlist";
 import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
@@ -46,6 +48,7 @@ import ForgotPassword from "./components/Auth/ForgotPassword.tsx";
 import ResetPassword from "./components/Auth/ResetPassword.tsx";
 import Pricing from "./pages/Pricing/index.tsx";
 import SplashScreen from "./components/Ui/SplashScreen.tsx";
+import ContactSupport from "./pages/ContactSupport.tsx";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -59,7 +62,6 @@ function App() {
   // }, []);
 
   const handleSplashComplete = useCallback(() => {
-    console.log('Splash complete called');
     setShowSplash(false);
     localStorage.setItem('hasSeenSplash', 'true');
   }, []);
@@ -123,6 +125,8 @@ function App() {
 
         {/* Hostel details */}
         <Route path="/hostels/:hostelId" element={<HostelDetails />} />
+        <Route path="/hostels/agent/:id" element={<ViewHostel />} />
+        <Route path="/hostels/:id/edit" element={<EditHostel />} />
         <Route path="/hostels/create" element={<CreateHostel />} />
 
         {/* Feeds - find roommate */}
@@ -161,6 +165,8 @@ function App() {
         <Route path="/payment-details" element={<PaymentDetails />} />
 
         <Route path="/recent-transactions" element={<RecentTransactions />} />
+
+        <Route path="/contact-support" element={<ContactSupport />} />
       </Routes>
     </>
   );

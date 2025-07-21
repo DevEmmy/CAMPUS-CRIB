@@ -1,6 +1,7 @@
 import TitleHead from "../Ui/TitleHead";
 import paymentHand from "/icons/payment-02.png";
 import { Link } from "react-router";
+import { formatPrice } from "../../utils/formatPrice";
 
 const PaymentCard = () => {
   return (
@@ -13,7 +14,7 @@ const PaymentCard = () => {
         <p>Transfer</p>
       </div>
       <div>
-        <p className="text-dark text-lg font-semibold">-₦120,000.00</p>
+        <p className="text-dark text-lg font-semibold">-{formatPrice(120000)}</p>
       </div>
     </Link>
   );

@@ -103,13 +103,11 @@ const Signup: React.FC = () => {
 
     try {
       setIsSubmitting(true);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...userData } = formData;
       const response = await signup(userData);
       if (response?.status === 200) {
         const data = response?.data?.data?.user;
         setUserData(data);
-        console.log("data", data);
         navigate("/");
       }
     } catch (error) {

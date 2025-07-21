@@ -63,7 +63,6 @@ const Filter = ({
       amenities: selectedAmenities,
       availability,
     };
-    console.log("filters", filters);
     onApplyFilters(filters);
     onClose();
   };

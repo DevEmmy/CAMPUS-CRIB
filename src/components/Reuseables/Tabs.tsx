@@ -5,7 +5,6 @@ import {
   MessageText1,
   Profile,
   SearchNormal,
-  Shop,
 } from "iconsax-react";
 import { NavLink, useLocation } from "react-router";
 
@@ -52,11 +51,11 @@ const Tabs = ({ isAgent }: tabsProps) => {
       icon: <MessageText1 size="22" />,
       route: "chat",
     },
-    {
-      title: "bookings",
-      icon: <Shop size="28" />,
-      route: "bookings",
-    },
+    // {
+    //   title: "bookings",
+    //   icon: <Shop size="28" />,
+    //   route: "bookings",
+    // },
     {
       title: "user",
       icon: <Profile size="22" />,

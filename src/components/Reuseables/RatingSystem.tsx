@@ -3,8 +3,7 @@ import { FaRegStar, FaStar } from "react-icons/fa6";
 
 interface ratingProps {
     totalStars: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onRatingChange?: any;
+    onRatingChange?: (rating: number) => void;
     otherStyles?: string;
 }
 

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import { ArrowLeft, Send, Add, Message } from "iconsax-react";
@@ -9,6 +7,7 @@ import { messaging } from "../utils/messageRequest";
 import { convertToNormalTime } from "../utils/ConvertToNormalTime";
 import { useUserStore } from "../store/UseUserStore";
 import { fetchUserById } from "../lib/fetchUser";
+import ImageModal from "../components/Ui/ImageModal";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -17,6 +16,8 @@ const Chat = () => {
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
 
   const { user } = useUserStore();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const [messagesList, setMessagesList] = useState<any | null>(null);
 
@@ -26,7 +27,6 @@ const Chat = () => {
   });
 
   useEffect(() => {
-    console.log("recipient details", recipientDetails?.user);
     setOtherUser(recipientDetails?.user);
   }, [recipientDetails]);
 
@@ -41,27 +41,19 @@ const Chat = () => {
     isLoading,
     isFetchedAfterMount,
   } = useQuery({
-    queryKey: ["messages", userId],
-    queryFn: () => fetchMessages(userId as string),
-    enabled: !!userId,
+    queryKey: ["messages", userId, otherUser?._id],
+    queryFn: () => fetchMessages(userId as string, otherUser?._id),
+    enabled: !!userId && !!otherUser?._id,
     refetchInterval: 5000, // Poll for new messages every 5 seconds
   });
 
   // Set isTexted to true if we have messages
   useEffect(() => {
-    console.log(fetchedMessages);
-
     if (Array.isArray(fetchedMessages) && fetchedMessages.length > 0) {
       setIsTexted(true);
-      console.log(fetchedMessages);
     }
 
-    console.log(isTexted);
-
     if (isFetchedAfterMount) {
-      const messages = fetchedMessages.messages;
-      console.log("all messages", messages);
-      console.log("first other user", messages[messages?.length - 1]);
       if (fetchedMessages?.otherUser) setOtherUser(fetchedMessages.otherUser);
     }
 
@@ -121,9 +113,13 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("Other user data", otherUser);
-  }, [otherUser]);
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
+
+  // Show loading while fetching otherUser or messages
+  const isInitialLoading = !otherUser || isLoading;
 
   return (
     <main className="h-screen flex flex-col bg-gray-50">
@@ -144,8 +140,9 @@ const Chat = () => {
                   otherUser?.profilePicture ||
                   "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                 }
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 alt="Profile"
+                onClick={() => handleImageClick(otherUser?.profilePicture || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")}
               />
             </div>
             <div className="flex-1">
@@ -177,7 +174,7 @@ const Chat = () => {
           </div>
         )}
         
-        {isLoading ? (
+        {isInitialLoading ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-center space-y-3">
               <div className="w-8 h-8 border-2 border-gray-300 border-t-primary rounded-full animate-spin mx-auto"></div>
@@ -270,6 +267,14 @@ const Chat = () => {
           </button>
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt="Profile Picture"
+      />
     </main>
   );
 };

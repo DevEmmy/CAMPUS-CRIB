@@ -1,51 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
 import TitleHead from "../Ui/TitleHead";
-import paymentHand from "/icons/payment-neutral.png";
-import folderLibrary from "/icons/folder-library.png";
 
 const ReportResult = ({ item }: any) => {
   return (
-    <div className="bg-[#FCFCFC] flex-col gap-2 my-4 p-2.5 rounded-xl ">
-      <div className=" flex items-center gap-2">
-        <div className="bg-[#F6F6F6] p-3 rounded-xl">
-          <img src={paymentHand} className="" />
-        </div>
-
+    <div className="flex justify-between items-center p-3 border rounded-lg mb-2">
+      <div className="flex items-center gap-3">
+        <div
+          className={`w-3 h-3 rounded-full ${
+            item.isSuccess ? "bg-green-500" : "bg-red-500"
+          }`}
+        ></div>
         <div>
-          <div className="flex gap-3 items-center justify-end text-sm text-variant-500">
-            <div className="flex gap-1">
-              <p>{item?.date}</p>
-              <p>{item?.transactionId}</p>
-            </div>
-            <div>
-              {item?.isSuccess ? (
-                <p className="text-green-700">Successful</p>
-              ) : (
-                <p className="text-[#B90000]">Failed</p>
-              )}
-            </div>
-          </div>
-          <p
-            className={`${
-              item?.isCredit ? "text-green-900" : "text-[#B90000]"
-            } font-medium text-sm`}
-          >
-            Amount: {item?.isCredit ? item?.amount : `- ${item?.amount}`}$
+          <p className="text-sm font-medium text-dark">
+            {item.description}
           </p>
+          <p className="text-xs text-variant-500">{item.transactionId}</p>
         </div>
       </div>
-      <p className="text-xs text-dark italic mt-2">{item?.description}</p>
+      <div className="text-right">
+        <p
+          className={`text-sm font-semibold ${
+            item.isCredit ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {item.isCredit ? "+" : "-"}${item.amount.toFixed(2)}
+        </p>
+        <p className="text-xs text-variant-500">{item.date}</p>
+      </div>
     </div>
   );
 };
 
 const Report = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isResult, setIsResult] = useState<boolean>(true);
-  useEffect(() => {
-    setIsResult(true)
-  }, [])
   const transactions = [
     {
       date: "2025-02-09",
@@ -113,26 +99,15 @@ const Report = () => {
           />
         </div>
 
-        {isResult ? (
-          <div className="flex-col gap-2">
-            <h3 className="text-dark">Result</h3>
+        <div className="flex-col gap-2">
+          <h3 className="text-dark">Result</h3>
 
-            <div className="flex-row gap-2.5 h-[60vh] overflow-y-scroll">
-              {transactions.map((item, i) => (
-                <ReportResult key={i} item={item} />
-              ))}
-            </div>
+          <div className="flex-row gap-2.5 h-[60vh] overflow-y-scroll">
+            {transactions.map((item, i) => (
+              <ReportResult key={i} item={item} />
+            ))}
           </div>
-        ) : (
-          <div className="h-[50vh] grid place-items-center">
-            <div className="grid place-items-center">
-              <img src={folderLibrary} className="" />
-              <p className="text-variant-500 font-light text-sm ">
-                No transactions meet your selected criteria
-              </p>
-            </div>
-          </div>
-        )}
+        </div>
       </section>
     </main>
   );

@@ -12,7 +12,7 @@ const AllNotifications: React.FC = () => {
 
   useEffect(() => {
     if (notifications) {
-      console.log(notifications.data);
+      // Notifications loaded
     }
   }, [notifications]);
 

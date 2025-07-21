@@ -1,23 +1,33 @@
-import { useState } from "react";
-import Head from "../components/Home/Head";
+import React, { useState } from "react";
+import { friendlyTimeAgo } from "../utils/dateFormat";
+import { formatPrice } from "../utils/formatPrice";
+import ImageModal from "../components/Ui/ImageModal";
+import { Add, Location, Eye, Edit, Building } from "iconsax-react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserById } from "../lib/fetchUser";
-import { friendlyTimeAgo } from "../utils/dateFormat";
-import { Add, Location, Eye, Edit, Building } from "iconsax-react";
+import Head from "../components/Home/Head";
 
 const AgentHome = ({ user }: { user: any }) => {
-  const [userProfile] = useState<any | null>(user);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
   const { data: userDet } = useQuery({
-    queryKey: ["userDetails", user?._id],
+    queryKey: ["user", user?._id],
     queryFn: () => fetchUserById(user?._id),
   });
+
+  const handleImageClick = (e: React.MouseEvent, imageSrc: string) => {
+    e.stopPropagation();
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
 
   const hostels = userDet?.hostels || [];
 
   return (
     <main className="min-h-dvh bg-gray-50">
-      <Head user={userProfile} isAgent />
+      <Head user={user} isAgent />
 
       <section className="p-6 pt-24 pb-20">
         {hostels && hostels.length > 0 ? (
@@ -28,12 +38,12 @@ const AgentHome = ({ user }: { user: any }) => {
                 <h1 className="text-2xl font-bold text-dark">Your Listings</h1>
                 <p className="text-gray-600 mt-1">Manage your hostel properties</p>
               </div>
-              <Link
+              {/* <Link
                 to="/hostels/create"
                 className="bg-primary hover:bg-primary/90 text-white p-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
               >
                 <Add size={20} />
-              </Link>
+              </Link> */}
             </div>
 
             {/* Stats */}
@@ -72,8 +82,9 @@ const AgentHome = ({ user }: { user: any }) => {
                   <div className="relative">
                     <img
                       src={item?.images[0]}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover cursor-pointer"
                       alt={item?.hostelName}
+                      onClick={(e) => handleImageClick(e, item?.images[0])}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                     
@@ -90,7 +101,7 @@ const AgentHome = ({ user }: { user: any }) => {
                     
                     {/* Price Badge */}
                     <div className="absolute bottom-3 right-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      ₦{item?.price}
+                      {formatPrice(item?.price)}
                     </div>
                   </div>
                   
@@ -109,7 +120,7 @@ const AgentHome = ({ user }: { user: any }) => {
                       
                       <div className="flex items-center gap-2">
                         <Link
-                          to={`/hostels/${item?._id}`}
+                          to={`/hostels/agent/${item?._id}`}
                           className="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors duration-200"
                         >
                           <Eye size={16} />
@@ -159,6 +170,14 @@ const AgentHome = ({ user }: { user: any }) => {
         >
           <Add size={24} />
         </Link>
+
+        {/* Image Modal */}
+        <ImageModal
+          isOpen={isImageModalOpen}
+          onClose={() => setIsImageModalOpen(false)}
+          imageSrc={selectedImage}
+          imageAlt="Hostel Image"
+        />
       </section>
     </main>
   );

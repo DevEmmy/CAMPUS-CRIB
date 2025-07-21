@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Check, Zap, Crown, Users, BarChart3, Shield, Headphones } from "lucide-react"
 import { Link } from "react-router"
 import TitleHead from "../../components/Ui/TitleHead"
+import { formatPrice } from "../../utils/formatPrice";
 
 interface PricingPlan {
   id: string
@@ -48,8 +49,8 @@ const Pricing = () => {
     {
       id: "pro",
       name: "Pro Plan",
-      price: isAnnual ? "₦30,000" : "₦3,000",
-      originalPrice: isAnnual ? "₦36,000" : undefined,
+      price: isAnnual ? formatPrice(30000) : formatPrice(3000),
+      originalPrice: isAnnual ? formatPrice(36000) : undefined,
       description: "For active agents who want more visibility and listings",
       badge: "Most Popular",
       badgeColor: "bg-primary text-white",
@@ -70,8 +71,8 @@ const Pricing = () => {
     {
       id: "elite",
       name: "Elite Plan",
-      price: isAnnual ? "₦70,000" : "₦7,000",
-      originalPrice: isAnnual ? "₦84,000" : undefined,
+      price: isAnnual ? formatPrice(70000) : formatPrice(7000),
+      originalPrice: isAnnual ? formatPrice(84000) : undefined,
       description: "For professional agents or businesses managing many hostels",
       badge: "Best Value",
       badgeColor: "bg-gradient-to-r from-yellow-400 to-orange-500 text-white",
@@ -96,7 +97,7 @@ const Pricing = () => {
   return (
     <>
         <TitleHead title={"Pricing"} />
-    <div className="min-h-screen bg-gray-50 py-12 px-4 mt-8">
+    <div className="min-h-screen bg-gray-50 py-5 px-4">
         
       <div className="max-w-7xl mx-auto">
         {/* Header */}

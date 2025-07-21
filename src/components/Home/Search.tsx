@@ -65,7 +65,6 @@ const Search = ({ onFilterChange }: SearchProps) => {
 
   // Update parent component when filter changes
   useEffect(() => {
-    console.log(filteredHostels)
     if (filteredHostels) {
       onFilterChange(filteredHostels, searchType[type].title.toLowerCase(), searchType[type].route);
     }

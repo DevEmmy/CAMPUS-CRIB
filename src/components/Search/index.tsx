@@ -8,23 +8,18 @@ import { fetchBookmarks } from "../../lib/bookmarkHostel";
 import { useQuery } from "@tanstack/react-query";
 import { updateBookmark } from "../../lib/bookmarkHostel";
 import FilterComponent from "./Filter";
+import { formatPrice } from "../../utils/formatPrice";
+import ImageModal from "../Ui/ImageModal";
 
 const Search = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [haveSearch, setHaveSearched] = useState<boolean>(false);
-  const [isFilter, setIsFilter] = useState<boolean>(false);
-  const [filteredResults, setFilteredResults] = useState<Hostel[]>([]);
-  const [likedHostels, setLikedHostels] = useState<string[]>([]);
-  // const [filters, setFilters] = useState({
-  //   location: "",
-  //   minPrice: 0,
-  //   maxPrice: 1000000,
-  //   hostelType: "",
-  // });
-
-  // const location = useLocation();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [filteredResults, setFilteredResults] = useState<any[]>([]);
+  const [likedHostels, setLikedHostels] = useState<string[]>([]);
   const isMountedRef = useRef(true);
 
   const { data: bookmarks = [] } = useQuery({
@@ -46,38 +41,24 @@ const Search = () => {
   const searchTimeoutRef = useRef<number | null>(null);
 
   const performSearch = useCallback(async (query: string) => {
-    console.log("performSearch called with:", query);
-    // if (!isMountedRef.current) return;
-    
     setIsLoading(true);
     try {
-      console.log("Making API request to /hostels with query:", query);
       const response = await axiosConfig.get("/hostels", {
         params: {
           query: query || undefined,
         },
       });
       
-      // if (isMountedRef.current) {
-        console.log("API Response:", response.data);
-        setFilteredResults(response.data.data || []);
-        setHaveSearched(true);
-      // }
+      setFilteredResults(response.data.data || []);
     } catch (error) {
       console.error("Error fetching hostels:", error);
-      // if (isMountedRef.current) {
-        setFilteredResults([]);
-        setHaveSearched(true);
-      // }
+      setFilteredResults([]);
     } finally {
-      // if (isMountedRef.current) {
-        setIsLoading(false);
-      // }
+      setIsLoading(false);
     }
   }, []);
 
   const debouncedSearch = useCallback((query: string) => {
-    console.log("debouncedSearch called with:", query);
     // Clear existing timeout
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
@@ -85,18 +66,15 @@ const Search = () => {
     
     // Set new timeout
     searchTimeoutRef.current = setTimeout(() => {
-      console.log("Executing search for:", query);
       performSearch(query);
     }, 500);
   }, [performSearch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
-    console.log("handleSearchChange called with:", query);
     setSearchQuery(query);
 
     if (!query) {
-      setHaveSearched(false);
       setFilteredResults([]);
     } else {
       debouncedSearch(query);
@@ -129,13 +107,7 @@ const Search = () => {
     amenities: string[];
     availability: string;
   }) => {
-    // setFilters({
-    //   location: newFilters.location,
-    //   minPrice: newFilters.priceRange[0],
-    //   maxPrice: newFilters.priceRange[1],
-    //   hostelType: newFilters.roomTypes,
-    // });
-    setHaveSearched(true);
+    setFilteredResults([]); // Clear results when filters change
 
     // console.log("searchQuery", searchQuery);
     // console.log("newFilters.location", newFilters.location);
@@ -145,6 +117,11 @@ const Search = () => {
     }
   };
 
+  const handleImageClick = (e: React.MouseEvent, imageSrc: string) => {
+    e.stopPropagation();
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
 
 
   // useEffect(() => {
@@ -154,7 +131,6 @@ const Search = () => {
   //   if (query) {
   //     setSearchQuery(query);
   //     debouncedSearch(query);
-  //     setHaveSearched(true);
   //   }
   // }, [location.search]);
 
@@ -192,7 +168,7 @@ const Search = () => {
                 />
               </div>
               <button 
-                onClick={() => setIsFilter(true)} 
+                onClick={() => setShowFilters(true)} 
                 className="bg-primary hover:bg-primary/90 text-white p-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-custom"
               >
                 <Filter size={20} />
@@ -201,7 +177,7 @@ const Search = () => {
           </div>
 
           {/* Search Results Header */}
-          {haveSearch && (
+          {searchQuery && (
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-dark">
@@ -231,7 +207,7 @@ const Search = () => {
         )}
 
         {/* No Results */}
-        {haveSearch && !isLoading && filteredResults.length === 0 && (
+        {searchQuery && !isLoading && filteredResults.length === 0 && (
           <div className="flex items-center justify-center py-20">
             <div className="text-center space-y-4 max-w-md">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
@@ -262,7 +238,8 @@ const Search = () => {
                       <img
                         src={hostel.images[0]}
                         alt={hostel.hostelName}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                        onClick={(e) => handleImageClick(e, hostel.images[0])}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent"></div>
                       
@@ -282,7 +259,7 @@ const Search = () => {
                       
                       {/* Price Badge */}
                       <div className="absolute bottom-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                        ₦{hostel.price}
+                        {formatPrice(hostel.price)}
                       </div>
 
                       {/* Availability Badge */}
@@ -368,7 +345,7 @@ const Search = () => {
         )}
 
         {/* Empty State - No Search Yet */}
-        {!haveSearch && !isLoading && (
+        {!searchQuery && !isLoading && (
           <div className="flex items-center justify-center py-20">
             <div className="text-center space-y-4 max-w-md">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
@@ -384,14 +361,14 @@ const Search = () => {
       </section>
 
       {/* Filter Modal */}
-      {isFilter && (
+      {showFilters && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end">
           <div className="bg-white rounded-t-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-dark">Filters</h3>
                 <button 
-                  onClick={() => setIsFilter(false)}
+                  onClick={() => setShowFilters(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,13 +378,21 @@ const Search = () => {
               </div>
               
               <FilterComponent
-                onClose={() => setIsFilter(false)}
+                onClose={() => setShowFilters(false)}
                 onApplyFilters={handleApplyFilters}
               />
             </div>
           </div>
         </div>
       )}
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt="Hostel Image"
+      />
     </main>
   );
 };

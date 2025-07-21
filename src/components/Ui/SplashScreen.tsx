@@ -9,27 +9,24 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    console.log('Splash screen mounted, starting 3 second timer');
-    
-    const timer = setTimeout(() => {
-      console.log('3 seconds elapsed, starting fade out');
-      setIsVisible(false);
-      
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible && onComplete) {
       const fadeTimer = setTimeout(() => {
-        console.log('Fade out complete, calling onComplete');
         onComplete();
       }, 500);
-      
+
       return () => clearTimeout(fadeTimer);
-    }, 3000);
-
-    return () => {
-      console.log('Cleaning up splash timer');
-      clearTimeout(timer);
-    };
-  }, [onComplete]);
-
-  console.log('Splash screen render, isVisible:', isVisible);
+    }
+  }, [isVisible, onComplete]);
 
   if (!isVisible) {
     return (

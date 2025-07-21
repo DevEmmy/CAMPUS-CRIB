@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
+import React, { useState } from "react";
 import { fetchHostelById } from "../../lib/fetchHostels";
 import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "../../utils/formatPrice";
@@ -9,26 +7,25 @@ import TitleHead from "../Ui/TitleHead";
 import { getReviews } from "../../utils/reviews";
 import { IoStar } from "react-icons/io5";
 import { Review } from "../../types/review";
-import { Location, Star, Wifi, Car, Shield, Message, Call } from "iconsax-react";
+import { Location, Star, Wifi, Car, Shield, Message, Call, Building, Eye } from "iconsax-react";
+import ImageModal from "../Ui/ImageModal";
 
 const HostelDetails: React.FC = () => {
   const { hostelId } = useParams();
   const navigate = useNavigate();
+  const [activeImage, setActiveImage] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const { data: hostel, isLoading } = useQuery({
-    queryKey: ["hostel"],
+    queryKey: ["hostel", hostelId],
     queryFn: () => fetchHostelById(hostelId as string),
   });
 
   const { data: reviews } = useQuery({
-    queryKey: ["reviews"],
+    queryKey: ["reviews", hostelId],
     queryFn: () => getReviews(hostelId as string),
   });
-
-  useEffect(() => {
-    console.log(reviews);
-    console.log("hostels", hostel);
-  }, [reviews, hostelId]);
 
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -73,125 +70,205 @@ const HostelDetails: React.FC = () => {
     return <Star size={16} />;
   };
 
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-gray-50">
-        <TitleHead title="Hostel Details" />
-        <div className="flex justify-center items-center py-20">
-          <div className="text-center space-y-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-gray-600 font-medium">Loading hostel details...</p>
-          </div>
+      <div className="min-h-dvh bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!hostel) {
+    return (
+      <div className="min-h-dvh bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Hostel Not Found</h2>
+          <p className="text-gray-600 mb-4">The hostel you're looking for doesn't exist.</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-primary text-white px-4 py-2 rounded-lg"
+          >
+            Go Back
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-dvh bg-gray-50">
+    <main className="min-h-dvh bg-gray-50">
       <TitleHead title="Hostel Details" />
       
-      <section className="p-6 pb-32">
-        {/* Image Carousel */}
-        <div className="mb-6">
-          <Carousel
-            autoPlay={true}
-            infiniteLoop={true}
-            showThumbs={false}
-            centerMode={false}
-            showStatus={false}
-            showIndicators={true}
-            className="rounded-2xl overflow-hidden shadow-lg"
-          >
-            {hostel?.images.map((image: string, index: number) => (
-              <div key={index} className="h-64 md:h-80">
+      <div className="p-4 mb-20 space-y-6">
+        {/* Hero Section */}
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+          {/* Image Gallery */}
+          <div className="relative h-64 md:h-80">
+            {hostel.images && hostel.images.length > 0 ? (
+              <>
                 <img
-                  src={image}
-                  alt={`Hostel image ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  src={hostel.images[activeImage]}
+                  alt={hostel.hostelName}
+                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={() => handleImageClick(hostel.images[activeImage])}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                
+                {/* Image Navigation */}
+                {hostel.images.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    {hostel.images.map((_: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveImage(index)}
+                        className={`w-3 h-3 rounded-full transition-colors ${
+                          index === activeImage ? 'bg-white' : 'bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <Building size={48} className="text-gray-400" />
               </div>
-            ))}
-          </Carousel>
-        </div>
-
-        {/* Hostel Info */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-dark mb-2">
-                {hostel?.hostelName}
-              </h1>
-              <div className="flex items-center gap-2 text-gray-600 mb-3">
-                <Location size={18} className="text-gray-400" />
-                <span className="text-sm">{hostel?.location}</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-primary">
-                {formatPrice(hostel?.price)}
-              </div>
-              <div className="text-sm text-gray-500">per month</div>
-            </div>
+            )}
           </div>
 
-          {/* Availability Badge */}
-          <div className="mb-4">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-              hostel?.isAvailable 
-                ? "bg-green-100 text-green-700" 
-                : "bg-red-100 text-red-700"
-            }`}>
-              <div className={`w-2 h-2 rounded-full ${
-                hostel?.isAvailable ? "bg-green-500" : "bg-red-500"
-              }`}></div>
-              {hostel?.isAvailable ? "Available" : "Full"}
+          {/* Hostel Info */}
+          <div className="p-6 space-y-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-dark mb-2">{hostel.hostelName}</h1>
+                <div className="flex items-center gap-2 text-gray-600 mb-3">
+                  <Location size={16} />
+                  <span>{hostel.location}</span>
+                </div>
+              </div>
+              
+              <div className="text-right">
+                <div className="text-3xl font-bold text-primary mb-1">
+                  {formatPrice(hostel.price)}
+                </div>
+                <div className="text-sm text-gray-500">per room</div>
+              </div>
+            </div>
+
+            {/* Status Badge */}
+            <div className="flex items-center gap-3">
+              <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                hostel.isAvailable 
+                  ? "bg-green-100 text-green-700" 
+                  : "bg-red-100 text-red-700"
+              }`}>
+                {hostel.isAvailable ? "Available" : "Not Available"}
+              </div>
+              
+              <div className="flex items-center gap-1 text-gray-600">
+                <Eye size={16} />
+                <span className="text-sm">{hostel.views || 0} views</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Details Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Basic Information */}
+          <div className="bg-white rounded-2xl p-6 space-y-4">
+            <h2 className="text-xl font-bold text-dark">Basic Information</h2>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Hostel Type</span>
+                <span className="font-medium">{hostel.hostelType}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-gray-600">Available Rooms</span>
+                <span className="font-medium">{hostel.availableRooms}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-gray-600">Price</span>
+                <span className="font-medium">{formatPrice(hostel.price)}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-gray-600">Created</span>
+                <span className="font-medium">{formatDate(hostel.createdAt)}</span>
+              </div>
             </div>
           </div>
 
           {/* Features */}
-          {hostel?.features && hostel.features.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-dark mb-3">Features</h3>
-              <div className="flex flex-wrap gap-2">
+          <div className="bg-white rounded-2xl p-6 space-y-4">
+            <h2 className="text-xl font-bold text-dark">Features</h2>
+            
+            {hostel.features && hostel.features.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2">
                 {hostel.features.map((feature: string, index: number) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg"
-                  >
+                  <div key={index} className="flex items-center gap-2 text-sm">
                     {getFeatureIcon(feature)}
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span>{feature}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
-
-          {/* Description */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-dark mb-3">Description</h3>
-            <p className="text-gray-600 leading-relaxed">
-              {hostel?.description}
-            </p>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => navigate(`/review/${hostel?._id}`)}
-              className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200"
-            >
-              Write Review
-            </button>
-            <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-xl font-semibold transition-all duration-200">
-              Book Now
-            </button>
+            ) : (
+              <p className="text-gray-500 text-sm">No features listed</p>
+            )}
           </div>
         </div>
 
+        {/* Description */}
+        <div className="bg-white rounded-2xl p-6">
+          <h2 className="text-xl font-bold text-dark mb-4">Description</h2>
+          <p className="text-gray-700 leading-relaxed">
+            {hostel.description || "No description available."}
+          </p>
+        </div>
+
+        {/* Image Gallery */}
+        {hostel.images && hostel.images.length > 1 && (
+          <div className="bg-white rounded-2xl p-6">
+            <h2 className="text-xl font-bold text-dark mb-4">All Images</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {hostel.images.map((image: string, index: number) => (
+                <div
+                  key={index}
+                  className="relative group cursor-pointer"
+                  onClick={() => handleImageClick(image)}
+                >
+                  <img
+                    src={image}
+                    alt={`${hostel.hostelName} ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Reviews Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-xl font-bold text-dark mb-6">Reviews</h2>
+        <div className="bg-white rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-dark">Reviews</h2>
+            <button
+              onClick={() => navigate(`/review/${hostel._id}`)}
+              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <Star size={16} />
+              Write Review
+            </button>
+          </div>
 
           {/* Overall Rating */}
           <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-xl">
@@ -278,7 +355,7 @@ const HostelDetails: React.FC = () => {
             )}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Fixed Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 shadow-lg p-4">
@@ -312,7 +389,15 @@ const HostelDetails: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt={hostel?.hostelName || "Hostel Image"}
+      />
+    </main>
   );
 };
 

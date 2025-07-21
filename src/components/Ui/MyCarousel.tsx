@@ -4,7 +4,9 @@ import { Hostel } from "../../types/Hostel";
 import { useNavigate } from "react-router";
 import { Heart, Location, Star } from "iconsax-react";
 import { updateBookmark } from "../../lib/bookmarkHostel";
+import { formatPrice } from "../../utils/formatPrice";
 import { useState } from "react";
+import ImageModal from "./ImageModal";
 
 interface HostelCardProps {
   image: string;
@@ -36,10 +38,22 @@ const HotelCard = ({
 }: HostelCardProps) => {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(initiallyLiked);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const handleBookmark = async (hostelId: string, action: string) => {
-    setLiked((prev) => !prev);
-    await updateBookmark(hostelId, action);
+    try {
+      await updateBookmark(hostelId, action);
+      setLiked(action === "add");
+    } catch (error) {
+      console.error("Error updating bookmark:", error);
+    }
+  };
+
+  const handleImageClick = (e: React.MouseEvent, imageSrc: string) => {
+    e.stopPropagation();
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
   };
 
   return (
@@ -54,7 +68,8 @@ const HotelCard = ({
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover cursor-pointer"
+          onClick={(e) => handleImageClick(e, image)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
         
@@ -75,7 +90,7 @@ const HotelCard = ({
         {/* Price Badge */}
         {price && (
           <div className="absolute bottom-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
-            ₦{price}
+            {formatPrice(price)}
           </div>
         )}
         
@@ -113,6 +128,14 @@ const HotelCard = ({
           <span className="text-xs text-gray-500">View Details</span>
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt={title}
+      />
     </div>
   );
 };

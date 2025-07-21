@@ -1,16 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent } from "react";
 
-// interface inputProps {
-//   name: string;
-//   type: "text" | "number" | "textarea" | "select" | "checkbox" | "toggle";
-//   handleChange?:any; //(value: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
-//   options?: string[]; // for select inputs
-//   placeholder?: string;
-//   notBordered?: boolean;
-//   value?: any;
-//   id?: string;
-// }
 interface CustomInputProps {
   type: string;
   name: string;

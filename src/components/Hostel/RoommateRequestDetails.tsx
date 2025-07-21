@@ -9,12 +9,16 @@ import { Link, useNavigate, useParams } from "react-router";
 import { RoommateRequest, User } from "../../types/roommate";
 import TitleHead from "../Ui/TitleHead";
 import { User as UserIcon, Message, Calendar, Heart, Location, Send } from "iconsax-react";
+import { formatPrice } from "../../utils/formatPrice";
+import ImageModal from "../Ui/ImageModal";
 
 const RoommateRequestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: response, isLoading, error } = useRoommateRequest(id || "");
   const [comment, setComment] = useState("");
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const addCommentMutation = useAddComment();
 
   const handleSubmitComment = async (e: React.FormEvent) => {
@@ -27,6 +31,11 @@ const RoommateRequestDetails: React.FC = () => {
     } catch (error) {
       console.error("Failed to add comment:", error);
     }
+  };
+
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
   };
 
   if (isLoading) {
@@ -126,7 +135,8 @@ const RoommateRequestDetails: React.FC = () => {
                       "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                     }
                     alt={request.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover cursor-pointer"
+                    onClick={() => handleImageClick(request.picture || getUserAvatar(request.userId) || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")}
                   />
                 </div>
                 <div className="flex-1">
@@ -202,7 +212,7 @@ const RoommateRequestDetails: React.FC = () => {
                       <span className="text-sm text-gray-700">{request.hostelId.location}</span>
                     </div>
                     <div className="text-sm">
-                      <span className="font-medium text-primary">₦{request.hostelId.price?.toLocaleString()}</span>
+                      <span className="font-medium text-primary">{formatPrice(request.hostelId.price)}</span>
                       <span className="text-gray-500"> per month</span>
                     </div>
                     
@@ -216,8 +226,8 @@ const RoommateRequestDetails: React.FC = () => {
                               <img
                                 src={image}
                                 alt={`${(request.hostelId as any).hostelName} image ${index + 1}`}
-                                className="w-full h-48 object-cover rounded-xl border border-gray-200 group-hover:opacity-90 transition-opacity"
-                                onClick={() => navigate(`/hostels/${(request.hostelId as any)._id}`)}
+                                className="w-full h-48 object-cover rounded-xl border border-gray-200 group-hover:opacity-90 transition-opacity cursor-pointer"
+                                onClick={() => handleImageClick(image)}
                               />
                               {/* @ts-ignore */}
                               {index === 1 && request.hostelId.images.length > 2 && (
@@ -364,6 +374,14 @@ const RoommateRequestDetails: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt="Image"
+      />
     </div>
   );
 };

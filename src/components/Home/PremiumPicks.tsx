@@ -3,6 +3,8 @@ import { Heart, Location, Star, Wifi, Car, Shield } from "iconsax-react";
 import { useNavigate } from "react-router";
 import { Hostel } from "../../types/Hostel";
 import { updateBookmark } from "../../lib/bookmarkHostel";
+import { formatPrice } from "../../utils/formatPrice";
+import ImageModal from "../Ui/ImageModal";
 
 interface PremiumPicksProps {
   hostels: Hostel[];
@@ -15,6 +17,8 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
 }) => {
   const navigate = useNavigate();
   const [likedHostels, setLikedHostels] = useState<string[]>(bookmarkedIds);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const handleBookmark = async (hostelId: string) => {
     const isLiked = likedHostels.includes(hostelId);
@@ -24,7 +28,17 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
       isLiked ? prev.filter((id) => id !== hostelId) : [...prev, hostelId]
     );
 
-    await updateBookmark(hostelId, action);
+    try {
+      await updateBookmark(hostelId, action);
+    } catch (error) {
+      console.error("Error updating bookmark:", error);
+    }
+  };
+
+  const handleImageClick = (e: React.MouseEvent, imageSrc: string) => {
+    e.stopPropagation();
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
   };
 
   const getFeatureIcon = (feature: string) => {
@@ -59,7 +73,8 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
                   <img
                     src={hostel.images[0]}
                     alt={hostel.hostelName}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    onClick={(e) => handleImageClick(e, hostel.images[0])}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent"></div>
                   
@@ -79,7 +94,7 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
                   
                   {/* Price Badge */}
                   <div className="absolute bottom-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                    ₦{hostel.price}
+                    {formatPrice(hostel.price)}
                   </div>
 
                   {/* Availability Badge */}
@@ -172,6 +187,14 @@ const PremiumPicks: React.FC<PremiumPicksProps> = ({
           </div>
         )}
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt="Hostel Image"
+      />
     </div>
   );
 };

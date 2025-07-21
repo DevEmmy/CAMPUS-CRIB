@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const axiosConfig = axios.create({
   baseURL: "https://campus-crib-backend.onrender.com",
+  // baseURL: "http://192.168.125.168:3050",
 });
 
 axiosConfig.interceptors.request.use(

@@ -48,7 +48,6 @@ const Login = () => {
         const data = response?.data?.data?.user;
         
         setUserData(data);
-        console.log("data", data);
         navigate("/");
       }
       setFormData({ email: "", password: "" });

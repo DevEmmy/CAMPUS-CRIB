@@ -3,6 +3,7 @@ import TitleHead from "../../components/Ui/TitleHead";
 import { FaSortAmountDown } from "react-icons/fa";
 import { CardPos } from "iconsax-react";
 import { useNavigate } from "react-router";
+import { formatPrice } from "../../utils/formatPrice";
 
 const RecentTransactions = () => {
   const [selectedFilter, setSelectedFilter] = useState("This Month");
@@ -54,7 +55,7 @@ const RecentTransactions = () => {
               </div>
 
               {/* Amount */}
-              <p className="text-green-600 font-semibold text-sm">+₦120,000.00</p>
+              <p className="text-green-600 font-semibold text-sm">+{formatPrice(120000)}</p>
             </div>
           </div>
         </div>
