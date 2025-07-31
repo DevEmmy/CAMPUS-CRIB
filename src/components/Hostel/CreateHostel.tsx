@@ -140,7 +140,7 @@ const CreateHostel = () => {
       name: "hostelType",
       placeholder: "Hostel Type",
       value: formState?.hostelType || "",
-      options: ["SINGLE_ROOMS", "SHARED_ROOMS", "APARTMENTS", "SUITES"],
+      options: ["Single Room", "Self-contained", "Room & Parlour", "2 Bedroom flat", "3 Bedroom flat", "Shared Rooms"],
       handleChange: handleChange,
     },
     {

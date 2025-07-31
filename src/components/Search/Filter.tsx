@@ -16,7 +16,7 @@ const Filter = ({
   }) => void;
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
-  const [selectedRoom, setSelectedRoom] = useState<"single" | "shared">("single");
+  const [selectedRoom, setSelectedRoom] = useState<string>("");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [availability, setAvailability] = useState<"Available Now">("Available Now");
   const [priceRange, setPriceRange] = useState([0, 500000]);
@@ -41,9 +41,9 @@ const Filter = ({
     }
   };
 
-  // const handleRoomTypeSelect = (type: "single" | "shared") => {
-  //   setSelectedRoom(type);
-  // };
+  const handleRoomTypeSelect = (type: string) => {
+    setSelectedRoom(type);
+  };
 
   const handleAmenitySelect = (amenity: string) => {
     if (selectedAmenities.includes(amenity)) {
@@ -70,7 +70,7 @@ const Filter = ({
   const handleResetFilters = () => {
     setSelectedLocation("");
     setPriceRange([0, 1000000]);
-    setSelectedRoom("single");
+    setSelectedRoom("");
     setSelectedAmenities([]);
     setAvailability("Available Now");
 
@@ -179,33 +179,73 @@ const Filter = ({
       </div>
 
       {/* Room Type */}
-      {/* <div className="space-y-3">
+      <div className="space-y-3">
         <label className="block text-sm font-semibold text-dark">
           Room Type
         </label>
-        <div className="flex gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <button
-            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
-              selectedRoom === "single"
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "Single Room"
                 ? "bg-primary border-primary text-white shadow-lg"
                 : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
-            onClick={() => handleRoomTypeSelect("single")}
+            onClick={() => handleRoomTypeSelect("Single Room")}
           >
             Single Room
           </button>
           <button
-            className={`flex-1 px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium ${
-              selectedRoom === "shared"
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "Self-contained"
                 ? "bg-primary border-primary text-white shadow-lg"
                 : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
             }`}
-            onClick={() => handleRoomTypeSelect("shared")}
+            onClick={() => handleRoomTypeSelect("Self-contained")}
           >
-            Shared Room
+            Self-contained
+          </button>
+          <button
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "Room & Parlour"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleRoomTypeSelect("Room & Parlour")}
+          >
+            Room & Parlour
+          </button>
+          <button
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "2 Bedroom flat"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleRoomTypeSelect("2 Bedroom flat")}
+          >
+            2 Bedroom flat
+          </button>
+          <button
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "3 Bedroom flat"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleRoomTypeSelect("3 Bedroom flat")}
+          >
+            3 Bedroom flat
+          </button>
+          <button
+            className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
+              selectedRoom === "Shared Rooms"
+                ? "bg-primary border-primary text-white shadow-lg"
+                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+            }`}
+            onClick={() => handleRoomTypeSelect("Shared Rooms")}
+          >
+            Shared Rooms
           </button>
         </div>
-      </div> */}
+      </div>
 
       {/* Amenities */}
       <div className="space-y-3">

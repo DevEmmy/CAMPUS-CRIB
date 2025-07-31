@@ -13,7 +13,7 @@ interface Hostel {
     availableRooms: number;
     isAvailable: boolean;
     hostelName: string;
-    hostelType: "SINGLE_ROOMS" | "SHARED_ROOMS";
+    hostelType: "Single Room" | "Self-contained" | "Room & Parlour" | "2 Bedroom flat" | "3 Bedroom flat" | "Shared Rooms";
     createdAt: string;
     updatedAt: string;
     __v: number;
