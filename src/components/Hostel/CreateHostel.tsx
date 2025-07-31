@@ -64,19 +64,19 @@ const CreateHostel = () => {
     setIsLoading(true);
     try {
       // Transform formState to match the expected interface
-      const hostelData = {
-        hostelName: formState.hostelName,
-        hostelType: formState.hostelType,
-        address: formState.location, // Map location to address
-        hostelDesc: formState.description, // Map description to hostelDesc
-        roomTypes: formState.availableRooms, // Map availableRooms to roomTypes
-        roomPrice: formState.price, // Map price to roomPrice
-        availability: formState.isAvailable, // Map isAvailable to availability
-        amenities: formState.features, // Map features to amenities
-        images: formState.images,
-      };
+      // const hostelData = {
+      //   hostelName: formState.hostelName,
+      //   hostelType: formState.hostelType,
+      //   address: formState.location, // Map location to address
+      //   hostelDesc: formState.description, // Map description to hostelDesc
+      //   roomTypes: formState.availableRooms, // Map availableRooms to roomTypes
+      //   roomPrice: formState.price, // Map price to roomPrice
+      //   availability: formState.isAvailable, // Map isAvailable to availability
+      //   amenities: formState.features, // Map features to amenities
+      //   images: formState.images,
+      // };
       
-      const response = await createHostel(hostelData);
+      const response = await createHostel(formState);
       if (response.status == 200) {
         successToast("Hostel created successfully",'');
         navigate("/");
