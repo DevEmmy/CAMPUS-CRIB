@@ -178,7 +178,7 @@ const Profile = () => {
                   }`}>
                     {isAgent ? "Agent" : "Student"}
                   </div>
-                  {isAgent && (
+                  {/* {isAgent && (
                     <Link 
                       to="/pricing" 
                       className="flex items-center gap-1 px-3 py-1 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition-all"
@@ -186,7 +186,7 @@ const Profile = () => {
                       <Crown size={14} />
                       Upgrade
                     </Link>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Contact Info */}
