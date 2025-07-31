@@ -252,10 +252,11 @@ const PersonalDetails = () => {
                   Address
                 </label>
                 <CustomInput
-                  type="text"
+                  type="select"
                   name="address"
-                  placeholder="Enter your address"
+                  placeholder="Select Location"
                   value={formData.address}
+                  options={["Harmony", "Kofesu", "Agbade", "Labuta", "Accord", "Oluwo", "Zoo", "Isolu", "Camp"]}
                   handleChange={handleInputChange}
                 />
               </div>

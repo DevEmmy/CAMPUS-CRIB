@@ -128,10 +128,11 @@ const CreateHostel = () => {
       handleChange: handleChange,
     },
     {
-      type: "text",
+      type: "select",
       name: "location",
-      placeholder: "Address of the hostel",
+      placeholder: "Select Location",
       value: formState?.location || "",
+      options: ["Harmony", "Kofesu", "Agbade", "Labuta", "Accord", "Oluwo", "Zoo", "Isolu", "Camp"],
       handleChange: handleChange,
     },
     {

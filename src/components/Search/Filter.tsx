@@ -91,14 +91,23 @@ const Filter = ({
           Location
         </label>
         <div className="relative">
-          <Location size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Enter location..."
+          <Location size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
+          <select
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
-          />
+            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 appearance-none bg-white"
+          >
+            <option value="">Select Location</option>
+            <option value="Harmony">Harmony</option>
+            <option value="Kofesu">Kofesu</option>
+            <option value="Agbade">Agbade</option>
+            <option value="Labuta">Labuta</option>
+            <option value="Accord">Accord</option>
+            <option value="Oluwo">Oluwo</option>
+            <option value="Zoo">Zoo</option>
+            <option value="Isolu">Isolu</option>
+            <option value="Camp">Camp</option>
+          </select>
         </div>
       </div>
 
