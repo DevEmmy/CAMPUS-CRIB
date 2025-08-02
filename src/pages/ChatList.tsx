@@ -117,7 +117,7 @@ const ChatList = () => {
         ) : (
           <div className="divide-y divide-gray-100">
             {filteredConversations?.map((item: any, i: number) => (
-              <Link key={i} to={`/chat/${item._id}`} className="block">
+              <Link key={i} to={`/chat/${item.otherUser?._id}`} className="block">
                 <div className="px-4 py-3 hover:bg-gray-50 transition-colors duration-150">
                   <ChatComponent item={item} />
                 </div>
