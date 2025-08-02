@@ -7,7 +7,7 @@ const ChatComponent = ({ item }: any) => {
         <div className="w-[50px] h-[50px] bg-gray-300 rounded-full object-cover">
           <img
             src={
-              item?.otherUser.profilePicture ||
+              item?.otherUser?.profilePicture ||
               "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
             }
             className="w-full h-full object-cover rounded-full "
@@ -15,7 +15,7 @@ const ChatComponent = ({ item }: any) => {
         </div>
         <div className="flex-col grow">
           <p className="font-semibold capitalize">
-            {item?.otherUser.firstName} {item?.otherUser.lastName}{" "}
+            {item?.otherUser?.firstName} {item?.otherUser?.lastName}{" "}
         
           </p>
 
