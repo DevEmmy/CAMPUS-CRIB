@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
 import { useState, useCallback } from "react";
 import AccountType from "./components/Onboarding/AccountType";
-import StudentOnboarding from "./pages/studentOnboarding";
-import AgentOnboarding from "./pages/agentOnboarding";
+// import StudentOnboarding from "./pages/studentOnboarding";
+// import AgentOnboarding from "./pages/agentOnboarding";
 import VerifyEmail from "./components/Auth/VerifyEmail";
 import EmailConfirmed from "./components/Auth/EmailConfirmed";
 import Payment from "./pages/Payment";
@@ -63,7 +63,7 @@ function App() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false);
-    localStorage.setItem('hasSeenSplash', 'true');
+    localStorage.setItem("hasSeenSplash", "true");
   }, []);
 
   if (showSplash) {
@@ -83,18 +83,19 @@ function App() {
         <Route path="/account-type" element={<AccountType />} />
 
         {/* Student Onboarding */}
-        <Route path="/student/onboarding" element={<StudentOnboarding />} />
+        {/* <Route path="/student/onboarding" element={<StudentOnboarding />} /> */}
 
         {/* Agent Onboarding */}
-        <Route path="/agent/onboarding" element={<AgentOnboarding />} />
+        {/* <Route path="/agent/onboarding" element={<AgentOnboarding />} /> */}
+
         <Route path="/agent/verification" element={<VerifyAgent />} />
 
         {/* Authentication */}
+        <Route path="/auth" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword/>} />
-        <Route path="/reset-password" element={<ResetPassword/>} />
-        
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Notification Alerts */}
         <Route path="/notifications" element={<NotificationsAlert />} />
@@ -120,8 +121,6 @@ function App() {
 
         {/* Pricing */}
         <Route path="/pricing" element={<Pricing />} />
-
-
 
         {/* Hostel details */}
         <Route path="/hostels/:hostelId" element={<HostelDetails />} />
