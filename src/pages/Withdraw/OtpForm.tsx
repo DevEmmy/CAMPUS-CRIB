@@ -53,8 +53,7 @@ const OTPForm: React.FC = () => {
     inputRefs.current[index]?.select();
   };
 
-  const handleBlur = (index: number) => {
-    console.log(index)
+  const handleBlur = () => {
     // Optional: Add custom blur behavior if needed
   };
 
@@ -68,7 +67,7 @@ const OTPForm: React.FC = () => {
             index={index}
             onChange={(value) => handleChange(index, value)}
             onFocus={() => handleFocus(index)}
-            onBlur={() => handleBlur(index)}
+            onBlur={() => handleBlur()}
             ref={(el) => (inputRefs.current[index] = el)}
           />
         ))}

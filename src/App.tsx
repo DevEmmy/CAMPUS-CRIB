@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router";
+import { useState, useCallback } from "react";
 import AccountType from "./components/Onboarding/AccountType";
-import StudentOnboarding from "./pages/studentOnboarding";
-import AgentOnboarding from "./pages/agentOnboarding";
+// import StudentOnboarding from "./pages/studentOnboarding";
+// import AgentOnboarding from "./pages/agentOnboarding";
 import VerifyEmail from "./components/Auth/VerifyEmail";
 import EmailConfirmed from "./components/Auth/EmailConfirmed";
 import Payment from "./pages/Payment";
@@ -12,6 +13,8 @@ import Checkout from "./components/Payment/Checkout";
 import HostelDetails from "./components/Hostel/HostelDetails";
 import Chat from "./pages/Chat";
 import CreateHostel from "./components/Hostel/CreateHostel";
+import ViewHostel from "./pages/Hostel/ViewHostel";
+import EditHostel from "./pages/Hostel/EditHostel";
 import WishlistOrBookmark from "./pages/Wishlist";
 import NotificationsAlert from "./pages/Notifications";
 import Signup from "./components/Auth/Signup";
@@ -34,7 +37,6 @@ import Withdraw from "./pages/Withdraw/Withdraw.tsx";
 import WithdrawalStatus from "./pages/Withdraw/WithdrawalStatus.tsx";
 import CreateInvoice from "./pages/Invoice/CreateInvoice.tsx";
 import SuccessfulInvoice from "./pages/Invoice/SuccessfulInvoice.tsx";
-
 import ViewInvoice from "./pages/Invoice/ViewInvoice.tsx";
 import BookingsList from "./pages/Bookings/Bookings.tsx";
 import BookingsDetails from "./pages/Bookings/BookingsDetails.tsx";
@@ -45,8 +47,29 @@ import FindRoommate from "./pages/Roommate/index.tsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.tsx";
 import ResetPassword from "./components/Auth/ResetPassword.tsx";
 import Pricing from "./pages/Pricing/index.tsx";
+import SplashScreen from "./components/Ui/SplashScreen.tsx";
+import ContactSupport from "./pages/ContactSupport.tsx";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  // useEffect(() => {
+  //   // Check if user has seen splash before
+  //   const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+  //   if (hasSeenSplash) {
+  //     setShowSplash(false);
+  //   }
+  // }, []);
+
+  const handleSplashComplete = useCallback(() => {
+    setShowSplash(false);
+    localStorage.setItem("hasSeenSplash", "true");
+  }, []);
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
   return (
     <>
       <Routes>
@@ -60,23 +83,19 @@ function App() {
         <Route path="/account-type" element={<AccountType />} />
 
         {/* Student Onboarding */}
-        <Route path="student">
-          <Route path="/student/onboarding" element={<StudentOnboarding />} />
-          {/* <Route path="/student/schoolID" element={<SchoolID />} /> */}
-        </Route>
+        {/* <Route path="/student/onboarding" element={<StudentOnboarding />} /> */}
 
         {/* Agent Onboarding */}
-        <Route path="agent">
-          <Route path="/agent/onboarding" element={<AgentOnboarding />} />
-          <Route path="/agent/verification" element={<VerifyAgent />} />
-        </Route>
+        {/* <Route path="/agent/onboarding" element={<AgentOnboarding />} /> */}
+
+        <Route path="/agent/verification" element={<VerifyAgent />} />
 
         {/* Authentication */}
+        <Route path="/auth" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword/>} />
-        <Route path="/reset-password" element={<ResetPassword/>} />
-        
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Notification Alerts */}
         <Route path="/notifications" element={<NotificationsAlert />} />
@@ -103,14 +122,11 @@ function App() {
         {/* Pricing */}
         <Route path="/pricing" element={<Pricing />} />
 
-
-
         {/* Hostel details */}
-        {/* <Route path="/hostel/:hostelId" element={<HostelDetails />} /> */}
-        <Route path="hostels">
-          <Route path="/hostels/:hostelId" element={<HostelDetails />} />
-          <Route path="/hostels/create" element={<CreateHostel />} />
-        </Route>
+        <Route path="/hostels/:hostelId" element={<HostelDetails />} />
+        <Route path="/hostels/agent/:id" element={<ViewHostel />} />
+        <Route path="/hostels/:id/edit" element={<EditHostel />} />
+        <Route path="/hostels/create" element={<CreateHostel />} />
 
         {/* Feeds - find roommate */}
         <Route path="/find-roommate" element={<FindRoommate />} />
@@ -118,14 +134,9 @@ function App() {
         <Route path="/find-roommate/:id" element={<RoommateRequestDetails />} />
 
         {/* Chat */}
-
-        <Route path="chat">
-          <Route path="/chat/:userId" element={<Chat />} />
-        </Route>
+        <Route path="/chat/:userId" element={<Chat />} />
 
         {/* Wishlist & Bookmark */}
-        <Route path="/wishlist" element={<WishlistOrBookmark />} />
-
         <Route path="/review/:hostelId" element={<Review />} />
 
         {/* Report */}
@@ -153,6 +164,8 @@ function App() {
         <Route path="/payment-details" element={<PaymentDetails />} />
 
         <Route path="/recent-transactions" element={<RecentTransactions />} />
+
+        <Route path="/contact-support" element={<ContactSupport />} />
       </Routes>
     </>
   );

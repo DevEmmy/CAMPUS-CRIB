@@ -38,7 +38,6 @@ export const signup = async (data: {
       return response;
     }
 
-    console.log("No valid response data");
     errorToast("An error occurred", "Invalid form data");
     return undefined;
   } catch (error) {
@@ -68,7 +67,6 @@ export const login = async (data: {
       return response;
     }
 
-    console.log("No valid response data");
     errorToast("An error occurred", "Invalid login data");
     return undefined;
   } catch (error) {
@@ -102,7 +100,6 @@ export const updateUser = async (
       return response;
     }
 
-    console.log("No valid response data");
     errorToast("An error occurred", "Please try again");
     return undefined;
   } catch (error) {
@@ -126,7 +123,6 @@ export const forgotPassword = async (
       return response;
     }
 
-    console.log("No valid response data");
     errorToast("An error occurred", "Please try again");
     return undefined;
   } catch (error) {

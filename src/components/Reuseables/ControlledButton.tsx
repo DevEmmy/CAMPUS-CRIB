@@ -11,7 +11,7 @@ const ControlledButton: React.FC<ControlledButtonProps> = ({title, isEdited, upl
   return (
     <div>
      <button
-        className={`${isEdited ? `bg-primary` :`bg-[#DFBFAD]`} px-7 py-2.5 rounded-lg leading-5 text-white text-[14px]`}
+        className={`${isEdited ? `bg-primary` :`bg-[#DFBFAD]`} px-7 py-3 rounded-lg leading-5 text-white text-[14px]`}
         type="button"
         disabled={uploading}
         onClick={handleButtonClick}

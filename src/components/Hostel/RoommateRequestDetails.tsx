@@ -6,15 +6,19 @@ import {
   useRoommateRequest,
 } from "../../utils/roommateRequestApi";
 import { Link, useNavigate, useParams } from "react-router";
-import Loader from "../Ui/Loader";
 import { RoommateRequest, User } from "../../types/roommate";
-import { VscChevronLeft } from "react-icons/vsc";
+import TitleHead from "../Ui/TitleHead";
+import { User as UserIcon, Message, Calendar, Heart, Location, Send } from "iconsax-react";
+import { formatPrice } from "../../utils/formatPrice";
+import ImageModal from "../Ui/ImageModal";
 
 const RoommateRequestDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: response, isLoading, error } = useRoommateRequest(id || "");
   const [comment, setComment] = useState("");
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const addCommentMutation = useAddComment();
 
   const handleSubmitComment = async (e: React.FormEvent) => {
@@ -29,12 +33,58 @@ const RoommateRequestDetails: React.FC = () => {
     }
   };
 
-  if (isLoading) return <Loader />;
-  if (error)
+  const handleImageClick = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsImageModalOpen(true);
+  };
+
+  if (isLoading) {
     return (
-      <div className="p-4 text-red-500">Error loading roommate request</div>
+      <div className="min-h-dvh bg-gray-50">
+        <TitleHead title="Roommate Request" />
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center space-y-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-gray-600 font-medium">Loading roommate request...</p>
+          </div>
+        </div>
+      </div>
     );
-  if (!response) return <div className="p-4">Roommate request not found</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-dvh bg-gray-50">
+        <TitleHead title="Roommate Request" />
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <UserIcon size={24} className="text-red-500" />
+            </div>
+            <p className="text-gray-600 font-medium">Error loading roommate request</p>
+            <p className="text-sm text-gray-500">Please try again later</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!response) {
+    return (
+      <div className="min-h-dvh bg-gray-50">
+        <TitleHead title="Roommate Request" />
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <UserIcon size={24} className="text-gray-400" />
+            </div>
+            <p className="text-gray-600 font-medium">Roommate request not found</p>
+            <p className="text-sm text-gray-500">The request may have been removed</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const request: RoommateRequest = response;
 
@@ -67,188 +117,271 @@ const RoommateRequestDetails: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-10 flex items-center p-4 bg-white border-b border-gray-200 gap-3">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-primary border border-primary p-1 rounded-lg cursor-pointer"
-        >
-          <VscChevronLeft size={25} />
-        </button>
-        <h1 className="text-lg font-bold">Roommate Request</h1>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-1 p-4 space-y-6">
-        {/* Request Card */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="p-4">
-            <div className="flex gap-3">
-              <div className="w-12 h-12 rounded-full border-2 border-gray-100 overflow-hidden flex-shrink-0">
-                <img
-                  src={request.picture || getUserAvatar(request.userId)}
-                  alt={request.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-semibold">{request.name}</h3>
-                  <span
-                    className={`px-2 py-0.5 text-xs rounded-full ${
-                      request.sex === "Male"
-                        ? "bg-blue-100 text-blue-600"
-                        : "bg-pink-100 text-pink-600"
-                    }`}
-                  >
-                    {request.sex}
-                  </span>
+    <div className="min-h-dvh bg-gray-50">
+      <TitleHead title="Roommate Request" />
+      
+      <section className=" pb-20">
+        <div className="max-w-2xl mx-auto space-y-6">
+          {/* Request Card */}
+          <div className=" overflow-hidden">
+            {/* Header */}
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 rounded-full border-2 border-gray-100 overflow-hidden flex-shrink-0">
+                  <img
+                    src={
+                      request.picture || 
+                      getUserAvatar(request.userId) ||
+                      "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                    }
+                    alt={request.name}
+                    className="w-full h-full object-cover cursor-pointer"
+                    onClick={() => handleImageClick(request.picture || getUserAvatar(request.userId) || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")}
+                  />
                 </div>
-                <p className="text-sm text-gray-500">
-                  {request.department}, {request.level}
-                </p>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h1 className="text-xl font-bold text-dark mb-1">
+                        {request.name}
+                      </h1>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {request.department} • {request.level}L
+                      </p>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      request.sex === "Male"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-pink-100 text-pink-700"
+                    }`}>
+                      {request.sex}
+                    </div>
+                  </div>
+                  
+                  {/* Quick Info */}
+                  <div className="flex flex-wrap gap-3 text-sm">
+                    <div className="flex items-center gap-1 text-gray-600">
+                      <UserIcon size={14} />
+                      <span>{request.religion}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-gray-600">
+                      <Calendar size={14} />
+                      <span>{request.level}L</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mt-3 flex flex-col gap-2 text-sm">
-              <div>
-                <span className="font-medium">Religion:</span>{" "}
-                {request.religion}
-              </div>
-              {request.hostelId && typeof request.hostelId === "object" && (
+            {/* Details */}
+            <div className="p-6 space-y-4">
+              {/* Hobbies */}
+              {request.hobbies && request.hobbies.length > 0 && (
                 <div>
-                  <span className="font-medium">Hostel:</span>{" "}
-                  {request.hostelId.hostelName}
+                  <h3 className="text-sm font-semibold text-dark mb-2 flex items-center gap-2">
+                    <Heart size={16} className="text-primary" />
+                    Hobbies & Interests
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {request.hobbies.map((hobby, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
+                      >
+                        {hobby}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
-              <div>
-                <span className="font-medium">Hobbies:</span>{" "}
-                {request.hobbies.join(", ")}
-              </div>
-            </div>
-          </div>
 
-          <div className="flex justify-between items-center px-4 py-2 bg-gray-50 border-t border-gray-100">
-            <Link
-              to={`/chat/new?user=${
-                typeof request.userId === "string"
-                  ? request.userId
-                  : request.userId._id
-              }`}
-              className="bg-primary text-white p-3 rounded-lg text-base font-semibold w-full text-center"
-            >
-              Send DM
-            </Link>
-          </div>
-        </div>
-
-        {/* Comments Section */}
-        <div>
-          <h2 className="text-lg font-semibold mb-4">
-            Comments ({request.comments.length})
-          </h2>
-
-          {/* Comment Form */}
-          <form onSubmit={handleSubmitComment} className="flex gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-              <span className="text-xs font-medium text-gray-600">ME</span>
-            </div>
-            <div className="flex-1 flex gap-2">
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Write a comment..."
-                className="flex-1 p-2.5 border border-gray-300 rounded-md text-sm min-h-[60px] resize-none"
-                disabled={addCommentMutation.isPending}
-              />
-              <button
-                type="submit"
-                className="bg-primary text-white p-5 rounded-md flex items-center justify-center"
-                disabled={!comment.trim() || addCommentMutation.isPending}
-              >
-                {addCommentMutation.isPending ? (
-                  <Loader />
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m22 2-7 20-4-9-9-4Z" />
-                    <path d="M22 2 11 13" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </form>
-
-          {/* Comments List */}
-          <div className="space-y-3">
-            {request.comments.map((comment) => {
-              const user = getUserInfo(comment.userId);
-              const userAvatar = getUserAvatar(comment.userId);
-              const userName = getUserName(comment.userId);
-
-              return (
-                <div key={comment._id} className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
-                    {userAvatar ? (
-                      <img
-                        src={userAvatar}
-                        alt={userName}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="w-full h-full flex items-center justify-center text-xs">
-                        {userName.charAt(0).toUpperCase()}
-                      </span>
+              {/* Hostel Info */}
+              {request.hostelId && typeof request.hostelId === "object" && (
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h3 className="text-sm font-semibold text-dark mb-3 flex items-center gap-2">
+                    <Location size={16} className="text-primary" />
+                    Preferred Hostel
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Location size={16} className="text-gray-400" />
+                      <span className="text-sm text-gray-700">{request.hostelId.hostelName}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Location size={16} className="text-gray-400" />
+                      <span className="text-sm text-gray-700">{request.hostelId.location}</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="font-medium text-primary">{formatPrice(request.hostelId.price)}</span>
+                      <span className="text-gray-500"> per month</span>
+                    </div>
+                    
+                    {/* Hostel Images */}
+                    {request.hostelId && typeof request.hostelId === "object" && request.hostelId.images && request.hostelId.images.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="text-xs font-medium text-gray-600 mb-2">Hostel Images</h4>
+                        <div className="space-y-2">
+                          {request.hostelId.images.slice(0, 2).map((image, index) => (
+                            <div key={index} className="relative group cursor-pointer">
+                              <img
+                                src={image}
+                                alt={`${(request.hostelId as any).hostelName} image ${index + 1}`}
+                                className="w-full h-48 object-cover rounded-xl border border-gray-200 group-hover:opacity-90 transition-opacity cursor-pointer"
+                                onClick={() => handleImageClick(image)}
+                              />
+                              {/* @ts-ignore */}
+                              {index === 1 && request.hostelId.images.length > 2 && (
+                                <div className="absolute inset-0 bg-black/50 rounded-xl flex items-center justify-center">
+                                  <span className="text-white text-sm font-medium">
+                                    +{(request.hostelId as any).images.length - 2} more
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        {request.hostelId.images.length > 2 && (
+                          <button
+                            onClick={() => navigate(`/hostels/${(request.hostelId as any)._id}`)}
+                            className="text-xs text-primary font-medium mt-2 hover:underline"
+                          >
+                            View all {request.hostelId.images.length} images
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
-                  <div className="flex-1 bg-white p-3 rounded-lg">
-                    <div className="flex justify-between items-start">
-                      <span className="font-medium">{userName}</span>
-                      <span className="text-xs text-gray-500">
-                        {formatDistanceToNow(new Date(comment.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </span>
-                    </div>
-                    <p className="text-sm mt-1">{comment.content}</p>
-                    <div className="mt-2 flex justify-end">
-                      <Link
-                        to={`/chat/${user._id}`}
-                        className="bg-primary text-white text-xs p-2 font-medium rounded flex items-center gap-1"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                        </svg>
-                        Send DM
-                      </Link>
-                    </div>
+                </div>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="p-6 bg-gray-50">
+              <Link
+                to={`/chat/new?user=${
+                  typeof request.userId === "string"
+                    ? request.userId
+                    : request.userId._id
+                }`}
+                className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white py-3 px-6 rounded-xl font-semibold transition-all w-full"
+              >
+                <Message size={18} />
+                Send Message
+              </Link>
+            </div>
+          </div>
+
+          {/* Comments Section */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h2 className="text-lg font-bold text-dark mb-6 flex items-center gap-2">
+              <Message size={20} className="text-primary" />
+              Comments ({request.comments.length})
+            </h2>
+
+            {/* Comment Form */}
+            <form onSubmit={handleSubmitComment} className="mb-6">
+              <div className="flex gap-3">
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-medium text-gray-600">ME</span>
+                </div>
+                <div className="flex-1 space-y-3">
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Write a comment..."
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[80px] resize-none"
+                    disabled={addCommentMutation.isPending}
+                  />
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={!comment.trim() || addCommentMutation.isPending}
+                    >
+                      {addCommentMutation.isPending ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Posting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} />
+                          <span>Post Comment</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            </form>
+
+            {/* Comments List */}
+            <div className="space-y-4">
+              {request.comments.length > 0 ? (
+                request.comments.map((comment) => {
+                  const user = getUserInfo(comment.userId);
+                  const userAvatar = getUserAvatar(comment.userId);
+                  const userName = getUserName(comment.userId);
+
+                  return (
+                    <div key={comment._id} className="flex gap-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
+                        {userAvatar ? (
+                          <img
+                            src={userAvatar}
+                            alt={userName}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="w-full h-full flex items-center justify-center text-sm font-medium text-gray-600">
+                            {userName.charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex-1 bg-gray-50 rounded-xl p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="font-semibold text-dark">{userName}</span>
+                          <span className="text-xs text-gray-500">
+                            {formatDistanceToNow(new Date(comment.createdAt), {
+                              addSuffix: true,
+                            })}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-700 mb-3">{comment.content}</p>
+                        <div className="flex justify-end">
+                          <Link
+                            to={`/chat/${user._id}`}
+                            className="flex items-center gap-1 bg-primary hover:bg-primary/90 text-white text-xs px-3 py-1.5 rounded-lg font-medium transition-all"
+                          >
+                            <Message size={12} />
+                            Send DM
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Message size={24} className="text-gray-400" />
+                  </div>
+                  <p className="text-gray-500">No comments yet</p>
+                  <p className="text-sm text-gray-400">Be the first to comment</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </main>
+      </section>
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        imageSrc={selectedImage}
+        imageAlt="Image"
+      />
     </div>
   );
 };

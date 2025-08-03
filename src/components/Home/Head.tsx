@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {useState, useEffect} from 'react'
-import notification from '/icons/notification.svg';
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
+import { Notification, User } from 'iconsax-react';
 
-
-
-
-const Head = ( {user, isAgent} : { user: any, isAgent: boolean}) => {
+const Head = ({ user, isAgent }: { user: any, isAgent: boolean }) => {
   const navigate = useNavigate()
   const [hasShadow, setHasShadow] = useState<boolean>(false);
 
@@ -20,20 +17,40 @@ const Head = ( {user, isAgent} : { user: any, isAgent: boolean}) => {
   }, []);
 
   return (
-    <div className={`flex items-center justify-between px-5 pt-4 pb-3 top-0 fixed w-full bg-white z-20  transition-shadow duration-300  ${hasShadow ? "shadow-sm" : ""}`}>
-        <div className="flex gap-2 items-center">
-            <img src={user?.profilePicture} className='size-12 rounded-xl'/>
-            <div className='flex-row gap-0'>
-                <p className='font-bold text-dark'>{isAgent ? "Welcome " : "Hello "}{user?.firstName}</p>
-                <p className='text-sm text-[#64748B]'>
-                  {
-                    isAgent ? `Let's connect` : 'explore the best hostel!'
-                  }
-                </p>
+    <div className={`flex items-center justify-between px-6 pt-6 pb-4 top-0 fixed w-full bg-white/95 backdrop-blur-sm z-20 transition-all duration-300 ${hasShadow ? "shadow-lg" : ""}`}>
+      <div className="flex items-center gap-3">
+        <div className="relative">
+          {user?.profilePicture ? (
+            <img 
+              src={user.profilePicture} 
+              className='w-12 h-12 rounded-xl object-cover border-2 border-gray-100'
+              alt="Profile"
+            />
+          ) : (
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center">
+              <User size={24} className="text-white" />
             </div>
+          )}
         </div>
         
-        <img onClick={() => navigate('/notifications')} src={notification} alt="notifications" />
+        <div className='flex flex-col'>
+          <p className='font-bold text-dark text-lg'>
+            {isAgent ? "Welcome back, " : "Hello, "}{user?.firstName}
+          </p>
+          <p className='text-sm text-gray-500'>
+            {isAgent ? "Let's manage your properties" : "Explore the best hostels!"}
+          </p>
+        </div>
+      </div>
+      
+      <button 
+        onClick={() => navigate('/notifications')} 
+        className="relative p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200"
+      >
+        <Notification size={20} className="text-gray-700" />
+        {/* Notification badge */}
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+      </button>
     </div>
   )
 }

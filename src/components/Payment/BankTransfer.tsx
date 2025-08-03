@@ -1,6 +1,7 @@
 import {  useNavigate, } from "react-router";
 import { IoCopyOutline } from "react-icons/io5";
 import { RiCloseLine } from "react-icons/ri";
+import { formatPrice } from "../../utils/formatPrice";
 
 const BankTransfer = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const BankTransfer = () => {
 
       <div className="p-4">
         <p className="text-center mb-4">
-          Transfer <span className="text-primary font-bold">₦ 120,000</span>
+          Transfer <span className="text-primary font-bold">{formatPrice(120000)}</span>
         </p>
         <div className="border-2 border-dashed border-primary text-dark p-4 rounded-md mb-4">
           <div className="mb-2">
@@ -38,7 +39,7 @@ const BankTransfer = () => {
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold">Amount</p>
-              <p className="text-sm">₦ 120,000</p>
+              <p className="text-sm">{formatPrice(120000)}</p>
             </div>
             {/* <i className="fas fa-copy text-primary"></i> */}
             <IoCopyOutline size={16} className="text-primary" />

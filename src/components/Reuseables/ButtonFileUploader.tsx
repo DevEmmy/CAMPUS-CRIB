@@ -16,17 +16,11 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
   isProfilePic,
 }) => {
   const [uploading, setUploading] = useState<boolean>(false);
-  const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const uniqueId = useId();
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFiles = Array.from(e.target.files);
-      const preview = selectedFiles.map((file) =>
-        file.type.startsWith("image") ? URL.createObjectURL(file) : file.name
-      );
-      setFilePreviews((prev) => [...prev, ...preview]);
-      console.log(filePreviews);
       setUploading(true);
 
       try {
@@ -54,7 +48,7 @@ const ButtonFileUploader: React.FC<ButtonFileUploaderProps> = ({
           onUploadComplete(uploadedUrls);
         }
       } catch (error) {
-        console.log("Error uploading files", error);
+        console.error("Error uploading files", error);
       } finally {
         setUploading(false);
       }

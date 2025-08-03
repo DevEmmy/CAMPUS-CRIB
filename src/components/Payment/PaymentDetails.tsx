@@ -2,6 +2,7 @@ import TitleHead from "../Ui/TitleHead";
 import share from "/icons/share-08.png";
 import download from "/icons/download-02.png";
 import { useUserContext } from "../../contexts/UserContext";
+import { formatPrice } from "../../utils/formatPrice";
 
 const PaymentDetails = () => {
   const {  userType } = useUserContext();
@@ -31,7 +32,7 @@ const PaymentDetails = () => {
       <section className="p-5 pt-20 flex flex-col gap-3">
         <div className="bg-[#fafafa]/50 border-2 border-[#1B85A6]/50 border-dashed px-2 py-4 rounded-xl gap-x-1   flex items-center justify-between">
           <div>
-            <h3 className="text-dark text-lg font-semibold">-₦120,000.00</h3>
+            <h3 className="text-dark text-lg font-semibold">-{formatPrice(120000)}</h3>
             <p className="text-sm text-[#A0A0A0]">Monday, December 23rd | 5:17 PM</p>
           </div>
           <div>

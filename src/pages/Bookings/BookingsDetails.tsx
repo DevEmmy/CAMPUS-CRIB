@@ -2,6 +2,11 @@ import TitleHead from "../../components/Ui/TitleHead";
 import profile from "/icons/profile.png";
 import { MdOutlineChat } from "react-icons/md";
 
+interface DetailItemProps {
+  label: string;
+  value: string | React.ReactNode;
+}
+
 const BookingsDetails = () => {
   return (
     <main>
@@ -45,8 +50,7 @@ const BookingsDetails = () => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DetailItem = ({ label, value }: any) => (
+const DetailItem = ({ label, value }: DetailItemProps) => (
   <div className="pb-1 border-b flex flex-col gap-1.5">
     <p className="text-xs text-[#636363]">{label}</p>
     <p className="text-sm font-medium text-dark">{value}</p>

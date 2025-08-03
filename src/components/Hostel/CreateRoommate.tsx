@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
-
+import { useNavigate } from 'react-router';
 import { HiX } from 'react-icons/hi';
 import ButtonFileUploader from '../Reuseables/ButtonFileUploader';
 import { errorToast, successToast } from 'oasis-toast';
-import Loader from '../Ui/Loader';
 import { useCreateRoommateRequest } from '../../utils/roommateRequestApi';
 import { Hostel } from '../../types/Hostel';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllHostels } from '../../lib/fetchHostels';
+import TitleHead from '../Ui/TitleHead';
+import { User, Camera, Heart } from 'iconsax-react';
 
 const CreateRoommate: React.FC = () => {
   const navigate = useNavigate();
@@ -24,9 +24,10 @@ const CreateRoommate: React.FC = () => {
   });
   const [images, setImages] = useState<string[]>([]);
   const createMutation = useCreateRoommateRequest();
-   const { data: hostels = [], isLoading: isHostelsLoading } = useQuery<Hostel[]>({
+  
+  const { data: hostels = [], isLoading: isHostelsLoading } = useQuery({
     queryKey: ['hostels'],
-    queryFn: fetchAllHostels,
+    queryFn: () => fetchAllHostels(),
   });
 
   const handleChange = (
@@ -71,229 +72,248 @@ const CreateRoommate: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-10 flex items-center p-4 bg-white border-b border-gray-200">
-        <Link to="/find-roommate" className="mr-4 text-gray-700">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m12 19-7-7 7-7" />
-            <path d="M19 12H5" />
-          </svg>
-        </Link>
-        <h1 className="text-lg font-bold">Create Roommate Request</h1>
-      </header>
-
-      {/* Form */}
-      <main className="flex-1 p-4">
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4">
-          <h2 className="text-xl font-semibold text-center text-primary mb-6">Your Information</h2>
-
-          <div className="space-y-4">
-            {/* Name Field */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-1">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-
-            {/* Department Field */}
-            <div>
-              <label htmlFor="department" className="block text-sm font-medium mb-1">
-                Department *
-              </label>
-              <select
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-                required
-              >
-                <option value="">Select your department</option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Engineering">Engineering</option>
-                <option value="Medicine">Medicine</option>
-                <option value="Arts">Arts</option>
-                <option value="Business">Business</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* Level Field */}
-            <div>
-              <label htmlFor="level" className="block text-sm font-medium mb-1">
-                Level *
-              </label>
-              <select
-                id="level"
-                name="level"
-                value={formData.level}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-                required
-              >
-                <option value="">Select your level</option>
-                <option value="100">100 Level</option>
-                <option value="200">200 Level</option>
-                <option value="300">300 Level</option>
-                <option value="400">400 Level</option>
-                <option value="500">500 Level</option>
-                <option value="Postgraduate">Postgraduate</option>
-              </select>
-            </div>
-
-            {/* Religion Field */}
-            <div>
-              <label htmlFor="religion" className="block text-sm font-medium mb-1">
-                Religion *
-              </label>
-              <select
-                id="religion"
-                name="religion"
-                value={formData.religion}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-                required
-              >
-                <option value="">Select your religion</option>
-                <option value="Christianity">Christianity</option>
-                <option value="Islam">Islam</option>
-                <option value="Other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-              </select>
-            </div>
-
-            {/* Sex Field */}
-            <div>
-              <label htmlFor="sex" className="block text-sm font-medium mb-1">
-                Sex *
-              </label>
-              <select
-                id="sex"
-                name="sex"
-                value={formData.sex}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-                required
-              >
-                <option value="">Select your sex</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-
-            {/* Hobbies Field */}
-            <div>
-              <label htmlFor="hobbies" className="block text-sm font-medium mb-1">
-                Hobbies & Interests *
-              </label>
-              <textarea
-                id="hobbies"
-                name="hobbies"
-                value={formData.hobbies}
-                onChange={handleChange}
-                className="w-full p-2.5 border border-gray-300 rounded-md text-sm min-h-[80px]"
-                placeholder="Enter your hobbies and interests (separated by commas)"
-                required
-              />
-            </div>
-
-            {/* Hostel Field */}
-        <div>
-  <label htmlFor="hostelId" className="block text-sm font-medium mb-1">
-    Hostel Preference
-  </label>
-  {isHostelsLoading ? (
-    <div className="w-full p-2.5 border border-gray-300 rounded-md text-sm bg-gray-100 animate-pulse">
-      Loading hostels...
-    </div>
-  ) : (
-    <select
-      id="hostelId"
-      name="hostelId"
-      value={formData.hostelId}
-      onChange={handleChange}
-      className="w-full p-2.5 border border-gray-300 rounded-md text-sm"
-    >
-      <option value="">Select your hostel preference</option>
-      {hostels.map((hostel) => (
-        <option key={hostel._id} value={hostel._id}>
-          {hostel.hostelName} - {hostel.location}
-        </option>
-      ))}
-    </select>
-  )}
-</div>
-
-            {/* Profile Picture Field */}
-            <div>
-              <label className="block text-sm font-medium mb-1">Profile Picture (Optional)</label>
-              <ButtonFileUploader
-                title="Upload Profile Picture"
-                onUploadComplete={handleUploadComplete}
-              />
-              <small className="text-dark text-[12px] leading-5 font-normal">
-                JPG, PNG (Max size: 5MB)
-              </small>
-
-              {/* Image Previews */}
-              <div className="flex gap-3 overflow-scroll py-4">
-                {images.map((image, idx) => (
-                  <div key={idx} className="relative">
-                    <button
-                      className="absolute -top-3 -right-2 p-1 rounded-full bg-red-500 text-white"
-                      onClick={() => removeImage(idx)}
-                    >
-                      <HiX />
-                    </button>
-                    <img
-                      className="min-w-[150px] h-[150px] rounded-lg object-cover"
-                      src={image}
-                      alt={`Preview ${idx + 1}`}
-                    />
-                  </div>
-                ))}
+    <div className="min-h-dvh ">
+      <TitleHead title="Create Roommate Request" />
+      
+      <section className="p-6 pb-20">
+        <div className="max-w-2xl mx-auto">
+          <div className="">
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User size={24} className="text-primary" />
               </div>
+              <h1 className="text-2xl font-bold text-dark mb-2">Create Roommate Request</h1>
+              <p className="text-gray-600">Share your preferences to find the perfect roommate</p>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary-dark text-white py-3 px-4 rounded-md font-medium transition-colors"
-              disabled={createMutation.isPending}
-            >
-              {createMutation.isPending ? (
-                <span className="flex items-center justify-center gap-2">
-                  <Loader />
-                  Posting...
-                </span>
-              ) : (
-                'Post Roommate Request'
-              )}
-            </button>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Personal Information */}
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                  <User size={20} className="text-primary" />
+                  Personal Information
+                </h2>
+
+                {/* Name Field */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+
+                {/* Department Field */}
+                <div>
+                  <label htmlFor="department" className="block text-sm font-medium text-dark mb-2">
+                    Department *
+                  </label>
+                  <select
+                    id="department"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    required
+                  >
+                    <option value="">Select your department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Arts">Arts</option>
+                    <option value="Business">Business</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Level Field */}
+                <div>
+                  <label htmlFor="level" className="block text-sm font-medium text-dark mb-2">
+                    Level *
+                  </label>
+                  <select
+                    id="level"
+                    name="level"
+                    value={formData.level}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    required
+                  >
+                    <option value="">Select your level</option>
+                    <option value="100">100 Level</option>
+                    <option value="200">200 Level</option>
+                    <option value="300">300 Level</option>
+                    <option value="400">400 Level</option>
+                    <option value="500">500 Level</option>
+                    <option value="Postgraduate">Postgraduate</option>
+                  </select>
+                </div>
+
+                {/* Religion Field */}
+                <div>
+                  <label htmlFor="religion" className="block text-sm font-medium text-dark mb-2">
+                    Religion *
+                  </label>
+                  <select
+                    id="religion"
+                    name="religion"
+                    value={formData.religion}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    required
+                  >
+                    <option value="">Select your religion</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Other">Other</option>
+                    <option value="Prefer not to say">Prefer not to say</option>
+                  </select>
+                </div>
+
+                {/* Sex Field */}
+                <div>
+                  <label htmlFor="sex" className="block text-sm font-medium text-dark mb-2">
+                    Sex *
+                  </label>
+                  <select
+                    id="sex"
+                    name="sex"
+                    value={formData.sex}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    required
+                  >
+                    <option value="">Select your sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Preferences */}
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                  <Heart size={20} className="text-primary" />
+                  Preferences
+                </h2>
+
+                {/* Hobbies Field */}
+                <div>
+                  <label htmlFor="hobbies" className="block text-sm font-medium text-dark mb-2">
+                    Hobbies & Interests *
+                  </label>
+                  <textarea
+                    id="hobbies"
+                    name="hobbies"
+                    value={formData.hobbies}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[100px] resize-none"
+                    placeholder="Enter your hobbies and interests (separated by commas)"
+                    required
+                  />
+                </div>
+
+                {/* Hostel Field */}
+                <div>
+                  <label htmlFor="hostelId" className="block text-sm font-medium text-dark mb-2">
+                    Hostel Preference
+                  </label>
+                  {isHostelsLoading ? (
+                    <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 animate-pulse flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-gray-600">Loading hostels...</span>
+                    </div>
+                  ) : (
+                    <select
+                      id="hostelId"
+                      name="hostelId"
+                      value={formData.hostelId}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    >
+                      <option value="">Select your hostel preference</option>
+                      {hostels.map((hostel: Hostel) => (
+                        <option key={hostel._id} value={hostel._id}>
+                          {hostel.hostelName} - {hostel.location}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+              </div>
+
+              {/* Profile Picture */}
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                  <Camera size={20} className="text-primary" />
+                  Profile Picture
+                </h2>
+
+                <div>
+                  <label className="block text-sm font-medium text-dark mb-2">
+                    Upload Profile Picture (Optional)
+                  </label>
+                  <ButtonFileUploader
+                    title="Upload Profile Picture"
+                    onUploadComplete={handleUploadComplete}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    JPG, PNG (Max size: 5MB)
+                  </p>
+
+                  {/* Image Previews */}
+                  {images.length > 0 && (
+                    <div className="mt-4">
+                      <h3 className="text-sm font-medium text-dark mb-3">Preview</h3>
+                      <div className="flex gap-3 overflow-x-auto pb-2">
+                        {images.map((image, idx) => (
+                          <div key={idx} className="relative flex-shrink-0">
+                            <button
+                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                              onClick={() => removeImage(idx)}
+                            >
+                              <HiX size={12} />
+                            </button>
+                            <img
+                              className="w-24 h-24 rounded-xl object-cover border border-gray-200"
+                              src={image}
+                              alt={`Preview ${idx + 1}`}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={createMutation.isPending}
+              >
+                {createMutation.isPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Creating Request...
+                  </span>
+                ) : (
+                  'Create Roommate Request'
+                )}
+              </button>
+            </form>
           </div>
-        </form>
-      </main>
+        </div>
+      </section>
     </div>
   );
 };

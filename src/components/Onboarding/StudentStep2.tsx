@@ -1,7 +1,6 @@
 import React from 'react'
-import indicator from '/onboarding/indicator-2.svg'
-import illustration from '/onboarding/onboard.svg'
 import { Link } from 'react-router'
+import { ArrowRight2, Location, Filter, Star1 } from 'iconsax-react';
 
 interface Props {
     handleNextStep: () => void
@@ -9,23 +8,75 @@ interface Props {
 
 const StudentStep2: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='h-dvh w-full flex items-center justify-end flex-col p-4 gap-5'>
-        <div>
-            <img src={illustration} alt="" />
+    <section className='min-h-dvh w-full flex items-center justify-center p-6'>
+      <div className='w-full max-w-md'>
+        {/* Header */}
+        <div className='text-center mb-8'>
+          <div className='inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-6 shadow-lg'>
+            <Location size={40} className="text-white" />
+          </div>
+          <h1 className='text-3xl font-bold text-dark mb-4'>
+            Find Hostels Tailored for You
+          </h1>
+          <p className='text-gray-600 text-lg leading-relaxed'>
+            Easily search and filter hostels based on your preferences
+          </p>
         </div>
-    <div className='bg-primary rounded-xl p-6 flex flex-col items-center justify-between gap-5 text-white'>
-        <img src={indicator} alt="indicator" />
-        <div className='flex flex-col items-center justify-center gap-2'>
-            <h2 className='text-center text-[24px] font-bold leading-7 p-2'>Find Hostels Tailored for You</h2>
-            <p className='text-[14px] font-normal leading-5 text-center p-2'>Easily search and filter hostels based on location, price, amenities,
-            and proximity to campus. Never miss the perfect option for your stay!</p>
+
+        {/* Features */}
+        <div className='bg-white rounded-2xl border-2 border-primary/30 px-4 py-8 mb-8'>
+          <div className='space-y-6'>
+            <div className='flex items-center gap-4'>
+              <div className='w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center'>
+                <Filter size={24} className="text-purple-600" />
+              </div>
+              <div>
+                <h3 className='font-semibold text-dark mb-1'>Smart Filters</h3>
+                <p className='text-gray-600 text-sm'>Filter by location, price, amenities, and proximity to campus</p>
+              </div>
+            </div>
+
+            <div className='flex items-center gap-4'>
+              <div className='w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center'>
+                <Star1 size={24} className="text-yellow-600" />
+              </div>
+              <div>
+                <h3 className='font-semibold text-dark mb-1'>Top Recommendations</h3>
+                <p className='text-gray-600 text-sm'>Get personalized recommendations based on your preferences</p>
+              </div>
+            </div>
+
+            <div className='flex items-center gap-4'>
+              <div className='w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center'>
+                <Location size={24} className="text-green-600" />
+              </div>
+              <div>
+                <h3 className='font-semibold text-dark mb-1'>Campus Proximity</h3>
+                <p className='text-gray-600 text-sm'>Find hostels close to your university or college</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className='flex flex-col items-center justify-center gap-5'>
-            <button onClick={handleNextStep} className='bg-white text-primary py-2 px-14 rounded-lg font-bold'>Continue</button>
-            <Link to={'/signup'} className='text-white font-normal text-[14px] leading-5 text-center'>skip</Link>
+
+        {/* Action Buttons */}
+        <div className='space-y-4'>
+          <button 
+            onClick={handleNextStep} 
+            className='w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-custom'
+          >
+            Continue
+            <ArrowRight2 size={20} />
+          </button>
+          
+          <Link 
+            to='/signup' 
+            className='block text-center text-gray-600 hover:text-primary transition-colors duration-200 font-medium'
+          >
+            Skip for now
+          </Link>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
   )
 }
 
