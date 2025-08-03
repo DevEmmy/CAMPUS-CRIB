@@ -12,6 +12,7 @@ import {
   Clock,
   Shield,
   Edit,
+  Eye as EyeIcon,
 } from "iconsax-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
@@ -21,6 +22,7 @@ import { useUserStore } from "../../store/UseUserStore";
 import { useConversationStore } from "../../store/useConversationStore";
 import { friendlyTimeAgo } from "../../utils/dateFormat";
 import ImageModal from "../../components/Ui/ImageModal";
+import ShareButton from "../../components/Reuseables/ShareButton";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -132,6 +134,7 @@ const Profile = () => {
     setIsImageModalOpen(true);
   };
 
+  const profileUrl = `${window.location.origin}/agent/${userProfile?._id}`;
   const isAgent = userProfile?.userType === "AGENT";
 
   return (
@@ -238,6 +241,30 @@ const Profile = () => {
               </div>
             </div>
           </div>
+
+          {/* Agent Profile Actions */}
+          {isAgent && (
+            <div className="bg-white rounded-2xl border border-gray-100">
+              <h2 className="text-lg font-semibold text-dark mb-4">Profile Actions</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <ShareButton
+                  text={profileUrl}
+                  variant="button"
+                  className="w-full"
+                >
+                  Share Profile
+                </ShareButton>
+                
+                <Link
+                  to={`/agent/${userProfile?._id}`}
+                  className="flex items-center justify-center gap-2 bg-gray-100 text-gray-700 py-4 px-4 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                >
+                  <EyeIcon size={20} />
+                  View Preview
+                </Link>
+              </div>
+            </div>
+          )}
 
           {/* Account Details */}
           <div className="">

@@ -49,6 +49,7 @@ import ResetPassword from "./components/Auth/ResetPassword.tsx";
 import Pricing from "./pages/Pricing/index.tsx";
 import SplashScreen from "./components/Ui/SplashScreen.tsx";
 import ContactSupport from "./pages/ContactSupport.tsx";
+import AgentProfile from "./pages/AgentProfile.tsx";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -167,6 +168,9 @@ function App() {
         <Route path="/recent-transactions" element={<RecentTransactions />} />
 
         <Route path="/contact-support" element={<ContactSupport />} />
+        
+        {/* Agent Profile */}
+        <Route path="/agent/:agentId" element={<AgentProfile />} />
       </Routes>
     </>
   );

@@ -7,7 +7,7 @@ import TitleHead from "../Ui/TitleHead";
 import { getReviews } from "../../utils/reviews";
 import { IoStar } from "react-icons/io5";
 import { Review } from "../../types/review";
-import { Location, Star, Wifi, Car, Shield, Message, Call, Building, Eye } from "iconsax-react";
+import { Location, Star, Wifi, Car, Shield, Message, Building, Eye, User } from "iconsax-react";
 import ImageModal from "../Ui/ImageModal";
 
 const HostelDetails: React.FC = () => {
@@ -361,19 +361,24 @@ const HostelDetails: React.FC = () => {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 shadow-lg p-4">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
-              <img 
-                src={hostel?.user?.profilePicture || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"} 
-                alt="Agent" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Agent</p>
-              <h3 className="font-semibold text-dark">
-                {hostel?.user?.firstName} {hostel?.user?.lastName}
-              </h3>
-            </div>
+            <Link
+              to={`/agent/${String(hostel?.user._id)}`}
+              className="flex items-center gap-3 hover:bg-gray-50 p-2 rounded-lg transition-colors"
+            >
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                <img 
+                  src={hostel?.user?.profilePicture || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"} 
+                  alt="Agent" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Agent</p>
+                <h3 className="font-semibold text-dark">
+                  {hostel?.user?.firstName} {hostel?.user?.lastName}
+                </h3>
+              </div>
+            </Link>
           </div>
 
           <div className="flex gap-3">
@@ -383,9 +388,12 @@ const HostelDetails: React.FC = () => {
             >
               <Message size={20} />
             </Link>
-            <button className="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200">
-              <Call size={20} />
-            </button>
+            <Link
+              to={`/agent/${hostel?.user?._id}`}
+              className="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200"
+            >
+              <User size={20} />
+            </Link>
           </div>
         </div>
       </div>
