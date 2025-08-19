@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { HiX } from 'react-icons/hi';
@@ -72,31 +71,31 @@ const CreateRoommate: React.FC = () => {
   };
 
   return (
-    <div className="min-h-dvh ">
+    <div className="min-h-dvh bg-white dark:bg-gray-900 transition-colors">
       <TitleHead title="Create Roommate Request" />
       
       <section className="p-6 pb-20">
         <div className="max-w-2xl mx-auto">
           <div className="">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <User size={24} className="text-primary" />
               </div>
-              <h1 className="text-2xl font-bold text-dark mb-2">Create Roommate Request</h1>
-              <p className="text-gray-600">Share your preferences to find the perfect roommate</p>
+              <h1 className="text-2xl font-bold text-dark dark:text-white mb-2">Create Roommate Request</h1>
+              <p className="text-gray-600 dark:text-gray-300">Share your preferences to find the perfect roommate</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Personal Information */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-dark dark:text-white flex items-center gap-2">
                   <User size={20} className="text-primary" />
                   Personal Information
                 </h2>
 
                 {/* Name Field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -105,7 +104,7 @@ const CreateRoommate: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder-gray-500 dark:placeholder-gray-400"
                     placeholder="Enter your full name"
                     required
                   />
@@ -113,7 +112,7 @@ const CreateRoommate: React.FC = () => {
 
                 {/* Department Field */}
                 <div>
-                  <label htmlFor="department" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="department" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Department *
                   </label>
                   <select
@@ -121,10 +120,10 @@ const CreateRoommate: React.FC = () => {
                     name="department"
                     value={formData.department}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     required
                   >
-                    <option value="">Select your department</option>
+                    <option value="" className="text-gray-500 dark:text-gray-400">Select your department</option>
                     <option value="Computer Science">Computer Science</option>
                     <option value="Engineering">Engineering</option>
                     <option value="Medicine">Medicine</option>
@@ -136,7 +135,7 @@ const CreateRoommate: React.FC = () => {
 
                 {/* Level Field */}
                 <div>
-                  <label htmlFor="level" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="level" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Level *
                   </label>
                   <select
@@ -144,10 +143,10 @@ const CreateRoommate: React.FC = () => {
                     name="level"
                     value={formData.level}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     required
                   >
-                    <option value="">Select your level</option>
+                    <option value="" className="text-gray-500 dark:text-gray-400">Select your level</option>
                     <option value="100">100 Level</option>
                     <option value="200">200 Level</option>
                     <option value="300">300 Level</option>
@@ -159,7 +158,7 @@ const CreateRoommate: React.FC = () => {
 
                 {/* Religion Field */}
                 <div>
-                  <label htmlFor="religion" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="religion" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Religion *
                   </label>
                   <select
@@ -167,10 +166,10 @@ const CreateRoommate: React.FC = () => {
                     name="religion"
                     value={formData.religion}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     required
                   >
-                    <option value="">Select your religion</option>
+                    <option value="" className="text-gray-500 dark:text-gray-400">Select your religion</option>
                     <option value="Christianity">Christianity</option>
                     <option value="Islam">Islam</option>
                     <option value="Other">Other</option>
@@ -180,7 +179,7 @@ const CreateRoommate: React.FC = () => {
 
                 {/* Sex Field */}
                 <div>
-                  <label htmlFor="sex" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="sex" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Sex *
                   </label>
                   <select
@@ -188,10 +187,10 @@ const CreateRoommate: React.FC = () => {
                     name="sex"
                     value={formData.sex}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     required
                   >
-                    <option value="">Select your sex</option>
+                    <option value="" className="text-gray-500 dark:text-gray-400">Select your sex</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
@@ -200,14 +199,14 @@ const CreateRoommate: React.FC = () => {
 
               {/* Preferences */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-dark dark:text-white flex items-center gap-2">
                   <Heart size={20} className="text-primary" />
                   Preferences
                 </h2>
 
                 {/* Hobbies Field */}
                 <div>
-                  <label htmlFor="hobbies" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="hobbies" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Hobbies & Interests *
                   </label>
                   <textarea
@@ -215,7 +214,7 @@ const CreateRoommate: React.FC = () => {
                     name="hobbies"
                     value={formData.hobbies}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[100px] resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[100px] resize-none placeholder-gray-500 dark:placeholder-gray-400"
                     placeholder="Enter your hobbies and interests (separated by commas)"
                     required
                   />
@@ -223,13 +222,13 @@ const CreateRoommate: React.FC = () => {
 
                 {/* Hostel Field */}
                 <div>
-                  <label htmlFor="hostelId" className="block text-sm font-medium text-dark mb-2">
+                  <label htmlFor="hostelId" className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Hostel Preference
                   </label>
                   {isHostelsLoading ? (
-                    <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 animate-pulse flex items-center gap-2">
+                    <div className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 rounded-xl animate-pulse flex items-center gap-2">
                       <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                      <span className="text-gray-600">Loading hostels...</span>
+                      <span className="text-gray-600 dark:text-gray-300">Loading hostels...</span>
                     </div>
                   ) : (
                     <select
@@ -237,9 +236,9 @@ const CreateRoommate: React.FC = () => {
                       name="hostelId"
                       value={formData.hostelId}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     >
-                      <option value="">Select your hostel preference</option>
+                      <option value="" className="text-gray-500 dark:text-gray-400">Select your hostel preference</option>
                       {hostels.map((hostel: Hostel) => (
                         <option key={hostel._id} value={hostel._id}>
                           {hostel.hostelName} - {hostel.location}
@@ -252,38 +251,38 @@ const CreateRoommate: React.FC = () => {
 
               {/* Profile Picture */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-dark flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-dark dark:text-white flex items-center gap-2">
                   <Camera size={20} className="text-primary" />
                   Profile Picture
                 </h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-dark mb-2">
+                  <label className="block text-sm font-medium text-dark dark:text-gray-300 mb-2">
                     Upload Profile Picture (Optional)
                   </label>
                   <ButtonFileUploader
                     title="Upload Profile Picture"
                     onUploadComplete={handleUploadComplete}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     JPG, PNG (Max size: 5MB)
                   </p>
 
                   {/* Image Previews */}
                   {images.length > 0 && (
                     <div className="mt-4">
-                      <h3 className="text-sm font-medium text-dark mb-3">Preview</h3>
+                      <h3 className="text-sm font-medium text-dark dark:text-gray-300 mb-3">Preview</h3>
                       <div className="flex gap-3 overflow-x-auto pb-2">
                         {images.map((image, idx) => (
                           <div key={idx} className="relative flex-shrink-0">
                             <button
-                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 dark:bg-red-600 text-white flex items-center justify-center hover:bg-red-600 dark:hover:bg-red-700 transition-colors"
                               onClick={() => removeImage(idx)}
                             >
                               <HiX size={12} />
                             </button>
                             <img
-                              className="w-24 h-24 rounded-xl object-cover border border-gray-200"
+                              className="w-24 h-24 rounded-xl object-cover border border-gray-200 dark:border-gray-600"
                               src={image}
                               alt={`Preview ${idx + 1}`}
                             />

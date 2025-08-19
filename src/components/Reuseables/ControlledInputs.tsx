@@ -1,38 +1,27 @@
-import { User } from "../../types/user";
-import React, { useState } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { PiEyeThin, PiEyeSlashThin } from "react-icons/pi";
+import type { User } from "../../types/user"
+import type React from "react"
+import { useState } from "react"
+import type { FieldErrors, UseFormRegister } from "react-hook-form"
+import { PiEyeThin, PiEyeSlashThin } from "react-icons/pi"
 
 interface ControlledInputProps {
-  type: "firstName" | "lastName" | "email" | "password";
-  placeholder: string;
-  name: string;
-  errors: FieldErrors<User>;
-  register: UseFormRegister<User>;
+  type: "firstName" | "lastName" | "email" | "password"
+  placeholder: string
+  name: string
+  errors: FieldErrors<User>
+  register: UseFormRegister<User>
 }
 
-const ControlledInput: React.FC<ControlledInputProps> = ({
-  type,
-  placeholder,
-  name,
-  errors,
-  register,
-}) => {
-  const [showPassword, setShowPassword] = useState(false);
+const ControlledInput: React.FC<ControlledInputProps> = ({ type, placeholder, name, errors, register }) => {
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+    setShowPassword((prev) => !prev)
+  }
 
+  const inputType = type === "password" && showPassword ? "text" : type === "firstName" || "lastName" ? "text" : type
 
-  const inputType =
-    type === "password" && showPassword
-      ? "text"
-      : type === "firstName" || "lastName"
-      ? "text"
-      : type;
-
-  const errorMessage = errors[type]?.message;
+  const errorMessage = errors[type]?.message
 
   return (
     <>
@@ -40,7 +29,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
         <input
           {...register(type)}
           autoComplete="off"
-          className="flex-1 text-[#00030A52] text-[14px] focus:outline-none bg-transparent bg-opacity-0"
+          className="flex-1 text-[#00030A52] dark:text-gray-300 text-[14px] focus:outline-none bg-transparent bg-opacity-0"
           type={inputType}
           name={name}
           placeholder={placeholder}
@@ -48,13 +37,13 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
         {type === "password" &&
           (showPassword ? (
             <PiEyeThin
-              className="text-[#00030A52] cursor-pointer"
+              className="text-[#00030A52] dark:text-gray-400 cursor-pointer"
               size={20}
               onClick={handleShowPassword}
             />
           ) : (
             <PiEyeSlashThin
-              className="text-[#00030A52] cursor-pointer"
+              className="text-[#00030A52] dark:text-gray-400 cursor-pointer"
               size={20}
               onClick={handleShowPassword}
             />
@@ -63,7 +52,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
       {errorMessage && <small className="text-red-500">{errorMessage}</small>}
     </>
-  );
-};
+  )
+}
 
-export default ControlledInput;
+export default ControlledInput

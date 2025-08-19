@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { Share, Copy, Check } from "iconsax-react";
-import { copyToClipboardWithCallback } from "../../utils/copyToClipboard";
+import type React from "react"
+import { useState } from "react"
+import { Share, Copy, Check } from "iconsax-react"
+import { copyToClipboardWithCallback } from "../../utils/copyToClipboard"
 
 interface ShareButtonProps {
-  text: string;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-  className?: string;
-  variant?: "icon" | "button" | "full";
-  children?: React.ReactNode;
-  successDuration?: number;
+  text: string
+  onSuccess?: () => void
+  onError?: (error: Error) => void
+  className?: string
+  variant?: "icon" | "button" | "full"
+  children?: React.ReactNode
+  successDuration?: number
 }
 
 const ShareButton: React.FC<ShareButtonProps> = ({
@@ -21,36 +22,36 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   children,
   successDuration = 2000,
 }) => {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false)
 
   const handleShare = async () => {
     await copyToClipboardWithCallback(
       text,
       () => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), successDuration);
-        if (onSuccess) onSuccess();
+        setCopied(true)
+        setTimeout(() => setCopied(false), successDuration)
+        if (onSuccess) onSuccess()
       },
       (error) => {
-        if (onError) onError(error);
-      }
-    );
-  };
+        if (onError) onError(error)
+      },
+    )
+  }
 
   if (variant === "icon") {
     return (
       <button
         onClick={handleShare}
-        className={`p-2 hover:bg-gray-100 rounded-lg transition-colors relative ${className}`}
+        className={`p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors relative ${className}`}
         title="Share"
       >
         {copied ? (
           <Check size={24} className="text-green-500" />
         ) : (
-          <Share size={24} className="text-gray-600" />
+          <Share size={24} className="text-gray-600 dark:text-gray-400" />
         )}
       </button>
-    );
+    )
   }
 
   if (variant === "button") {
@@ -71,7 +72,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
           </>
         )}
       </button>
-    );
+    )
   }
 
   if (variant === "full") {
@@ -92,10 +93,10 @@ const ShareButton: React.FC<ShareButtonProps> = ({
           </>
         )}
       </button>
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
-export default ShareButton; 
+export default ShareButton

@@ -7,16 +7,17 @@ import { formatPrice } from "../../utils/formatPrice";
 
 const RecentTransactions = () => {
   const [selectedFilter, setSelectedFilter] = useState("This Month");
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
+
   return (
-    <main>
+    <main className="bg-gray-50 dark:bg-gray-900 min-h-dvh text-gray-900 dark:text-gray-100">
       <TitleHead title={"Recent Transactions"} />
       <section className="p-5 pt-20 flex flex-col gap-1">
         <div className="">
           {/* Filter & Sort Row */}
           <div className="grid grid-cols-2 gap-2 justify-between items-center mb-4">
             <select
-              className="p-2 rounded-lg text-sm bg-white text-[#636363] border"
+              className="p-2 rounded-lg text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-[#636363] dark:text-gray-300"
               value={selectedFilter}
               onChange={(e) => setSelectedFilter(e.target.value)}
             >
@@ -25,37 +26,43 @@ const RecentTransactions = () => {
               <option>Last 3 Months</option>
             </select>
 
-            <button className="p-2 border text-sm text-center text-[#636363] rounded-lg flex items-center justify-center gap-2">
+            <button className="p-2 border border-gray-300 dark:border-gray-700 text-sm text-center text-[#636363] dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center gap-2">
               Sort By <FaSortAmountDown />
             </button>
-            
           </div>
 
           {/* Apply Filter Button */}
-          <button className="w-full py-2.5 bg-[#E6CDBF] text-white rounded-md cursor-not-allowed">
+          <button className="w-full py-2.5 bg-[#E6CDBF] text-white rounded-md cursor-not-allowed opacity-80 dark:opacity-60">
             Apply Filter
           </button>
 
           {/* Transaction List */}
           <div className="mt-10">
-            <p className="text-gray-500 text-sm">Monday, December 22nd</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              Monday, December 22nd
+            </p>
 
-            <div className="flex items-center gap-2 bg-[#FCFCFC] p-3 rounded-lg border mt-2" onClick={() => navigate('/payment-details')}>
-              {/* Icon */}
-              {/* <div className="p-2 bg-white shadow-sm rounded-md">
-                <img src="https://via.placeholder.com/24" alt="icon" />
-              </div> */}
-
-              <CardPos />
+            <div
+              className="flex items-center gap-2 bg-[#FCFCFC] dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 mt-2 cursor-pointer"
+              onClick={() => navigate("/payment-details")}
+            >
+              {/* Transaction Icon */}
+              <CardPos className="text-gray-700 dark:text-gray-300" />
 
               {/* Transaction Details */}
               <div className="flex-1 grow">
-                <p className="font-semibold">frm Clinton Sandra</p>
-                <p className="text-gray-400 text-sm">Transfer</p>
+                <p className="font-semibold text-gray-900 dark:text-gray-100">
+                  frm Clinton Sandra
+                </p>
+                <p className="text-gray-400 dark:text-gray-500 text-sm">
+                  Transfer
+                </p>
               </div>
 
               {/* Amount */}
-              <p className="text-green-600 font-semibold text-sm">+{formatPrice(120000)}</p>
+              <p className="text-green-600 font-semibold text-sm">
+                +{formatPrice(120000)}
+              </p>
             </div>
           </div>
         </div>

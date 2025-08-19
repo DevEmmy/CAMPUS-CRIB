@@ -4,51 +4,57 @@ import { ArrowRight2, Headphone, ChartSquare, ShieldTick } from "iconsax-react";
 
 const AgentStep3: React.FC = () => {
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-6 shadow-lg">
             <ShieldTick size={40} className="text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-dark mb-4">
+          <h1 className="text-3xl font-bold text-dark dark:text-white mb-4">
             Your Success, Our Priority
           </h1>
-          <p className="text-gray-600 text-lg leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
             We provide tools, insights, and support to help you succeed
           </p>
         </div>
 
         {/* Features */}
-        <div className="bg-white rounded-2xl border-2 border-primary/30 px-4 py-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border-2 border-primary/30 dark:border-primary/20 px-4 py-8 mb-8 transition-colors duration-300">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <ChartSquare size={24} className="text-blue-600" />
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center">
+                <ChartSquare size={24} className="text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">Detailed Analytics</h3>
-                <p className="text-gray-600 text-sm">Track performance and insights to optimize your listings</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">Detailed Analytics</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Track performance and insights to optimize your listings
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <Headphone size={24} className="text-green-600" />
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center">
+                <Headphone size={24} className="text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">24/7 Support</h3>
-                <p className="text-gray-600 text-sm">Get help anytime with our dedicated support team</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">24/7 Support</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Get help anytime with our dedicated support team
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <ShieldTick size={24} className="text-purple-600" />
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center">
+                <ShieldTick size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">Trusted Platform</h3>
-                <p className="text-gray-600 text-sm">Join a trusted network of verified agents and properties</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">Trusted Platform</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Join a trusted network of verified agents and properties
+                </p>
               </div>
             </div>
           </div>
@@ -56,15 +62,15 @@ const AgentStep3: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="space-y-4">
-          <Link 
-            to="/signup" 
+          <Link
+            to="/signup"
             className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-custom"
           >
             Get Started
             <ArrowRight2 size={20} />
           </Link>
-          
-          <p className="text-center text-gray-500 text-sm">
+
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
             Join hundreds of agents growing their business with Campus Crib
           </p>
         </div>

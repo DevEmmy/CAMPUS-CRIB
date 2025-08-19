@@ -46,7 +46,6 @@ const Login = () => {
       const response = await login(formData);
       if (response?.status === 200) {
         const data = response?.data?.data?.user;
-        
         setUserData(data);
         navigate("/");
       }
@@ -59,27 +58,27 @@ const Login = () => {
   };
 
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors duration-300">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-4 shadow-lg">
             <User size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-dark mb-2">
+          <h1 className="text-2xl font-bold text-dark dark:text-white mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
             Sign in to your Campus Crib account
           </p>
         </div>
 
         {/* Form */}
-        <div className="">
+        <div>
           <form onSubmit={handleLogin} className="space-y-6">
             {/* Email */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email Address
               </label>
               <div className="relative">
@@ -90,9 +89,9 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john.doe@example.com"
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
-                    errors.email ? "border-red-300" : "border-gray-200"
-                  }`}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
+                    ${errors.email ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
+                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
                 />
               </div>
               {errors.email && (
@@ -102,7 +101,7 @@ const Login = () => {
 
             {/* Password */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <div className="relative">
@@ -113,14 +112,14 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
-                    errors.password ? "border-red-300" : "border-gray-200"
-                  }`}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
+                    ${errors.password ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
+                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
                 />
                 <button
                   type="button"
                   onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
                 >
                   {isPasswordVisible ? (
                     <EyeSlash size={20} />
@@ -170,21 +169,21 @@ const Login = () => {
 
           {/* Divider */}
           <div className="flex items-center my-6">
-            <div className="flex-1 h-px bg-gray-200"></div>
-            <span className="px-4 text-sm text-gray-500">or continue with</span>
-            <div className="flex-1 h-px bg-gray-200"></div>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
+            <span className="px-4 text-sm text-gray-500 dark:text-gray-400">or continue with</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
           </div>
 
           {/* Google Login */}
-          <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-            <Google size={26} variant="Bulk" className="text-gray-600" />
-            <span className="text-gray-700 font-medium">Continue with Google</span>
+          <button className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+            <Google size={26} variant="Bulk" className="text-gray-600 dark:text-gray-300" />
+            <span className="text-gray-700 dark:text-gray-200 font-medium">Continue with Google</span>
           </button>
         </div>
 
         {/* Signup Link */}
         <div className="text-center mt-6">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{" "}
             <Link 
               to="/signup" 

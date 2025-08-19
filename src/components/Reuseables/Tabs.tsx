@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
-import {
-  Home,
-  MessageSquare,
-  MessageText1,
-  Profile,
-  SearchNormal,
-} from "iconsax-react";
-import { NavLink, useLocation } from "react-router";
+"use client"
+
+import { useState, useEffect } from "react"
+import { Home, MessageSquare, MessageText1, Profile, SearchNormal } from "iconsax-react"
+import { NavLink, useLocation } from "react-router"
 
 interface tabsProps {
-  isAgent?: boolean;
+  isAgent?: boolean
 }
 
 const Tabs = ({ isAgent }: tabsProps) => {
-  const [activeTab, setActiveTab] = useState<number>(0);
-  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<number>(0)
+  const location = useLocation()
 
   const tabList = [
     {
@@ -29,7 +25,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
     },
     {
       title: "chats",
-      icon:<MessageText1 size="22" />,
+      icon: <MessageText1 size="22" />,
       route: "chat",
     },
     {
@@ -42,7 +38,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
       icon: <Profile size="22" />,
       route: "profile",
     },
-  ];
+  ]
 
   const agentTabList = [
     { title: "Home", icon: <Home size="22" />, route: "" },
@@ -61,25 +57,26 @@ const Tabs = ({ isAgent }: tabsProps) => {
       icon: <Profile size="22" />,
       route: "profile",
     },
-  ];
+  ]
 
   useEffect(() => {
-    const currentPath = location.pathname.split('/')[1]; 
-    const currentList = isAgent ? agentTabList : tabList;
-    const activeIndex = currentList.findIndex(item => item.route === currentPath);
-    setActiveTab(activeIndex !== -1 ? activeIndex : 0);
-  }, [location.pathname, isAgent]);
+    const currentPath = location.pathname.split("/")[1]
+    const currentList = isAgent ? agentTabList : tabList
+    const activeIndex = currentList.findIndex((item) => item.route === currentPath)
+    setActiveTab(activeIndex !== -1 ? activeIndex : 0)
+  }, [location.pathname, isAgent])
 
   return (
-    <div className="bg-white px-5 py-2.5 shadow z-[999999] bottom-0 fixed w-full flex items-center justify-between">
+    <div className="bg-white dark:bg-gray-900 px-5 py-2.5 shadow dark:shadow-gray-800/20 z-[999999] bottom-0 fixed w-full flex items-center justify-between border-t border-gray-100 dark:border-gray-800">
       {(isAgent ? agentTabList : tabList)?.map((item, i: number) => (
         <NavLink
           to={`/${item.route}`}
           key={i}
           onClick={() => setActiveTab(i)}
-          className={`p-[10px] capitalize ${
-            activeTab === i &&
-            "bg-primary flex items-center gap-x-1 text-white rounded-xl"
+          className={`p-[10px] capitalize transition-colors duration-200 ${
+            activeTab === i
+              ? "bg-primary flex items-center gap-x-1 text-white rounded-xl"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
           }`}
         >
           {item.icon}
@@ -87,7 +84,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
         </NavLink>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs

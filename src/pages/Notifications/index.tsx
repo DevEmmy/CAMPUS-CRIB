@@ -51,38 +51,38 @@ const NotificationsPage: React.FC = () => {
 
   const handleMarkAsRead = async () => {
     try {
-      // TODO: Implement mark as read API call
       successToast("Marked as read", "");
       refetch();
-    } catch (error) {
+    } catch (error: unknown) {
       errorToast("Failed to mark as read", "Please try again");
+      console.log(error)
     }
   };
 
   const handleDeleteNotification = async () => {
     try {
-      // TODO: Implement delete notification API call
       successToast("Notification deleted", "");
       refetch();
     } catch (error) {
       errorToast("Failed to delete notification", "Please try again");
+      console.log(error)
     }
   };
 
   if (isLoading) {
     return (
-      <main className="min-h-dvh bg-gray-50">
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <main className="min-h-dvh bg-gray-50 dark:bg-dark">
+        <div className="bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-300 sticky top-0 z-10">
           <div className="flex items-center justify-between p-4">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-variant-500 dark:hover:text-white"
             >
               <ArrowLeft size={20} />
               <span>Back</span>
             </button>
             
-            <h1 className="text-lg font-semibold text-dark">Notifications</h1>
+            <h1 className="text-lg font-semibold text-dark dark:text-white">Notifications</h1>
             
             <div className="w-8"></div>
           </div>
@@ -91,7 +91,7 @@ const NotificationsPage: React.FC = () => {
         <div className="flex justify-center items-center min-h-[60vh]">
           <div className="text-center space-y-4">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="text-gray-600">Loading notifications...</p>
+            <p className="text-gray-600 dark:text-variant-500">Loading notifications...</p>
           </div>
         </div>
       </main>
@@ -99,19 +99,19 @@ const NotificationsPage: React.FC = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-gray-50">
+    <main className="min-h-dvh bg-gray-50 dark:bg-dark">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-variant-500 dark:hover:text-white"
           >
             <ArrowLeft size={20} />
             <span>Back</span>
           </button>
           
-          <h1 className="text-lg font-semibold text-dark">Notifications</h1>
+          <h1 className="text-lg font-semibold text-dark dark:text-white">Notifications</h1>
           
           <div className="w-8"></div>
         </div>
@@ -121,15 +121,15 @@ const NotificationsPage: React.FC = () => {
         {!notifications?.data.data.length ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Notification size={40} className="text-gray-400" />
+            <div className="w-20 h-20 bg-gray-100 dark:bg-dark-200 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Notification size={40} className="text-gray-400 dark:text-gray-500" />
             </div>
             
-            <h2 className="text-2xl font-bold text-dark mb-3">
+            <h2 className="text-2xl font-bold text-dark dark:text-white mb-3">
               All caught up!
             </h2>
             
-            <p className="text-gray-600 mb-8 max-w-md">
+            <p className="text-gray-600 dark:text-variant-500 mb-8 max-w-md">
               You're up to date with all your notifications. New updates will appear here when they arrive.
             </p>
           </div>
@@ -137,10 +137,10 @@ const NotificationsPage: React.FC = () => {
           /* Notifications List */
           <div className="max-w-2xl mx-auto space-y-3">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-dark">
+              <h2 className="text-lg font-semibold text-dark dark:text-white">
                 Recent Notifications
               </h2>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 dark:text-variant-500">
                 {notifications.data.data.length} {notifications.data.data.length === 1 ? 'notification' : 'notifications'}
               </span>
             </div>
@@ -148,38 +148,38 @@ const NotificationsPage: React.FC = () => {
             {notifications.data.data.map((notification: any) => (
               <div
                 key={notification._id}
-                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200"
+                className="bg-white dark:bg-dark-100 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-dark-300 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gray-100 dark:bg-dark-200 rounded-lg flex items-center justify-center">
                       {getNotificationIcon(notification.type)}
                     </div>
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-dark text-sm mb-1">
+                    <h3 className="font-semibold text-dark dark:text-white text-sm mb-1">
                       {notification.title}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-2">
+                    <p className="text-gray-600 dark:text-variant-500 text-sm leading-relaxed mb-2">
                       {notification.message}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-variant-500">
                         {formatDate(notification.createdAt)}
                       </span>
                       
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleMarkAsRead()}
-                          className="p-1 text-gray-400 hover:text-green-600 transition-colors"
+                          className="p-1 text-gray-400 hover:text-green-600 dark:text-variant-500 dark:hover:text-green-400 transition-colors"
                           title="Mark as read"
                         >
                           <Check size={16} />
                         </button>
                         <button
                           onClick={() => handleDeleteNotification()}
-                          className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                          className="p-1 text-gray-400 hover:text-red-600 dark:text-variant-500 dark:hover:text-red-400 transition-colors"
                           title="Delete notification"
                         >
                           <Trash size={16} />

@@ -3,24 +3,27 @@ import indicator from "/onboarding/step2.svg";
 import document from "/onboarding/document-attachment.svg";
 import ButtonFileUploader from "../Reuseables/ButtonFileUploader";
 import { ArrowLeft2 } from "iconsax-react";
-// import attachment from '/onboarding/document-attachment-light.svg'
 
 interface Props {
   handleNextStep: () => void;
   handlePrevStep: () => void;
 }
 
-const Step2: React.FC<Props> = ({handleNextStep, handlePrevStep}) => {
+const Step2: React.FC<Props> = ({ handleNextStep, handlePrevStep }) => {
   const handleUploadComplete = (uploadUrls?: string[]) => {
     if (uploadUrls) {
       // Handle uploaded files if needed
     }
   };
+
   return (
-    <section className="p-5 h-full w-full">
+    <section className="p-5 h-full w-full bg-white dark:bg-[#0f172a] transition-colors duration-300">
       <div className="flex items-center gap-2">
-      <ArrowLeft2 size="32" color="#0E0F1D"/>
-        <img className="ml-20" src={indicator} alt="" />
+        <ArrowLeft2
+          size="32"
+          className="text-dark dark:text-white cursor-pointer"
+        />
+        <img className="ml-20" src={indicator} alt="step indicator" />
       </div>
 
       <div className="my-10">
@@ -29,26 +32,38 @@ const Step2: React.FC<Props> = ({handleNextStep, handlePrevStep}) => {
         </h2>
 
         <div className="my-10">
-          <p className="text-dark leading-5 text-[14px] font-normal">
+          <p className="text-dark dark:text-gray-300 leading-5 text-[14px] font-normal">
             Proof of Address (Utility bill, Rental Agreement)
           </p>
 
-          <div className="border border-primary rounded-lg mt-5 flex flex-col items-center justify-between gap-5 p-5 h-[168px]">
+          <div className="border border-primary rounded-lg mt-5 flex flex-col items-center justify-between gap-5 p-5 h-[168px] bg-white dark:bg-[#1e293b] transition-colors duration-300">
             <img src={document} alt="attachment" />
-            <ButtonFileUploader title="Upload" onUploadComplete={handleUploadComplete} />
-            <small className="text-dark text-[12px] leading-5 font-normal">
+
+            <ButtonFileUploader
+              title="Upload"
+              onUploadComplete={handleUploadComplete}
+            />
+
+            <small className="text-dark dark:text-gray-400 text-[12px] leading-5 font-normal">
               JPG, PNG, PDF (Max size: 5MB).
             </small>
           </div>
-          <small className="text-dark text-[12px] leading-5 font-normal">
+
+          <small className="text-dark dark:text-gray-400 text-[12px] leading-5 font-normal">
             Ensure the ID is clear and readable for verification.
           </small>
 
           <div className="flex items-center justify-between gap-5 w-full">
-            <button onClick={handlePrevStep} className="bg-[#DFBFAD] py-4 px-6 my-5 text-primary font-bold rounded-lg leading-5 text-[14px] w-full">
+            <button
+              onClick={handlePrevStep}
+              className="bg-[#DFBFAD] py-4 px-6 my-5 text-primary font-bold rounded-lg leading-5 text-[14px] w-full hover:opacity-90 transition"
+            >
               Back
             </button>
-            <button onClick={handleNextStep} className="bg-primary p-4 capitalize text-white rounded-lg text-[14px] font-bold w-full">
+            <button
+              onClick={handleNextStep}
+              className="bg-primary p-4 capitalize text-white rounded-lg text-[14px] font-bold w-full hover:bg-primary/90 transition"
+            >
               next
             </button>
           </div>
