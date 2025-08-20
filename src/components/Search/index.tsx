@@ -66,14 +66,15 @@ const Search = ({ onFilterChange }: SearchProps) => {
 
 
   useEffect(() => {
-    if (filteredHostels) {
+    if (filteredHostels && filteredHostels.length > 0) {
       onFilterChange?.(
         filteredHostels,
         searchType[type].title.toLowerCase(),
         searchType[type].route
       )
     }
-  }, [filteredHostels, type, onFilterChange, searchType])
+  }, [filteredHostels, type, onFilterChange])
+  
   
 
   // Handle search button click
