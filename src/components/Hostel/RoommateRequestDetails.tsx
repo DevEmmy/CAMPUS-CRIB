@@ -4,7 +4,7 @@ import {
   useAddComment,
   useRoommateRequest,
 } from "../../utils/roommateRequestApi";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { RoommateRequest, User } from "../../types/roommate";
 import TitleHead from "../Ui/TitleHead";
 import {

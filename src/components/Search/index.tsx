@@ -1,14 +1,11 @@
-"use client"
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Award, Briefcase, Like1, Location, SearchNormal, Filter } from "iconsax-react"
 import { Link, useNavigate } from "react-router"
 import { useQuery } from "@tanstack/react-query"
 import { axiosConfig } from "../../utils/axiosConfig"
 
 interface SearchProps {
-  onFilterChange: (hostels: any[], filterType: string, route: string) => void
+  onFilterChange?: (hostels: any[], filterType: string, route: string) => void
 }
 
 const Search = ({ onFilterChange }: SearchProps) => {
@@ -16,39 +13,41 @@ const Search = ({ onFilterChange }: SearchProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const navigate = useNavigate()
 
-  const searchType = [
-    {
-      title: "All Listings",
-      source: <SearchNormal size="18" />,
-      description: "All listings",
-      route: "",
-    },
-    {
-      title: "Recommended",
-      source: <Like1 size="18" />,
-      description: "Top picks for you",
-      route: "/hostels/recommended",
-    },
-    {
-      title: "Premium Picks",
-      source: <Award size="18" />,
-      description: "Premium listings",
-      route: "/hostels/premium-picks",
-    },
-    {
-      title: "Nearby",
-      source: <Location size="18" />,
-      description: "Close to campus",
-      route: "/hostels/nearby",
-    },
-    {
-      title: "Affordable",
-      source: <Briefcase size="18" />,
-      description: "Budget friendly",
-      route: "/hostels/affordable",
-    },
-  ]
-
+  const searchType = useMemo(
+    () => [
+      {
+        title: "All Listings",
+        source: <SearchNormal size="18" />,
+        description: "All listings",
+        route: "",
+      },
+      {
+        title: "Recommended",
+        source: <Like1 size="18" />,
+        description: "Top picks for you",
+        route: "/hostels/recommended",
+      },
+      {
+        title: "Premium Picks",
+        source: <Award size="18" />,
+        description: "Premium listings",
+        route: "/hostels/premium-picks",
+      },
+      {
+        title: "Nearby",
+        source: <Location size="18" />,
+        description: "Close to campus",
+        route: "/hostels/nearby",
+      },
+      {
+        title: "Affordable",
+        source: <Briefcase size="18" />,
+        description: "Budget friendly",
+        route: "/hostels/affordable",
+      },
+    ],
+    [] // 👈 no deps, so this array never changes
+  )
   // Fetch data based on selected filter
   const { data: filteredHostels = [], isLoading } = useQuery({
     queryKey: ["filteredHostels", type],
@@ -65,12 +64,17 @@ const Search = ({ onFilterChange }: SearchProps) => {
     enabled: true,
   })
 
-  // Update parent component when filter changes
+
   useEffect(() => {
     if (filteredHostels) {
-      onFilterChange(filteredHostels, searchType[type].title.toLowerCase(), searchType[type].route)
+      onFilterChange?.(
+        filteredHostels,
+        searchType[type].title.toLowerCase(),
+        searchType[type].route
+      )
     }
-  }, [filteredHostels, type, onFilterChange])
+  }, [filteredHostels, type, onFilterChange, searchType])
+  
 
   // Handle search button click
   const handleSearch = () => {
