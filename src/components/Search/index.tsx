@@ -90,7 +90,7 @@ const Search = ({ onFilterChange }: SearchProps) => {
   }
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="pt-8 space-y-6 min-h-screen px-2 dark:bg-gray-900">
       {/* Search Bar */}
       <div className="relative">
         <div className="flex items-center gap-3">
