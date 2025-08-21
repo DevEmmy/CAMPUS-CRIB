@@ -4,51 +4,63 @@ import { ArrowRight2, MessageText1, ShieldTick, Wallet3 } from "iconsax-react";
 
 const StudentStep3: React.FC = () => {
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-6 shadow-lg">
             <ShieldTick size={40} className="text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-dark mb-4">
+          <h1 className="text-3xl font-bold text-dark dark:text-white mb-4">
             Safe & Secure Booking
           </h1>
-          <p className="text-gray-600 text-lg leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
             Book with confidence knowing your accommodation is verified and secure
           </p>
         </div>
 
         {/* Features */}
-        <div className="bg-white rounded-2xl border-2 border-primary/30 px-4 py-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border-2 border-primary/30 dark:border-primary/20 px-4 py-8 mb-8 transition-colors duration-300">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <ShieldTick size={24} className="text-blue-600" />
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center">
+                <ShieldTick size={24} className="text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">Verified Hostels</h3>
-                <p className="text-gray-600 text-sm">All hostels are verified and meet our quality standards</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">
+                  Verified Hostels
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  All hostels are verified and meet our quality standards
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <Wallet3 size={24} className="text-green-600" />
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center">
+                <Wallet3 size={24} className="text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">Secure Payments</h3>
-                <p className="text-gray-600 text-sm">Safe and encrypted payment processing for your bookings</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">
+                  Secure Payments
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Safe and encrypted payment processing for your bookings
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <MessageText1 size={24} className="text-purple-600" />
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/40 rounded-xl flex items-center justify-center">
+                <MessageText1 size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-dark mb-1">24/7 Support</h3>
-                <p className="text-gray-600 text-sm">Get help anytime with our dedicated support team</p>
+                <h3 className="font-semibold text-dark dark:text-white mb-1">
+                  24/7 Support
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Get help anytime with our dedicated support team
+                </p>
               </div>
             </div>
           </div>
@@ -64,7 +76,7 @@ const StudentStep3: React.FC = () => {
             <ArrowRight2 size={20} />
           </Link>
           
-          <p className="text-center text-gray-500 text-sm">
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
             Join thousands of students finding their perfect accommodation
           </p>
         </div>

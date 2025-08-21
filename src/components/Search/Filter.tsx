@@ -1,59 +1,59 @@
-import { useState } from "react";
-import { formatPrice } from "../../utils/formatPrice";
-import { Location, Wifi, Shield } from "iconsax-react";
+import type React from "react"
+
+import { useState } from "react"
+import { formatPrice } from "../../utils/formatPrice"
+import { Location, Wifi, Shield } from "iconsax-react"
 
 const Filter = ({
   onClose,
   onApplyFilters,
 }: {
-  onClose: () => void;
+  onClose: () => void
   onApplyFilters: (newFilters: {
-    location: string;
-    priceRange: number[];
-    roomTypes: string;
-    amenities: string[];
-    availability: string;
-  }) => void;
+    location: string
+    priceRange: number[]
+    roomTypes: string
+    amenities: string[]
+    availability: string
+  }) => void
 }) => {
-  const [selectedLocation, setSelectedLocation] = useState<string>("");
-  const [selectedRoom, setSelectedRoom] = useState<string>("");
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [availability, setAvailability] = useState<"Available Now">("Available Now");
-  const [priceRange, setPriceRange] = useState([0, 500000]);
-  const maxPrice = 1000000;
+  const [selectedLocation, setSelectedLocation] = useState<string>("")
+  const [selectedRoom, setSelectedRoom] = useState<string>("")
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([])
+  const [availability, setAvailability] = useState<"Available Now">("Available Now")
+  const [priceRange, setPriceRange] = useState([0, 500000])
+  const maxPrice = 1000000
 
   const calculatePercentage = (value: number) => {
-    return (value / maxPrice) * 100;
-  };
+    return (value / maxPrice) * 100
+  }
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number.parseInt(e.target.value);
-    const isMin = e.target.dataset.thumb === "min";
+    const value = Number.parseInt(e.target.value)
+    const isMin = e.target.dataset.thumb === "min"
 
     if (isMin) {
       if (value <= priceRange[1]) {
-        setPriceRange([value, priceRange[1]]);
+        setPriceRange([value, priceRange[1]])
       }
     } else {
       if (value >= priceRange[0]) {
-        setPriceRange([priceRange[0], value]);
+        setPriceRange([priceRange[0], value])
       }
     }
-  };
+  }
 
   const handleRoomTypeSelect = (type: string) => {
-    setSelectedRoom(type);
-  };
+    setSelectedRoom(type)
+  }
 
   const handleAmenitySelect = (amenity: string) => {
     if (selectedAmenities.includes(amenity)) {
-      setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity));
+      setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity))
     } else {
-      setSelectedAmenities([...selectedAmenities, amenity]);
+      setSelectedAmenities([...selectedAmenities, amenity])
     }
-  };
-
-
+  }
 
   const handleApplyFilters = () => {
     const filters = {
@@ -62,17 +62,17 @@ const Filter = ({
       roomTypes: selectedRoom,
       amenities: selectedAmenities,
       availability,
-    };
-    onApplyFilters(filters);
-    onClose();
-  };
+    }
+    onApplyFilters(filters)
+    onClose()
+  }
 
   const handleResetFilters = () => {
-    setSelectedLocation("");
-    setPriceRange([0, 1000000]);
-    setSelectedRoom("");
-    setSelectedAmenities([]);
-    setAvailability("Available Now");
+    setSelectedLocation("")
+    setPriceRange([0, 1000000])
+    setSelectedRoom("")
+    setSelectedAmenities([])
+    setAvailability("Available Now")
 
     onApplyFilters({
       location: "",
@@ -80,22 +80,23 @@ const Filter = ({
       roomTypes: "",
       amenities: [],
       availability: "Available Now",
-    });
-  };
+    })
+  }
 
   return (
-    <div className="space-y-6 pb-16">
+    <div className="space-y-6 pb-16 dark:bg-gray-900">
       {/* Location */}
       <div className="space-y-3">
-        <label className="block text-sm font-semibold text-dark">
-          Location
-        </label>
+        <label className="block text-sm font-semibold text-dark dark:text-white">Location</label>
         <div className="relative">
-          <Location size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
+          <Location
+            size={18}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10"
+          />
           <select
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 appearance-none bg-white"
+            className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 appearance-none bg-white dark:bg-gray-800 dark:text-white"
           >
             <option value="">Select Location</option>
             <option value="Harmony">Harmony</option>
@@ -113,9 +114,7 @@ const Filter = ({
 
       {/* Price Range */}
       <div className="space-y-4">
-        <label className="block text-sm font-semibold text-dark">
-          Price Range
-        </label>
+        <label className="block text-sm font-semibold text-dark dark:text-white">Price Range</label>
 
         <div className="relative pt-6">
           <div
@@ -127,7 +126,7 @@ const Filter = ({
             </div>
           </div>
 
-          <div className="relative h-2 bg-gray-200 rounded-full">
+          <div className="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
             <div
               className="absolute h-full bg-primary rounded-full"
               style={{
@@ -180,15 +179,13 @@ const Filter = ({
 
       {/* Room Type */}
       <div className="space-y-3">
-        <label className="block text-sm font-semibold text-dark">
-          Room Type
-        </label>
+        <label className="block text-sm font-semibold text-dark dark:text-white">Room Type</label>
         <div className="grid grid-cols-2 gap-3">
           <button
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "Single Room"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("Single Room")}
           >
@@ -198,7 +195,7 @@ const Filter = ({
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "Self-contained"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("Self-contained")}
           >
@@ -208,7 +205,7 @@ const Filter = ({
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "Room & Parlour"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("Room & Parlour")}
           >
@@ -218,7 +215,7 @@ const Filter = ({
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "2 Bedroom flat"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("2 Bedroom flat")}
           >
@@ -228,7 +225,7 @@ const Filter = ({
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "3 Bedroom flat"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("3 Bedroom flat")}
           >
@@ -238,7 +235,7 @@ const Filter = ({
             className={`px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-sm ${
               selectedRoom === "Shared Rooms"
                 ? "bg-primary border-primary text-white shadow-lg"
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleRoomTypeSelect("Shared Rooms")}
           >
@@ -249,15 +246,13 @@ const Filter = ({
 
       {/* Amenities */}
       <div className="space-y-3">
-        <label className="block text-sm font-semibold text-dark">
-          Amenities
-        </label>
+        <label className="block text-sm font-semibold text-dark dark:text-white">Amenities</label>
         <div className="flex flex-wrap gap-2">
           <button
             className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
-              selectedAmenities.includes("Wi-Fi") 
-                ? "bg-primary border-primary text-white" 
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+              selectedAmenities.includes("Wi-Fi")
+                ? "bg-primary border-primary text-white"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleAmenitySelect("Wi-Fi")}
           >
@@ -266,9 +261,9 @@ const Filter = ({
           </button>
           <button
             className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
-              selectedAmenities.includes("Laundry") 
-                ? "bg-primary border-primary text-white" 
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+              selectedAmenities.includes("Laundry")
+                ? "bg-primary border-primary text-white"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleAmenitySelect("Laundry")}
           >
@@ -276,9 +271,9 @@ const Filter = ({
           </button>
           <button
             className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all duration-200 ${
-              selectedAmenities.includes("24/7 Security") 
-                ? "bg-primary border-primary text-white" 
-                : "border-gray-200 text-gray-600 hover:border-primary/30 hover:bg-primary/5"
+              selectedAmenities.includes("24/7 Security")
+                ? "bg-primary border-primary text-white"
+                : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-primary/30 hover:bg-primary/5 dark:hover:bg-primary/10"
             }`}
             onClick={() => handleAmenitySelect("24/7 Security")}
           >
@@ -288,13 +283,11 @@ const Filter = ({
         </div>
       </div>
 
-
-
       {/* Action Buttons */}
       <div className="flex gap-3 pt-4">
         <button
           onClick={handleResetFilters}
-          className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-200"
+          className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-200"
         >
           Reset Filters
         </button>
@@ -333,7 +326,7 @@ const Filter = ({
         }
       `}</style>
     </div>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter

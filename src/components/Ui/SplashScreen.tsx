@@ -1,48 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { Home } from 'iconsax-react';
+import type React from "react"
+import { useEffect, useState } from "react"
+import { Home } from "iconsax-react"
 
 interface SplashScreenProps {
-  onComplete: () => void;
+  onComplete: () => void
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
+        setIsVisible(false)
+      }, 3000)
 
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer)
     }
-  }, [isVisible]);
+  }, [isVisible])
 
   useEffect(() => {
     if (!isVisible && onComplete) {
       const fadeTimer = setTimeout(() => {
-        onComplete();
-      }, 500);
+        onComplete()
+      }, 500)
 
-      return () => clearTimeout(fadeTimer);
+      return () => clearTimeout(fadeTimer)
     }
-  }, [isVisible, onComplete]);
+  }, [isVisible, onComplete])
 
   if (!isVisible) {
     return (
-      <div className="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500 opacity-0">
+      <div className="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex items-center justify-center transition-opacity duration-500 opacity-0">
         <div className="text-center">
           <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Home size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Campus Crib</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Campus Crib</h1>
         </div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80 dark:from-primary/90 dark:via-primary/80 dark:to-primary/70 z-50 flex items-center justify-center">
       <div className="text-center text-white px-6">
         {/* Logo and App Name */}
         <div className="mb-8">
@@ -70,7 +71,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
         <div className="absolute bottom-20 right-10 w-4 h-4 bg-white/20 rounded-full animate-pulse delay-1000"></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SplashScreen; 
+export default SplashScreen

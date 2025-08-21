@@ -1,35 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import TitleHead from "../Ui/TitleHead";
+import TitleHead from "../Ui/TitleHead"
 
 const ReportResult = ({ item }: any) => {
   return (
-    <div className="flex justify-between items-center p-3 border rounded-lg mb-2">
+    <div className="flex justify-between items-center p-3 border dark:border-gray-700 rounded-lg mb-2 dark:bg-gray-800">
       <div className="flex items-center gap-3">
-        <div
-          className={`w-3 h-3 rounded-full ${
-            item.isSuccess ? "bg-green-500" : "bg-red-500"
-          }`}
-        ></div>
+        <div className={`w-3 h-3 rounded-full ${item.isSuccess ? "bg-green-500" : "bg-red-500"}`}></div>
         <div>
-          <p className="text-sm font-medium text-dark">
-            {item.description}
-          </p>
-          <p className="text-xs text-variant-500">{item.transactionId}</p>
+          <p className="text-sm font-medium text-dark dark:text-white">{item.description}</p>
+          <p className="text-xs text-variant-500 dark:text-gray-400">{item.transactionId}</p>
         </div>
       </div>
       <div className="text-right">
-        <p
-          className={`text-sm font-semibold ${
-            item.isCredit ? "text-green-600" : "text-red-600"
-          }`}
-        >
+        <p className={`text-sm font-semibold ${item.isCredit ? "text-green-600" : "text-red-600"}`}>
           {item.isCredit ? "+" : "-"}${item.amount.toFixed(2)}
         </p>
-        <p className="text-xs text-variant-500">{item.date}</p>
+        <p className="text-xs text-variant-500 dark:text-gray-400">{item.date}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Report = () => {
   const transactions = [
@@ -73,34 +62,34 @@ const Report = () => {
       description: "Subscription fee deduction",
       isCredit: false,
     },
-  ];
+  ]
 
   return (
     <main>
       <TitleHead title="Report" />
-      <section className="p-5 h-full w-full mt-14">
+      <section className="p-5 h-full w-full mt-14 dark:bg-gray-900">
         <div className="flex">
-          <p>Total Earnings: &nbsp;</p>
+          <p className="dark:text-white">Total Earnings: &nbsp;</p>
           <p className="text-primary font-semibold">$00:00</p>
         </div>
 
         <div className="flex">
-          <p>Withdrawable Balance: &nbsp;</p>
-          <p className=" ">$00:00</p>
+          <p className="dark:text-white">Withdrawable Balance: &nbsp;</p>
+          <p className="dark:text-white">$00:00</p>
         </div>
 
         <div className="py-5 flex-col gap-2">
-          <h3 className="text-dark">Statment Period</h3>
+          <h3 className="text-dark dark:text-white">Statment Period</h3>
           <input
             type="date"
             name=""
-            className="border w-full rounded-xl p-2"
+            className="border dark:border-gray-700 w-full rounded-xl p-2 dark:bg-gray-800 dark:text-white"
             id=""
           />
         </div>
 
         <div className="flex-col gap-2">
-          <h3 className="text-dark">Result</h3>
+          <h3 className="text-dark dark:text-white">Result</h3>
 
           <div className="flex-row gap-2.5 h-[60vh] overflow-y-scroll">
             {transactions.map((item, i) => (
@@ -110,7 +99,7 @@ const Report = () => {
         </div>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Report;
+export default Report

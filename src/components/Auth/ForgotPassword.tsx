@@ -47,30 +47,30 @@ const ForgotPassword = () => {
 
   if (isSuccess) {
     return (
-      <section className="min-h-dvh w-full flex items-center justify-center p-6">
+      <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full mb-4 shadow-lg">
               <TickCircle size={32} className="text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-dark mb-2">
+            <h1 className="text-2xl font-bold text-dark dark:text-white mb-2">
               Check Your Email
             </h1>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
               Password reset instructions have been sent to your email address.
             </p>
           </div>
 
           {/* Success Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
             <div className="space-y-4">
-              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-700 text-sm">
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                <p className="text-green-700 dark:text-green-400 text-sm">
                   We've sent a password reset link to <strong>{email}</strong>
                 </p>
               </div>
-              <p className="text-gray-600 text-xs text-center">
+              <p className="text-gray-600 dark:text-gray-400 text-xs text-center">
                 Redirecting to reset password page...
               </p>
             </div>
@@ -81,44 +81,46 @@ const ForgotPassword = () => {
   }
 
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-4 shadow-lg">
             <User size={32} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-dark mb-2">
+          <h1 className="text-2xl font-bold text-dark dark:text-white mb-2">
             Forgot Password
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 dark:text-gray-300 text-sm">
             Enter your email address and we'll send you a link to reset your password
           </p>
         </div>
 
         {/* Form */}
-        <div className="">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email Address
               </label>
               <div className="relative">
-                <Sms size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Sms size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
                 <input
                   type="email"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="john.doe@example.com"
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
-                    error ? "border-red-300" : "border-gray-200"
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
+                    error 
+                      ? "border-red-300 dark:border-red-600" 
+                      : "border-gray-200 dark:border-gray-600"
                   }`}
                 />
               </div>
               {error && (
-                <span className="text-red-500 text-xs">{error}</span>
+                <span className="text-red-500 dark:text-red-400 text-xs">{error}</span>
               )}
             </div>
 
@@ -148,24 +150,24 @@ const ForgotPassword = () => {
 
           {/* Divider */}
           <div className="flex items-center my-6">
-            <div className="flex-1 h-px bg-gray-200"></div>
-            <span className="px-4 text-sm text-gray-500">or</span>
-            <div className="flex-1 h-px bg-gray-200"></div>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-600"></div>
+            <span className="px-4 text-sm text-gray-500 dark:text-gray-400">or</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-600"></div>
           </div>
 
           {/* Back to Login */}
           <Link
             to="/login"
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
           >
-            <ArrowLeft2 size={20} className="text-gray-600" />
-            <span className="text-gray-700 font-medium">Back to Login</span>
+            <ArrowLeft2 size={20} className="text-gray-600 dark:text-gray-400" />
+            <span className="text-gray-700 dark:text-gray-300 font-medium">Back to Login</span>
           </Link>
         </div>
 
         {/* Signup Link */}
         <div className="text-center mt-6">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{" "}
             <Link 
               to="/signup" 

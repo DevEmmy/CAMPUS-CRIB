@@ -30,7 +30,6 @@ const EditHostel = () => {
     images: [] as string[],
   });
 
-  // Pre-fill form when hostel data is loaded
   useEffect(() => {
     if (hostel) {
       setFormState({
@@ -76,19 +75,6 @@ const EditHostel = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      // Transform formState to match the expected interface
-    //   const hostelData = {
-    //     hostelName: formState.hostelName,
-    //     hostelType: formState.hostelType,
-    //     address: formState.location,
-    //     hostelDesc: formState.description,
-    //     roomTypes: formState.availableRooms,
-    //     roomPrice: formState.price,
-    //     availability: formState.isAvailable,
-    //     amenities: formState.features,
-    //     images: formState.images,
-    //   };
-
       const response = await updateHostel(hostelId as string, formState);
       
       if (response.status === 200) {
@@ -106,7 +92,7 @@ const EditHostel = () => {
 
   if (isFetching) {
     return (
-      <div className="min-h-dvh bg-gray-50 flex items-center justify-center">
+      <div className="min-h-dvh bg-gray-50 dark:bg-[#0E0F1D] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
@@ -114,10 +100,12 @@ const EditHostel = () => {
 
   if (!hostel) {
     return (
-      <div className="min-h-dvh bg-gray-50 flex items-center justify-center">
+      <div className="min-h-dvh bg-gray-50 dark:bg-[#0E0F1D] flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Hostel Not Found</h2>
-          <p className="text-gray-600 mb-4">The hostel you're trying to edit doesn't exist.</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Hostel Not Found</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            The hostel you're trying to edit doesn't exist.
+          </p>
           <button
             onClick={() => navigate(-1)}
             className="bg-primary text-white px-4 py-2 rounded-lg"
@@ -130,13 +118,13 @@ const EditHostel = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-gray-50">
+    <main className="min-h-dvh bg-gray-50 dark:bg-[#0E0F1D] transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white dark:bg-[#1A1B2D] border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
           >
             <ArrowLeft size={20} />
             <span>Back</span>
@@ -157,8 +145,8 @@ const EditHostel = () => {
 
       <div className="p-4 space-y-6">
         {/* Basic Information */}
-        <div className="bg-white rounded-2xl p-6 space-y-4">
-          <h2 className="text-xl font-bold text-dark">Basic Information</h2>
+        <div className="bg-white dark:bg-[#1A1B2D] rounded-2xl p-6 space-y-4 transition-colors duration-300">
+          <h2 className="text-xl font-bold text-dark dark:text-white">Basic Information</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CustomInput
@@ -206,8 +194,8 @@ const EditHostel = () => {
         </div>
 
         {/* Room Details */}
-        <div className="bg-white rounded-2xl p-6 space-y-4">
-          <h2 className="text-xl font-bold text-dark">Room Details</h2>
+        <div className="bg-white dark:bg-[#1A1B2D] rounded-2xl p-6 space-y-4 transition-colors duration-300">
+          <h2 className="text-xl font-bold text-dark dark:text-white">Room Details</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CustomInput
@@ -219,8 +207,8 @@ const EditHostel = () => {
               handleChange={handleChange}
             />
             
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-              <span className="text-gray-700">Availability</span>
+            <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+              <span className="text-gray-700 dark:text-gray-300">Availability</span>
               <CustomInput
                 type="toggle"
                 name="isAvailable"
@@ -239,8 +227,8 @@ const EditHostel = () => {
         </div>
 
         {/* Features */}
-        <div className="bg-white rounded-2xl p-6 space-y-4">
-          <h2 className="text-xl font-bold text-dark">Features</h2>
+        <div className="bg-white dark:bg-[#1A1B2D] rounded-2xl p-6 space-y-4 transition-colors duration-300">
+          <h2 className="text-xl font-bold text-dark dark:text-white">Features</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {["WiFi", "Air Conditioning", "Study Desk", "Wardrobe", "Kitchen", "Laundry", "Security", "Parking"].map(
@@ -272,13 +260,13 @@ const EditHostel = () => {
         </div>
 
         {/* Images */}
-        <div className="bg-white rounded-2xl p-6 space-y-4">
-          <h2 className="text-xl font-bold text-dark">Images</h2>
+        <div className="bg-white dark:bg-[#1A1B2D] rounded-2xl p-6 space-y-4 transition-colors duration-300">
+          <h2 className="text-xl font-bold text-dark dark:text-white">Images</h2>
           
           {/* Current Images */}
           {formState.images.length > 0 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-700">Current Images</h3>
+              <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Current Images</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {formState.images.map((image, index) => (
                   <div key={index} className="relative group">
@@ -301,14 +289,14 @@ const EditHostel = () => {
 
           {/* Upload New Images */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-gray-700">Add More Images</h3>
-            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary/50 transition-colors">
+            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Add More Images</h3>
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center hover:border-primary/50 transition-colors">
               <ButtonFileUploader
                 title="Upload Images"
                 onUploadComplete={handleUploadComplete}
                 multiple
               />
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                 JPG, PNG, PDF (Max size: 5MB)
               </p>
             </div>
@@ -319,4 +307,4 @@ const EditHostel = () => {
   );
 };
 
-export default EditHostel; 
+export default EditHostel;

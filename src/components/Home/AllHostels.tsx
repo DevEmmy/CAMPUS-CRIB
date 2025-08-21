@@ -1,12 +1,12 @@
-import React from "react";
-import {  Location } from "iconsax-react";
-import { Hostel } from "../../types/Hostel";
-import { useQuery } from "@tanstack/react-query";
-import { fetchAllHostels } from "../../lib/fetchHostels";
-import HostelCard from "../Reuseables/HostelCard";
+import type React from "react"
+import { Location } from "iconsax-react"
+import type { Hostel } from "../../types/Hostel"
+import { useQuery } from "@tanstack/react-query"
+import { fetchAllHostels } from "../../lib/fetchHostels"
+import HostelCard from "../Reuseables/HostelCard"
 
 interface AllHostelsProps {
-  bookmarkedIds: string[];
+  bookmarkedIds: string[]
 }
 
 const AllHostels: React.FC<AllHostelsProps> = ({ bookmarkedIds = [] }) => {
@@ -15,7 +15,7 @@ const AllHostels: React.FC<AllHostelsProps> = ({ bookmarkedIds = [] }) => {
   const { data: hostels = [], isLoading } = useQuery({
     queryKey: ["allHostels"],
     queryFn: () => fetchAllHostels(),
-  });
+  })
 
   // const handleBookmark = async (hostelId: string) => {
   //   const isLiked = likedHostels.includes(hostelId);
@@ -40,35 +40,35 @@ const AllHostels: React.FC<AllHostelsProps> = ({ bookmarkedIds = [] }) => {
     return (
       <div className="space-y-6 my-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-dark">All Hostels</h2>
+          <h2 className="text-2xl font-bold text-dark dark:text-white">All Hostels</h2>
           <div className="flex items-center gap-2 text-primary text-sm font-medium">
             <span>Browse all listings</span>
           </div>
         </div>
-        
+
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-gray-600 font-medium">Loading hostels...</p>
+            <p className="text-gray-600 dark:text-gray-300 font-medium">Loading hostels...</p>
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-dark">All Hostels</h2>
+        <h2 className="text-2xl font-bold text-dark dark:text-white">All Hostels</h2>
         <div className="flex items-center gap-2 text-primary text-sm font-medium">
           <span>{Array.isArray(hostels) ? hostels.length : 0} listings available</span>
         </div>
       </div>
-      
+
       {Array.isArray(hostels) && hostels.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {hostels.map((hostel: Hostel) => (
-            <HostelCard 
+            <HostelCard
               key={hostel._id}
               hostel={hostel}
               bookmarkedIds={bookmarkedIds}
@@ -80,16 +80,16 @@ const AllHostels: React.FC<AllHostelsProps> = ({ bookmarkedIds = [] }) => {
       ) : (
         <div className="w-full flex items-center justify-center py-12">
           <div className="text-center space-y-3">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-              <Location size={24} className="text-gray-400" />
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto">
+              <Location size={24} className="text-gray-400 dark:text-gray-500" />
             </div>
-            <p className="text-gray-500 font-medium">No hostels available</p>
-            <p className="text-sm text-gray-400">Check back later for new listings</p>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">No hostels available</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Check back later for new listings</p>
           </div>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default AllHostels; 
+export default AllHostels

@@ -122,160 +122,166 @@ const Chat = () => {
   const isInitialLoading = !otherUser || isLoading;
 
   return (
-    <main className="h-screen flex flex-col bg-gray-50">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-100 shadow-sm">
-        <div className="flex items-center gap-3 px-4 py-5">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center justify-center w-8 h-8"
-          >
-            <ArrowLeft size={20} className="text-gray-900" />
-          </button>
-          
-          <div className="flex items-center gap-3 flex-1">
-            <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
-              <img
-                src={
+    <main className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    {/* Header */}
+    <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 shadow-sm">
+      <div className="flex items-center gap-3 px-4 py-5">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center justify-center w-8 h-8"
+        >
+          <ArrowLeft size={20} className="text-gray-900 dark:text-white" />
+        </button>
+  
+        <div className="flex items-center gap-3 flex-1">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900">
+            <img
+              src={
+                otherUser?.profilePicture ||
+                "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+              }
+              className="w-full h-full object-cover cursor-pointer"
+              alt="Profile"
+              onClick={() =>
+                handleImageClick(
                   otherUser?.profilePicture ||
-                  "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                }
-                className="w-full h-full object-cover cursor-pointer"
-                alt="Profile"
-                onClick={() => handleImageClick(otherUser?.profilePicture || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")}
-              />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-base font-semibold text-gray-900">
-                {otherUser?.firstName} {otherUser?.lastName}
-              </h2>
-              <p className="text-sm text-gray-500">
-                {isTexted ? "Active now" : "Start a conversation"}
-              </p>
-            </div>
-          </div>
-
-          {/* <button className="flex items-center justify-center w-8 h-8">
-            <LuPhone size={18} className="text-gray-900" />
-          </button> */}
-        </div>
-      </div>
-
-      {/* Messages Section */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 min-h-[calc(100vh-10rem)]">
-        {isError && (
-          <div className="flex justify-center items-center py-8">
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-                <Message size={24} className="text-red-500" />
-              </div>
-              <p className="text-sm text-red-500">Error loading messages</p>
-            </div>
-          </div>
-        )}
-        
-        {isInitialLoading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-center space-y-3">
-              <div className="w-8 h-8 border-2 border-gray-300 border-t-primary rounded-full animate-spin mx-auto"></div>
-              <p className="text-sm text-gray-500">Loading messages...</p>
-            </div>
-          </div>
-        ) : messagesList?.length > 0 ? (
-          <div className="space-y-3">
-            {messagesList?.map((message: any, i: number) => {
-              const isOwnMessage = message?.sender !== otherUser?._id;
-              
-              return (
-                <div
-                  key={i}
-                  className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}
-                  ref={
-                    i === fetchedMessages?.messages.length - 1
-                      ? lastMessageRef
-                      : null
-                  }
-                >
-                  <div
-                    className={`max-w-[75%] px-4 py-3 rounded-2xl ${
-                      isOwnMessage
-                        ? "bg-primary text-white"
-                        : "bg-white text-gray-900 shadow-sm border border-gray-100"
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{message?.message}</p>
-                    <div className={`flex items-center justify-end gap-1 mt-2 ${
-                      isOwnMessage ? "text-white/70" : "text-gray-400"
-                    }`}>
-                      <span className="text-xs">
-                        {convertToNormalTime(message.timestamp)}
-                      </span>
-                      {isOwnMessage && (
-                        <span className="text-xs">• read</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center space-y-4 max-w-sm">
-              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                <Message size={32} className="text-gray-400" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900">
-                Start a conversation
-              </h3>
-              <p className="text-sm text-gray-500">
-                Send a message to {otherUser?.firstName} to begin chatting.
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Input Section */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4">
-        <div className="flex items-center gap-3">
-          <button className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors duration-200">
-            <Add size={20} className="text-gray-600" />
-          </button>
-          
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-200"
-              placeholder="Type a message..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              onKeyDown={handleKeyDown}
+                    "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                )
+              }
             />
           </div>
-          
-          <button
-            onClick={sendMessage}
-            disabled={!content.trim()}
-            className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
-              content.trim()
-                ? "bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-custom"
-                : "bg-gray-100 text-gray-400"
-            }`}
-          >
-            <Send size={18} />
-          </button>
+          <div className="flex-1">
+            <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+              {otherUser?.firstName} {otherUser?.lastName}
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {isTexted ? "Active now" : "Start a conversation"}
+            </p>
+          </div>
         </div>
       </div>
-
-      {/* Image Modal */}
-      <ImageModal
-        isOpen={isImageModalOpen}
-        onClose={() => setIsImageModalOpen(false)}
-        imageSrc={selectedImage}
-        imageAlt="Profile Picture"
-      />
-    </main>
+    </div>
+  
+    {/* Messages Section */}
+    <div className="flex-1 overflow-y-auto px-4 py-6 min-h-[calc(100vh-10rem)]">
+      {isError && (
+        <div className="flex justify-center items-center py-8">
+          <div className="text-center space-y-2">
+            <div className="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto">
+              <Message size={24} className="text-red-500" />
+            </div>
+            <p className="text-sm text-red-500">Error loading messages</p>
+          </div>
+        </div>
+      )}
+  
+      {isInitialLoading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center space-y-3">
+            <div className="w-8 h-8 border-2 border-gray-300 dark:border-gray-400 border-t-primary rounded-full animate-spin mx-auto"></div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Loading messages...
+            </p>
+          </div>
+        </div>
+      ) : messagesList?.length > 0 ? (
+        <div className="space-y-3">
+          {messagesList?.map((message: any, i: number) => {
+            const isOwnMessage = message?.sender !== otherUser?._id;
+  
+            return (
+              <div
+                key={i}
+                className={`flex ${
+                  isOwnMessage ? "justify-end" : "justify-start"
+                }`}
+                ref={
+                  i === fetchedMessages?.messages.length - 1
+                    ? lastMessageRef
+                    : null
+                }
+              >
+                <div
+                  className={`max-w-[75%] px-4 py-3 rounded-2xl ${
+                    isOwnMessage
+                      ? "bg-primary text-white"
+                      : "bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm border border-gray-100 dark:border-gray-900"
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed">{message?.message}</p>
+                  <div
+                    className={`flex items-center justify-end gap-1 mt-2 ${
+                      isOwnMessage ? "text-white/70" : "text-gray-400 dark:text-gray-500"
+                    }`}
+                  >
+                    <span className="text-xs">
+                      {convertToNormalTime(message.timestamp)}
+                    </span>
+                    {isOwnMessage && <span className="text-xs">• read</span>}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center space-y-4 max-w-sm">
+            <div className="w-20 h-20 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto">
+              <Message size={32} className="text-gray-400 dark:text-gray-500" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              Start a conversation
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Send a message to {otherUser?.firstName} to begin chatting.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  
+    {/* Input Section */}
+    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 p-4">
+      <div className="flex items-center gap-3">
+        <button className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-primary hover:bg-gray-200 dark:hover:bg-dark-400 rounded-xl transition-colors duration-200">
+          <Add size={20} className="text-gray-600 dark:text-gray-300" />
+        </button>
+  
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-gray-700 dark:text-gray-100 transition-all duration-200"
+            placeholder="Type a message..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+  
+        <button
+          onClick={sendMessage}
+          disabled={!content.trim()}
+          className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
+            content.trim()
+              ? "bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-custom"
+              : "bg-gray-100 dark:bg-dark-300 text-gray-400 dark:text-gray-900"
+          }`}
+        >
+          <Send size={18} />
+        </button>
+      </div>
+    </div>
+  
+    {/* Image Modal */}
+    <ImageModal
+      isOpen={isImageModalOpen}
+      onClose={() => setIsImageModalOpen(false)}
+      imageSrc={selectedImage}
+      imageAlt="Profile Picture"
+    />
+  </main>
+  
   );
 };
 
