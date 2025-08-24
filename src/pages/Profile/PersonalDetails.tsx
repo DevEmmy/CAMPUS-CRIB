@@ -129,9 +129,9 @@ const PersonalDetails = () => {
   const isAgent = loggedUser?.userType === "AGENT";
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="bg-white dark:bg-theme border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
@@ -150,7 +150,7 @@ const PersonalDetails = () => {
       <div className="p-4 space-y-6">
         <div className="max-w-2xl mx-auto space-y-6">
           {/* Profile Picture */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-dark dark:text-white mb-4">
               Profile Picture
             </h2>
@@ -181,7 +181,7 @@ const PersonalDetails = () => {
           </div>
 
           {/* Personal Info */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-dark dark:text-white mb-4">
               Personal Information
             </h2>
@@ -228,7 +228,7 @@ const PersonalDetails = () => {
 
           {/* Banking Info (Agents Only) */}
           {isAgent && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+            <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-dark dark:text-white mb-4">
                 Banking Information
               </h2>
@@ -255,7 +255,7 @@ const PersonalDetails = () => {
           )}
 
           {/* Account Security */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-dark dark:text-white mb-4">
               Account Security
             </h2>
@@ -299,7 +299,7 @@ const PersonalDetails = () => {
           </div>
 
           {/* Save Changes */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-dark dark:text-white">Save Changes</h3>

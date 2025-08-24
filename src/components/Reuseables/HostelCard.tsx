@@ -55,7 +55,7 @@ const HostelCard: React.FC<HostelCardProps> = ({
   if (variant === "horizontal") {
     return (
       <div
-        className={`bg-white dark:bg-gray-800 rounded-2xl shadow-custom border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
+        className={`bg-white dark:bg-theme rounded-2xl shadow-custom border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
         onClick={() => navigate(`/hostels/${hostel._id}`)}
       >
         <div className="flex">
@@ -74,7 +74,7 @@ const HostelCard: React.FC<HostelCardProps> = ({
                 e.stopPropagation()
                 handleBookmark(hostel._id)
               }}
-              className="absolute top-2 right-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full p-1.5 shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200"
+              className="absolute top-2 right-2 bg-white/90 dark:bg-theme/90 backdrop-blur-sm rounded-full p-1.5 shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all duration-200"
             >
               <Heart size={16} className={isLiked ? "text-red-500 fill-current" : "text-gray-600 dark:text-gray-300"} />
             </button>
@@ -128,7 +128,7 @@ const HostelCard: React.FC<HostelCardProps> = ({
 
   return (
     <div
-      className={`bg-white dark:bg-gray-800 w-full rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
+      className={`bg-white dark:bg-[#222] w-full rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-custom transition-all duration-300 cursor-pointer group flex-shrink-0 ${className}`}
       onClick={() => navigate(`/hostels/${hostel._id}`)}
     >
       <div className="relative h-48">

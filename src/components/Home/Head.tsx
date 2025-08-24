@@ -20,7 +20,7 @@ const Head = ({ user, isAgent }: { user: any; isAgent: boolean }) => {
 
   return (
     <div
-      className={`flex items-center justify-between px-6 pt-6 pb-4 top-0 fixed w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-20 transition-all duration-300 ${hasShadow ? "shadow-lg dark:shadow-gray-800/20" : ""}`}
+      className={`flex items-center justify-between px-6 pt-6 pb-4 top-0 fixed w-full bg-white/95 dark:bg-theme backdrop-blur-sm z-20 transition-all duration-300 ${hasShadow ? "shadow-lg dark:shadow-gray-800/20" : ""}`}
     >
       <div className="flex items-center gap-3">
         <div className="relative">
@@ -50,7 +50,7 @@ const Head = ({ user, isAgent }: { user: any; isAgent: boolean }) => {
 
       <button
         onClick={() => navigate("/notifications")}
-        className="relative p-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-xl transition-colors duration-200"
+        className="relative p-3 bg-gray-100 hover:bg-gray-200 dark:bg-[#222] dark:hover:bg-gray-700 rounded-xl transition-colors duration-200"
       >
         <Notification size={20} className="text-gray-700 dark:text-gray-300" />
         {/* Notification badge */}

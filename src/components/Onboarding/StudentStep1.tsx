@@ -8,7 +8,7 @@ interface Props {
 
 const StudentStep1: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-gray-900 transition-colors duration-300'>
+    <section className='min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-theme transition-colors duration-300'>
       <div className='w-full max-w-md'>
         {/* Header */}
         <div className='text-center mb-8'>

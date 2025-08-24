@@ -9,7 +9,7 @@ interface Props {
 
 const Step3: React.FC<Props> = ({ handlePrevStep }) => {
   return (
-    <section className="p-5 h-full w-full bg-white dark:bg-[#0E0F1D] transition-colors duration-300">
+    <section className="p-5 h-full w-full bg-white dark:bg-theme transition-colors duration-300">
       {/* Top bar */}
       <div className="flex items-center gap-2">
         <ArrowLeft2 size="32" color="currentColor" className="text-dark dark:text-white" />

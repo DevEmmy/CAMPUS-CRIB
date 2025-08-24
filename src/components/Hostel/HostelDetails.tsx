@@ -92,7 +92,7 @@ const HostelDetails: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
@@ -100,7 +100,7 @@ const HostelDetails: React.FC = () => {
 
   if (!hostel) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             Hostel Not Found
@@ -120,12 +120,12 @@ const HostelDetails: React.FC = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme">
       <TitleHead title="Hostel Details" />
 
       <div className="p-4 mb-20 space-y-6">
         {/* Hero Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-theme rounded-2xl overflow-hidden shadow-sm">
           {/* Image Gallery */}
           <div className="relative h-64 md:h-80">
             {hostel.images && hostel.images.length > 0 ? (
@@ -204,7 +204,7 @@ const HostelDetails: React.FC = () => {
         {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Basic Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 space-y-4">
             <h2 className="text-xl font-bold text-dark dark:text-white">Basic Information</h2>
 
             <div className="space-y-3">
@@ -233,7 +233,7 @@ const HostelDetails: React.FC = () => {
           </div>
 
           {/* Features */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 space-y-4">
             <h2 className="text-xl font-bold text-dark dark:text-white">Features</h2>
 
             {hostel.features && hostel.features.length > 0 ? (
@@ -252,7 +252,7 @@ const HostelDetails: React.FC = () => {
         </div>
 
         {/* Description */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+        <div className="bg-white dark:bg-theme rounded-2xl p-6">
           <h2 className="text-xl font-bold text-dark dark:text-white mb-4">Description</h2>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
             {hostel.description || "No description available."}
@@ -261,7 +261,7 @@ const HostelDetails: React.FC = () => {
 
         {/* Image Gallery */}
         {hostel.images && hostel.images.length > 1 && (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6">
             <h2 className="text-xl font-bold text-dark dark:text-white mb-4">All Images</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {hostel.images.map((image: string, index: number) => (
@@ -283,7 +283,7 @@ const HostelDetails: React.FC = () => {
         )}
 
         {/* Reviews Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+        <div className="bg-white dark:bg-theme rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-dark dark:text-white">Reviews</h2>
             <button
@@ -296,7 +296,7 @@ const HostelDetails: React.FC = () => {
           </div>
 
           {/* Overall Rating */}
-          <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+          <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 dark:bg-[#222] rounded-xl">
             <div className="text-center">
               <div className="text-3xl font-bold text-dark dark:text-white">
                 {averageRating}
@@ -319,7 +319,7 @@ const HostelDetails: React.FC = () => {
               {[5, 4, 3, 2, 1].map((rating) => (
                 <div key={rating} className="flex items-center gap-2">
                   <span className="text-sm text-gray-600 dark:text-gray-300 w-8">{rating}★</span>
-                  <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                  <div className="flex-1 h-2 bg-gray-200 dark:bg-[#222] rounded-full overflow-hidden">
                     <div
                       className="h-full bg-amber-500 rounded-full"
                       style={{
@@ -378,7 +378,7 @@ const HostelDetails: React.FC = () => {
               ))
             ) : (
               <div className="text-center py-8">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gray-100 dark:bg-[#222] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Star size={24} className="text-gray-400 dark:text-gray-500" />
                 </div>
                 <p className="text-gray-500 dark:text-gray-400">No reviews yet</p>
@@ -392,12 +392,12 @@ const HostelDetails: React.FC = () => {
       </div>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 shadow-lg p-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#222] border-t border-gray-100 dark:border-gray-700 shadow-lg p-4">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
             <Link
               to={`/agent/${String(hostel?.user._id)}`}
-              className="flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded-lg transition-colors"
+              className="flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#222] p-2 rounded-lg transition-colors"
             >
               <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600">
                 <img
@@ -427,7 +427,7 @@ const HostelDetails: React.FC = () => {
             </Link>
             <Link
               to={`/agent/${hostel?.user?._id}`}
-              className="flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 rounded-xl transition-all duration-200"
+              className="flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-[#222] hover:bg-gray-200 dark:hover:bg-[#333] text-gray-700 dark:text-gray-300 rounded-xl transition-all duration-200"
             >
               <User size={20} />
             </Link>

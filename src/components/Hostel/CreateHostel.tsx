@@ -301,7 +301,7 @@ const CreateHostel = () => {
   };
 
   return (
-    <main className="bg-white dark:bg-gray-900 min-h-screen transition-colors">
+    <main className="bg-white dark:bg-theme min-h-screen transition-colors">
       <TitleHead title="Create Hostel" />
       
       {/* Progress Bar */}

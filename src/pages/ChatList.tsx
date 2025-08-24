@@ -44,9 +44,9 @@ const ChatList = () => {
   )
 
   return (
-    <main className="min-h-dvh bg-white dark:bg-gray-900">
+    <main className="min-h-dvh bg-white dark:bg-theme">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+      <div className="sticky top-0 z-10 bg-white dark:bg-theme border-b border-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-3 px-4 py-6">
           <button onClick={() => navigate(-1)} className="flex items-center justify-center w-8 h-8">
             <ArrowLeft size={20} className="text-gray-900 dark:text-gray-100" />
@@ -70,7 +70,7 @@ const ChatList = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search messages..."
-            className="w-full pl-10 pr-4 py-4 bg-gray-50 dark:bg-gray-800 border-0 rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200"
+            className="w-full pl-10 pr-4 py-4 bg-gray-50 dark:bg-[#222] border-0 rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200"
           />
         </div>
       </div>
@@ -87,7 +87,7 @@ const ChatList = () => {
         ) : filteredConversations?.length === 0 ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-center space-y-3 max-w-sm">
-              <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 bg-gray-100 dark:bg-[#222] rounded-full flex items-center justify-center mx-auto">
                 <Message size={24} className="text-gray-400 dark:text-gray-500" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">No messages</h3>
@@ -108,7 +108,7 @@ const ChatList = () => {
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {filteredConversations?.map((item: any, i: number) => (
               <Link key={i} to={`/chat/${item.otherUser?._id}`} className="block">
-                <div className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150">
+                <div className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-[#222] transition-colors duration-150">
                   <ChatComponent item={item} />
                 </div>
               </Link>

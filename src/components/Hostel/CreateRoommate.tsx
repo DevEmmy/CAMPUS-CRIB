@@ -71,7 +71,7 @@ const CreateRoommate: React.FC = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-white dark:bg-gray-900 transition-colors">
+    <div className="min-h-dvh bg-white dark:bg-theme transition-colors">
       <TitleHead title="Create Roommate Request" />
       
       <section className="p-6 pb-20">

@@ -25,7 +25,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, imageSrc, imag
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/80 dark:bg-theme backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}

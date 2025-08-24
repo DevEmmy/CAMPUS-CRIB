@@ -47,7 +47,7 @@ const ForgotPassword = () => {
 
   if (isSuccess) {
     return (
-      <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900 transition-colors">
+      <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-theme transition-colors">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
           </div>
 
           {/* Success Card */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-[#222] rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
             <div className="space-y-4">
               <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                 <p className="text-green-700 dark:text-green-400 text-sm">

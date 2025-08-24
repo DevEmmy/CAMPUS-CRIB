@@ -29,7 +29,7 @@ const AgentHome = ({ user }: { user: any }) => {
   const hostels = userDet?.hostels || []
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme">
       <Head user={user} isAgent />
 
       <section className="p-6 pt-24 pb-20">
@@ -51,7 +51,7 @@ const AgentHome = ({ user }: { user: any }) => {
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+              <div className="bg-white dark:bg-theme p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
                     <Building size={20} className="text-blue-600 dark:text-blue-400" />
@@ -63,7 +63,7 @@ const AgentHome = ({ user }: { user: any }) => {
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+              <div className="bg-white dark:bg-theme p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
                     <Eye size={20} className="text-green-600 dark:text-green-400" />
@@ -83,7 +83,7 @@ const AgentHome = ({ user }: { user: any }) => {
               {hostels.map((item: any, i: number) => (
                 <div
                   key={i}
-                  className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg dark:hover:shadow-gray-900/25 transition-all duration-200"
+                  className="bg-white dark:bg-theme rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg dark:hover:shadow-gray-900/25 transition-all duration-200"
                 >
                   <div className="relative">
                     <img
@@ -129,7 +129,7 @@ const AgentHome = ({ user }: { user: any }) => {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/hostels/agent/${item?._id}`}
-                          className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 p-2 rounded-lg transition-colors duration-200"
+                          className="bg-gray-100 dark:bg-[#222] hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 p-2 rounded-lg transition-colors duration-200"
                         >
                           <Eye size={16} />
                         </Link>
@@ -149,7 +149,7 @@ const AgentHome = ({ user }: { user: any }) => {
         ) : (
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-6 max-w-md">
-              <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-24 h-24 bg-gray-100 dark:bg-theme rounded-full flex items-center justify-center mx-auto">
                 <Building size={40} className="text-gray-400 dark:text-gray-500" />
               </div>
 

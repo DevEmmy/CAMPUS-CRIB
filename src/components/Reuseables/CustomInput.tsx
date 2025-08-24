@@ -24,7 +24,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   handleChange,
   handleChecked,
 }) => {
-  const style = "grow w-full outline-none border-0 p-3 text-dark dark:text-white dark:bg-gray-800"
+  const style = "grow w-full outline-none border-0 p-3 text-dark dark:text-white dark:bg-[#222]"
   // const [isOn, setIsOn] = useState(true);
   return (
     <div
@@ -46,7 +46,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       )}
 
       {type == "select" && (
-        <select className={`${style} bg-white dark:bg-gray-800`} name={name} onChange={handleChange}>
+        <select className={`${style} bg-white dark:bg-[#222]`} name={name} onChange={handleChange}>
           <option className="text-dark/70 dark:text-gray-300">{placeholder}</option>
 
           {options?.map((item, i) => (

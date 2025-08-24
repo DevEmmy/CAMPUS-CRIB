@@ -3,7 +3,7 @@ import Search from '../../components/Search'
 
 const SearchPage: React.FC = () => {
   return (
-    <div className='dark:bg-gray-900'>
+    <div>
       <Search />
     </div>
   )

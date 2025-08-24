@@ -15,6 +15,7 @@ export default {
           400: '#7D8A9E',
           500: '#64748B'
           },
+          'theme': '#171717'
       },
       boxShadow: {
         custom: '0px 0px 10px rgba(0, 0, 0, 0.1)',

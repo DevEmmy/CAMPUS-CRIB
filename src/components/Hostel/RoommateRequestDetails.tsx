@@ -51,7 +51,7 @@ const RoommateRequestDetails: React.FC = () => {
   // --- Loading, error, not found states ---
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme">
         <TitleHead title="Roommate Request" />
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
@@ -67,7 +67,7 @@ const RoommateRequestDetails: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme">
         <TitleHead title="Roommate Request" />
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
@@ -88,7 +88,7 @@ const RoommateRequestDetails: React.FC = () => {
 
   if (!response) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme">
         <TitleHead title="Roommate Request" />
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
@@ -149,13 +149,13 @@ const RoommateRequestDetails: React.FC = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-dvh bg-gray-50 dark:bg-theme">
       <TitleHead title="Roommate Request" />
 
       <section className="pb-20">
         <div className="max-w-2xl mx-auto space-y-6 p-2">
           {/* Request Card */}
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <div className="bg-white dark:bg-theme rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
             {/* Header */}
             <div className="p-6 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-start gap-4">
@@ -222,7 +222,7 @@ const RoommateRequestDetails: React.FC = () => {
               typeof request.hostelId === "object" &&
               request.hostelId.hostelName && (
                 <div className="p-6 space-y-4">
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
+                  <div className="bg-gray-50 dark:bg-[#222] rounded-xl p-4">
                     <h3 className="text-sm font-semibold text-dark dark:text-white mb-3 flex items-center gap-2">
                       <Location size={16} className="text-primary" />
                       Preferred Hostel
@@ -251,7 +251,7 @@ const RoommateRequestDetails: React.FC = () => {
               )}
 
             {/* Actions */}
-            <div className="p-6 bg-gray-50 dark:bg-gray-900">
+            <div className="p-6 bg-gray-50 dark:bg-theme">
               <Link
                 to={`/chat/new?user=${
                   request.userId && typeof request.userId !== "string"
@@ -267,7 +267,7 @@ const RoommateRequestDetails: React.FC = () => {
           </div>
 
           {/* Comments */}
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-white dark:bg-theme rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
             <h2 className="text-lg font-bold text-dark dark:text-white mb-6 flex items-center gap-2">
               <Message size={20} className="text-primary" />
               Comments ({request.comments?.length || 0})
@@ -286,7 +286,7 @@ const RoommateRequestDetails: React.FC = () => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Write a comment..."
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[80px] resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-theme text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all min-h-[80px] resize-none"
                     disabled={addCommentMutation.isPending}
                   />
                   <div className="flex justify-end">
@@ -335,7 +335,7 @@ const RoommateRequestDetails: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <div className="flex-1 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                      <div className="flex-1 bg-gray-50 dark:bg-[#222] rounded-xl p-4">
                         <div className="flex justify-between items-start mb-2">
                           <span className="font-semibold text-dark dark:text-white">
                             {userName}
@@ -366,7 +366,7 @@ const RoommateRequestDetails: React.FC = () => {
                 })
               ) : (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-gray-100 dark:bg-[#222] rounded-full flex items-center justify-center mx-auto mb-4">
                     <Message size={24} className="text-gray-400 dark:text-gray-500" />
                   </div>
                   <p className="text-gray-500 dark:text-gray-400">No comments yet</p>

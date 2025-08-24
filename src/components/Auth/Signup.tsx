@@ -101,8 +101,8 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-gray-900">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-theme">
+      <div className="w-full max-w-md bg-white dark:bg-theme rounded-xl shadow-lg p-6">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-4 shadow-lg">
