@@ -71,8 +71,8 @@ const NotificationsPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <main className="min-h-dvh bg-gray-50 dark:bg-dark">
-        <div className="bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-300 sticky top-0 z-10">
+      <main className="min-h-dvh bg-gray-50 dark:bg-theme">
+        <div className="bg-white dark:bg-[#222] border-b border-gray-200 dark:border-dark-300 sticky top-0 z-10">
           <div className="flex items-center justify-between p-4">
             <button
               onClick={() => navigate(-1)}

@@ -91,7 +91,7 @@ const Login = () => {
                   placeholder="john.doe@example.com"
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
                     ${errors.email ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
-                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
+                    bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100`}
                 />
               </div>
               {errors.email && (
@@ -114,7 +114,7 @@ const Login = () => {
                   placeholder="Enter your password"
                   className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
                     ${errors.password ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
-                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
+                    bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100`}
                 />
                 <button
                   type="button"

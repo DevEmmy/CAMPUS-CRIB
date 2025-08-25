@@ -66,7 +66,7 @@ const AccountType: React.FC = () => {
                 hover:border-primary hover:shadow-md transition-all duration-200 
                 bg-white dark:bg-[#222]">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center 
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-[#333] rounded-lg flex items-center justify-center 
                     group-hover:bg-primary/10 transition-colors duration-200">
                     <Profile
                       size={24}
@@ -97,7 +97,7 @@ const AccountType: React.FC = () => {
                 hover:border-primary hover:shadow-md transition-all duration-200 
                 bg-white dark:bg-[#222]">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center 
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-[#333] rounded-lg flex items-center justify-center 
                     group-hover:bg-primary/10 transition-colors duration-200">
                     <Shop
                       size={24}

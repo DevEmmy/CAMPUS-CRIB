@@ -30,7 +30,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     <div
       className={` flex  p-0.5 ${
         !notBordered ? `rounded-lg border` : "border-0"
-      } ${borderColor ? `border-[${borderColor}]` : "border-primary"}`}
+      } ${borderColor ? `border-[${borderColor}]` : "border-[#444]"}`}
     >
       {(type == "text" || type == "number") && (
         <input

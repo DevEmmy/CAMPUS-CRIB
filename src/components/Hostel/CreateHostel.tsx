@@ -16,13 +16,13 @@ const CreateHostel = () => {
   const totalSteps = 3;
   const [formState, setFormState] = useState({
     hostelName: "",
-    location: "", // Changed from address to match interface
+    location: "", 
     hostelType: "",
-    description: "", // Changed from hostelDesc to match interface
-    price: "", // Changed from roomPrice to match interface
-    availableRooms: "", // Added to match interface
-    isAvailable: true, // Changed from availability to match interface
-    features: [] as string[], // Changed from amenities to match interface
+    description: "", 
+    price: "", 
+    availableRooms: "",
+    isAvailable: true, 
+    features: [] as string[], 
     images: [] as string[],
   });
 
@@ -310,11 +310,11 @@ const CreateHostel = () => {
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Step {step + 1} of {totalSteps}
           </span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm text-gray-500 dark:text-[#555]">
             {Math.round(((step + 1) / totalSteps) * 100)}% Complete
           </span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 dark:bg-[#333] rounded-full h-2">
           <div 
             className="bg-primary h-2 rounded-full transition-all duration-300 ease-in-out"
             style={{ width: `${((step + 1) / totalSteps) * 100}%` }}
@@ -360,7 +360,7 @@ const CreateHostel = () => {
               }
               className={`flex-1 py-3 font-medium rounded-lg transition-colors flex items-center justify-center gap-2 ${
                 isLoading || !canProceedToNextStep()
-                  ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed text-gray-200 dark:text-gray-400' 
+                  ? 'bg-gray-400 dark:bg-[#333] cursor-not-allowed text-gray-200 dark:text-gray-400' 
                   : 'bg-primary hover:bg-primary/90 text-white'
               }`}
             >

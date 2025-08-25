@@ -131,7 +131,7 @@ const Signup: React.FC = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="John"
-                className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
                   errors.firstName ? "border-red-300" : "border-gray-200 dark:border-gray-600"
                 }`}
               />
@@ -151,7 +151,7 @@ const Signup: React.FC = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Doe"
-                className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
                   errors.lastName ? "border-red-300" : "border-gray-200 dark:border-gray-600"
                 }`}
               />
@@ -174,7 +174,7 @@ const Signup: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="john.doe@example.com"
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-lg bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
                   errors.email ? "border-red-300" : "border-gray-200 dark:border-gray-600"
                 }`}
               />
@@ -197,7 +197,7 @@ const Signup: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                className={`w-full pl-10 pr-12 py-3 border rounded-lg bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
                   errors.password ? "border-red-300" : "border-gray-200 dark:border-gray-600"
                 }`}
               />
@@ -227,7 +227,7 @@ const Signup: React.FC = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm your password"
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
+                className={`w-full pl-10 pr-12 py-3 border rounded-lg bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 ${
                   errors.confirmPassword ? "border-red-300" : "border-gray-200 dark:border-gray-600"
                 }`}
               />
