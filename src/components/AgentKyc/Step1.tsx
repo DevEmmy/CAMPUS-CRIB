@@ -16,7 +16,7 @@ const Step1: React.FC<Props> = ({ handleNextStep }) => {
   };
 
   return (
-    <section className="p-5 h-full w-full bg-white dark:bg-[#0f172a] transition-colors duration-300">
+    <section className="p-5 h-full w-full bg-white dark:bg-theme transition-colors duration-300">
       <div className="flex items-center gap-2">
         <ArrowLeft2
           size="32"

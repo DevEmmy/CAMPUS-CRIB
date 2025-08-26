@@ -33,7 +33,7 @@ const TitleHead = ({ title, handleClick }: TitleHeadProps) => {
 
   return (
     <div
-      className={`sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 transition-shadow duration-300 ${hasShadow ? "shadow-sm dark:shadow-gray-800/20" : ""}`}
+      className={`sticky top-0 z-10 bg-white dark:bg-theme border-b border-gray-100 dark:border-gray-700 transition-shadow duration-300 ${hasShadow ? "shadow-sm dark:shadow-gray-800/20" : ""}`}
     >
       <div className="flex items-center gap-3 px-4 py-5">
         <button onClick={handleGoBack} className="flex items-center justify-center w-8 h-8">

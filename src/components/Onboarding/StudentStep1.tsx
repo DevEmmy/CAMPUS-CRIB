@@ -8,7 +8,7 @@ interface Props {
 
 const StudentStep1: React.FC<Props> = ({handleNextStep}) => {
   return (
-    <section className='min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-gray-900 transition-colors duration-300'>
+    <section className='min-h-dvh w-full flex items-center justify-center p-6 bg-white dark:bg-theme transition-colors duration-300'>
       <div className='w-full max-w-md'>
         {/* Header */}
         <div className='text-center mb-8'>
@@ -24,7 +24,7 @@ const StudentStep1: React.FC<Props> = ({handleNextStep}) => {
         </div>
 
         {/* Features */}
-        <div className='bg-white dark:bg-gray-800 rounded-2xl border-2 border-primary/30 dark:border-primary/20 px-4 py-8 mb-8 transition-colors duration-300'>
+        <div className='bg-white dark:bg-[#222] rounded-2xl border-2 border-primary/30 dark:border-primary/20 px-4 py-8 mb-8 transition-colors duration-300'>
           <div className='space-y-6'>
             <div className='flex items-center gap-4'>
               <div className='w-12 h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center'>

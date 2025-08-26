@@ -118,9 +118,9 @@ const EditHostel = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-[#0E0F1D] transition-colors duration-300">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-[#1A1B2D] border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="bg-white dark:bg-[#222] border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
@@ -260,7 +260,7 @@ const EditHostel = () => {
         </div>
 
         {/* Images */}
-        <div className="bg-white dark:bg-[#1A1B2D] rounded-2xl p-6 space-y-4 transition-colors duration-300">
+        <div className="bg-white dark:bg-[#222] rounded-2xl p-6 space-y-4 transition-colors duration-300">
           <h2 className="text-xl font-bold text-dark dark:text-white">Images</h2>
           
           {/* Current Images */}

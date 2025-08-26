@@ -3,7 +3,7 @@ import profile from "/icons/profile.png";
 
 const ConversationOverview: React.FC = () => {
   return (
-    <div className="flex items-center gap-3 p-3 my-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors cursor-pointer">
+    <div className="flex items-center gap-3 p-3 my-2 hover:bg-gray-50 dark:hover:bg-[#222] rounded-lg transition-colors cursor-pointer">
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 dark:bg-gray-600">
         <img
           src={profile}

@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import AccountType from "./components/Onboarding/AccountType";
 // import StudentOnboarding from "./pages/studentOnboarding";
 // import AgentOnboarding from "./pages/agentOnboarding";
@@ -50,9 +50,17 @@ import Pricing from "./pages/Pricing/index.tsx";
 import SplashScreen from "./components/Ui/SplashScreen.tsx";
 import ContactSupport from "./pages/ContactSupport.tsx";
 import AgentProfile from "./pages/AgentProfile.tsx";
+import { useThemeStore } from "./store/useThemeStore.tsx";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+
+  const { setTheme } = useThemeStore()
+
+  useEffect(() => {
+    const savedTheme = (localStorage.getItem("theme") as "light" | "dark") || "light"
+    setTheme(savedTheme)
+  }, [setTheme])
 
   // useEffect(() => {
   //   // Check if user has seen splash before

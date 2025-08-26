@@ -15,7 +15,7 @@ const SearchInputs: React.FC<SearchInputsProps> = ({ query, setQuery, onSearch }
   return (
     <div className="flex items-center gap-3 py-[6px] px-3 border border-[#96A0B0] dark:border-gray-600 shadow shadow-[#00000017] dark:shadow-gray-700/20 rounded-lg w-full dark:bg-gray-800">
       <input
-        className="flex-1 focus:outline-none text-[#96A0B0] dark:text-gray-300 dark:bg-gray-800 placeholder:text-[#96A0B0] dark:placeholder:text-gray-500"
+        className="flex-1 focus:outline-none text-[#96A0B0] dark:text-gray-300 dark:bg-[#222] placeholder:text-[#96A0B0] dark:placeholder:text-gray-500"
         type="text"
         placeholder="Enter Keyword"
         value={query}

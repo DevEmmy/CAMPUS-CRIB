@@ -242,7 +242,7 @@ const Chat = () => {
     </div>
   
     {/* Input Section */}
-    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 p-4">
+    <div className="sticky bottom-0 bg-white dark:bg-theme border-t border-gray-100 dark:border-gray-700 p-4">
       <div className="flex items-center gap-3">
         <button className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-primary hover:bg-gray-200 dark:hover:bg-dark-400 rounded-xl transition-colors duration-200">
           <Add size={20} className="text-gray-600 dark:text-gray-300" />
@@ -251,7 +251,7 @@ const Chat = () => {
         <div className="flex-1 relative">
           <input
             type="text"
-            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-gray-700 dark:text-gray-100 transition-all duration-200"
+            className="w-full px-4 py-3 bg-gray-50 dark:bg-[#222] border-0 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-[#111] dark:text-gray-100 transition-all duration-200"
             placeholder="Type a message..."
             value={content}
             onChange={(e) => setContent(e.target.value)}

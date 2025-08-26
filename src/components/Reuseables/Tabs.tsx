@@ -67,7 +67,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
   }, [location.pathname, isAgent])
 
   return (
-    <div className="bg-white dark:bg-gray-900 px-5 py-2.5 shadow dark:shadow-gray-800/20 z-[999999] bottom-0 fixed w-full flex items-center justify-between border-t border-gray-100 dark:border-gray-800">
+    <div className="bg-white dark:bg-theme px-5 py-2.5 shadow dark:shadow-gray-800/20 z-[999999] bottom-0 fixed w-full flex items-center justify-between border-t border-gray-100 dark:border-gray-800">
       {(isAgent ? agentTabList : tabList)?.map((item, i: number) => (
         <NavLink
           to={`/${item.route}`}

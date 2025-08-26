@@ -77,9 +77,9 @@ const AgentProfile = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-white dark:bg-gray-900">
+    <main className="min-h-dvh bg-white dark:bg-theme">
       {/* Header - Twitter-like */}
-      <div className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+      <div className="sticky top-0 z-20 bg-white/80 dark:bg-theme/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}

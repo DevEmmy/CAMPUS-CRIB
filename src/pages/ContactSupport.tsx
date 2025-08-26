@@ -98,9 +98,9 @@ const ContactSupport = () => {
   ]
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="bg-white dark:bg-theme border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
@@ -137,7 +137,7 @@ const ContactSupport = () => {
             {contactInfo.map((info, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
+                className="bg-white dark:bg-[#222] rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
@@ -178,7 +178,7 @@ const ContactSupport = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 shadow-sm">
             <h3 className="text-lg font-semibold text-dark dark:text-white mb-6">Send us a message</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -236,7 +236,7 @@ const ContactSupport = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   placeholder="Please describe your issue in detail..."
-                  className="w-full p-4 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-xl resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                  className="w-full p-4 border border-gray-300 dark:border-gray-600 dark:bg-[#222] dark:text-white dark:placeholder-gray-400 rounded-xl resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                   rows={6}
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">{formData.message.length}/1000 characters</p>

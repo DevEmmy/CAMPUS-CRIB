@@ -58,8 +58,8 @@ const Login = () => {
   };
 
   return (
-    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 transition-colors duration-300">
+    <section className="min-h-dvh w-full flex items-center justify-center p-6 bg-gray-50 dark:bg-theme transition-colors duration-300">
+      <div className="w-full max-w-md bg-white dark:bg-theme rounded-2xl shadow-lg p-6 transition-colors duration-300">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-orange-600 rounded-full mb-4 shadow-lg">
@@ -91,7 +91,7 @@ const Login = () => {
                   placeholder="john.doe@example.com"
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
                     ${errors.email ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
-                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
+                    bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100`}
                 />
               </div>
               {errors.email && (
@@ -114,7 +114,7 @@ const Login = () => {
                   placeholder="Enter your password"
                   className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200
                     ${errors.password ? "border-red-300" : "border-gray-200 dark:border-gray-700"}
-                    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
+                    bg-white dark:bg-[#222] text-gray-900 dark:text-gray-100`}
                 />
                 <button
                   type="button"

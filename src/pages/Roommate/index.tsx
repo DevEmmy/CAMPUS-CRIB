@@ -31,7 +31,7 @@ const FindRoommate: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-dark">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme">
         <TitleHead title="Find Roommate" />
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
@@ -45,7 +45,7 @@ const FindRoommate: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-dvh bg-gray-50 dark:bg-dark">
+      <div className="min-h-dvh bg-gray-50 dark:bg-theme">
         <TitleHead title="Find Roommate" />
         <div className="flex justify-center items-center py-20">
           <div className="text-center space-y-4">
@@ -61,7 +61,7 @@ const FindRoommate: React.FC = () => {
   }
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-dark">
+    <div className="min-h-dvh bg-gray-50 dark:bg-theme">
       <TitleHead title="Find Roommate" />
       
       <section className="p-6 pb-20">
@@ -77,12 +77,12 @@ const FindRoommate: React.FC = () => {
               placeholder="Search roommates..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-dark dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#222] border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-dark dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
           
           <div className="flex gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-300 transition-all">
+            <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-theme border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-300 transition-all">
               <Filter size={16} />
               Filter
             </button>
@@ -176,7 +176,7 @@ const FindRoommate: React.FC = () => {
 
                     {/* Hostel Info */}
                     {hostel && (
-                      <div className="bg-gray-50 dark:bg-gray-950 rounded-xl p-4">
+                      <div className="bg-gray-50 dark:bg-theme rounded-xl p-4">
                         <h4 className="text-sm font-semibold text-dark dark:text-gray-200 mb-3">Preferred Hostel</h4>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ const FindRoommate: React.FC = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-950">
+                  <div className="flex items-center justify-between p-6 bg-gray-50 dark:bg-theme">
                     <Link
                       to={`/find-roommate/${request._id}`}
                       className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"

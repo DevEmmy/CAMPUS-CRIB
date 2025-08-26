@@ -62,9 +62,9 @@ const ViewHostel = () => {
   }
 
   return (
-    <main className="min-h-dvh bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-dvh bg-gray-50 dark:bg-theme">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="bg-white dark:bg-theme border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => navigate(-1)}
@@ -104,7 +104,7 @@ const ViewHostel = () => {
 
       <div className="p-4 space-y-6">
         {/* Hero Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-theme rounded-2xl overflow-hidden shadow-sm">
           {/* Image Gallery */}
           <div className="relative h-64 md:h-80">
             {hostel.images && hostel.images.length > 0 ? (
@@ -133,7 +133,7 @@ const ViewHostel = () => {
                 )}
               </>
             ) : (
-              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <div className="w-full h-full bg-gray-200 dark:bg-[#222] flex items-center justify-center">
                 <Building size={48} className="text-gray-400 dark:text-gray-500" />
               </div>
             )}
@@ -179,7 +179,7 @@ const ViewHostel = () => {
         {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Basic Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 space-y-4">
             <h2 className="text-xl font-bold text-dark dark:text-white">Basic Information</h2>
             
             <div className="space-y-3">
@@ -211,7 +211,7 @@ const ViewHostel = () => {
           </div>
 
           {/* Features */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6 space-y-4">
             <h2 className="text-xl font-bold text-dark dark:text-white">Features</h2>
             
             {hostel.features && hostel.features.length > 0 ? (
@@ -230,7 +230,7 @@ const ViewHostel = () => {
         </div>
 
         {/* Description */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+        <div className="bg-white dark:bg-theme rounded-2xl p-6">
           <h2 className="text-xl font-bold text-dark dark:text-white mb-4">Description</h2>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
             {hostel.description || "No description available."}
@@ -239,7 +239,7 @@ const ViewHostel = () => {
 
         {/* Image Gallery */}
         {hostel.images && hostel.images.length > 1 && (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+          <div className="bg-white dark:bg-theme rounded-2xl p-6">
             <h2 className="text-xl font-bold text-dark dark:text-white mb-4">All Images</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {hostel.images.map((image: string, index: number) => (
@@ -261,7 +261,7 @@ const ViewHostel = () => {
         )}
 
         {/* Analytics */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6">
+        <div className="bg-white dark:bg-theme rounded-2xl p-6">
           <h2 className="text-xl font-bold text-dark dark:text-white mb-4">Analytics</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

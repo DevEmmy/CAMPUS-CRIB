@@ -43,7 +43,7 @@ const AccountType: React.FC = () => {
 
   if (accountChoice == null) {
     return (
-      <main className="min-h-dvh w-full bg-white dark:bg-gray-950 flex items-center justify-center px-6 transition-colors duration-300">
+      <main className="min-h-dvh w-full bg-white dark:bg-theme flex items-center justify-center px-6 transition-colors duration-300">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-12">
@@ -64,9 +64,9 @@ const AccountType: React.FC = () => {
             >
               <div className="group border border-gray-200 dark:border-gray-700 rounded-lg p-6 
                 hover:border-primary hover:shadow-md transition-all duration-200 
-                bg-white dark:bg-gray-900">
+                bg-white dark:bg-[#222]">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center 
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-[#333] rounded-lg flex items-center justify-center 
                     group-hover:bg-primary/10 transition-colors duration-200">
                     <Profile
                       size={24}
@@ -95,9 +95,9 @@ const AccountType: React.FC = () => {
             >
               <div className="group border border-gray-200 dark:border-gray-700 rounded-lg p-6 
                 hover:border-primary hover:shadow-md transition-all duration-200 
-                bg-white dark:bg-gray-900">
+                bg-white dark:bg-[#222]">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center 
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-[#333] rounded-lg flex items-center justify-center 
                     group-hover:bg-primary/10 transition-colors duration-200">
                     <Shop
                       size={24}

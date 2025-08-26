@@ -15,6 +15,8 @@ import {
   Shield,
   Edit,
   Eye as EyeIcon,
+  Moon,
+  Sun1,
 } from "iconsax-react"
 import { Link } from "react-router"
 import { useNavigate } from "react-router"
@@ -25,9 +27,11 @@ import { useConversationStore } from "../../store/useConversationStore"
 import { friendlyTimeAgo } from "../../utils/dateFormat"
 import ImageModal from "../../components/Ui/ImageModal"
 import ShareButton from "../../components/Reuseables/ShareButton"
+import { useThemeStore } from "../../store/useThemeStore"
 
 const Profile = () => {
   const navigate = useNavigate()
+  const { theme, toggleTheme } = useThemeStore()
   const [userProfile, setUserProfile] = useState<any | null>(null)
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState("")
@@ -140,8 +144,9 @@ const Profile = () => {
   const isAgent = userProfile?.userType === "AGENT"
 
   return (
-    <div className="min-h-dvh dark:bg-gray-900">
+    <div className="min-h-dvh dark:bg-theme">
       <TitleHead title="Profile" />
+    
 
       <section className="p-6 pb-20">
         <div className="max-w-2xl mx-auto space-y-6">
@@ -228,7 +233,7 @@ const Profile = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-[#222] rounded-lg flex items-center justify-center">
                   <Eye size={20} className="text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
@@ -253,7 +258,7 @@ const Profile = () => {
 
           {/* Agent Profile Actions */}
           {isAgent && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
+            <div className="bg-white dark:bg-theme rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
               <h2 className="text-lg font-semibold text-dark dark:text-white mb-4">Profile Actions</h2>
               <div className="grid grid-cols-2 gap-3">
                 <ShareButton text={profileUrl} variant="button" className="w-full">
@@ -262,7 +267,7 @@ const Profile = () => {
 
                 <Link
                   to={`/agent/${userProfile?._id}`}
-                  className="flex items-center justify-center gap-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-4 px-4 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  className="flex items-center justify-center gap-2 bg-gray-100 dark:bg-[#222] text-gray-700 dark:text-gray-300 py-4 px-4 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
                   <EyeIcon size={20} />
                   View Preview
@@ -278,7 +283,7 @@ const Profile = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-gray-100 dark:bg-[#222] rounded-lg flex items-center justify-center">
                     <Shield size={16} className="text-gray-600 dark:text-gray-400" />
                   </div>
                   <div>
@@ -293,7 +298,7 @@ const Profile = () => {
 
               <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-gray-100 dark:bg-[#222] rounded-lg flex items-center justify-center">
                     <Clock size={16} className="text-gray-600 dark:text-gray-400" />
                   </div>
                   <div>
@@ -330,8 +335,8 @@ const Profile = () => {
             <div className="space-y-1">
               {(isAgent ? agentProfileItems : profileItems).map((item, index) => (
                 <Link key={index} to={item.link} className="block">
-                  <div className="flex items-center gap-4 py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group">
-                    <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-all">
+                  <div className="flex items-center gap-4 py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-[#222] transition-all group">
+                    <div className="w-12 h-12 bg-gray-100 dark:bg-[#222] rounded-xl flex items-center justify-center group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-all">
                       <div className="text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">
                         {item.icon}
                       </div>
@@ -349,6 +354,28 @@ const Profile = () => {
                   </div>
                 </Link>
               ))}
+               <button
+      onClick={toggleTheme}
+      className="w-full flex items-center gap-4 py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-[#111] transition-all group"
+    >
+      <div className="w-12 h-12 bg-gray-100 dark:bg-[#222] rounded-xl flex items-center justify-center group-hover:bg-primary/10 dark:group-hover:bg-primary/20 transition-all">
+        <div className="text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">
+          {theme === "light" ? <Moon size={20} /> : <Sun1 size={20} />}
+        </div>
+      </div>
+      <div className="flex-1 text-left">
+        <h3 className="font-semibold text-dark dark:text-white group-hover:text-primary transition-colors">
+          {theme === "light" ? "Dark Mode" : "Light Mode"}
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Switch to {theme === "light" ? "dark" : "light"} theme
+        </p>
+      </div>
+      <ArrowRight2
+        size={20}
+        className="text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors"
+      />
+    </button>
             </div>
           </div>
 
