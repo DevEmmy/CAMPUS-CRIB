@@ -34,7 +34,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
       route: "wishlist",
     },
     {
-      title: "user",
+      title: "profile",
       icon: <Profile size="22" />,
       route: "profile",
     },
@@ -53,7 +53,7 @@ const Tabs = ({ isAgent }: tabsProps) => {
     //   route: "bookings",
     // },
     {
-      title: "user",
+      title: "profile",
       icon: <Profile size="22" />,
       route: "profile",
     },
